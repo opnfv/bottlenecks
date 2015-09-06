@@ -4,7 +4,7 @@ Infra Setup Guide
 
 This document gives the guide of how to set up the infrastructure for the use of bottlenecks test cases.
 
-create instances for the applications
+Create Instances for the Applications
 =====================================
 
 Firstly, there is a need to set up several instances for the applications which will be installed.
@@ -24,6 +24,28 @@ Parameter $OPENRC_PATH is the path of where your admin-openrc.sh located, which 
 +-------------+----------------------+
 | SEC_GROUP   | nova secgroup-list   |
 +-------------+----------------------+
+
+Add Floating IPs for the Instances
+===================================
+
+Check the available floating IPs::
+
+ nova floating-ip-list
+
+Check the status of the instances created::
+
+ nova list
+
+If there're no available floating IPs, to create one::
+
+ nova floating-ip-create <ext_net_name>
+
+replace <ext_net_name> with the external network in your environment.
+
+Associate the floating IP address with the instance::
+
+ nova add-floating-ip <instance name or ID> <allocated_floating_IP>
+
 
 **Documentation tracking**
 
