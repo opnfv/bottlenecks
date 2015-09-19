@@ -1,4 +1,12 @@
-==================
+..
+.. image:: ../etc/opnfv-logo.png
+  :height: 40
+  :width: 200
+  :alt: OPNFV
+  :align: left
+..
+|
+|
 Infra Setup Guide
 ==================
 
@@ -28,27 +36,33 @@ Parameter $OPENRC_PATH is the path of where your admin-openrc.sh located, which 
 Add Floating IPs for the Instances
 ===================================
 
-Check the available floating IPs::
+Check the available floating IPs
 
- nova floating-ip-list
+.. code-block:: bash
 
-Check the status of the instances created::
+    nova floating-ip-list
 
- nova list
+Check the status of the instances created
 
-If there're no available floating IPs, to create one::
+.. code-block:: bash
 
- nova floating-ip-create <ext_net_name>
+    nova list
+
+If there're no available floating IPs, to create one
+
+.. code-block:: bash
+
+    nova floating-ip-create <ext_net_name>
 
 replace <ext_net_name> with the external network in your environment.
 
-Associate the floating IP address with the instance::
+Associate the floating IP address with the instance
 
- nova add-floating-ip <instance name or ID> <allocated_floating_IP>
+.. code-block:: bash
 
+    nova add-floating-ip <instance name or ID> <allocated_floating_IP>
 
-**Documentation tracking**
 
 Revision: _sha1_
 
-Build date:  _date_
+Build date:  |today|
