@@ -83,5 +83,9 @@ MYSQL_ERR_LOG=$MYSQL_HOME/data/mysql.log
 MYSQL_PID_FILE=$MYSQL_HOME/run/mysqld.pid
 
 
+CLASSPATH=$CLASSPATH:$JONAS_ROOT/bin/unix/registry:$JAVA_HOME:$JAVA_HOME/lib/tools.jar:$SERVLET_API_PATH:.
+
+PATH=$JAVA_HOME/bin:$JONAS_ROOT/bin/unix:$ANT_HOME/bin:$CATALINA_HOME/bin:$PATH
+
 set +o allexport
 
