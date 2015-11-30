@@ -1,0 +1,19 @@
+#! /bin/sh
+#
+# Created by configure
+
+"/bottlenecks/rubbos/app/httpd-2.0.64/srclib/apr/configure" \
+"--disable-option-checking" \
+"--enable-module=so" \
+"--enable-so" \
+"--with-mpm=worker" \
+"--cache-file=/dev/null" \
+"--srcdir=/bottlenecks/rubbos/app/httpd-2.0.64/srclib/apr" \
+"--prefix=/bottlenecks/rubbos/app/apache2" \
+"--exec-prefix=/bottlenecks/rubbos/app/apache2" \
+"--libdir=/bottlenecks/rubbos/app/apache2/lib" \
+"--includedir=/bottlenecks/rubbos/app/apache2/include" \
+"--bindir=/bottlenecks/rubbos/app/apache2/bin" \
+"--datadir=/bottlenecks/rubbos/app/apache2" \
+"--with-installbuilddir=/bottlenecks/rubbos/app/apache2/build" \
+"$@"
