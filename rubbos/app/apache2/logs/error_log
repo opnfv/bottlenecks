@@ -1,0 +1,2 @@
+[Fri Nov 27 10:59:55 2015] [crit] (22)Invalid argument: mod_jk: Could not set permissions on jk_log_lock; check User and Group directives
+Configuration Failed

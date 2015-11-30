@@ -1,0 +1,10 @@
+#! /bin/sh
+#
+# Created by configure
+
+"./configure" \
+"--prefix=/bottlenecks/rubbos/app/apache2" \
+"--enable-module=so" \
+"--enable-so" \
+"--with-mpm=worker" \
+"$@"
