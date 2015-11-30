@@ -1,0 +1,350 @@
+<?xml version="1.0"?>
+
+<xtbl name="RubbosBenchmark" version="0.1">
+
+
+<instances>
+  <params>
+    <env>
+      <!-- Experiment name on Emulab -->
+      <param name="EMULAB_EXPERIMENT_NAME" value="hanwei.infosphere.emulab.net"/>
+
+      <!-- Directories from which files are copied -->
+	  <param name="WORK_HOME" value="/bottlenecks/rubbos/rubbos_scripts/rubbosMulini6"/>
+	  <param name="OUTPUT_HOME" value="/bottlenecks/rubbos/rubbos_scripts/1-1-1"/>
+      <param name="SOFTWARE_HOME" value="/bottlenecks/rubbos/app_tools"/>
+
+      <!-- Output directory for results of RUBBoS benchmark -->
+      <param name="RUBBOS_RESULTS_HOST" value="bonn.cc.gt.atl.ga.us"/>
+	  <param name="RUBBOS_RESULTS_DIR_BASE" value="/bottlenecks/rubbos/rubbos_results"/>
+
+      <!-- Top directories -->
+      <param name="BOTTLENECKS_TOP" value="/bottlenecks"/>
+      <param name="RUBBOS_TOP" value="$BOTTLENECKS_TOP/rubbos"/>
+      <param name="RUBBOS_APP" value="$RUBBOS_TOP/app">
+      <param name="TMP_RESULTS_DIR_BASE" value="$RUBBOS_TOP/tmp_results"/>
+
+      <!-- Sysstat & Dstat-->
+      <param name="SYSSTAT_HOME" value="$RUBBOS_APP/sysstat-9.0.6"/>
+      <param name="SYSSTAT_TARBALL" value="sysstat-9.0.6.tar.gz"/>
+	  <param name="DSTAT_TARBALL" value="$SOFTWARE_HOME/dstat.tar.gz"/>
+	  
+	  <!-- Ant -->
+      <param name="ANT_HOME" value="$RUBBOS_TOP/apache-ant-1.6.5"/>
+      <param name="ANT_TARBALL" value="apache-ant-1.6.5.tar.gz"/>
+
+      <!-- Rubbos -->
+      <param name="RUBBOS_HOME" value="$RUBBOS_APP/RUBBoS"/>
+      <param name="RUBBOS_TARBALL" value="RUBBoS-servlets.tar.gz"/>
+      <param name="RUBBOS_DATA_TARBALL" value="rubbos_data.tar.gz"/>
+      <param name="RUBBOS_DATA_TEXTFILES_TARBALL" value="smallDB-rubbos-modified.tgz"/>
+
+      <!-- Java -->
+      <!--jdk j2sdk-1_4_2_19-linux-i586
+      <param name="JAVA_HOME" value="/mnt/elba/rubbos/jdk1.5.0_07"/>
+      <param name="JAVA_OPTS" value="-Xmx1300m"/>
+      <param name="JAVA_TARBALL" value="jdk1.5.0_07.tar.gz"/> 
+      -->
+	  <!-- jdk-1_5_0_7-linux-i586
+      <param name="JAVA_HOME" value="/mnt/elba/rubbos/jdk1.5.0_07"/>
+      <param name="JAVA_OPTS" value="-Xmx1300m"/>
+	  <param name="JAVA_TARBALL" value="jdk1.5.0_07.tar.gz"/>
+	  -->
+      <!--jdk-1_5_0_22-linux-i586
+      <param name="JAVA_HOME" value="/mnt/elba/rubbos/jdk1.5.0_07"/>
+      <param name="JAVA_OPTS" value="-Xmx1300m"/>
+      <param name="JAVA_TARBALL" value="jdk1.5.0_07.tar.gz"/> 
+      -->     
+	  <!-- jdk-6u27-linux-i586 -->
+      <param name="JAVA_HOME" value="$RUBBOS_APP/jdk1.6.0_27"/>
+      <param name="JAVA_OPTS" value="-Xmx1300m"/>
+	  <param name="JAVA_TARBALL" value="jdk1.6.0_27.tar.gz"/> 
+      <!-- J2EE -->
+      <param name="J2EE_HOME" value="$RUBBOS_APP/j2sdkee1.3.1"/>
+      <param name="J2EE_TARBALL" value="j2sdkee1.3.1.jar.gz"/>
+
+      <!-- Apache -->
+      <param name="HTTPD_HOME" value="$RUBBOS_APP/apache2"/>
+      <param name="HTTPD_INSTALL_FILES" value="$RUBBOS_APP/httpd-2.0.64"/>
+      <param name="HTTPD_TARBALL" value="httpd-2.0.64.tar.gz"/>
+
+      <!-- mod_jk -->
+	  <!-- jakarta-tomcat-connectors-1.2.15
+      <param name="MOD_JK_INSTALL_FILES" value="$RUBBOS_TOP/jakarta-tomcat-connectors-1.2.15-src"/>
+      <param name="MOD_JK_INSTALL_CONFIGURE" value="$MOD_JK_INSTALL_FILES/jk/native"/>
+	  <param name="MOD_JK_TARBALL" value="jakarta-tomcat-connectors-1.2.15-src.tar.gz"/>
+	  -->
+	  <!-- tomcat-connectors-1.2.32 -->
+      <param name="MOD_JK_INSTALL_FILES" value="$RUBBOS_APP/tomcat-connectors-1.2.32-src"/>
+      <param name="MOD_JK_INSTALL_CONFIGURE" value="$MOD_JK_INSTALL_FILES/native"/>
+      <param name="MOD_JK_TARBALL" value="tomcat-connectors-1.2.32-src.tar.gz"/>
+	  
+      <!-- Tomcat -->
+	  <!-- apache-tomcat-5.5.17 -->
+      <param name="CATALINA_HOME" value="$RUBBOS_APP/apache-tomcat-5.5.17"/>
+      <param name="CATALINA_BASE" value="$CATALINA_HOME"/>
+      <param name="TOMCAT_TARBALL" value="apache-tomcat-5.5.17.tar.gz"/>
+	  <param name="SERVLET_API_PATH" value="$CATALINA_HOME/common/lib/servlet-api.jar"/>
+	  
+	  <!-- apache-tomcat-5.5.33
+      <param name="CATALINA_HOME" value="/mnt/elba/rubbos/apache-tomcat-5.5.33"/>
+      <param name="CATALINA_BASE" value="$CATALINA_HOME"/>
+      <param name="TOMCAT_TARBALL" value="apache-tomcat-5.5.33.tar.gz"/>
+	  <param name="SERVLET_API_PATH" value="$CATALINA_HOME/common/lib/servlet-api.jar"/>
+	  -->
+      <!-- apache-tomcat-6.0.33 
+      <param name="CATALINA_HOME" value="/mnt/elba/rubbos/apache-tomcat-6.0.33"/>
+      <param name="CATALINA_BASE" value="$CATALINA_HOME"/>
+      <param name="TOMCAT_TARBALL" value="apache-tomcat-6.0.33.tar.gz"/>
+      <param name="SERVLET_API_PATH" value="$CATALINA_HOME/lib/servlet-api.jar"/>
+      -->
+      <!-- apache-tomcat-7.0.21
+      <param name="CATALINA_HOME" value="/mnt/elba/rubbos/apache-tomcat-7.0.21"/>
+      <param name="CATALINA_BASE" value="$CATALINA_HOME"/>
+      <param name="TOMCAT_TARBALL" value="apache-tomcat-7.0.21.tar.gz"/>
+      <param name="SERVLET_API_PATH" value="$CATALINA_HOME/lib/servlet-api.jar"/>
+      -->
+
+      <!-- C-JDBC
+      <param name="CJDBC_HOME" value="$RUBBOS_TOP/c-jdbc-2.0.2-bin"/>
+      <param name="CJDBC_TARBALL" value="c-jdbc-2.0.2-bin-modified.tar.gz"/>      
+      <param name="CJDBC_DRIVER" value="c-jdbc-driver.jar"/>
+      <param name="CJDBC_CONTROLLER" value="c-jdbc-controller.jar"/>
+      <param name="CJDBC_PORT" value="25322"/> 
+	  -->
+	  
+      <!-- Mysql -->
+      <param name="MYSQL_HOME" value="$RUBBOS_APP/mysql-5.0.51a-linux-i686-glibc23"/>
+      <param name="MYSQL_TARBALL" value="mysql-5.0.51a-linux-i686-glibc23.tar.gz"/>
+      <param name="MYSQL_TARBALL_RT" value="mysql-5.0.51a-modified-bin.tar.gz"/>
+      <param name="MYSQL_CONNECTOR" value="mysql-connector-java-5.1.7-bin.jar"/>      
+      <param name="MYSQL_PORT" value="3313"/>
+      <param name="MYSQL_SOCKET" value="$MYSQL_HOME/mysql.sock"/>
+      <param name="MYSQL_DATA_DIR" value="$MYSQL_HOME/data"/>
+      <param name="MYSQL_ERR_LOG" value="$MYSQL_HOME/data/mysql.log"/>
+      <param name="MYSQL_PID_FILE" value="$MYSQL_HOME/run/mysqld.pid"/>
+      <param name="MYSQL_ROOT_PW" value="new-password"/>
+
+      <!-- for PostgreSQL 
+      <param name="POSTGRES_HOME" value="$RUBBOS_TOP/pgsql"/>
+      <param name="POSTGRES_INSTALL_FILES" value="$RUBBOS_TOP/postgresql-8.3.1"/>      
+      <param name="POSTGRES_CONNECTOR" value="postgresql-8.3-603.jdbc3.jar"/>
+      <param name="POSTGRES_DATA_DIR" value="$POSTGRES_HOME/data"/> 
+      -->
+
+      <!-- for DBs & C-JDBC -->
+      <param name="ROOT_PASSWORD" value="new-password"/>
+      <param name="ELBA_USER" value="elba"/>
+      <param name="ELBA_PASSWORD" value="elba"/>
+
+    </env>
+
+    <workloads>
+      <param name="workload" value="200"/>
+      <param name="workload" value="300"/>
+      <param name="workload" value="400"/>
+      <param name="workload" value="500"/>
+      <param name="workload" value="600"/>
+      <param name="workload" value="700"/>
+      <param name="workload" value="800"/>
+      <param name="workload" value="900"/>
+	    <param name="workload" value="1000"/>
+	    <param name="workload" value="1100"/>
+			<param name="workload" value="1200"/>
+			<param name="workload" value="1300"/>
+			<param name="workload" value="1400"/>
+			<param name="workload" value="1500"/>
+      <param name="workload" value="1600"/>
+      <param name="workload" value="1700"/>
+    </workloads>
+
+    <rubbos-conf>
+      <param name="connectionPoolSize" value="12"/>
+      <param name="upRampTime" value="480000"/>
+      <param name="runTime" value="720000"/>
+      <param name="downRampTime" value="30000"/>
+      <param name="removeBinFiles" value="true"/>
+      <param name="MON_FREQUENCY" value="1" />
+      <param name="sarMonitor" value="false"/>
+      <param name="psMonitor" value="false"/>
+	  <param name="iostatMonitor" value="true"/>
+	  <param name="connectionTimeoutValue" value="300"/>
+    </rubbos-conf>
+
+    <apache-conf>
+      <param name="Timeout" value="5"/>
+      <param name="KeepAlive" value="Off"/>
+      <param name="MaxKeepAliveRequests" value="100"/>
+      <param name="ServerLimit" value="200"/>
+      <param name="ThreadLimit" value="300"/>
+      <param name="StartServers" value="1"/>
+      <param name="MaxClients" value="300"/>
+      <param name="MinSpareThreads" value="5"/>
+      <param name="MaxSpareThreads" value="50"/>
+      <param name="ThreadsPerChild" value="150"/>
+      <param name="MaxRequestsPerChild" value="0"/>
+    </apache-conf>
+
+    <tomcat-conf>
+      <param name="maxThreads" value="330"/>
+      <param name="minSpareThreads" value="5"/>
+      <param name="maxSpareThreads" value="50"/>
+      <param name="acceptCount" value="6000"/>
+    </tomcat-conf>
+
+    <cjdbc-conf>
+      <param name="initPoolSize" value="30"/>
+      <param name="minPoolSize" value="25"/>
+      <param name="maxPoolSize" value="90"/>
+      <param name="idleTimeout" value="30"/>
+      <param name="waitTimeout" value="10"/>
+      <param name="waitForCompletion" value="all"/>
+          <!-- "all" or "first", "first" is default" -->
+      <param name="loadBalancing" value="LeastPendingRequestsFirst"/>
+          <!-- "LeastPendingRequestsFirst" or "RoundRobin", "LeastPendingRequestsFirst" is default" -->
+    </cjdbc-conf>
+
+    <!--
+    <postgres-conf>
+      <param name="max_connections" value="150"/>
+      <param name="shared_buffers" value="24MB"/>
+      <param name="max_fsm_pages" value="153600"/>
+      <param name="checkpoint_segments" value="16"/>
+    </postgres-conf>
+    -->
+    <logging>
+      <param name="apacheResponseTime" value="false"/>
+      <param name="tomcatResponseTime" value="false"/>
+      <param name="cjdbcResponseTime" value="false"/>
+      <param name="mysqlResponseTime" value="false"/>
+    </logging>
+
+  </params>
+
+  <instance name="CONTROL" type="control_server">
+    <target>node1</target>
+    <action type="checkScp_exec" seq="1" template="../templates/DeployScript/check_scp.xsl" />
+    <action type="emulabConf_exec" seq="2" template="../templates/DeployScript/emulab_config.xsl" />
+    <action type="rubbos_exec" seq="250" template="../templates/DeployScript/RUBBOSexecution.xsl" />
+  </instance> 
+  
+  <instance name="BENCHMARK" type="benchmark_server">
+    <target>node2</target>
+    <action type="rubbos_install" seq="19" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="install" seq="21" template="../templates/DeployScript/RUBBOS_CLIENTinstall.xsl" />
+    <action type="configure" seq="104" template="../templates/DeployScript/RUBBOS_CLIENTconfigure.xsl" />
+    <action type="uninstall" seq="401" template="../templates/DeployScript/RUBBOS_CLIENTuninstall.xsl" />
+    <action type="rubbos_uninstall" seq="402" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+  </instance> 
+  
+  <instance name="CLIENT1" type="client_server">
+    <target>node3</target>
+    <action type="rubbos_install" seq="20" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="install" seq="22" template="../templates/DeployScript/RUBBOS_CLIENTinstall.xsl" />
+    <action type="configure" seq="105" template="../templates/DeployScript/RUBBOS_CLIENTconfigure.xsl" />
+    <action type="uninstall" seq="403" template="../templates/DeployScript/RUBBOS_CLIENTuninstall.xsl" />
+    <action type="rubbos_uninstall" seq="404" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+  </instance> 
+  
+  <instance name="CLIENT2" type="client_server">
+    <target>node4</target>
+    <action type="rubbos_install" seq="20" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="install" seq="22" template="../templates/DeployScript/RUBBOS_CLIENTinstall.xsl" />
+    <action type="configure" seq="105" template="../templates/DeployScript/RUBBOS_CLIENTconfigure.xsl" />
+    <action type="uninstall" seq="403" template="../templates/DeployScript/RUBBOS_CLIENTuninstall.xsl" />
+    <action type="rubbos_uninstall" seq="404" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+  </instance> 
+  
+  <instance name="CLIENT3" type="client_server">
+    <target>node5</target>
+    <action type="rubbos_install" seq="20" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="install" seq="22" template="../templates/DeployScript/RUBBOS_CLIENTinstall.xsl" />
+    <action type="configure" seq="105" template="../templates/DeployScript/RUBBOS_CLIENTconfigure.xsl" />
+    <action type="uninstall" seq="403" template="../templates/DeployScript/RUBBOS_CLIENTuninstall.xsl" />
+    <action type="rubbos_uninstall" seq="404" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+  </instance> 
+  
+  <instance name="CLIENT4" type="client_server">
+    <target>node6</target>
+    <action type="rubbos_install" seq="20" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="install" seq="22" template="../templates/DeployScript/RUBBOS_CLIENTinstall.xsl" />
+    <action type="configure" seq="105" template="../templates/DeployScript/RUBBOS_CLIENTconfigure.xsl" />
+    <action type="uninstall" seq="403" template="../templates/DeployScript/RUBBOS_CLIENTuninstall.xsl" />
+    <action type="rubbos_uninstall" seq="404" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+  </instance> 
+  
+  <instance name="HTTPD" type="web_server">
+    <target>node7</target>
+    <action type="install" seq="14" template="../templates/DeployScript/WEBinstall.xsl" />
+    <action type="rubbos_install" seq="18" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="configure" seq="103" template="../templates/DeployScript/WEBconfigure.xsl" />
+    <action type="ignition" seq="204" template="../templates/DeployScript/WEBignition.xsl" />
+    <action type="stop" seq="301" template="../templates/DeployScript/WEBstop.xsl" />
+    <action type="rubbos_uninstall" seq="405" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+    <action type="uninstall" seq="406" template="../templates/DeployScript/WEBuninstall.xsl" />
+  </instance>
+  
+  <instance name="TOMCAT1" type="app_server">
+    <target>node8</target>
+    <action type="install" seq="13" template="../templates/DeployScript/TOMCATinstall.xsl"/>
+    <action type="rubbos_install" seq="17" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="configure" seq="102" template="../templates/DeployScript/TOMCATconfigure.xsl" />
+    <action type="rubbosSL_configure" seq="106" template="../templates/DeployScript/RUBBOS_SERVLETconfigure.xsl" />
+    <action type="ignition" seq="203" template="../templates/DeployScript/TOMCATignition.xsl" />
+    <action type="stop" seq="302" template="../templates/DeployScript/TOMCATstop.xsl" />
+    <action type="rubbos_uninstall" seq="407" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+    <action type="uninstall" seq="408" template="../templates/DeployScript/TOMCATuninstall.xsl" />
+  </instance>
+
+  <!--
+  <instance name="TOMCAT2" type="app_server">
+    <target>node9</target>
+    <action type="install" seq="13" template="../templates/DeployScript/TOMCATinstall.xsl"/>
+    <action type="rubbos_install" seq="17" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="configure" seq="102" template="../templates/DeployScript/TOMCATconfigure.xsl" />
+    <action type="rubbosSL_configure" seq="106" template="../templates/DeployScript/RUBBOS_SERVLETconfigure.xsl" />
+    <action type="ignition" seq="203" template="../templates/DeployScript/TOMCATignition.xsl" />
+    <action type="stop" seq="302" template="../templates/DeployScript/TOMCATstop.xsl" />
+    <action type="rubbos_uninstall" seq="407" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+    <action type="uninstall" seq="408" template="../templates/DeployScript/TOMCATuninstall.xsl" />
+  </instance>
+  
+  <instance name="CJDBC" type="cjdbc_server">
+    <swname>CJDBC_Controller</swname>
+    <target>node10</target>
+    <action type="install" seq="12" template="../templates/DeployScript/CJDBC_CONTROLLERinstall.xsl" />
+    <action type="rubbos_install" seq="16" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="ignition" seq="202" template="../templates/DeployScript/CJDBC_CONTROLLERignition.xsl" />
+    <action type="stop" seq="303" template="../templates/DeployScript/CJDBC_CONTROLLERstop.xsl" />
+    <action type="rubbos_uninstall" seq="409" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+    <action type="uninstall" seq="410" template="../templates/DeployScript/CJDBC_CONTROLLERuninstall.xsl" />
+  </instance>
+  -->
+  
+  <instance name="MYSQL1" type="db_server">
+    <target>node9</target>
+    <action type="install" seq="11" template="../templates/DeployScript/MYSQLinstall.xsl" />
+    <action type="rubbos_install" seq="15" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="configure" seq="101" template="../templates/DeployScript/MYSQLconfigure.xsl" />
+    <action type="reset" seq="150" template="../templates/DeployScript/MYSQLreset.xsl" />
+    <action type="ignition" seq="201" template="../templates/DeployScript/MYSQLignition.xsl" />
+    <action type="stop" seq="304" template="../templates/DeployScript/MYSQLstop.xsl" />
+    <action type="rubbos_uninstall" seq="411" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+    <action type="uninstall" seq="412" template="../templates/DeployScript/MYSQLuninstall.xsl" />
+  </instance>
+  <!--
+  <instance name="MYSQL2" type="db_server">
+    <target>node12</target>
+    <action type="install" seq="11" template="../templates/DeployScript/MYSQLinstall.xsl" />
+    <action type="rubbos_install" seq="15" template="../templates/DeployScript/RUBBOSinstall.xsl" />
+    <action type="configure" seq="101" template="../templates/DeployScript/MYSQLconfigure.xsl" />
+    <action type="reset" seq="150" template="../templates/DeployScript/MYSQLreset.xsl" />
+    <action type="ignition" seq="201" template="../templates/DeployScript/MYSQLignition.xsl" />
+    <action type="stop" seq="304" template="../templates/DeployScript/MYSQLstop.xsl" />
+    <action type="rubbos_uninstall" seq="411" template="../templates/DeployScript/RUBBOSuninstall.xsl" />
+    <action type="uninstall" seq="412" template="../templates/DeployScript/MYSQLuninstall.xsl" />
+  </instance>
+  -->
+</instances>
+
+</xtbl>

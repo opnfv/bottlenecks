@@ -1,13 +1,4 @@
-
 #!/bin/bash
-##############################################################################
-# Copyright (c) 2015 Huawei
-# hongbo.tianhongbo@huawei.com
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License, Version 2.0
-# which accompanies this distribution, and is available at
-# http://www.apache.org/licenses/LICENSE-2.0
-##############################################################################
 
 set -o allexport
 
@@ -36,8 +27,8 @@ RUBBOS_RESULTS_DIR_BASE=/bottlenecks/rubbos/rubbos_results
 RUBBOS_RESULTS_DIR_NAME=2015-01-20T081237-0700
 
 # Target directories
-BOTTLNECKS_TOP=/bottlenecks
-RUBBOS_TOP=$BOTTLNECKS_TOP/rubbos
+BOTTLENECKS_TOP=/bottlenecks
+RUBBOS_TOP=$BOTTLENECKS_TOP/rubbos
 RUBBOS_APP=$RUBBOS_TOP/app
 TMP_RESULTS_DIR_BASE=$RUBBOS_TOP/tmp_results
 RUBBOS_HOME=$RUBBOS_APP/RUBBoS
@@ -52,7 +43,7 @@ SERVLET_API_PATH=$CATALINA_HOME/common/lib/servlet-api.jar
 CATALINA_BASE=$CATALINA_HOME
 CJDBC_HOME=
 
-MYSQL_HOME=$RUBBOS_APP/mysql-5.0.51a-linux-i686-glibc23
+MYSQL_HOME=$RUBBOS_APP/mysql-5.5.46-linux2.6-x86_64
 
 # Java & Ant
 JAVA_HOME=$RUBBOS_APP/jdk1.6.0_27
@@ -69,7 +60,7 @@ HTTPD_TARBALL=httpd-2.0.64.tar.gz
 MOD_JK_TARBALL=tomcat-connectors-1.2.32-src.tar.gz
 TOMCAT_TARBALL=apache-tomcat-5.5.17.tar.gz
 CJDBC_TARBALL=
-MYSQL_TARBALL=mysql-5.0.51a-linux-i686-glibc23.tar.gz
+MYSQL_TARBALL=mysql-5.5.46-linux2.6-x86_64.tar.gz
 RUBBOS_TARBALL=RUBBoS-servlets.tar.gz
 RUBBOS_DATA_TARBALL=rubbos_data.tar.gz
 RUBBOS_DATA_TEXTFILES_TARBALL=smallDB-rubbos-modified.tgz
@@ -82,10 +73,14 @@ MYSQL_DATA_DIR=$MYSQL_HOME/data
 MYSQL_ERR_LOG=$MYSQL_HOME/data/mysql.log
 MYSQL_PID_FILE=$MYSQL_HOME/run/mysqld.pid
 
+# for DBs & C-JDBC
+ROOT_PASSWORD=new-password
+BOTTLENECKS_USER=bottlenecks
+BOTTLENECKS_PASSWORD=bottlenecks
+
 
 CLASSPATH=$CLASSPATH:$JONAS_ROOT/bin/unix/registry:$JAVA_HOME:$JAVA_HOME/lib/tools.jar:$SERVLET_API_PATH:.
 
 PATH=$JAVA_HOME/bin:$JONAS_ROOT/bin/unix:$ANT_HOME/bin:$CATALINA_HOME/bin:$PATH
-
 set +o allexport
 
