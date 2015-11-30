@@ -1,0 +1,377 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>The Apache Tomcat Connector - Reference Guide - uriworkermap.properties configuration</title><meta name="author" value="Rainer Jung"><meta name="email" value="rjung@apache.org"><meta name="author" value="Mladen Turk"><meta name="email" value="mturk@apache.org"><link href="../../style.css" type="text/css" rel="stylesheet"></head><body bgcolor="#ffffff" text="#000000" link="#525D76" alink="#525D76" vlink="#525D76"><table border="0" width="100%" cellspacing="4"><!--PAGE HEADER--><tr><td colspan="2"><!--TOMCAT LOGO--><a href="http://tomcat.apache.org/"><img src="../../images/tomcat.gif" align="left" alt="Apache Tomcat" border="0"></a><!--APACHE LOGO--><a href="http://www.apache.org/"><img src="http://www.apache.org/images/asf-logo.gif" align="right" alt="Apache Logo" border="0"></a></td></tr><!--HEADER SEPARATOR--><tr><td colspan="2"><hr noshade size="1"></td></tr><tr><!--RIGHT SIDE MAIN BODY--><td width="80%" valign="top" align="left"><table border="0" width="100%" cellspacing="4"><tr><td align="left" valign="top"><h1>The Apache Tomcat Connector - Reference Guide</h1><h2>uriworkermap.properties configuration</h2></td><td align="right" valign="top" nowrap="true"><img src="../../images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Introduction"><strong>Introduction</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+The forwarding of requests from the web server to tomcat gets configured by defining mapping rules.
+Such a rule maps requests to workers. The request part of the map is described by a URI pattern,
+the worker by it's worker name.
+</p>
+<p>
+The so-called <b>uriworkermap</b> file is a mechanism of defining rules,
+which works for all web servers. There exist also other web server specific configuration
+options for defining rules, which will be mostly discussed on the reference pages for
+configuring tomcat connectors for the individual web servers.
+</p>
+<p>
+The name of the file is usually uriworkermap.properties,
+although this is configurable in the web server.
+Please consult the web server specific documentation pages on
+how to enable the uriworkermap file.
+</p>
+<p>
+The main features supported by the uriworkermap file are
+<ul>
+<li>
+Support for comments in the rule file.
+</li>
+<li>
+Exact and wildchar matches, shortcuts to map a directory and all including content.
+</li>
+<li>
+Exclusion rules, disabling of rules and rule priorities.
+</li>
+<li>
+Rule extensions, modifying worker behaviour per rule.
+</li>
+<li>
+Virtual host integration: uri mapping rules can be expressed per virtual host.
+The details are web server specific though.
+</li>
+<li>
+Dynamic reloading: The file gets checked periodically for changes.
+New versions are automatically reloaded without web server restarts.
+</li>
+<li>
+Integration with the status worker.
+</li>
+</ul>
+The following sections describe these aspects in more detail.
+</p>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Syntax"><strong>Syntax</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Line format"><strong>Line format</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+The file has a line based format. There are no continuation characters,
+so each rule needs to be defined on a single line. Each rule is a pair consisting
+of a URI pattern and a worker name, combined by an equals sign '=':
+<div class="example"><pre>
+  /myapp=myworker
+</pre></div>
+The URI pattern is case sensitive.
+</p>
+</blockquote></td></tr></table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Comments, white space"><strong>Comments, white space</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+All text after and including the character '#' gets ignored and can be used for comments.
+Leading and trailing white space gets trimmed around the URI pattern and also around the worker name.
+The following definitions are all equivalent:
+<div class="example"><pre>
+  # This is a white space example
+  /myapp=myworker
+     /myapp=myworker
+  /myapp  =  myworker
+</pre></div>
+</p>
+</blockquote></td></tr></table>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="URI patterns"><strong>URI patterns</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+Inside the URI pattern three special characters can be used, '*', '?' and '|'.
+The character '*' is a wildchar that matches any number of arbitrary characters
+in the URI, '?' matches exactly one character.
+Each URI pattern has to start with the character '/', or with '*' or with '?',
+optionally prefixed by any combination of the modifiers '!' and '-' (see next section).
+<div class="example"><pre>
+  # Mapping the URI /myapp1 and everything under /myapp1/:
+  /myapp1=myworker-a
+  /myapp1/*=myworker-a
+  # Mapping all URI which end with a common suffix:
+  *.jsp=myworker
+  *.do=myworker
+</pre></div>
+Since the first case of mapping a certain location and everything inside
+it is very common, the character '|' gives a handy shortcut:
+<div class="example"><pre>
+  # Mapping the URI /myapp1 and everything under /myapp1/:
+  /myapp1|/*=myworker-a
+</pre></div>
+The pattern 'X|Y' is exactly equivalent to the two maps 'X' and 'XY'.
+</p>
+</blockquote></td></tr></table>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Exclusion, Disabling and Priorities"><strong>Exclusion, Disabling and Priorities</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Exclusions and rule disabling"><strong>Exclusions and rule disabling</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+Exclusion rules allows to define exclusions from URI rules, which would forward
+requests to tomcat. If the exclusion rule matches, the request will not be forwarded.
+This is usually used to serve static content by the web server.
+A rule is an exclusion rule, if it is suffixed with '!':
+<div class="example"><pre>
+  # Mapping the URI /myapp and everything under /myapp/:
+  /myapp|/*=myworker
+  # Exclude the subdirectory static:
+  !/myapp/static|/*=myworker
+  # Exclude some suffixes:
+  !*.html=myworker
+</pre></div>
+An exclusion rule overrides a normal mapping rule only, if the worker names in the
+normal rule and in the exclusion rule are the same. Starting with version 1.2.26 of JK
+you can apply an exclusion rule to any worker, by using the star character '*' as
+the worker name in the exclusion rule.
+More complex patterns in exclusion worker names are not allowed.
+<div class="example"><pre>
+  # Mapping the webapps /myapp1 and /myapp2:
+  /myapp1|/*=myworker1
+  /myapp2|/*=myworker2
+  # Exclude the all subdirectories static for all workers:
+  !/*/static|/*=*
+  # Exclude some suffixes for all workers:
+  !*.html=*
+</pre></div>
+</p>
+<p>
+Rule disabling comes into play, if your web server merges rules from various sources,
+and you want to disable any rule defined previously. Since the uriworkermap file gets
+reloaded dynamically, you can use this to temporarily disable request forwarding:
+A rule gets disabled, if it is suffixed with '-':
+<div class="example"><pre>
+  # We are not in maintenance.
+  # The maintenance rule got defined somewhere else.
+  -/*=maintenance
+</pre></div>
+Exclusion rules can get disabled as well, then the rule starts with '-!'.
+</p>
+</blockquote></td></tr></table>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Mapping priorities"><strong>Mapping priorities</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+The most restrictive URI pattern is applied first. More precisely the URI patterns are
+sorted by the number of '/' characters in the pattern (highest number first), and
+rules with equal numbers are sorted by their string length (longest first).
+</p>
+<p>
+If both distinctions still do not suffice, then the defining source of the rule is considered.
+Rules defined in uriworkermap.properties come first, before rules defined by JkMount (Apache)
+and inside workers.properties using the mount attribute.
+</p>
+<p>
+All disabled rules are ignored. Exclusion rules are applied after all normal rules
+have been applied.
+</p>
+<p>
+There is no defined behaviour, for the following configuration conflict:
+using literally the same URI pattern in the same defining source but with
+different worker targets.
+</p>
+</blockquote></td></tr></table>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Rule extensions"><strong>Rule extensions</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+Rule extensions were added in version 1.2.27 and are not available in earlier versions.
+</p>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Syntax"><strong>Syntax</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+Rule extensions are additional attributes, that can be attached to any rule.
+They are added at the end of the rule, each extension separated by a semicolon:
+<div class="example"><pre>
+  # This is an extension example,
+  # setting a reply_timeout of 1 minute
+  # only for this mapping.
+  /myapp=myworker;reply_timeout=60000
+  #
+  # This is an example using multiple extensions
+  /myapp=myloadbalancer;reply_timeout=60000;stopped=member1
+</pre></div>
+Attributes set via rule extensions always overwrite conflicting
+configurations in the worker definition file.
+</p>
+</blockquote></td></tr></table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Extension reply_timeout"><strong>Extension reply_timeout</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+The extension <b class="code">reply_timeout</b> sets a reply timeout for a single mapping rule.
+<div class="example"><pre>
+  # Setting a reply_timeout of 1 minute
+  # only for this mapping.
+  /myapp=myworker;reply_timeout=60000
+</pre></div>
+It overrides any <b class="code">reply_timeout</b> defined for the worker. The extension allows
+to set a reasonable default reply timeout to the worker, and a more relaxed
+reply timeout to URLs, which are known to start time intensive tasks.
+For a general description of reply timeouts see the
+<a href="../../generic_howto/timeouts.html#Reply Timeout">timeouts</a> documentation.
+</p>
+</blockquote></td></tr></table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Extensions active/disabled/stopped"><strong>Extensions active/disabled/stopped</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+The extensions <b class="code">active</b>, <b class="code">disabled</b>, and <b class="code">stopped</b>
+can be used in a load balancer mapping rule to set selected members
+of the load balancer into a special activation state.
+<div class="example"><pre>
+  # Stop forwarding only for member1 of loadbalancer
+  /myapp=myloadbalancer;stopped=member1
+</pre></div>
+Multiple members must be separated by commas or white space:
+<div class="example"><pre>
+  # Stop forwarding for member01 and member02 of loadbalancer
+  # Disable forwarding for member21 and member22 of loadbalancer
+  /myapp=myloadbalancer;stopped=member01,member02;disabled=member21,member22
+</pre></div>
+For the precise meaning of the activation states see the description of
+<a href="../../reference/workers.html#Advanced Worker Directives">activation</a>.
+</p>
+</blockquote></td></tr></table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Extension fail_on_status"><strong>Extension fail_on_status</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+The extension <b class="code">fail_on_status</b> can be used in any rule:
+<div class="example"><pre>
+  # Send 503 instead of 404 and 500,
+  # and if we get a 503 also set the worker to error
+  /myapp=myworker;fail_on_status=-404,-500,503
+</pre></div>
+Multiple status codes must be separated by commas.
+For the precise meaning of the attribute see the description of
+<a href="../../reference/workers.html#Advanced Worker Directives">fail_on_status</a>.
+</p>
+</blockquote></td></tr></table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Extension use_server_errors"><strong>Extension use_server_errors</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+The extension <b class="code">use_server_errors</b> allows to let the web server
+send an error page, instead of the backend (e.g. Tomcat) error page.
+This is useful, if one wants to send customized error pages, but those are
+not part of all web applications. They can then be put onto the web server.
+</p>
+<p>
+The value of <b class="code">use_server_errors</b> is a positive number.
+Any request send to the backend, that returns with an http status
+code bigger or equal to <b class="code">use_server_errors</b>, will
+be answered to the client with the error page of the web server
+for this status code.
+<div class="example"><pre>
+  # Use web server error page for all errors
+  /myapp=myworker;use_server_errors=400
+  # Use web server error page only for technical errors
+  /myotherapp=myworker;use_server_errors=500
+</pre></div>
+</p>
+</blockquote></td></tr></table>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Virtual host integration"><strong>Virtual host integration</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="IIS"><strong>IIS</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+When using IIS you can restrict individual rules to special virtual hosts
+by prefixing the URI pattern with the virtual host information.
+The rules is that the url must be prefixed with the host name.
+<div class="example"><pre>
+  # Use www.foo.org as virtual host
+  /www.foo.org/myapp/*=myworker
+  # Use www.bar.org as virtual host
+  /www.bar.org/myapp/*=myworker
+  # Normal mapping
+  /mysecondapp/*=myworker
+</pre></div>
+</p>
+<p>
+Note that /mysecondapp/* will be mapped to all virtual hosts present.
+In  case one needs to prevent the mappings to some particular virtual host then
+the exclusion rule must be used
+<div class="example"><pre>
+  # Make sure the myapp is accessible by all virtual hosts
+  /myapp/*=myworker
+  # Disable mapping myapp for www.foo.org virtual host
+  !/www.foo.org/myapp/*=myworker
+</pre></div>
+</p>
+</blockquote></td></tr></table>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Apache httpd"><strong>Apache httpd</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+For Apache you can define individual uriworkermap files per virtual host.
+The directive JkMountFile can be used in the main server and in each virtual host.
+If a virtual host does not use JkMountfile, but JkMountCopy is set to 'On',
+then it inherits the JkMountFile from the main server. If you want all vhost to inherit
+mounts from the main server, you can set JkMountCopy to 'All' in the main server.
+</p>
+</blockquote></td></tr></table>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Dynamic reloading"><strong>Dynamic reloading</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+When a request is being processed, tomcat connectors check the file modification time
+of the uriworkermap file. To keep the performance penalty low, this happens only,
+if the last check happened at least n seconds ago.
+</p>
+<p>
+For Apache you can configure the interval "n" using the directive JkMountFileReload,
+for IIS you would use the attribute worker_mount_reload.
+The default value is 60 seconds. A value of "0" turns off the reloading.
+</p>
+<p>
+If the file changed, it gets reloaded completely. If there exist rules coming
+from other sources than the uriworkermap file (e.g. the workers.properties mount
+attribute or JkMount with Apache httpd), the new uriworkermap file gets dynamically
+merged with these ones exactly like when you do a web server restart.
+</p>
+<p>
+Until version 1.2.19 reloading behaved slightly differently: it continuously added
+the full contents of the uriworkermap file to the rule mapping. The merging rules
+were, that duplicated got eliminated and old rules could be disabled, by defining the
+rule as disabled in the new file. Rules never got deleted.
+</p>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Status worker integration"><strong>Status worker integration</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+The configuration view of the status worker also shows the various mapping rules.
+After each worker's configuration, the rules are listed, that forward to this worker.
+The list contains four columns:
+<ul>
+<li>
+the name of the virtual server
+</li>
+<li>
+the URI pattern, prefixed with '-' for a disabled pattern and '!' for an exclusion pattern
+</li>
+<li>
+the type of the rule: Exact or Wildchar
+</li>
+<li>
+and the source of the rule definition: 'worker definition' for the workers.properties file (mount attribute),
+'JkMount' for Apache httpd JkMount and it's relatives and finally 'uriworkermap' for the uriworkermap file.
+</li>
+</ul>
+</p>
+<p>
+<b>Note: </b>The following restriction has been removed starting with version 1.2.26.
+<br>
+For Apache httpd, there is an important subtlety: the request going to the status worker
+gets executed in the context of some server (main or virtual). The status worker will only show the
+mapping rules, that are defined for this server (main or virtual).
+<br>
+Until version 1.2.25 the list contained three columns:
+<ul>
+<li>
+the type of the rule: Exact or Wildchar, eventually prefixed with Disabled or Unmount (for exclusion rules)
+</li>
+<li>
+the URI pattern
+</li>
+<li>
+and the source of the rule definition: 'worker definition' for the workers.properties file (mount attribute),
+'JkMount' for Apache httpd JkMount and it's relatives and finally 'uriworkermap' for the uriworkermap file.
+</li>
+</ul>
+</p>
+</blockquote></td></tr></table></td></tr><!--FOOTER SEPARATOR--><tr><td colspan="2"><hr noshade size="1"></td></tr><!--PAGE FOOTER--><tr><td colspan="2"><div align="center"><font color="#525D76" size="-1"><em>
+        Copyright &copy; 1999-2011, Apache Software Foundation
+        </em></font></div></td></tr></table></body></html>

@@ -1,0 +1,1010 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>The Apache Tomcat Connector - Reference Guide - Configuring Apache</title><meta name="author" value="Mladen Turk"><meta name="email" value="mturk@apache.org"><link href="../../style.css" type="text/css" rel="stylesheet"></head><body bgcolor="#ffffff" text="#000000" link="#525D76" alink="#525D76" vlink="#525D76"><table border="0" width="100%" cellspacing="4"><!--PAGE HEADER--><tr><td colspan="2"><!--TOMCAT LOGO--><a href="http://tomcat.apache.org/"><img src="../../images/tomcat.gif" align="left" alt="Apache Tomcat" border="0"></a><!--APACHE LOGO--><a href="http://www.apache.org/"><img src="http://www.apache.org/images/asf-logo.gif" align="right" alt="Apache Logo" border="0"></a></td></tr><!--HEADER SEPARATOR--><tr><td colspan="2"><hr noshade size="1"></td></tr><tr><!--RIGHT SIDE MAIN BODY--><td width="80%" valign="top" align="left"><table border="0" width="100%" cellspacing="4"><tr><td align="left" valign="top"><h1>The Apache Tomcat Connector - Reference Guide</h1><h2>Configuring Apache</h2></td><td align="right" valign="top" nowrap="true"><img src="../../images/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Configuration Directives"><strong>Configuration Directives</strong></a></font></td></tr><tr><td><blockquote>
+<p>
+Most of the directives are allowed once in the global part of the Apache httpd
+configuration and once in every &lt;VirtualHost&gt; elements. Exceptions from this rule are
+explicitly listed in the table below.
+</p>
+<p>
+Most values are inherited from the main server to the virtual hosts.
+Since version 1.2.20 they can be overwritten in the virtual hosts.
+Exceptions from this rule are again explicitly listed in the table below.
+See especially JkMountCopy.
+</p>
+<p><font color="#ff0000">
+Warning: If Apache httpd and Tomcat are configured to serve content from
+the same filing system location then care must be taken to ensure that httpd is
+not able to serve inappropriate content such as the contents of the WEB-INF
+directory or JSP source code.
+</font></p>
+<p>
+This could occur if the httpd DocumentRoot
+overlaps with a Tomcat Host's appBase or the docBase of any Context. It could
+also occur when using the httpd Alias directive with a Tomcat Host's appBase or
+the docBase of any Context.
+</p>
+<p>
+Here are the all directives supported by Apache:
+</p>
+<table border="1" cellpadding="5"><tr><th width="20%" bgcolor="#023264"><font color="#ffffff">Directive</font></th><th width="80%" bgcolor="#023264"><font color="#ffffff">Description</font></th></tr><tr><td align="left" valign="center"><code>JkWorkersFile</code></td><td align="left" valign="center"><p>
+The name of a worker file for the Tomcat servlet containers.
+<br>
+This directive is only allowed once. It must be put into
+the global part of the configuration.
+<br>
+If you don't use the JkWorkerProperty directives, then you must
+define your workers with a valid JkWorkersFile. There is no default
+value.
+</p></td></tr><tr><td align="left" valign="center"><code>JkWorkerProperty</code></td><td align="left" valign="center"><p>
+Enables setting worker properties inside Apache configuration file.
+The syntax is the same as in the JkWorkersFile (usually workers.properties).
+Simply prefix each line with "JkWorkerProperty" to put it directly into
+the Apache httpd config files.
+<br>
+This directive is allowed multiple times.
+It must be put into the global part of the configuration.
+<br>
+If you don't use the JkWorkerProperty directives, then you must
+define your workers with a valid JkWorkersFile. There is no default
+value.
+<br>
+This directive is available in jk1.2.7 version and later.
+</p></td></tr><tr><td align="left" valign="center"><code>JkShmFile</code></td><td align="left" valign="center"><p>
+Shared memory file name. Used only on unix platforms.
+The shm file is used by balancer and status workers.
+<br>
+This directive is only allowed once. It must be put into
+the global part of the configuration.
+<br>
+The default value is logs/jk-runtime-status.
+It is highly recommended that the shm file be placed on a local
+drive and not an NFS share.
+</p>
+<p>
+The shared memory contains configuration and runtime information for load balancer
+workers and their members. It is need in order that all apache children
+<ul>
+<li>share the same status information for load balancing members (OK, ERROR, ...),</li>
+<li>share the information about load taken by the individual workers,</li>
+<li>share the information for the parts of the configuration, which are changeable
+during runtime by status workers.</li>
+</ul>
+</p>
+</td></tr><tr><td align="left" valign="center"><code>JkShmSize</code></td><td align="left" valign="center"><p>
+Size of the shared memory file name.
+<br>
+This directive is only allowed once. It must be put into
+the global part of the configuration.
+<br>
+The default value depends on the platform. It is usually less than 64KB.
+</p></td></tr><tr><td align="left" valign="center"><code>JkMountFile</code></td><td align="left" valign="center"><p>
+File containing multiple mappings from a context to a Tomcat worker.
+It is usually called uriworkermap.properties.
+<br>
+For inheritance rules, see: JkMountCopy.
+<br>
+There is no default value.
+</p></td></tr><tr><td align="left" valign="center"><code>JkMountFileReload</code></td><td align="left" valign="center"><p>
+This directive configures the reload check interval in seconds.
+The JkMountFile is checked periodically for changes.
+A changed file gets reloaded automatically. If you set
+this directive to "0", reload checking is turned off.
+<br>
+The default value is 60 seconds.
+<br>
+This directive has been added in version 1.2.20 of mod_jk.
+</p></td></tr><tr><td align="left" valign="center"><code>JkMount</code></td><td align="left" valign="center"><p>
+A mount point from a context to a Tomcat worker.
+<br>
+This directive is allowed multiple times.
+It is allowed in the global configuration and in VirtualHost.
+You can also use it inside Location with a different syntax.
+Inside Location, one omits the first argument (path),
+which gets inherited from the Location.
+<br>
+By default JkMount entries are not inherited from the global
+server to other VirtualHosts or between VirtualHosts.
+For the complete inheritance rules, see: JkMountCopy.
+</p></td></tr><tr><td align="left" valign="center"><code>JkUnMount</code></td><td align="left" valign="center"><p>
+An exclusion mount point from a context to a Tomcat worker.
+All exclusion mounts are checked after mapping a request
+to a tomcat worker. If the request maps also to an exclusion,
+it will not be forwarded to tomcat, and instead be served locally.
+<br>
+This directive is allowed multiple times.
+It is allowed in the global configuration and in VirtualHost.
+You can also use it inside Location with a different syntax.
+Inside Location, one omits the first argument (path),
+which gets inherited from the Location.
+For inheritance rules, see: JkMountCopy.
+<br>
+This directive is available in jk1.2.7 version and later.
+</p></td></tr><tr><td align="left" valign="center"><code>JkAutoAlias</code></td><td align="left" valign="center"><p>
+Automatically Alias webapp context directories into the Apache
+document space.
+<br>
+Care should be taken to ensure that only static content is served via httpd as a
+result of using this directive. Any static content served by httpd will bypass any
+security constraints defined in the application's web.xml.
+<br>
+For inheritance rules, see: JkMountCopy.
+<br>
+There is no default value.
+</p></td></tr><tr><td align="left" valign="center"><code>JkMountCopy</code></td><td align="left" valign="center"><p>
+If this directive is set to "On" in some virtual server,
+the mounts from the global server will be copied to this
+virtual server, more precisely all mounts defined by JkMount
+or JkUnMount. The Mounts defined by JkMountFile and JkAutoAlias
+will only be inherited, if the VirtualHost does not define
+it's own JkMountFile or JkAutoAlias.
+<br>
+If you want all vhost to inherit mounts from the main server,
+you can set JkMountCopy to 'All' in the main server.
+<br>
+This directive is only allowed inside VirtualHost (with value "On")
+and in the global server (with value "All").
+<br>
+The default is Off, so no mounts will be inherited from the global
+server to any VirtualHost.
+<br>
+Starting with version 1.2.26 you can also set it to "All" in the
+global virtual server. This will switch the default to On.
+</p></td></tr><tr><td align="left" valign="center"><code>JkWorkerIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable that can be used to set worker names
+in combination with SetHandler jakarta-servlet.
+<br>
+This directive is only allowed once per virtual server.
+It is allowed in the global configuration and in VirtualHost.
+<br>
+The default value is JK_WORKER_NAME.
+</p></td></tr><tr><td align="left" valign="center"><code>JkWatchdogInterval</code></td><td align="left" valign="center"><p>
+This directive configures the watchdog thread interval in seconds.
+The workers are maintained periodically by a background thread
+running periodically every watchdog_interval seconds. Worker maintenance
+checks for idle connections, corrects load status and is able
+to detect backend health status.
+<br>
+The maintenance only happens, if since the last maintenance at
+least <a href="workers.html"><b class="code">worker.maintain</b></a>
+seconds have passed. So setting the JkWatchdogInterval
+much smaller than <b class="code">worker.maintain</b> is not useful.
+<br>
+The default value is 0 seconds, meaning the watchdog thread
+will not be created, and the maintenance is done in combination
+with normal requests instead.
+<br>
+This directive is only allowed once. It must be put into
+the global part of the configuration.
+<br>
+This directive has been added in version 1.2.27 of mod_jk.
+It is available only for httpd 2.x and above using APR libraries
+including thread support.
+</p></td></tr><tr><td align="left" valign="center"><code>JkLogFile</code></td><td align="left" valign="center"><p>
+Full or server relative path to the Tomcat Connector module log file.
+It will also work with pipe, by using a value of the form "| ...".
+<br>
+The default value is logs/mod_jk.log.
+<br>
+Pipes are supported for Apache 1.3 only since version 1.2.16.
+The default value exists only since version 1.2.20.
+</p></td></tr><tr><td align="left" valign="center"><code>JkLogLevel</code></td><td align="left" valign="center"><p>
+The Tomcat Connector module log level, can be debug, info, warn
+error or trace.
+<br>
+The default value is info.
+</p></td></tr><tr><td align="left" valign="center"><code>JkLogStampFormat</code></td><td align="left" valign="center"><p>
+The Tomcat Connector module <b>date</b> log format, using an
+extended strftime syntax.
+This format will be used for the time stamps in the JkLogFile.
+The maximum length of the format is 63 characters.
+<br>
+Starting with version 1.2.24 of mod_jk you can also use %Q
+for adding milliseconds to the log and %q for microseconds. 
+These conversion specifiers are an extension to strftime.
+They will only work on platforms with a gettimeofday() function.
+You can use %Q and %q only once in the pattern and also not both
+together in the same pattern.
+<br>
+The default value is "[%a %b %d %H:%M:%S %Y] " and beginning
+with version 1.2.24 on platforms with a gettimeofday()
+function it is "[%a %b %d %H:%M:%S.%Q %Y] ".
+</p></td></tr><tr><td align="left" valign="center"><code>JkRequestLogFormat</code></td><td align="left" valign="center"><p>
+Request log format string. See detailed description below.
+<br>
+There is no default value. Without defining a value, the request logging
+is turned off.
+</p></td></tr><tr><td align="left" valign="center"><code>JkExtractSSL</code></td><td align="left" valign="center"><p>
+Turns on SSL processing and information gathering by mod_jk
+<br>
+The default value is On.
+<br>
+In order to make SSL data available for mod_jk in Apache, you need to
+set <b class="code">SSLOptions +StdEnvVars</b>. For the certificate information you also need
+to add <b class="code">SSLOptions +ExportCertData</b>.
+</p>
+<p>
+  Specifically, mod_jk will export the following environment variables from
+  Apache httpd to Tomcat under these request attributes as per the
+  Servlet Specification 3.0, section 3.8:
+</p>
+<table>
+  <tr><th>Env Var</th><th>Request Attribute Name</th><th>Type</th><th>Example</th></tr>
+  <tr>
+    <td>SSL_CIPHER<br>(or <b class="code">JkKEYSIZEIndicator</b>)</td>
+    <td>javax.servlet.request.cipher_suite</td>
+    <td>java.lang.String</td>
+    <td>DHE-RSA-AES256-SHA</td>
+  </tr>
+  <tr>
+    <td>SSL_CIPHER_USEKEYSIZE<br>(or <b class="code">JkKEYSIZEIndicator</b>)</td>
+    <td>javax.servlet.request.key_size</td>
+    <td>java.lang.Integer</td>
+    <td>256</td>
+  </tr>
+  <tr>
+    <td>SSL_SESSION_ID<br>(or <b class="code">JkSESSIONIndicator</b>)</td>
+    <td>javax.servlet.request.ssl_session</td>
+    <td>java.lang.String</td>
+    <td>905...32E (a hex string)</td>
+  </tr>
+  <tr>
+    <td>SSL_CLIENT_CERT_CHAIN_<i>n</i><br>(or <b class="code">JkCERTCHAINPrefix</b><i>n</i>)</td>
+    <td>javax.servlet.request.X509Certificate</td>
+    <td>java.security.X509Certificate[]</td>
+    <td>(A chain of certs in ascending order of trust, the first one being
+        ths client's certificate, the second being the signer of that
+        certificate, and so on)</td>
+  </tr>
+</table>
+<p>
+  For all other SSL-related variables, use <b class="code">JkEnvVar</b> for each
+  variable you want. Please note that, like <b class="code">JkEnvVar</b>, these
+  variables are available from the request <i><b>attributes</b></i>, not as
+  environment variables or as request headers.
+</p>
+</td></tr><tr><td align="left" valign="center"><code>JkHTTPSIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable that contains SSL indication.
+<br>
+The default value is "HTTPS".
+</p></td></tr><tr><td align="left" valign="center"><code>JkCERTSIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable that contains SSL client certificates.
+<br>
+The default value is "SSL_CLIENT_CERT".
+</p></td></tr><tr><td align="left" valign="center"><code>JkCIPHERIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable that contains SSL client cipher.
+<br>
+The default value is "SSL_CIPHER".
+</p></td></tr><tr><td align="left" valign="center"><code>JkCERTCHAINPrefix</code></td><td align="left" valign="center"><p>
+Name of the Apache environment (prefix) that contains SSL client chain certificates.
+<br>
+The default value is "SSL_CLIENT_CERT_CHAIN_".
+</p></td></tr><tr><td align="left" valign="center"><code>JkSESSIONIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable that contains SSL session.
+<br>
+The default value is "SSL_SESSION_ID".
+</p></td></tr><tr><td align="left" valign="center"><code>JkKEYSIZEIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable that contains SSL key size in use.
+<br>
+The default value is "SSL_CIPHER_USEKEYSIZE".
+</p></td></tr><tr><td align="left" valign="center"><code>JkLocalNameIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable which can be used to overwrite
+the forwarded local name.
+Use this only if you need to adjust the data (see the
+<a href="../../generic_howto/proxy.html">proxy</a> documentation).
+<br>
+The default value is "JK_LOCAL_NAME".
+<br>
+This directive has been added in version 1.2.28 of mod_jk.
+</p></td></tr><tr><td align="left" valign="center"><code>JkLocalPortIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable which can be used to overwrite
+the forwarded local port.
+Use this only if you need to adjust the data (see the
+<a href="../../generic_howto/proxy.html">proxy</a> documentation).
+<br>
+The default value is "JK_LOCAL_PORT".
+<br>
+This directive has been added in version 1.2.28 of mod_jk.
+</p></td></tr><tr><td align="left" valign="center"><code>JkRemoteHostIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable which can be used to overwrite
+the forwarded remote (client) host name.
+Use this only if you need to adjust the data (see the
+<a href="../../generic_howto/proxy.html">proxy</a> documentation).
+<br>
+The default value is "JK_REMOTE_HOST".
+<br>
+This directive has been added in version 1.2.28 of mod_jk.
+</p></td></tr><tr><td align="left" valign="center"><code>JkRemoteAddrIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable which can be used to overwrite
+the forwarded remote (client) IP address.
+Use this only if you need to adjust the data (see the
+<a href="../../generic_howto/proxy.html">proxy</a> documentation).
+<br>
+The default value is "JK_REMOTE_ADDR".
+<br>
+This directive has been added in version 1.2.28 of mod_jk.
+</p></td></tr><tr><td align="left" valign="center"><code>JkRemotePortIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable which can be used to overwrite
+the forwarded remote (client) IP address.
+Use this only if you need to adjust the data (see the
+<a href="../../generic_howto/proxy.html">proxy</a> documentation).
+<br>
+The default value is "JK_REMOTE_PORT".
+<br>
+This directive has been added in version 1.2.32 of mod_jk.
+</p></td></tr><tr><td align="left" valign="center"><code>JkRemoteUserIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable which can be used to overwrite
+the forwarded user name.
+Use this only if you need to adjust the data (see the
+<a href="../../generic_howto/proxy.html">proxy</a> documentation).
+<br>
+The default value is "JK_REMOTE_USER".
+<br>
+This directive has been added in version 1.2.28 of mod_jk.
+</p></td></tr><tr><td align="left" valign="center"><code>JkAuthTypeIndicator</code></td><td align="left" valign="center"><p>
+Name of the Apache environment variable which can be used to overwrite
+the forwarded authentication type.
+Use this only if you need to adjust the data (see the
+<a href="../../generic_howto/proxy.html">proxy</a> documentation).
+<br>
+The default value is "JK_AUTH_TYPE".
+<br>
+This directive has been added in version 1.2.28 of mod_jk.
+</p></td></tr><tr><td align="left" valign="center"><code>JkOptions</code></td><td align="left" valign="center"><p>
+Set one of more options to configure the mod_jk module. See below for
+details about this directive.
+<br>
+This directive can be used multiple times per virtual server.
+<br>
+The default value is "ForwardURIProxy" since version 1.2.24.
+It was "ForwardURICompatUnparsed" in version 1.2.23 and
+"ForwardURICompat" until version 1.2.22.
+</p></td></tr><tr><td align="left" valign="center"><code>JkEnvVar</code></td><td align="left" valign="center"><p>
+Adds a name and an optional default value of environment variable
+that should be sent to servlet-engine as a request attribute.
+If the default value is not given explicitly, the variable
+will only be send, if it is set during runtime.
+<br>
+The default is empty, so no additional variables will be sent.
+<br>
+This directive can be used multiple times per virtual server.
+The settings will be merged between the global server and any
+virtual server.
+<br>
+You can retrieve the variables on Tomcat as request attributes
+via request.getAttribute(attributeName). Note that the variables
+send via JkEnvVar will not be listed in request.getAttributeNames().
+<br>
+Empty default values are supported since version 1.2.20.
+Not sending variables with empty defaults and empty runtime value
+has been introduced in version 1.2.21.
+</p></td></tr><tr><td align="left" valign="center"><code>JkStripSession</code></td><td align="left" valign="center"><p>
+If this directive is set to On in some virtual server,
+the session IDs <b class="code">;jsessionid=...</b> will be
+removed for non matched URLs.
+<br>
+This directive is only allowed inside VirtualHost.
+<br>
+The default is Off.
+<br>
+This directive has been introduced in version 1.2.21.
+<br>With version 1.2.27 and later this directive can have optional
+session ID identifier. If not specified it defaults to
+<b class="code">;jsessionid</b>.
+</p>
+</td></tr></table>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Configuration Directives Types"><strong>Configuration Directives Types</strong></a></font></td></tr><tr><td><blockquote>
+<p>
+We'll discuss here the mod_jk directive types.
+</p>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Define workers"><strong>Define workers</strong></a></font></td></tr><tr><td><blockquote>
+<p>
+<b>JkWorkersFile</b> specify the location where mod_jk will find the workers definitions.
+Take a look at <a href="workers.html">Workers documentation</a> for detailed description.
+
+<div class="example"><pre>
+  JkWorkersFile     /etc/httpd/conf/workers.properties
+</pre></div>
+
+<br>
+<br>
+</p>
+
+</blockquote></td></tr></table>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Logging"><strong>Logging</strong></a></font></td></tr><tr><td><blockquote>
+<p>
+<b>JkLogFile</b> specify the location where mod_jk is going to place its log file.
+</p>
+
+<div class="example"><pre>
+  JkLogFile     /var/log/httpd/mod_jk.log
+</pre></div>
+
+<p>
+Since JK 1.2.3 for Apache 2.x and JK 1.2.16 for Apache 1.3 this can also
+be used for piped logging:
+</p>
+
+<div class="example"><pre>
+  JkLogFile     "|/usr/bin/rotatelogs /var/log/httpd/mod_jk.log 86400"
+</pre></div>
+
+<p>
+<b>JkLogLevel</b>
+set the log level between :
+</p>
+
+<ul>
+<li>
+<b>info</b> log will contain standard mod_jk activity (default).
+</li>
+<li>
+<b>warn</b> log will contain non fatal error reports.
+</li>
+<li>
+<b>error</b> log will contain also error reports.
+</li>
+<li>
+<b>debug</b> log will contain all information on mod_jk activity
+</li>
+<li>
+<b>trace</b> log will contain all tracing information on mod_jk activity
+</li>
+</ul>
+
+<div class="example"><pre>  
+  JkLogLevel    info
+</pre></div>
+
+<p>
+<b class="code">info</b> should be your default selection for normal operations.
+<br>
+<br>
+</p>
+
+<p>
+<b>JkLogStampFormat</b> will configure the date/time format found on mod_jk log file. 
+Using the strftime() format string it's set by<br>
+default to <b>"[%a %b %d %H:%M:%S %Y]"</b>
+</p>
+
+<div class="example"><pre>
+  JkLogStampFormat "[%a %b %d %H:%M:%S %Y] "
+</pre></div>
+
+<p>
+<br>
+<br>
+</p>
+
+<p>
+<b>JkRequestLogFormat</b> will configure the format of mod_jk individual request logging. 
+Request logging is configured and enabled on a per virtual host basis. 
+To enable request logging for a virtual host just add a JkRequestLogFormat config. 
+The syntax of the format string is similar to the Apache LogFormat command, 
+here is a list of the available request log format options:
+</p>
+
+<p>
+<table border="1" cellpadding="5"><tr><th width="20%" bgcolor="#023264"><font color="#ffffff">Options</font></th><th width="80%" bgcolor="#023264"><font color="#ffffff">Description</font></th></tr><tr><td align="left" valign="center"><code>%b</code></td><td align="left" valign="center">Bytes sent, excluding HTTP headers (CLF format)</td></tr><tr><td align="left" valign="center"><code>%B</code></td><td align="left" valign="center">Bytes sent, excluding HTTP headers</td></tr><tr><td align="left" valign="center"><code>%H</code></td><td align="left" valign="center">The request protocol</td></tr><tr><td align="left" valign="center"><code>%m</code></td><td align="left" valign="center">The request method</td></tr><tr><td align="left" valign="center"><code>%p</code></td><td align="left" valign="center">The canonical Port of the server serving the request</td></tr><tr><td align="left" valign="center"><code>%q</code></td><td align="left" valign="center">The query string (prepended with a ? if a query string exists, otherwise an empty string)</td></tr><tr><td align="left" valign="center"><code>%r</code></td><td align="left" valign="center">First line of request</td></tr><tr><td align="left" valign="center"><code>%s</code></td><td align="left" valign="center">Request HTTP status code</td></tr><tr><td align="left" valign="center"><code>%T</code></td><td align="left" valign="center">Request duration, elapsed time to handle request in seconds '.' micro seconds</td></tr><tr><td align="left" valign="center"><code>%U</code></td><td align="left" valign="center">The URL path requested, not including any query string.</td></tr><tr><td align="left" valign="center"><code>%v</code></td><td align="left" valign="center">The canonical ServerName of the server serving the request</td></tr><tr><td align="left" valign="center"><code>%V</code></td><td align="left" valign="center">The server name according to the UseCanonicalName setting</td></tr><tr><td align="left" valign="center"><code>%w</code></td><td align="left" valign="center">Tomcat worker name</td></tr><tr><td align="left" valign="center"><code>%R</code></td><td align="left" valign="center">Real worker name</td></tr></table>
+
+<div class="example"><pre>
+  JkRequestLogFormat     "%w %V %T"
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+You can also log mod_jk information using the Apache standard module <b>mod_log_config</b>.
+The module sets several notes in the Apache httpd notes table.
+Most of them are are only useful in combination with a load balancer worker.
+</p>
+
+<p>
+<table border="1" cellpadding="5"><tr><th width="20%" bgcolor="#023264"><font color="#ffffff">Note</font></th><th width="80%" bgcolor="#023264"><font color="#ffffff">Description</font></th></tr><tr><td align="left" valign="center"><code>JK_WORKER_NAME</code></td><td align="left" valign="center">Name of the worker selected by the URI mapping</td></tr><tr><td align="left" valign="center"><code>JK_WORKER_TYPE</code></td><td align="left" valign="center">Type of the worker selected by the URI mapping</td></tr><tr><td align="left" valign="center"><code>JK_WORKER_ROUTE</code></td><td align="left" valign="center">Actual worker name selected by the URI mapping (usually a member of the load balancer).<br>
+                                                         Before version 1.2.26 only available if JkRequestLogFormat is set.</td></tr><tr><td align="left" valign="center"><code>JK_REQUEST_DURATION</code></td><td align="left" valign="center">Request duration in seconds and microseconds.<br>
+                                                         Before version 1.2.26 only available if JkRequestLogFormat is set.</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_NAME</code></td><td align="left" valign="center">Load-Balancer: Name of the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_TYPE</code></td><td align="left" valign="center">Load-Balancer: Type of the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_ACCESSED</code></td><td align="left" valign="center">Load-Balancer: Access count for the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_READ</code></td><td align="left" valign="center">Load-Balancer: Bytes read for the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_TRANSFERRED</code></td><td align="left" valign="center">Load-Balancer: Bytes transferred for the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_ERRORS</code></td><td align="left" valign="center">Load-Balancer: Error count for the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_BUSY</code></td><td align="left" valign="center">Load-Balancer: Busy count for the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_ACTIVATION</code></td><td align="left" valign="center">Load-Balancer: Activation state for the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_FIRST_STATE</code></td><td align="left" valign="center">Load-Balancer: Error state for the first worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_NAME</code></td><td align="left" valign="center">Load-Balancer: Name of the last worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_TYPE</code></td><td align="left" valign="center">Load-Balancer: Type of the last worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_ACCESSED</code></td><td align="left" valign="center">Load-Balancer: Access count for the last worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_READ</code></td><td align="left" valign="center">Load-Balancer: Bytes read for the last worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_TRANSFERRED</code></td><td align="left" valign="center">Load-Balancer: Bytes transferred for the last worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_ERRORS</code></td><td align="left" valign="center">Load-Balancer: Error count for the last worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_BUSY</code></td><td align="left" valign="center">Load-Balancer: Busy count for the last worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_ACTIVATION</code></td><td align="left" valign="center">Load-Balancer: Activation state for the last worker tried</td></tr><tr><td align="left" valign="center"><code>JK_LB_LAST_STATE</code></td><td align="left" valign="center">Load-Balancer: Error state for the last worker tried</td></tr></table>
+
+<div class="example"><pre>
+  LogFormat     "%h %l %u %t \"%r\" %&gt;s %b %{JK_WORKER_NAME}n %{JK_LB_FIRST_NAME}n \
+                 %{JK_LB_FIRST_BUSY}n %{JK_LB_LAST_NAME}n %{JK_LB_LAST_BUSY}n" mod_jk_log
+  CustomLog     logs/access_log     mod_jk_log
+</pre></div>
+
+<br>
+<br>
+</p>
+
+</blockquote></td></tr></table>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Forwarding"><strong>Forwarding</strong></a></font></td></tr><tr><td><blockquote>
+<p>
+The directive JkOptions allow you to set many forwarding options which will enable (+)
+or disable (-) following option. Without any leading signs, options will be enabled.
+<br>
+<br>
+</p>
+
+<p>
+The four following options <b>+ForwardURIxxx</b> are mutually exclusive.
+Exactly one of them is required, a negative sign prefix is not allowed with them.
+The default value is "ForwardURIProxy" since version 1.2.24.
+It was "ForwardURICompatUnparsed" in version 1.2.23 and
+"ForwardURICompat" until version 1.2.22.
+You can turn the default off by switching on one of the other two options.
+You should leave this at it's default value, unless you have a very good
+reason to change it.
+<br>
+<br>
+</p>
+
+<p>
+All options are inherited from the global server to virtual hosts.
+Options that support enabling (plus options) and disabling (minus options),
+are inherited in the following way:
+<br>
+<br>
+options(vhost) = plus_options(global) - minus_options(global) + plus_options(vhost) - minus_options(vhost)
+<br>
+<br>
+</p>
+
+<p>
+Using JkOptions <b>ForwardURIProxy</b>, the forwarded URI
+will be partially reencoded after processing inside Apache httpd and
+before forwarding to Tomcat. This will be compatible with local
+URL manipulation by mod_rewrite and with URL encoded session ids.
+
+<div class="example"><pre>
+  JkOptions     +ForwardURIProxy
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+Using JkOptions <b>ForwardURICompatUnparsed</b>, the forwarded URI
+will be unparsed. It's spec compliant and secure.
+It will always forward the original request URI, so rewriting
+URIs with mod_rewrite and then forwarding the rewritten URI
+will not work.
+
+<div class="example"><pre>
+  JkOptions     +ForwardURICompatUnparsed
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+Using JkOptions <b>ForwardURICompat</b>, the forwarded URI will
+be decoded by Apache httpd. Encoded characters will be decoded and
+explicit path components like ".." will already be resolved.
+This is less spec compliant and is <b>not safe</b> if you are using
+prefix JkMount. This option will allow to rewrite URIs with
+mod_rewrite before forwarding.
+
+<div class="example"><pre>
+  JkOptions     +ForwardURICompat
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+Using JkOptions <b>ForwardURIEscaped</b>, the forwarded URI will
+be the encoded form of the URI used by ForwardURICompat.
+Explicit path components like ".." will already be resolved.
+This will not work in combination with URL encoded session IDs,
+but it will allow to rewrite URIs with mod_rewrite before forwarding.
+
+<div class="example"><pre>
+  JkOptions     +ForwardURIEscaped
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+JkOptions <b>RejectUnsafeURI</b> will block all
+URLs, which contain percent signs '%' or backslashes '\'
+after decoding.
+<br>
+<br>
+</p>
+<p>
+Most web apps do not use such URLs. Using the option RejectUnsafeURI, you
+can block several well known URL encoding attacks. By default, this option
+is not set.
+</p>
+<p>
+You can also realise such a check with mod_rewrite, which is more powerful
+but also slightly more complicated.
+
+<div class="example"><pre>  
+  JkOptions     +RejectUnsafeURI
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+JkOptions <b>ForwardDirectories</b> is used in conjunction with <b>DirectoryIndex</b>
+directive of Apache web server. As such mod_dir should be available to Apache,
+statically or dynamically (DSO)
+<br>
+<br>
+</p>
+
+<p>
+When DirectoryIndex is configured, Apache will create sub-requests for
+each of the local-url's specified in the directive, to determine if there is a
+local file that matches (this is done by stat-ing the file).
+</p>
+
+<p>
+If ForwardDirectories is set to false (default) and Apache doesn't find any
+files that match, Apache will serve the content of the directory (if directive
+Options specifies Indexes for that directory) or a <b class="code">403 Forbidden</b> response (if
+directive Options doesn't specify Indexes for that directory).
+</p>
+
+<p>
+If ForwardDirectories is set to true and Apache doesn't find any files that
+match, the request will be forwarded to Tomcat for resolution. This is used in
+cases when Apache cannot see the index files on the file system for various
+reasons: Tomcat is running on a different machine, the JSP file has been
+precompiled etc. 
+</p>
+
+<p>Note that locally visible files will take precedence over the
+ones visible only to Tomcat (i.e. if Apache can see the file, that's the one
+that's going to get served). This is important if there is more then one type of
+file that Tomcat normally serves - for instance Velocity pages and JSP pages.
+
+<div class="example"><pre>  
+  JkOptions     +ForwardDirectories
+</pre></div>
+<br>
+<br>
+</p>
+
+<p>
+JkOptions <b>ForwardLocalAddress</b>, you ask mod_jk to send the local address,
+of the Apache web server instead remote client address. This can be used by
+Tomcat remote address valve for allowing connections only from registered Apache
+web servers.
+
+<div class="example"><pre>  
+  JkOptions     +ForwardLocalAddress
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+JkOptions <b>FlushPackets</b>, you ask mod_jk to flush Apache's connection
+buffer after each AJP packet chunk received from Tomcat. This option can have
+a strong performance penalty for Apache and Tomcat as writes are performed
+more often than would normally be required (ie: at the end of each
+response).
+
+<div class="example"><pre>  
+  JkOptions     +FlushPackets
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+JkOptions <b>FlushHeader</b>, you ask mod_jk to flush Apache's connection
+buffer after the response headers have been  received from Tomcat.
+
+<div class="example"><pre>  
+  JkOptions     +FlushHeader
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+JkOptions <b>DisableReuse</b>, you ask mod_jk to close connections immediately
+after their use. Normally mod_jk uses persistent connections and pools idle
+connections to reuse them, when new requests have to be sent to Tomcat.
+</p>
+
+<p>
+Using this option will have a strong performance penalty for Apache and Tomcat.
+Use this only as a last resort in case of unfixable network problems.
+If a firewall between Apache and Tomcat silently kills idle connections,
+try to use the worker attribute socket_keepalive in combination with an appropriate
+TCP keepalive value in your OS.
+
+<div class="example"><pre>  
+  JkOptions     +DisableReuse
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+JkOptions <b>ForwardKeySize</b>,  you ask mod_jk, when using ajp13, to forward also the SSL Key Size  as 
+required by Servlet API 2.3.
+This flag shouldn't be set when servlet engine is Tomcat 3.2.x (on by default).
+
+<div class="example"><pre>  
+  JkOptions     +ForwardKeySize
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+JkOptions <b>ForwardSSLCertChain</b>,  you ask mod_jk, when using ajp13,
+to forward SSL certificate chain (off by default).
+Mod_jk only passes the <b class="code">SSL_CLIENT_CERT</b> to the AJP connector. This is not a
+problem with self-signed certificates or certificates directly signed by the
+root CA certificate. However, there's a large number of certificates signed by
+an intermediate CA certificate, where this is a significant problem: A servlet
+will not have the possibility to validate the client certificate on its own. The
+bug would be fixed by passing on the <b class="code">SSL_CLIENT_CERT_CHAIN</b> to Tomcat via the AJP connector.
+<br>
+This directive exists only since version 1.2.22.
+<div class="example"><pre>  
+  JkOptions     +ForwardSSLCertChain
+</pre></div>
+
+<br>
+<br>
+</p>
+
+<p>
+The directive <b>JkEnvVar</b> allows you to forward environment variables
+from Apache server to Tomcat engine.
+You can add a default value as a second parameter to the directive.
+If the default value is not given explicitly, the variable
+will only be send, if it is set during runtime.
+<br>
+The variables can be retrieved on the Tomcat side as request attributes
+via request.getAttribute(attributeName).
+Note that the variables send via JkEnvVar will not be listed
+in request.getAttributeNames().
+<br>
+<br>
+The variables are inherited from the global server to virtual hosts.
+
+<div class="example"><pre>  
+  JkEnvVar     SSL_CLIENT_V_START     undefined
+</pre></div>
+<br>
+<br>
+</p>
+
+</blockquote></td></tr></table>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Assigning URLs to Tomcat"><strong>Assigning URLs to Tomcat</strong></a></font></td></tr><tr><td><blockquote>
+<p>
+If you have created a custom or local version of mod_jk.conf-local as noted above, 
+you can change settings such as the workers or URL prefix.
+</p>
+<p>
+<b>JkMount</b> directive assign specific URLs to Tomcat. 
+In general the structure of a JkMount directive is:
+</p>
+
+<div class="example"><pre>  
+  JkMount [URL prefix] [Worker name]
+</pre></div>
+
+<div class="example"><pre>
+  # send all requests ending in .jsp to worker1
+  JkMount /*.jsp worker1
+  # send all requests ending /servlet to worker1
+  JkMount /*/servlet/ worker1
+  # send all requests jsp requests to files located in /otherworker will go worker2
+  JkMount /otherworker/*.jsp worker2
+</pre></div>
+
+<p>
+You can use the JkMount directive at the top level or inside &lt;VirtualHost&gt;
+sections of your httpd.conf file.
+</p>
+<p><b>JkUnMount</b> directive acts as an opposite to JkMount and blocks access
+to a particular URL. The purpose is to be able to filter out the particular content
+types from mounted context. The following example mounts /servlet/*
+context, but all .gif files that belongs to that context are not served.
+</p>
+<div class="example"><pre>
+  # send all requests ending with /servlet to worker1
+  JkMount /servlet/* worker1
+  # do not send requests ending with .gif to worker1
+  JkUnMount /servlet/*.gif worker1
+</pre></div>
+<p>
+JkUnMount takes precedence over JkMount directives, meaning that the JK
+will first try to mount and then checks, if there is an exclusion defined by a
+JkUnMount. A JkUnMount overrides a JkMount only, if the worker names in the
+JkMount and in the JkUnMount are the same.
+</p>
+<p>
+The following example will block all .gif files although there is a JkMount for them:
+</p>
+<div class="example"><pre>
+  # do not send requests ending with .gif to worker1
+  JkUnMount /*.gif worker1
+  # The .gif files will not be mounted cause JkUnMount takes
+  # precedence over JkMount directive
+  JkMount /servlet/*.gif worker1
+</pre></div>
+<p>
+Starting with version 1.2.26 of JK you can apply a JkUnMount to any worker,
+by using the star character '*' as the worker name in the JkUnMount.
+More complex patterns in JkUnMount worker names are not allowed.
+</p>
+<div class="example"><pre>
+  # Mapping the webapps myapp1 and myapp2:
+  /myapp1/*=worker1
+  /myapp2/*=worker2
+  # Exclude the all subdirectories static for all workers:
+  !/*/static/*=*
+  # Exclude some suffixes for all workers:
+  !*.html=*
+</pre></div>
+<p>
+<b>JkAutoAlias</b> directive automatically <b>Alias</b> webapp context directories into
+the Apache document space. It enables Apache to serve a static context while Tomcat
+serving dynamic context. This directive is used for convenience so that you don't
+have to put an apache Alias directive for each application directory inside Tomcat's
+webapp directory. For security reasons is is strongly recommended that JkMount
+is used to pass all requests to Tomcat by default and JkUnMount is used to
+explicitly exclude static content to be served by httpd. It should also be noted
+that content served by httpd will bypass any security constraints defined in the
+application's web.xml.
+</p>
+<div class="example"><pre>
+  # enter the full path to the tomcat webapps directory
+  JkAutoAlias /opt/tomtact/webapps
+</pre></div>
+<p>The following example shows how to serve a dynamic context by
+Tomcat and static using Apache. The webapps directory has to
+be accessible by apache.</p>
+
+<div class="example"><pre>
+  # enter the full path to the tomcat webapps directory
+  JkAutoAlias /opt/tomtact/webapps
+
+  # Mount 'servlets-examples' directory. It's physical location
+  # is assumed to be in the /opt/tomtact/webapps/servlets-examples
+  # ajp13w is a worker defined in the workers.properties
+  JkMount /servlets-examples/* ajp13w
+
+  # Unmount desired static content from servlets-examples webapp.
+  # This content will be served by the httpd directly.
+  JkUnMount /servlets-examples/*.gif ajp13w
+  JkUnMount /servlets-examples/*.jpg ajp13w
+</pre></div>
+<p>Note that you can have a single JkAutoAlias directive per virtual
+host inside your httpd.conf
+</p>
+<p>
+<b>JkWorkerProperty</b> is a new directive available from JK 1.2.7
+version. It is a convenient method for setting directives that are
+usually set inside <b>workers.propeties</b> file. The parameter for
+that directive is raw line from workers.properties file.
+</p>
+<div class="example"><pre>
+  # Just like workers.properties but exact line is prefixed
+  # with JkWorkerProperty
+
+  # Minimal jk configuration
+  JkWorkerProperty worker.list=ajp13w
+  JkWorkerProperty worker.ajp13w.type=ajp13
+  JkWorkerProperty worker.ajp13w.host=localhost
+  JkWorkerProperty worker.ajp13w.port=8009   
+</pre></div>
+<p>
+<b>JkMountFile</b> is a new directive available from JK 1.2.9
+version. It is used for dynamic updates of mount points at runtime.
+When the mount file is changed, JK will reload it's content.
+</p>
+<div class="example"><pre>
+  # Load mount points
+
+  JkMountFile conf/uriworkermap.properties
+</pre></div>
+<p>If the mount point uri starts with an exclamation mark '!'
+it defines an exclusion in the same way JkUnMount does.
+If the mount point uri starts with minus sign '-'
+the mount point will only be disabled. A disabled mount can be reenabled
+by deleting the minus sign and waiting for the JkMountFile to reload.
+An exclusion can be disabled by prefixing it with a minus sign.
+</p>
+<div class="example"><pre>
+  # Sample uriworkermap.properties file
+
+  /servlets-examples/*=ajp13w
+  # Do not map .jpeg files
+  !/servlets-examples/*.jpeg=ajp13w
+  # Make jsp examples initially disabled  
+  -/jsp-examples/*=ajp13w
+</pre></div>
+<p>At run time you can change the content of this file. For example
+removing minus signs will enable the previously disabled uri mappings.
+You can add any number of new entries at runtime that reflects the newly deployed
+applications. Apache will reload the file and update the mount
+points within 60 second interval.
+</p>
+<p>
+There is no way to delete entries by dynamic reloading, but you can disable or
+exclude mappings.
+<br>
+<br>
+</p>
+
+</blockquote></td></tr></table>
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Using SetHandler and Environment Variables"><strong>Using SetHandler and Environment Variables</strong></a></font></td></tr><tr><td><blockquote>
+<p>
+Alternatively to the mod_jk specific directives, you can also use
+SetHandler and environment variables to control, which requests
+are being forwarded via which worker. This gives you more flexibility,
+but the results might be more difficult to understand. If you mix both
+ways of defining the forwards, in general to mod_jk directives will win.
+</p>
+<p>
+<b>SetHandler jakarta-servlet</b> forces requests to be handled by mod_jk.
+If you neither specify any workers via JkMount and the related directives,
+not via the environment variable described below,
+the first worker in the list of all worker will be chosen. You can use SetHandler
+for example in Location blocks or with Apache 2.2 also in RewriteRule.
+</p>
+<p>
+In order to control the worker using <b>SetEnvIf</b> or <b>RewriteRule</b>
+for more complex rules, you can set the environment variable <b>JK_WORKER_NAME</b>
+to the name of your chosen target worker. This enables you to decide on
+the chosen worker in a more flexible way, including dependencies on cookie values.
+This feature has been added in version 1.2.19 of mod_jk.
+</p>
+<p>
+In order to use another variable than <b>JK_WORKER_NAME</b>, you can set the name
+of this variable via the <b>JkWorkerIndicator</b> directive.
+</p>
+<p>
+You can also define exclusions from mod_jk forwards by setting the environment
+variable <b>no-jk</b>.
+</p>
+<div class="example"><pre>
+  # Automatically map all encoded urls
+  &lt;Location *;jsessionid=&gt;
+    SetHandler jakarta-servlet
+    SetEnv JK_WORKER_NAME my_worker
+  &lt;/Location&gt;
+
+  # Map all subdirs to workers via naming rule
+  # and exclude static content.
+  &lt;Location /apps/&gt;
+    SetHandler jakarta-servlet
+    SetEnvIf REQUEST_URI ^/apps/([^/]*)/ JK_WORKER_NAME=$1
+    SetEnvIf REQUEST_URI ^/apps/([^/]*)/static no-jk
+  &lt;/Location&gt;
+</pre></div>
+<p>
+Finally, starting with version 1.2.27 you can use the environment variable
+<b>JK_REPLY_TIMEOUT</b> to dynamically set a reply timeout.
+</p>
+</blockquote></td></tr></table>
+ </blockquote></td></tr></table></td></tr><!--FOOTER SEPARATOR--><tr><td colspan="2"><hr noshade size="1"></td></tr><!--PAGE FOOTER--><tr><td colspan="2"><div align="center"><font color="#525D76" size="-1"><em>
+        Copyright &copy; 1999-2011, Apache Software Foundation
+        </em></font></div></td></tr></table></body></html>

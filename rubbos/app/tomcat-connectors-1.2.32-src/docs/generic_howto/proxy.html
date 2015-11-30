@@ -1,0 +1,313 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>The Apache Tomcat Connector - Generic HowTo - Reverse Proxy HowTo</title><meta name="author" value="Rainer Jung"><meta name="email" value="rjung@apache.org"><link href="../style.css" type="text/css" rel="stylesheet"></head><body bgcolor="#ffffff" text="#000000" link="#525D76" alink="#525D76" vlink="#525D76"><table border="0" width="100%" cellspacing="4"><!--PAGE HEADER--><tr><td colspan="2"><!--TOMCAT LOGO--><a href="http://tomcat.apache.org/"><img src="../images/tomcat.gif" align="left" alt="Apache Tomcat" border="0"></a><!--APACHE LOGO--><a href="http://www.apache.org/"><img src="http://www.apache.org/images/asf-logo.gif" align="right" alt="Apache Logo" border="0"></a></td></tr><!--HEADER SEPARATOR--><tr><td colspan="2"><hr noshade size="1"></td></tr><tr><!--LEFT SIDE NAVIGATION--><td width="20%" valign="top" nowrap="true"><p><strong>Links</strong></p><ul><li><a href="../index.html">Docs Home</a></li></ul><p><strong>Reference Guide</strong></p><ul><li><a href="../reference/workers.html">workers.properties</a></li><li><a href="../reference/uriworkermap.html">uriworkermap.properties</a></li><li><a href="../reference/status.html">Status Worker</a></li><li><a href="../reference/apache.html">Apache HTTP Server</a></li><li><a href="../reference/iis.html">IIS</a></li></ul><p><strong>Generic HowTo</strong></p><ul><li><a href="../generic_howto/quick.html">For the impatient</a></li><li><a href="../generic_howto/workers.html">All about workers</a></li><li><a href="../generic_howto/timeouts.html">Timeouts</a></li><li><a href="../generic_howto/loadbalancers.html">Load Balancing</a></li><li><a href="../generic_howto/proxy.html">Reverse Proxy</a></li></ul><p><strong>Webserver HowTo</strong></p><ul><li><a href="../webserver_howto/apache.html">Apache HTTP Server</a></li><li><a href="../webserver_howto/iis.html">IIS</a></li><li><a href="../webserver_howto/nes.html">Netscape/SunOne/Sun</a></li></ul><p><strong>AJP Protocol Reference</strong></p><ul><li><a href="../ajp/ajpv13a.html">AJPv13</a></li><li><a href="../ajp/ajpv13ext.html">AJPv13 Extension Proposal</a></li></ul><p><strong>Miscellaneous Documentation</strong></p><ul><li><a href="../miscellaneous/faq.html">Frequently asked questions</a></li><li><a href="../miscellaneous/changelog.html">Changelog</a></li><li><a href="http://issues.apache.org/bugzilla/buglist.cgi?query_format=advanced&amp;short_desc_type=allwordssubstr&amp;short_desc=&amp;product=Tomcat+Connectors&amp;long_desc_type=substring&amp;long_desc=&amp;bug_file_loc_type=allwordssubstr&amp;bug_file_loc=&amp;keywords_type=allwords&amp;keywords=&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;emailassigned_to1=1&amp;emailtype1=substring&amp;email1=&amp;emailassigned_to2=1&amp;emailreporter2=1&amp;emailcc2=1&amp;emailtype2=substring&amp;email2=&amp;bugidtype=include&amp;bug_id=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;cmdtype=doit&amp;order=Reuse+same+sort+as+last+time&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=">Current Tomcat Connectors bugs</a></li><li><a href="../miscellaneous/doccontrib.html">Contribute documentation</a></li><li><a href="../miscellaneous/jkstatustasks.html">JK Status Ant Tasks</a></li><li><a href="../miscellaneous/reporttools.html">Reporting Tools</a></li><li><a href="http://tomcat.apache.org/connectors-doc-archive/jk2/index.html">Old JK/JK2 documentation</a></li></ul><p><strong>News</strong></p><ul><li><a href="../news/20110701.html">2011</a></li><li><a href="../news/20100101.html">2010</a></li><li><a href="../news/20090301.html">2009</a></li><li><a href="../news/20081001.html">2008</a></li><li><a href="../news/20070301.html">2007</a></li><li><a href="../news/20060101.html">2006</a></li><li><a href="../news/20050101.html">2005</a></li><li><a href="../news/20041100.html">2004</a></li></ul></td><!--RIGHT SIDE MAIN BODY--><td width="80%" valign="top" align="left"><table border="0" width="100%" cellspacing="4"><tr><td align="left" valign="top"><h1>The Apache Tomcat Connector - Generic HowTo</h1><h2>Reverse Proxy HowTo</h2></td><td align="right" valign="top" nowrap="true"><small><a href="printer/proxy.html"><img src="../images/printer.gif" border="0" alt="Printer Friendly Version"><br>print-friendly<br>version
+                    </a></small></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Introduction"><strong>Introduction</strong></a></font></td></tr><tr><td><blockquote> 
+<br>
+<p>The Apache module mod_jk and its ISAPI and NSAPI variants connect
+a web server to a backend (typically Tomcat) using the AJP protocol.
+The web server receives an HTTP(S) request and the module forwards
+the request to the backend. This function is usually called a gateway
+or a proxy, in the context of HTTP it is called a reverse proxy.
+</p>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Typical Problems"><strong>Typical Problems</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>A reverse proxy is not totally transparent to the application on
+the backend. For instance the host name and port the original client
+(e.g. browser) needs to talk to belong to the web server and not to the
+backend, so the reverse proxy talks to a different host name and port.
+When the application on the backend returns content including
+self-referential URLs using its own backend address and port, the
+client will usually not be able to use these URLs.
+</p>
+<p>Another example is the client IP address, which for the web server is the
+source IP of the incoming connection, whereas for the backend the
+connection always comes from the web server. This can be a problem, when
+the client IP is used by the backend application e.g. for security reasons.
+</p>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="AJP as a Solution"><strong>AJP as a Solution</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>Most of these problems are automatically handled by the AJP protocol
+and the AJP connectors of the backend. The AJP protocol transports
+this communication metadata and the backend connector presents this
+metadata whenever the application asks for it using Servlet API methods.
+</p>
+<p>The following list contains the communication metadata handled by AJP
+and the ServletRequest/HttpServletRequest API calls which can be used to retrieve them:
+<ul>
+<li>local name: <b class="code">getLocalName()</b> and <b class="code">getLocalAddr</b>.
+This is also equal to <b class="code">getServerName()</b>, unless a <b class="code">Host</b> header
+is contained in the request. In this case the server name is taken from that header.
+</li>
+<li>local port: <b class="code">getLocalPort()</b>
+This is also equal to <b class="code">getServerPort()</b>, unless a <b class="code">Host</b> header
+is contained in the request. In this case the server port is taken from that header
+if it contains an explicit port, or is equal to the default port of the scheme used.
+</li>
+<li>client address: <b class="code">getRemoteAddr()</b>
+</li>
+<li>client port: <b class="code">getRemotePort()</b>
+The remote port was initially not supported. It is available when using mod_jk 1.2.32
+with Apache or IIS (not for the NSAPI plugin) together with Tomcat version at least
+5.5.28, 6.0.20 or 7.0.0. For older versions, <b class="code">getRemotePort()</b>
+will incorrectly return 0 or -1. As a workaround you can forward the remote port by setting
+<b class="code">JkEnvVar REMOTE_PORT</b> and then either using
+<b class="code">request.getAttribute("REMOTE_PORT")</b> instead of <b class="code">getRemotePort()</b>
+or wrapping the request using a filter and overriding <b class="code">getRemotePort()</b> with
+<b class="code">request.getAttribute("REMOTE_PORT")</b>.
+</li>
+<li>client host: <b class="code">getRemoteHost()</b>
+</li>
+<li>authentication type: <b class="code">getAuthType()</b>
+</li>
+<li>remote user: <b class="code">getRemoteUser()</b>,
+if <b class="code">tomcatAuthentication="false"</b>
+</li>
+<li>protocol: <b class="code">getProtocol()</b>
+</li>
+<li>HTTP method: <b class="code">getMethod()</b>
+</li>
+<li>URI: <b class="code">getRequestURI()</b>
+</li>
+<li>HTTPS used: <b class="code">isSecure()</b>, <b class="code">getScheme()</b>
+</li>
+<li>query string: <b class="code">getQueryString()</b>
+</li>
+</ul>
+The following additional SSL-related data will be made available by Apache and forwarded by mod_jk only
+if you set <b class="code">SSLOptions +StdEnvVars</b>. For the certificate information you also need
+to set <b class="code">SSLOptions +ExportCertData</b>.
+<ul>
+<li>SSL cipher: <b class="code">getAttribute(javax.servlet.request.cipher_suite)</b>
+</li>
+<li>SSL key size: <b class="code">getAttribute(javax.servlet.request.key_size)</b>.
+Can be disabled using <b class="code">JkOptions -ForwardKeySize</b>.
+</li>
+<li>SSL client certificate: <b class="code">getAttribute(javax.servlet.request.X509Certificate)</b>.
+If you want the whole certificate chain, then you need to also set <b class="code">JkOptions ForwardSSLCertChain</b>.
+It is likely, that in this case you also need to adjust the maximal AJP packet size
+using the worker attribute <a href="../reference/workers.html">max_packet_size</a>.
+</li>
+<li>SSL session ID: <b class="code">getAttribute(javax.servlet.request.ssl_session)</b>.
+This is for Tomcat, it has not yet been standardized.
+</li>
+</ul>
+</p>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Fine Tuning"><strong>Fine Tuning</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>In some situations this is not enough though. Assume there is another
+less clever reverse proxy in front of your web server, for instance an
+HTTP load balancer or similar device which also serves as an SSL accelerator.
+</p>
+<p>Then you are sure that all your clients use HTTPS, but your web server doesn't
+know about that. All it can see is requests coming from the accelerator using
+plain HTTP.
+</p>
+<p>Another example would be a simple reverse proxy in front of your web server,
+so that the client IP address that your web server sees is always the IP address
+of this reverse proxy, and not of the original client. Often such reverse proxies
+generate an additional HTTP header, like <b class="code">X-Forwareded-for</b> which
+contains the original client IP address (or a list of IP addresses, if there are
+more cascading reverse proxies in front). It would be nice, if we could use the
+content of such a header as the client IP address to pass to the backend.
+</p>
+<p>So we might need to manipulate some of the data that AJP sends to the backend.
+When using mod_jk inside Apache httpd you can use several httpd environment
+variables to let mod_jk know, which data it should forward. These environment variables
+can be set by the httpd directives SetEnv or SetEnvIf, but also in a very flexible
+way using mod_rewrite (since httpd 2.x it can not only test against environment
+variables, but also set them).
+</p>
+<p>The following list contains all environment variables mod_jk checks, before
+sending data to the backend:
+<ul>
+<li>JK_LOCAL_NAME: the local name
+</li>
+<li>JK_LOCAL_PORT: the local port
+</li>
+<li>JK_REMOTE_HOST: the client host
+</li>
+<li>JK_REMOTE_ADDR: the client address
+</li>
+<li>JK_AUTH_TYPE: the authentication type
+</li>
+<li>JK_REMOTE_USER: the remote user
+</li>
+<li>HTTPS: On (case-insensitive) to indicate, that HTTPS is used
+</li>
+<li>SSL_CIPHER: the SSL cipher
+</li>
+<li>SSL_CIPHER_USEKEYSIZE: the SSL key size
+</li>
+<li>SSL_CLIENT_CERT: the SSL client certificate
+</li>
+<li>SSL_CLIENT_CERT_CHAIN_: prefix of variable names, containing
+the client cerificate chain
+</li>
+<li>SSL_SESSION_ID: the SSL session ID
+</li>
+</ul>
+</p>
+<p>Remember: in general you don't need to set them. The module retrieves the data automatically
+from the web server. Only in case you want to change this data, you can overwrite it by
+using these variables.
+</p>
+<p>Some of these variables might also be used by other web server modules. All
+variables whose name does not begin with "JK" are set directly by Apache httpd.
+If you want to change the data, but do not want to negatively influence the behaviour
+of other modules, you can change the names of all variables mod_jk uses to private ones.
+For the details see the <a href="../reference/apache.html">Apache reference</a> page.
+</p>
+<p>All variables, that are not SSL-related have only been introduced in version 1.2.27.
+</p>
+<p>Finally there is a shortcut to forward the local IP of the web server as the remote IP.
+This can be useful, e.g. when using the Tomcat remote address valve for allowing connections
+only from registered Apache web servers. This feature is activated by setting
+<b class="code">JkOptions ForwardLocalAddress</b>.
+</p>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Tomcat AJP Connector Settings"><strong>Tomcat AJP Connector Settings</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>As an alternative to using the environment variables described in the previous section
+(which do only exist when using Apache httpd), you can also configure Tomcat to overwrite
+some of the communications data forwarded by mod_jk. The AJP connector in Tomcat's <b class="code">server.xml</b>
+allows to set the <a href="http://tomcat.apache.org/tomcat-6.0-doc/config/ajp.html#Attributes">following properties</a>:
+<ul>
+<li>proxyName: server name as returned by <b class="code">getServerName()</b>
+</li>
+<li>proxyPort: server port as returned by <b class="code">getServerPort()</b>
+</li>
+<li>scheme: protocol scheme as returned by <b class="code">getScheme()</b>
+</li>
+<li>secure: set to "true", if you wish <b class="code">isSecure()</b> to return "true".
+</li>
+</ul>
+Remember: in general you don't need to set those. AJP automatically handles all cases
+where the web server running mod_jk knows the right data.
+</p>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="URL Handling"><strong>URL Handling</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="URL Rewriting"><strong>URL Rewriting</strong></a></font></td></tr><tr><td><blockquote>
+<p>Sometimes one want to change path components of the URLs under which an application
+is available. Especially if a web application is deployed as some context, say <b class="code">/myapp</b>,
+marketing prefers short URLs, so want the application to be directly available under
+<b class="code">http://www.mycompany.com/</b>. Although you can deploy the application as the so-called
+ROOT context, which will be directly available at "/", admins often prefer not to use
+the ROOT context, e.g. because only one application can be the root context (per host).
+</p>
+<p>The procedure to change the URLs in the reverse proxy is tedious, because often
+an application produces self-referential URLs, which then include the path components
+which you tried to hide to the outside world. Nevertheless, if you absolutely need to do it,
+here are the steps.
+</p>
+<p>Case A: You need to make the application available at a simple URL, but it is OK, if
+users proceed using the more complex URLs, as long as they don't have to type them in.
+That's the easy case, and if this suffices to you, you're lucky. Use a simply RedirectMatch
+for Apache httpd:
+</p>
+<div class="example"><pre>
+RedirectMatch ^/$ http://www.mycompany.com/myapp/
+</pre></div>
+<p>Your application will then be available under <b class="code">http://www.mycompany.com/</b>,
+and each visitor will be immediately redirected to the real URL
+<b class="code">http://www.mycompany.com/myapp/</b>
+</p>
+<p>Case B: You need to hide path components for all requests going to the application.
+Here's the recipe for the case, where you want to hide the first path component
+<b class="code">/myapp</b>. More complex manipulations are left as an exercise to the reader.
+First the solution for the case of Apache httpd:
+</p>
+<p>1. Use <a href="http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html"><b class="code">mod_rewrite</b></a>
+to add <b class="code">/myapp</b> to all requests before forwarding to the backend:
+</p>
+<div class="example"><pre>
+# Don't forget the PT flag! (pass through)
+RewriteRule ^/(.*) http://www.mycompany.com/myapp/$1 [PT]
+</pre></div>
+<p>2. Use <a href="http://httpd.apache.org/docs/2.2/mod/mod_headers.html"><b class="code">mod_headers</b></a>
+to rewrite any HTTP redirects your application might return. Such redirects typically contain
+the path components you want to hide, because by the HTTP standard, redirects always need to include
+the full URL, and your application is not aware of the fact, that your clients talk to it via
+some shortened URL. An HTTP redirect is done with a special response header named <b class="code">Location</b>.
+We rewrite the Location headers of our responses:
+</p>
+<div class="example"><pre>
+# Keep protocol, server and port if present,
+# but insert our webapp name before the rest of the URL
+Header edit Location ^([^/]*//[^/]*)?/(.*)$ $1/myapp/$2 
+</pre></div>
+<p>3. Use <b class="code">mod_headers</b> again, to rewrite the paths contained in any cookies,
+your application might set. Such cookie paths again might contain
+the path components you want to hide.
+A cookie is set with the HTTP response header named <b class="code">Set-Cookie</b>.
+We rewrite the Set-Cookie headers of our responses:
+</p>
+<div class="example"><pre>
+# Fix the cookie path
+Header edit Set-Cookie "^(.*; Path=/)(.*)" $1/myapp/$2 
+</pre></div>
+<p>3. Some applications might contain hard coded absolute links.
+In this case check, whether you find a configuration item for your web framework
+to configure the base URL. If not, your only chance is to parse all response
+content bodies and do search and replace. This is fragile and very resource intensive.
+If you really need to do this, you can use
+<a href="http://apache.webthing.com/mod_proxy_html/"><b class="code">mod_proxy_html</b></a>,
+<a href="http://httpd.apache.org/docs/2.2/mod/mod_substitute.html"><b class="code">mod_substitute</b></a>
+or <a href="http://blogs.sun.com/basant/entry/using_mod_sed_to_filter"><b class="code">mod_sed</b></a>
+for this task.
+</p>
+<p>If you are using Microsoft IIS as a web server, the ISAPI plugin provides a way
+of doing the first step with a builtin feature. You define a mapping file for simple prefix
+changes like this:
+</p>
+<div class="example"><pre>
+# Add a context prefix to all requests ...
+/=/myapp/
+# ... or change some prefix ...
+/oldapp/=/myapp/
+</pre></div>
+<p>and then put the name of the file in the <b class="code">rewrite_rule_file</b> entry of the registry or your
+<b class="code">isapi_redirect.properties</b> file. In you <b class="code">uriworkermap.properties</b> file, you
+still need to map the URLs as they are before rewriting!
+</p>
+<p>More complex rewrites can be done using the same file, but with regular expressions. A leading
+tilde sign '<b class="code">~</b>', indicates, that you are using a regular expression:
+</p>
+<div class="example"><pre>
+# Use a regular expression rewrite
+~/oldapps([0-9]*)/=/newapps$1/
+</pre></div>
+<p>There is no support for Steps 2 (rewriting redirect responses) or 3 (rewriting cookie paths).
+</p>
+</blockquote></td></tr></table>
+<table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#828DA6"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="URL Encoding"><strong>URL Encoding</strong></a></font></td></tr><tr><td><blockquote>
+<p>Some types of problems are triggered by the use of encoded URLs
+(see <a href="http://en.wikipedia.org/wiki/Percent-encoding">percent encoding</a>).
+For the same location there exist
+a lot of different URLs which are equivalent. The reverse proxy needs to inspect the URL in order
+to apply its own authentication rules and to decide, to which backend it should send the request
+(or whether it should handle it itself). Therefore the request URL first is normalized:
+percent encoded characters are decoded, <b class="code">/./</b> is replaced by <b class="code">/</b>,
+<b class="code">/XXX/../</b> is replaced by <b class="code">/</b> and similar manipulations of the URL are done.
+After that, the web server might apply rewrite rules to further change the URL in less obvious ways.
+Finally there is no more way to put the resulting URL in an encoding, which is "similar" to
+the one which was used for the original URL.
+</p>
+<p>
+For historical reasons, there have been several alternatives, how mod_jk and the ISAPI
+plugin encoded the resulting URL before sending it to the backend. They could be chosen via
+<b class="code">JkOptions</b> (Apache httpd) or <b class="code">uri_select</b> (ISAPI). None of those historical
+encodings are recommended, because they have either negative functionality implications or
+pose a security risk. The default encoding since version 1.2.24 is <b class="code">ForwardURIProxy</b>
+(Apache httpd) or <b class="code">proxy</b> (ISAPI) and it is strongly recommended to keep the default
+and remove all old explicit settings.
+</p>
+</blockquote></td></tr></table>
+</blockquote></td></tr></table><table border="0" cellspacing="0" cellpadding="2" width="100%"><tr><td bgcolor="#525D76"><font color="#ffffff" face="arial,helvetica.sanserif"><a name="Request Attributes"><strong>Request Attributes</strong></a></font></td></tr><tr><td><blockquote>
+<br>
+<p>
+You can also add more attributes to any request you are forwarding when using Apache httpd.
+For this use the <b class="code">JkEnvVar</b> directive (for details see the
+<a href="../reference/apache.html">Apache reference</a> page). Such request attributes can be
+retrieved on the Tomcat side via request.getAttribute(attributeName).
+Note that their names will not be listed in request.getAttributeNames()!
+</p>
+</blockquote></td></tr></table></td></tr><!--FOOTER SEPARATOR--><tr><td colspan="2"><hr noshade size="1"></td></tr><!--PAGE FOOTER--><tr><td colspan="2"><div align="center"><font color="#525D76" size="-1"><em>
+        Copyright &copy; 1999-2011, Apache Software Foundation
+        </em></font></div></td></tr></table></body></html>
