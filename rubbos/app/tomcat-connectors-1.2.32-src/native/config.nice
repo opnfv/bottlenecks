@@ -1,9 +1,0 @@
-#! /bin/sh
-#
-# Created by configure
-
-"./configure" \
-"--with-apxs=/bottlenecks/rubbos/app/apache2/bin/apxs" \
-"--enable-jni" \
-"--with-java-home=/bottlenecks/rubbos/app/jdk1.6.0_27" \
-"$@"
