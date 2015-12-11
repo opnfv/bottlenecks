@@ -24,3 +24,7 @@ setuptools*zip
 dist/
 pep8.log
 test.log
+.*.sw?
+/docs_build/
+/docs_output/
+/releng/
