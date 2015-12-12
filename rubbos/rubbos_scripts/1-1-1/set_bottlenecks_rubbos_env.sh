@@ -62,7 +62,8 @@ TOMCAT_TARBALL=apache-tomcat-5.5.17.tar.gz
 CJDBC_TARBALL=
 MYSQL_TARBALL=mysql-5.5.46-linux2.6-x86_64.tar.gz
 RUBBOS_TARBALL=RUBBoS-servlets.tar.gz
-RUBBOS_DATA_TARBALL=rubbos_data.tar.gz
+RUBBOS_DATA_TARBALL=rubbos_data.sql.tar.gz
+RUBBOS_DATA_SQL=rubbos_data.sql
 RUBBOS_DATA_TEXTFILES_TARBALL=smallDB-rubbos-modified.tgz
 
 # for MySQL
