@@ -14,21 +14,44 @@ for script in HTTPD_install.sh HTTPD_rubbos_install.sh \
 do
     scp $scp_options $script $HTTPD_HOST:/tmp
 done
-
 fi
+
+if true; then
+for script in TOMCAT1_install.sh TOMCAT1_rubbos_install.sh \
+              TOMCAT1_configure.sh TOMCAT1_rubbosSL_configure.sh \
+              TOMCAT1_ignition.sh TOMCAT1_stop.sh \
+              TOMCAT1_rubbos_uninstall.sh TOMCAT1_uninstall.sh
+do
+    scp $scp_options $script $TOMCAT1_HOST:/tmp
+done
+fi
+
 # Prepare software packages
 echo "*** prepare software packages ***"
 ./HTTPD_pkg_prepare.sh
+./TOMCAT1_pkg_prepare.sh
 
 # Install and Configure and run Apache, Tomcat, CJDBC, and MySQL
 echo "*** install scripts & configure & execute ***********************"
 
+ssh root@$TOMCAT1_HOST chmod 770 /tmp/TOMCAT1_install.sh
+ssh $TOMCAT1_HOST /tmp/TOMCAT1_install.sh
+
 ssh root@$HTTPD_HOST chmod 770 /tmp/HTTPD_install.sh
 ssh $HTTPD_HOST /tmp/HTTPD_install.sh
+
+ssh root@$TOMCAT1_HOST chmod 770 /tmp/TOMCAT1_rubbos_install.sh
+ssh $TOMCAT1_HOST /tmp/TOMCAT1_rubbos_install.sh
 
 ssh root@$HTTPD_HOST chmod 770 /tmp/HTTPD_rubbos_install.sh
 ssh $HTTPD_HOST /tmp/HTTPD_rubbos_install.sh
 
+ssh root@$TOMCAT1_HOST chmod 770 /tmp/TOMCAT1_configure.sh
+ssh $TOMCAT1_HOST /tmp/TOMCAT1_configure.sh
+
 ssh root@$HTTPD_HOST chmod 770 /tmp/HTTPD_configure.sh
 ssh $HTTPD_HOST /tmp/HTTPD_configure.sh
+
+ssh root@$TOMCAT1_HOST chmod 770 /tmp/TOMCAT1_rubbosSL_configure.sh
+ssh $TOMCAT1_HOST /tmp/TOMCAT1_rubbosSL_configure.sh
 

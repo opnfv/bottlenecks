@@ -15,10 +15,10 @@ mkdir -p $SYSSTAT_HOME
 # install sysstat
 tar xzf $SOFTWARE_HOME/$SYSSTAT_TARBALL --directory=$RUBBOS_APP
 
-cd $SYSSTAT_HOME
-./configure --prefix=$SYSSTAT_HOME
-make
-sudo make install
+#cd $SYSSTAT_HOME
+#./configure --prefix=$SYSSTAT_HOME
+#make
+#sudo make install
 
 # install a script to collect statistics data
 cp $OUTPUT_HOME/rubbos_conf/cpu_mem.sh $RUBBOS_APP/.
