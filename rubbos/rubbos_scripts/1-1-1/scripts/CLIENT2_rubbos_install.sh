@@ -5,7 +5,10 @@ source set_bottlenecks_rubbos_env.sh
 
 echo "INSTALLING RUBBOS/SYSSTAT on $HOSTNAME"
 
+if [ ! -d "$RUBBOS_APP" ]; then
 mkdir -p $RUBBOS_APP
+chmod 755 $RUBBOS_APP
+fi
 
 # install RUBBoS
 tar xzf $SOFTWARE_HOME/$RUBBOS_TARBALL --directory=$RUBBOS_APP

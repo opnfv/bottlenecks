@@ -7,4 +7,4 @@ cd $SYSSTAT_HOME
 sudo make uninstall
 sudo rm -rf $SYSSTAT_HOME
 rm -rf $RUBBOS_HOME
-rm -rf $ELBA_TOP
+#rm -rf $ELBA_TOP
