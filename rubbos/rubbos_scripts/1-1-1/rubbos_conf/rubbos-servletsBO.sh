@@ -24,8 +24,8 @@ cd ..
 
 # Browse only
 
-cp -fi ./workload/browse_only_transitions.txt ./workload/user_transitions.txt
-cp -fi ./workload/browse_only_transitions.txt ./workload/author_transitions.txt
+cp -fin ./workload/browse_only_transitions.txt ./workload/user_transitions.txt
+cp -fin ./workload/browse_only_transitions.txt ./workload/author_transitions.txt
 
 scp ./workload/browse_only_transitions.txt ${CLIENT1_HOST}:${RUBBOS_HOME}/workload/user_transitions.txt
 scp ./workload/browse_only_transitions.txt ${CLIENT1_HOST}:${RUBBOS_HOME}/workload/author_transitions.txt
