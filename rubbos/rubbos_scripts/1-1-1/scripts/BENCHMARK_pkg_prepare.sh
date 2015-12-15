@@ -13,6 +13,7 @@ ssh $BENCHMARK_HOST "
     apt-get update
     apt-get install -y \
         gcc \
+        gettext \
         g++ \
         make
 "
