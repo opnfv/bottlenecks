@@ -6,6 +6,8 @@ echo "*** scp scripts *************************************************"
 
 scp_options="-o StrictHostKeyChecking=no -o BatchMode=yes"
 
+scp $scp_options CONTROL_rubbos_exec.sh  $CONTROL_HOST:/tmp
+
 if true; then
 for script in BENCHMARK_rubbos_install.sh BENCHMARK_install.sh \
               BENCHMARK_configure.sh BENCHMARK_uninstall.sh \
@@ -132,4 +134,6 @@ done
 
 ssh root@$TOMCAT1_HOST chmod 770 /tmp/TOMCAT1_rubbosSL_configure.sh
 ssh $TOMCAT1_HOST /tmp/TOMCAT1_rubbosSL_configure.sh
+
+ssh $CONTROL_HOST /tmp/CONTROL_rubbos_exec.sh
 

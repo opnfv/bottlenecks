@@ -14,7 +14,7 @@ ssh $BENCHMARK_HOST "
   mkdir -p $TMP_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME
 "
 
-#for i in "rubbos.properties_200" "rubbos.properties_300" "rubbos.properties_400" "rubbos.properties_500" "rubbos.properties_600" "rubbos.properties_700" "rubbos.properties_800" "rubbos.properties_900" "rubbos.properties_1000" "rubbos.properties_1100" "rubbos.properties_1200" "rubbos.properties_1300" "rubbos.properties_1400" "rubbos.properties_1500" "rubbos.properties_1600" "rubbos.properties_1700"
+#TODO use for loop to genrate rubbos.properties file 200 ~ 1700
 for i in "rubbos.properties_200"
 do
 
@@ -24,8 +24,8 @@ do
   "
   scp $OUTPUT_HOME/rubbos_conf/$i $BENCHMARK_HOST:$RUBBOS_HOME/Client/rubbos.properties
 
-  echo "Resetting all data"
-  $OUTPUT_HOME/scripts/reset_all.sh
+  #echo "Resetting all data"
+  #$OUTPUT_HOME/scripts/reset_all.sh
 
   # Browsing Only
   echo "Start Browsing Only with $i"
@@ -34,8 +34,8 @@ do
   ssh $TOMCAT1_HOST "rm -f $CATALINA_HOME/logs/*"
   ssh $MYSQL1_HOST "rm -f $MYSQL_HOME/run/*.log $RUBBOS_APP/mysql_mon-*"
 
-  $OUTPUT_HOME/scripts/start_all.sh
-  sleep 15
+  #$OUTPUT_HOME/scripts/start_all.sh
+  #sleep 15
 
   ssh $BENCHMARK_HOST "rm -f $RUBBOS_APP/sar-* $RUBBOS_APP/ps-* $RUBBOS_APP/iostat-*"
   ssh $CLIENT1_HOST "rm -f $RUBBOS_APP/sar-* $RUBBOS_APP/ps-* $RUBBOS_APP/iostat-*"
@@ -47,10 +47,10 @@ do
   ssh $MYSQL1_HOST "rm -f $RUBBOS_APP/sar-* $RUBBOS_APP/ps-* $RUBBOS_APP/iostat-*"
   ssh $MYSQL1_HOST "sudo rm -f /tmp/*.log"
   ssh root@$MYSQL1_HOST chmod 777 /tmp/oprofile_start.sh
-  ssh $MYSQL1_HOST "
-    cd /tmp
-    ./oprofile_start.sh
-  " &
+  #ssh $MYSQL1_HOST "
+  #  cd /tmp
+  #  ./oprofile_start.sh
+  #" &
 
   ssh $BENCHMARK_HOST "
     source /bottlenecks/rubbos/rubbos_scripts/1-1-1/set_bottlenecks_rubbos_env.sh
@@ -108,6 +108,8 @@ do
     mv 20* $TMP_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME/
   "
 
+  # TODO debug the rest of sciripts
+  exit 0
   #$OUTPUT_HOME/scripts/stop_all.sh
   $OUTPUT_HOME/scripts/kill_all.sh
   sleep 15
