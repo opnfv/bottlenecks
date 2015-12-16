@@ -1,0 +1,105 @@
+heat_template_version: 2015-12-15
+
+description: template to deploy a instance used for bottlenecks project
+
+parameters:
+  image:
+    type: string
+    label: Image name or ID
+    description: Image to be used for deploying instance
+    default: trusty-server-cloudimg-amd64
+  flavor:
+    type: string
+    label: Flavor
+    description: Type of instance (flavor) to be used
+    default: m1.medium
+  key:
+    type: string
+    label: Key name
+    description: Name of key-pair to be used for deploying instance
+    default: my_key
+  public_network:
+    type: string
+    label: Public network name or ID
+    description: Network to attach instance to.
+    default: public-net
+
+resources:
+  web_server_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: web_server_security_group
+      rules:
+        - protocol: tcp
+          port_range_min: 80
+          port_range_max: 80
+        - protocol: tcp
+          port_range_min: 443
+          port_range_max: 443
+        - protocol: icmp
+        - protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+  private_network:
+    type: OS::Neutron::Net
+
+  private_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: {get_resource: private_network }
+      cidr: 10.10.10.0/24
+      dns_nameservers:
+        - 8.8.8.8
+
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: public_network }
+
+  router-interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet: { get_resource: private_subnet }
+
+  floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: public_network }
+
+  floating_ip_assoc:
+    type: OS::Neutron::FloatingIPAssociation
+    properties:
+      floatingip_id: { get_resource: floating_ip }
+      port_id: { get_resource: bottlenecks_port }
+
+  bottlenecks_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: private_network }
+      security_groups:
+        - { get_resource: web_server_security_group }
+
+  bottlenecks_instance:
+    type: OS::Nova::Server
+    properties:
+      image: { get_param: image }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key }
+      networks:
+        - port: { get_resource: bottlenecks_port }
+      user_data_format: RAW
+      user_data: |
+        #!/bin/sh -ex
+
+        apt-get update
+        apt-get -y install git sshpass gcc g++ gettext make
+
+outputs:
+  instance_name:
+    description: Name of the instance
+    value: { get_attr: [bottlenecks_instance, name] }
+  instance_ip:
+    description: IP address of the deployed instance
+    value: { get_attr: [floating_ip, floating_ip_address] }
