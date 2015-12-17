@@ -22,7 +22,7 @@ fi
 ln -s $MYSQL_HOME/bin/mysql /usr/local/bin/mysql
 
 sleep 20
-
+echo "BEGIN MYSQL GIVE PRIVILEGES"
 cat << EOF | mysql -uroot
 
 CREATE DATABASE rubbos;
@@ -34,9 +34,14 @@ GRANT ALL PRIVILEGES ON rubbos.* TO 'rubbos'@'localhost' \
     IDENTIFIED BY 'rubbos';
     flush privileges;
 EOF
+echo "END MYSQL GIVE PRIVILEGES"
 
-tar xzf /tmp/$RUBBOS_DATA_TARBALL
-mysql -uroot rubbos < $RUBBOS_DATA_SQL
-rm $RUBBOS_DATA_SQL
+echo "BEGIN IMPORT SQL DATA"
+echo "software_home=$SOFTWARE_HOME"
+tar xzf $SOFTWARE_HOME/$RUBBOS_DATA_TARBALL --directory /tmp
+mysql -uroot rubbos < /tmp/$RUBBOS_DATA_SQL
+echo "END IMPORT SQL DATA"
+rm /tmp/$RUBBOS_DATA_SQL
 
 echo "DONE CONFIGURING MYSQL on $HOSTNAME"
+

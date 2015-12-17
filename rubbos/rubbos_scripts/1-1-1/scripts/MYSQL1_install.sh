@@ -13,21 +13,21 @@ mkdir -p $RUBBOS_APP
 chmod 755 $RUBBOS_APP
 
 cd /root
-groupadd bottlenecks
-useradd -r -g bottlenecks $BOTTLENECKS_USER
+groupadd mysql
+useradd -r -g mysql $BOTTLENECKS_USER
 tar xzf $SOFTWARE_HOME/$MYSQL_TARBALL --directory=$RUBBOS_APP
 cd /usr/local
 ln -s $MYSQL_HOME mysql
 cd mysql
 chown -R $BOTTLENECKS_USER .
-chgrp -R bottlenecks .
+chgrp -R mysql .
 #scripts/mysql_install_db --verbose --user=$BOTTLENECKS_USER --basedir=$MYSQL_HOME --datadir=$MYSQL_DATA_DIR
 scripts/mysql_install_db --user=$BOTTLENECKS_USER
 chown -R root .
-chown -R $BOTTLENECKS_USER data 
-  
+chown -R $BOTTLENECKS_USER data
+
 #echo "begin install mysql"
-#cd $MYSQL_HOME 
+#cd $MYSQL_HOME
 #scripts/mysql_install_db --no-defaults --user=root --basedir=$MYSQL_HOME --port=$MYSQL_PORT --datadir=$MYSQL_DATA_DIR --log=$MYSQL_ERR_LOG --pid-file=$MYSQL_PID_FILE --socket=$MYSQL_SOCKET
 
-echo "DONE INSTALLING MYSQL on $HOSTNAME" 
+echo "DONE INSTALLING MYSQL on $HOSTNAME"
