@@ -5,6 +5,12 @@ source set_bottlenecks_rubbos_env.sh
 
 echo "INSTALLING APACHE on $HOSTNAME"
 
+echo "Adding new user apache begin"
+useradd apache
+groupadd apache
+usermod -G apache apache
+echo "Adding new user apache end"
+
 mkdir -p $BOTTLENECKS_TOP
 chmod 755 $BOTTLENECKS_TOP
 mkdir -p $RUBBOS_TOP
