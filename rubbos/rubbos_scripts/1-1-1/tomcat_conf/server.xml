@@ -2,13 +2,13 @@
 <Server port="8005" shutdown="SHUTDOWN">
 
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
- 
+
   <!-- Global JNDI resources -->
   <GlobalNamingResources>
- 
+
     <!-- Test entry for demonstration purposes -->
     <Environment name="simpleValue" type="java.lang.Integer" value="30"/>
- 
+
     <!-- Editable user database that can also be used by
          UserDatabaseRealm to authenticate users -->
     <Resource name="UserDatabase" auth="Container"
@@ -16,29 +16,29 @@
        description="User database that can be updated and saved"
            factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
           pathname="conf/tomcat-users.xml" />
- 
+
   </GlobalNamingResources>
- 
- 
+
+
   <!-- Define the Tomcat Stand-Alone Service -->
   <Service name="Catalina">
- 
+
     <!-- A "Connector" represents an endpoint by which requests are received
          and responses are returned.  Each Connector passes requests on to the
          associated "Container" (normally an Engine) for processing.
     -->
- 
+
     <!-- Define a non-SSL HTTP/1.1 Connector on port 2117 (default 8080) -->
     <Connector port="8080" maxHttpHeaderSize="8192"
                maxThreads="330" minSpareThreads="5" maxSpareThreads="50"
                enableLookups="false" redirectPort="8443" acceptCount="6000"
                connectionTimeout="20000" disableUploadTimeout="true" />
- 
+
     <!-- Define an AJP 1.3 Connector on port 8009 -->
     <Connector port="8009"
                maxThreads="330" minSpareThreads="5" maxSpareThreads="50"
                acceptCount="6000" redirectPort="8443" protocol="AJP/1.3" />
- 
+
     <!-- Define a Proxied HTTP/1.1 Connector on port 8082 -->
     <!-- See proxy documentation for more information about using this. -->
     <!--
@@ -47,35 +47,33 @@
                enableLookups="false" acceptCount="100" connectionTimeout="20000"
                proxyPort="80" disableUploadTimeout="true" />
     -->
- 
+
     <!-- An Engine represents the entry point (within Catalina) that processes
          every request.  The Engine implementation for Tomcat stand alone
          analyzes the HTTP headers included with the request, and passes them
          on to the appropriate Host (virtual host). -->
-      
+
     <!-- Define the top level container in our container hierarchy -->
     <Engine jvmRoute="TOMCAT1" name="Catalina" defaultHost="localhost">
- 
+
       <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
              resourceName="UserDatabase"/>
- 
+
       <!-- Define the default virtual host -->
- 
+
       <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true">
 
    <!--    <Context path="" docBase="webapps" debug="0" reloadable="true"/> -->
- 
+
         <Valve className="org.apache.catalina.valves.AccessLogValve"
                  directory="logs"  prefix="localhost_access_log." suffix=".txt"
                  pattern="common" resolveHosts="false"/>
       </Host>
- 
- 
+
+
     </Engine>
- 
+
   </Service>
- 
+
 </Server>
-
-
 

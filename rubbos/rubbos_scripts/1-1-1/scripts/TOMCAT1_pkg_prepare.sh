@@ -39,7 +39,7 @@ fi
 # Packages for TOMCAT1 configure
 if true; then
 ssh $TOMCAT1_HOST "mkdir -p $OUTPUT_HOME/tomcat_conf"
-scp $scp_options $OUTPUT_HOME/tomcat_conf/server.xml-$HOSTNAME $TOMCAT1_HOST:$OUTPUT_HOME/tomcat_conf/server.xml-$HOSTNAME
+scp $scp_options $OUTPUT_HOME/tomcat_conf/server.xml $TOMCAT1_HOST:$OUTPUT_HOME/tomcat_conf/server.xml
 fi
 
 # Packages for TOMCAT1 rubbosSL configure
