@@ -19,40 +19,33 @@
 
 #setenv SERVLETDIR $RUBBOS_HOME/Servlets
 
+set -x
+
 # Go back to RUBBoS root directory
 cd ..
+
+export scp_options='-o StrictHostKeyChecking=no -o BatchMode=yes'
 
 # Browse only
 
 cp -fin ./workload/browse_only_transitions.txt ./workload/user_transitions.txt
 cp -fin ./workload/browse_only_transitions.txt ./workload/author_transitions.txt
 
-scp ./workload/browse_only_transitions.txt ${CLIENT1_HOST}:${RUBBOS_HOME}/workload/user_transitions.txt
-scp ./workload/browse_only_transitions.txt ${CLIENT1_HOST}:${RUBBOS_HOME}/workload/author_transitions.txt
+for host in ${CLIENT1_HOST} ${CLIENT2_HOST} ${CLIENT3_HOST} ${CLIENT4_HOST}
+do
+    scp ${scp_options} ./workload/browse_only_transitions.txt ${host}:${RUBBOS_HOME}/workload/user_transitions.txt
+    scp ${scp_options} ./workload/browse_only_transitions.txt ${host}:${RUBBOS_HOME}/workload/author_transitions.txt
+    scp ${scp_options} Client/rubbos.properties ${host}:${RUBBOS_HOME}/Client/rubbos.properties
+done
 
-scp ./workload/browse_only_transitions.txt ${CLIENT2_HOST}:${RUBBOS_HOME}/workload/user_transitions.txt
-scp ./workload/browse_only_transitions.txt ${CLIENT2_HOST}:${RUBBOS_HOME}/workload/author_transitions.txt
-
-scp ./workload/browse_only_transitions.txt ${CLIENT3_HOST}:${RUBBOS_HOME}/workload/user_transitions.txt
-scp ./workload/browse_only_transitions.txt ${CLIENT3_HOST}:${RUBBOS_HOME}/workload/author_transitions.txt
-
-scp ./workload/browse_only_transitions.txt ${CLIENT4_HOST}:${RUBBOS_HOME}/workload/user_transitions.txt
-scp ./workload/browse_only_transitions.txt ${CLIENT4_HOST}:${RUBBOS_HOME}/workload/author_transitions.txt
-
-scp Client/rubbos.properties ${CLIENT1_HOST}:${RUBBOS_HOME}/Client/rubbos.properties
-scp Client/rubbos.properties ${CLIENT2_HOST}:${RUBBOS_HOME}/Client/rubbos.properties
-scp Client/rubbos.properties ${CLIENT3_HOST}:${RUBBOS_HOME}/Client/rubbos.properties
-scp Client/rubbos.properties ${CLIENT4_HOST}:${RUBBOS_HOME}/Client/rubbos.properties
-
-
-bench/flush_cache 490000
-ssh $HTTPD_HOST "$RUBBOS_HOME/bench/flush_cache 880000"       # web server
-ssh $MYSQL1_HOST "$RUBBOS_HOME/bench/flush_cache 880000"       # database server
-ssh $TOMCAT1_HOST "$RUBBOS_HOME/bench/flush_cache 780000"       # servlet server
-ssh $CLIENT1_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
-ssh $CLIENT2_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
-ssh $CLIENT3_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
-ssh $CLIENT4_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
+#bench/flush_cache 490000
+#ssh $HTTPD_HOST "$RUBBOS_HOME/bench/flush_cache 880000"       # web server
+#ssh $MYSQL1_HOST "$RUBBOS_HOME/bench/flush_cache 880000"       # database server
+#ssh $TOMCAT1_HOST "$RUBBOS_HOME/bench/flush_cache 780000"       # servlet server
+#ssh $CLIENT1_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
+#ssh $CLIENT2_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
+#ssh $CLIENT3_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
+#ssh $CLIENT4_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
 
 RAMPUP=480000
 MI=720000
@@ -61,15 +54,14 @@ start_seconds=`echo \( $RAMPUP / 1000 \) + $current_seconds - 60 | bc`
 SMI=`date -d "1970-01-01 $start_seconds secs UTC" +%Y%m%d%H%M%S`
 end_seconds=`echo \( $RAMPUP / 1000 + $MI / 1000 + 30 \) + $current_seconds | bc`
 EMI=`date -d "1970-01-01 $end_seconds secs UTC" +%Y%m%d%H%M%S`
-ssh $BENCHMARK_HOST "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
-ssh $CLIENT1_HOST "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
-ssh $CLIENT2_HOST "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
-ssh $CLIENT3_HOST "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
-ssh $CLIENT4_HOST "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
-ssh $HTTPD_HOST "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
-ssh $TOMCAT1_HOST "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
-ssh $MYSQL1_HOST "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
 
+for host in $BENCHMARK_HOST $CLIENT1_HOST $CLIENT2_HOST $CLIENT3_HOST \
+            $CLIENT4_HOST $HTTPD_HOST $TOMCAT1_HOST $MYSQL1_HOST
+do
+    ssh $scp_options $host "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
+done
 
 make emulator
+
+set -x
 
