@@ -1,3 +1,6 @@
+#!/bin/bash
+set -x
+
 cd /bottlenecks/rubbos/rubbos_scripts/1-1-1
 source set_bottlenecks_rubbos_env.sh
 cd /bottlenecks/rubbos/rubbos_scripts/1-1-1/scripts
@@ -137,3 +140,4 @@ ssh $TOMCAT1_HOST /tmp/TOMCAT1_rubbosSL_configure.sh
 
 ssh $CONTROL_HOST /tmp/CONTROL_rubbos_exec.sh
 
+set +x
