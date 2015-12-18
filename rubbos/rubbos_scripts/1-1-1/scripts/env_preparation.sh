@@ -10,7 +10,7 @@
 
 set -e
 
-RELENG_REPO= https://gerrit.opnfv.org/gerrit/releng
+RELENG_REPO=https://gerrit.opnfv.org/gerrit/releng
 RELENG_REPO_DIR=/home/opnfv/repos/releng
 RELENG_BRANCH=master # branch, tag, sha1 or refspec
 
