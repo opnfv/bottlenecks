@@ -9,15 +9,6 @@ if true; then
 ssh $CLIENT4_HOST "mkdir -p /bottlenecks/rubbos/rubbos_scripts/1-1-1"
 scp $scp_options ../set_bottlenecks_rubbos_env.sh $CLIENT4_HOST:/bottlenecks/rubbos/rubbos_scripts/1-1-1
 
-ssh $CLIENT4_HOST "
-    apt-get update
-    apt-get install -y \
-        gcc \
-        gettext \
-        g++ \
-        make
-"
-
 ssh $CLIENT4_HOST "mkdir -p $SOFTWARE_HOME"
 scp $scp_options $SOFTWARE_HOME/$RUBBOS_TARBALL $CLIENT4_HOST:$SOFTWARE_HOME/$RUBBOS_TARBALL
 scp $scp_options $SOFTWARE_HOME/flush_cache $CLIENT4_HOST:$SOFTWARE_HOME/flush_cache
