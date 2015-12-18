@@ -11,16 +11,6 @@ scp $scp_options ../set_bottlenecks_rubbos_env.sh $HTTPD_HOST:/bottlenecks/rubbo
 
 ssh $HTTPD_HOST "mkdir -p $SOFTWARE_HOME"
 scp $scp_options $SOFTWARE_HOME/$HTTPD_TARBALL $HTTPD_HOST:$SOFTWARE_HOME/$HTTPD_TARBALL
-
-ssh $HTTPD_HOST "
-    apt-get update
-    apt-get install -y \
-        gcc \
-        gettext \
-        g++ \
-        make
-"
-
 scp $scp_options $SOFTWARE_HOME/$MOD_JK_TARBALL $HTTPD_HOST:$SOFTWARE_HOME/$MOD_JK_TARBALL
 scp $scp_options $SOFTWARE_HOME/$JAVA_TARBALL $HTTPD_HOST:$SOFTWARE_HOME/$JAVA_TARBALL
 

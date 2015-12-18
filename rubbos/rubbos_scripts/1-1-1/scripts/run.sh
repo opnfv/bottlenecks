@@ -114,7 +114,8 @@ do
 done
 
 ssh root@$MYSQL1_HOST chmod 770 /tmp/MYSQL1_configure.sh
-ssh $MYSQL1_HOST /tmp/MYSQL1_configure.sh
+ssh $MYSQL1_HOST /tmp/MYSQL1_configure.sh &
+sleep 60
 
 ssh root@$TOMCAT1_HOST chmod 770 /tmp/TOMCAT1_configure.sh
 ssh $TOMCAT1_HOST /tmp/TOMCAT1_configure.sh
