@@ -1,7 +1,10 @@
 #!/bin/bash
 
+set -x
+
 cd /bottlenecks/rubbos/rubbos_scripts/1-1-1
 source set_bottlenecks_rubbos_env.sh
+export scp_options='-o StrictHostKeyChecking=no -o BatchMode=yes'
 
 scp $WORK_HOME/monitors_files/oprofile_start.sh $MYSQL1_HOST:/tmp/
 
@@ -35,7 +38,7 @@ do
   ssh $MYSQL1_HOST "rm -f $MYSQL_HOME/run/*.log $RUBBOS_APP/mysql_mon-*"
 
   #$OUTPUT_HOME/scripts/start_all.sh
-  #sleep 15
+  sleep 15
 
   ssh $BENCHMARK_HOST "rm -f $RUBBOS_APP/sar-* $RUBBOS_APP/ps-* $RUBBOS_APP/iostat-*"
   ssh $CLIENT1_HOST "rm -f $RUBBOS_APP/sar-* $RUBBOS_APP/ps-* $RUBBOS_APP/iostat-*"
@@ -45,8 +48,8 @@ do
   ssh $HTTPD_HOST "rm -f $RUBBOS_APP/sar-* $RUBBOS_APP/ps-* $RUBBOS_APP/iostat-*"
   ssh $TOMCAT1_HOST "rm -f $RUBBOS_APP/sar-* $RUBBOS_APP/ps-* $RUBBOS_APP/iostat-*"
   ssh $MYSQL1_HOST "rm -f $RUBBOS_APP/sar-* $RUBBOS_APP/ps-* $RUBBOS_APP/iostat-*"
-  ssh $MYSQL1_HOST "sudo rm -f /tmp/*.log"
-  ssh root@$MYSQL1_HOST chmod 777 /tmp/oprofile_start.sh
+  ssh $MYSQL1_HOST "rm -f /tmp/*.log"
+  ssh $MYSQL1_HOST chmod 777 /tmp/oprofile_start.sh
   #ssh $MYSQL1_HOST "
   #  cd /tmp
   #  ./oprofile_start.sh
@@ -54,6 +57,7 @@ do
 
   ssh $BENCHMARK_HOST "
     source /bottlenecks/rubbos/rubbos_scripts/1-1-1/set_bottlenecks_rubbos_env.sh
+
     cd $RUBBOS_HOME/bench
     \rm -r 20*
 
@@ -64,46 +68,47 @@ do
     # Collect results
     echo "The benchmark has finished. Now, collecting results..."
     cd 20*
-    scp $BENCHMARK_HOST:$RUBBOS_APP/sar-* ./
-    scp $BENCHMARK_HOST:$RUBBOS_APP/ps-* ./
-    scp $BENCHMARK_HOST:$RUBBOS_APP/iostat-* ./
-    scp $BENCHMARK_HOST:$RUBBOS_APP/mysql_mon-* ./
-    scp $BENCHMARK_HOST:$RUBBOS_APP/postgres_lock-* ./
-    scp $CLIENT1_HOST:$RUBBOS_APP/sar-* ./
-    scp $CLIENT1_HOST:$RUBBOS_APP/ps-* ./
-    scp $CLIENT1_HOST:$RUBBOS_APP/iostat-* ./
-    scp $CLIENT1_HOST:$RUBBOS_APP/mysql_mon-* ./
-    scp $CLIENT1_HOST:$RUBBOS_APP/postgres_lock-* ./
-    scp $CLIENT2_HOST:$RUBBOS_APP/sar-* ./
-    scp $CLIENT2_HOST:$RUBBOS_APP/ps-* ./
-    scp $CLIENT2_HOST:$RUBBOS_APP/iostat-* ./
-    scp $CLIENT2_HOST:$RUBBOS_APP/mysql_mon-* ./
-    scp $CLIENT2_HOST:$RUBBOS_APP/postgres_lock-* ./
-    scp $CLIENT3_HOST:$RUBBOS_APP/sar-* ./
-    scp $CLIENT3_HOST:$RUBBOS_APP/ps-* ./
-    scp $CLIENT3_HOST:$RUBBOS_APP/iostat-* ./
-    scp $CLIENT3_HOST:$RUBBOS_APP/mysql_mon-* ./
-    scp $CLIENT3_HOST:$RUBBOS_APP/postgres_lock-* ./
-    scp $CLIENT4_HOST:$RUBBOS_APP/sar-* ./
-    scp $CLIENT4_HOST:$RUBBOS_APP/ps-* ./
-    scp $CLIENT4_HOST:$RUBBOS_APP/iostat-* ./
-    scp $CLIENT4_HOST:$RUBBOS_APP/mysql_mon-* ./
-    scp $CLIENT4_HOST:$RUBBOS_APP/postgres_lock-* ./
-    scp $HTTPD_HOST:$RUBBOS_APP/sar-* ./
-    scp $HTTPD_HOST:$RUBBOS_APP/ps-* ./
-    scp $HTTPD_HOST:$RUBBOS_APP/iostat-* ./
-    scp $HTTPD_HOST:$RUBBOS_APP/mysql_mon-* ./
-    scp $HTTPD_HOST:$RUBBOS_APP/postgres_lock-* ./
-    scp $TOMCAT1_HOST:$RUBBOS_APP/sar-* ./
-    scp $TOMCAT1_HOST:$RUBBOS_APP/ps-* ./
-    scp $TOMCAT1_HOST:$RUBBOS_APP/iostat-* ./
-    scp $TOMCAT1_HOST:$RUBBOS_APP/mysql_mon-* ./
-    scp $TOMCAT1_HOST:$RUBBOS_APP/postgres_lock-* ./
-    scp $MYSQL1_HOST:$RUBBOS_APP/sar-* ./
-    scp $MYSQL1_HOST:$RUBBOS_APP/ps-* ./
-    scp $MYSQL1_HOST:$RUBBOS_APP/iostat-* ./
-    scp $MYSQL1_HOST:$RUBBOS_APP/mysql_mon-* ./
-    scp $MYSQL1_HOST:$RUBBOS_APP/postgres_lock-* ./
+    echo $scp_options $BENCHMARK_HOST:$RUBBOS_APP
+    scp $scp_options $BENCHMARK_HOST:$RUBBOS_APP/sar-* ./
+    scp $scp_options $BENCHMARK_HOST:$RUBBOS_APP/ps-* ./
+    scp $scp_options $BENCHMARK_HOST:$RUBBOS_APP/iostat-* ./
+    scp $scp_options $BENCHMARK_HOST:$RUBBOS_APP/mysql_mon-* ./
+    scp $scp_options $BENCHMARK_HOST:$RUBBOS_APP/postgres_lock-* ./
+    scp $scp_options $CLIENT1_HOST:$RUBBOS_APP/sar-* ./
+    scp $scp_options $CLIENT1_HOST:$RUBBOS_APP/ps-* ./
+    scp $scp_options $CLIENT1_HOST:$RUBBOS_APP/iostat-* ./
+    scp $scp_options $CLIENT1_HOST:$RUBBOS_APP/mysql_mon-* ./
+    scp $scp_options $CLIENT1_HOST:$RUBBOS_APP/postgres_lock-* ./
+    scp $scp_options $CLIENT2_HOST:$RUBBOS_APP/sar-* ./
+    scp $scp_options $CLIENT2_HOST:$RUBBOS_APP/ps-* ./
+    scp $scp_options $CLIENT2_HOST:$RUBBOS_APP/iostat-* ./
+    scp $scp_options $CLIENT2_HOST:$RUBBOS_APP/mysql_mon-* ./
+    scp $scp_options $CLIENT2_HOST:$RUBBOS_APP/postgres_lock-* ./
+    scp $scp_options $CLIENT3_HOST:$RUBBOS_APP/sar-* ./
+    scp $scp_options $CLIENT3_HOST:$RUBBOS_APP/ps-* ./
+    scp $scp_options $CLIENT3_HOST:$RUBBOS_APP/iostat-* ./
+    scp $scp_options $CLIENT3_HOST:$RUBBOS_APP/mysql_mon-* ./
+    scp $scp_options $CLIENT3_HOST:$RUBBOS_APP/postgres_lock-* ./
+    scp $scp_options $CLIENT4_HOST:$RUBBOS_APP/sar-* ./
+    scp $scp_options $CLIENT4_HOST:$RUBBOS_APP/ps-* ./
+    scp $scp_options $CLIENT4_HOST:$RUBBOS_APP/iostat-* ./
+    scp $scp_options $CLIENT4_HOST:$RUBBOS_APP/mysql_mon-* ./
+    scp $scp_options $CLIENT4_HOST:$RUBBOS_APP/postgres_lock-* ./
+    scp $scp_options $HTTPD_HOST:$RUBBOS_APP/sar-* ./
+    scp $scp_options $HTTPD_HOST:$RUBBOS_APP/ps-* ./
+    scp $scp_options $HTTPD_HOST:$RUBBOS_APP/iostat-* ./
+    scp $scp_options $HTTPD_HOST:$RUBBOS_APP/mysql_mon-* ./
+    scp $scp_options $HTTPD_HOST:$RUBBOS_APP/postgres_lock-* ./
+    scp $scp_options $TOMCAT1_HOST:$RUBBOS_APP/sar-* ./
+    scp $scp_options $TOMCAT1_HOST:$RUBBOS_APP/ps-* ./
+    scp $scp_options $TOMCAT1_HOST:$RUBBOS_APP/iostat-* ./
+    scp $scp_options $TOMCAT1_HOST:$RUBBOS_APP/mysql_mon-* ./
+    scp $scp_options $TOMCAT1_HOST:$RUBBOS_APP/postgres_lock-* ./
+    scp $scp_options $MYSQL1_HOST:$RUBBOS_APP/sar-* ./
+    scp $scp_options $MYSQL1_HOST:$RUBBOS_APP/ps-* ./
+    scp $scp_options $MYSQL1_HOST:$RUBBOS_APP/iostat-* ./
+    scp $scp_options $MYSQL1_HOST:$RUBBOS_APP/mysql_mon-* ./
+    scp $scp_options $MYSQL1_HOST:$RUBBOS_APP/postgres_lock-* ./
     cd ..
     mv 20* $TMP_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME/
   "
@@ -134,3 +139,6 @@ ssh $BENCHMARK_HOST "
 "
 
 echo "Finish RUBBoS"
+
+set +x
+
