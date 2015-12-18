@@ -15,17 +15,6 @@ ssh $MYSQL1_HOST "mkdir -p $SOFTWARE_HOME"
 scp $scp_options $SOFTWARE_HOME/$MYSQL_TARBALL $MYSQL1_HOST:$SOFTWARE_HOME/$MYSQL_TARBALL
 scp $scp_options $SOFTWARE_HOME/$RUBBOS_DATA_TARBALL $MYSQL1_HOST:$SOFTWARE_HOME/$RUBBOS_DATA_TARBALL
 
-ssh $MYSQL1_HOST "
-    apt-get update
-    apt-get install -y \
-        gcc \
-        gettext \
-        g++ \
-        libaio1 \
-        libaio-dev \
-        make
-"
-
 fi
 echo "MYSQL PREPARE DEPENDANT LIBRARY END"
 
