@@ -11,8 +11,8 @@
 set -e
 
 RELENG_REPO=https://gerrit.opnfv.org/gerrit/releng
-RELENG_REPO_DIR=/home/opnfv/repos/releng
-RELENG_BRANCH=master # branch, tag, sha1 or refspec
+RELENG_REPO_DIR=/tmp/opnfvrepo/releng
+#RELENG_BRANCH=master # branch, tag, sha1 or refspec
 
 INSTALLER_TYPE=fuel
 INSTALLER_IP=10.20.0.2
@@ -21,6 +21,10 @@ POD_NAME=opnfv-jump-2
 EXTERNAL_NET=net04_ext
 
 echo "INFO: Creating openstack credentials .."
+
+mkdir -p ${RELENG_REPO_DIR}
+git config --global http.sslVerify false
+git clone ${RELENG_REPO} ${RELENG_REPO_DIR} 
 
 # Create openstack credentials
 $RELENG_REPO_DIR/utils/fetch_os_creds.sh \
