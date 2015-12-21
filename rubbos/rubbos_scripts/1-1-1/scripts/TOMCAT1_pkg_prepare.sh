@@ -11,15 +11,6 @@ scp $scp_options ../set_bottlenecks_rubbos_env.sh $TOMCAT1_HOST:/bottlenecks/rub
 
 ssh $TOMCAT1_HOST "mkdir -p $SOFTWARE_HOME"
 
-ssh $TOMCAT1_HOST "
-    apt-get update
-    apt-get install -y \
-        gcc \
-        gettext \
-        g++ \
-        make
-"
-
 for i in $TOMCAT_TARBALL $JAVA_TARBALL $J2EE_TARBALL $ANT_TARBALL
 do
     scp $scp_options $SOFTWARE_HOME/$i $TOMCAT1_HOST:$SOFTWARE_HOME/$i
