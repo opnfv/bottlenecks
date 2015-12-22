@@ -22,6 +22,9 @@ EXTERNAL_NET=net04_ext
 
 echo "INFO: Creating openstack credentials .."
 
+if [ -d $RELENG_REPO_DIR ]; then
+    rm -rf ${RELENG_REPO_DIR}
+fi
 mkdir -p ${RELENG_REPO_DIR}
 git config --global http.sslVerify false
 git clone ${RELENG_REPO} ${RELENG_REPO_DIR}
