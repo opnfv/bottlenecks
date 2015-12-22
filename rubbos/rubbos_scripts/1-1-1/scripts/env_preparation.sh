@@ -8,7 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-set -e
+set -ex
 
 RELENG_REPO=https://gerrit.opnfv.org/gerrit/releng
 RELENG_REPO_DIR=/tmp/opnfvrepo/releng
@@ -47,3 +47,4 @@ if [ "$INSTALLER_TYPE" == "fuel" ]; then
 fi
 
 export EXTERNAL_NET INSTALLER_TYPE POD_NAME
+set +ex

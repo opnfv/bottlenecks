@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 bottlenecks_create_instance()
 {
@@ -106,6 +106,7 @@ main()
    PUBLIC_NET_NAME=net04_ext
    #need FIX
    #IMAGE_FILE_NAME=""
+   source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
 
    #bottlenecks_cleanup
    #bottlenecks_build_image
@@ -114,3 +115,5 @@ main()
 }
 
 main
+set +ex
+
