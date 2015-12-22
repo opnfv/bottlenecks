@@ -6,9 +6,15 @@ bottlenecks_create_instance()
 {
    echo "create bottlenecks instance using heat template"
 
+   if [ -d $BOTTLENECKS_REPO_DIR ]; then
+       rm -rf ${BOTTLENECKS_REPO_DIR}
+   fi
+
    mkdir -p ${BOTTLENECKS_REPO_DIR}
    git config --global http.sslVerify false
    git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
+
+   source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
 
    echo "upload keypair"
    nova keypair-add --pub_key $KEY_PATH/bottleneck_key.pub $KEY_NAME
@@ -33,9 +39,6 @@ bottlenecks_cleanup()
        echo "clean up image $image"
        glance image-delete $iamge || true
    done
-
-   #FIX ME
-   #nova flavor-delete yardstick-flavor &> /dev/null || true
 }
 
 bottlenecks_build_image()
@@ -49,16 +52,18 @@ bottlenecks_load_cirros_image()
 {
    echo "load bottlenecks cirros image"
 
-   local image_file=/home/opnfv/images/cirros-0.3.3-x86_64-disk.img
+   wget http://download.cirros-cloud.net/0.3.3/cirros-0.3.3-x86_64-disk.img -O /tmp/cirros.img
 
    result=$(glance image-create \
        --name cirros-0.3.3 \
        --disk-format qcow2 \
        --container-format bare \
-       --file $image_file)
+       --file /tmp/cirros.img)
    echo "$result"
 
-   IMAGE_ID_CIRROS=$(echo "$output" | grep " id " | awk '{print $(NF-1)}')
+   rm -rf /tmp/cirros.img
+
+   IMAGE_ID_CIRROS=$(echo "$result" | grep " id " | awk '{print $(NF-1)}')
    if [ -z "$IMAGE_ID_CIRROS" ]; then
         echo 'failed to upload cirros image to openstack'
         exit 1
@@ -106,7 +111,6 @@ main()
    PUBLIC_NET_NAME=net04_ext
    #need FIX
    #IMAGE_FILE_NAME=""
-   source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
 
    #bottlenecks_cleanup
    #bottlenecks_build_image
