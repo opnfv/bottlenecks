@@ -39,15 +39,19 @@ bottlenecks_cleanup()
 {
    echo "clean up bottlenecks images"
 
-   if ! glance image-list; then
-       return
+   if glance image-list; then
+       for image in $(glance image-list | grep -e $IMAGE_NAME | awk '{print $2}'); do
+           echo "clean up image $image"
+           glance image-delete $image || true
+       done
    fi
 
-   #need to check
-   for image in $(glance image-list | grep -e $IMAGE_NAME | awk '{print $2}'); do
-       echo "clean up image $image"
-       glance image-delete $iamge || true
-   done
+   if nova keypair-list; then
+       for key in $(nova keypair-list | grep -e $KEY_NAME | awk '{print $2}'); do
+           echo "clean up key $key"
+           nova keypair-delete || true
+       done
+   fi
 }
 
 bottlenecks_build_image()
@@ -122,7 +126,7 @@ main()
    #IMAGE_FILE_NAME=""
 
    bottlenecks_env_prepare
-   #bottlenecks_cleanup
+   bottlenecks_cleanup
    #bottlenecks_build_image
    bottlenecks_load_cirros_image
    bottlenecks_create_instance
