@@ -36,10 +36,14 @@ fi
 # Packages for TOMCAT1 rubbosSL configure
 if true; then
 ssh $TOMCAT1_HOST "mkdir -p $OUTPUT_HOME/rubbos_conf"
+sed -e "s#REPLACE_MYSQL1_HOST#$MYSQL1_HOST#g" \
+    $OUTPUT_HOME/rubbos_conf/mysql.properties_template \
+    > $OUTPUT_HOME/rubbos_conf/mysql.properties
 for i in build.properties mysql.properties build.xml Config.java web.xml
 do
     scp $scp_options $OUTPUT_HOME/rubbos_conf/$i $TOMCAT1_HOST:$OUTPUT_HOME/rubbos_conf/$i
 done
+rm -rf $OUTPUT_HOME/rubbos_conf/mysql.properties
 
 ssh $TOMCAT1_HOST "mkdir -p $WORK_HOME/rubbos_files"
 scp $scp_options -r $WORK_HOME/rubbos_files/Servlets $TOMCAT1_HOST:$WORK_HOME/rubbos_files/Servlets

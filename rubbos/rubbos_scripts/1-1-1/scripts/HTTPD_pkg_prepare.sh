@@ -29,7 +29,13 @@ fi
 if true; then
 ssh $HTTPD_HOST "mkdir -p $OUTPUT_HOME/apache_conf"
 scp $scp_options $OUTPUT_HOME/apache_conf/httpd.conf $HTTPD_HOST:$OUTPUT_HOME/apache_conf/httpd.conf
+
+sed -e "s/REPLACE_TOMCAT1_HOST/$TOMCAT1_HOST/g" \
+    $OUTPUT_HOME/apache_conf/workers.properties_template \
+    > $OUTPUT_HOME/apache_conf/workers.properties
 scp $scp_options $OUTPUT_HOME/apache_conf/workers.properties $HTTPD_HOST:$OUTPUT_HOME/apache_conf/workers.properties
+rm -rf $OUTPUT_HOME/apache_conf/workers.properties
+
 ssh $HTTPD_HOST "mkdir -p $WORK_HOME/apache_files"
 scp $scp_options -r $WORK_HOME/apache_files/rubbos_html $HTTPD_HOST:$WORK_HOME/apache_files/rubbos_html
 fi

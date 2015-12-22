@@ -8,9 +8,9 @@
 #
 datasource.name         mysql
 
-datasource.url          jdbc:mysql://192.168.122.13:3306/rubbos
+datasource.url          jdbc:mysql://REPLACE_MYSQL1_HOST:3306/rubbos
 datasource.classname    com.mysql.jdbc.Driver
-  
+
 datasource.username     rubbos
 datasource.password     rubbos
 
