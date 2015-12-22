@@ -20,12 +20,18 @@ bottlenecks_create_instance()
    echo "create bottlenecks instance using heat template"
 
    echo "upload keypair"
-   nova keypair-add --pub_key $KEY_PATH/bottleneck_key.pub $KEY_NAME
+   nova keypair-add --pub_key $KEY_PATH/bottlenecks_key.pub $KEY_NAME
    #need FIX, only upload the public key? should be keypair
 
    echo "use heat template to create stack"
    cd $HOT_PATH
    heat stack-create bottlenecks -f ${TEMPLATE_NAME} -P "image=$IMAGE_NAME;key=$KEY_NAME;public_network=$PUBLIC_NET_NAME"
+   sleep 60
+   heat stack-list
+   heat stack-show bottlenecks
+   nova list
+   heat stack-delete bottlenecks
+
    #need FIX, use stack to create 9 VMs
 }
 
