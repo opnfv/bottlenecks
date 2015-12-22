@@ -1,6 +1,6 @@
 
 #n HTTP server information
-httpd_hostname = 192.168.122.12
+httpd_hostname = REPLACE_HTTPD_HOST
 httpd_port = 8000
 
 # C/JDBC server to monitor (if any)
@@ -15,7 +15,7 @@ ejb_html_path =
 ejb_script_path =
 
 # Servlets server information
-servlets_server = 192.168.122.14
+servlets_server = REPLACE_TOMCAT1_HOST
 servlets_html_path = /rubbos
 servlets_script_path = /rubbos/servlet
 
@@ -24,14 +24,14 @@ php_html_path = /PHP
 php_script_path = /PHP
 
 #Database information
-database_master_server = 192.168.122.13
+database_master_server = REPLACE_MYSQL1_HOST
 
 database_slave_servers =
-workload_remote_client_nodes = 192.168.122.15,192.168.122.16,192.168.122.17,192.168.122.18
+workload_remote_client_nodes = REPLACE_CLIENT1_HOST,REPLACE_CLIENT2_HOST,REPLACE_CLIENT3_HOST,REPLACE_CLIENT4_HOST
 workload_remote_client_command = /bottlenecks/rubbos/app/jdk1.6.0_27/bin/java -classpath .:/bottlenecks/rubbos/app/RUBBoS/Client/:/bottlenecks/rubbos/app/RUBBoS/Client/rubbos_client.jar -Xmx1300m -Dhttp.keepAlive=true -Dhttp.maxConnections=1000000 edu.rice.rubbos.client.ClientEmulator
 
 
-workload_number_of_clients_per_node = 40
+workload_number_of_clients_per_node = REPLACE_NUMBER_OF_CLIENTS_PER_NODE
 
 
 # Workload: precise which transition table to use

@@ -18,20 +18,32 @@ ssh $BENCHMARK_HOST "
 "
 
 #TODO use for loop to genrate rubbos.properties file 200 ~ 1700
-for i in "rubbos.properties_200"
+for i in {2..2}
 do
 
   ssh $BENCHMARK_HOST "
     source /bottlenecks/rubbos/rubbos_scripts/1-1-1/set_bottlenecks_rubbos_env.sh
     rm -f $RUBBOS_HOME/Client/rubbos.properties
   "
-  scp $OUTPUT_HOME/rubbos_conf/$i $BENCHMARK_HOST:$RUBBOS_HOME/Client/rubbos.properties
+
+  sed -e "s/REPLACE_HTTPD_HOST/$HTTPD_HOST/g" \
+      -e "s/REPLACE_TOMCAT1_HOST/$TOMCAT1_HOST/g" \
+      -e "s/REPLACE_MYSQL1_HOST/$MYSQL1_HOST/g" \
+      -e "s#REPLACE_CLIENT1_HOST#$CLIENT1_HOST#g" \
+      -e "s#REPLACE_CLIENT2_HOST#$CLIENT2_HOST#g" \
+      -e "s#REPLACE_CLIENT3_HOST#$CLIENT3_HOST#g" \
+      -e "s#REPLACE_CLIENT4_HOST#$CLIENT4_HOST#g" \
+      -e "s/REPLACE_NUMBER_OF_CLIENTS_PER_NODE/$((20*i))/g" \
+      $OUTPUT_HOME/rubbos_conf/rubbos.properties_template \
+      > $OUTPUT_HOME/rubbos_conf/rubbos.properties
+  scp $OUTPUT_HOME/rubbos_conf/rubbos.properties $BENCHMARK_HOST:$RUBBOS_HOME/Client/rubbos.properties
+  rm -f $OUTPUT_HOME/rubbos_conf/rubbos.properties
 
   #echo "Resetting all data"
   #$OUTPUT_HOME/scripts/reset_all.sh
 
   # Browsing Only
-  echo "Start Browsing Only with $i"
+  echo "Start Browsing Only with rubbos.properties_$((100*i))"
   echo "Removing previous logs..."
   ssh $HTTPD_HOST "rm -f $HTTPD_HOME/logs/*log"
   ssh $TOMCAT1_HOST "rm -f $CATALINA_HOME/logs/*"
@@ -82,7 +94,7 @@ do
   #$OUTPUT_HOME/scripts/stop_all.sh
   $OUTPUT_HOME/scripts/kill_all.sh
   sleep 15
-  echo "End Browsing Only with $i"
+  echo "End Browsing Only with rubbos.properties_$((100*i))"
 
   # Read/Write
 
