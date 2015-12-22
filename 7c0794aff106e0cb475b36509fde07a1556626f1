@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_0d37fa00",
+        "filename": "rubbos/rubbos_scripts/1-1-1/scripts/CONTROL_rubbos_exec.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2015-12-22T11:28:22Z",
+      "side": 1,
+      "message": "yep",
+      "parentUuid": "9a5c5d37_6de556a7",
+      "revId": "7c0794aff106e0cb475b36509fde07a1556626f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_0df49a59",
         "filename": "rubbos/rubbos_scripts/1-1-1/scripts/HTTPD_pkg_prepare.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-22T11:07:50Z",
       "side": 1,
       "message": "are u sure to delete this? if the source host and the HTTPD_HOST are the same, then u will delete the file in HTTPD_HOST",
+      "revId": "7c0794aff106e0cb475b36509fde07a1556626f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_ed3b86e9",
+        "filename": "rubbos/rubbos_scripts/1-1-1/scripts/HTTPD_pkg_prepare.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2015-12-22T11:28:22Z",
+      "side": 1,
+      "message": "yep, this script is only support run in CONTROL_HOST now.",
+      "parentUuid": "9a5c5d37_0df49a59",
       "revId": "7c0794aff106e0cb475b36509fde07a1556626f1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_cd40c258",
+        "filename": "rubbos/rubbos_scripts/1-1-1/scripts/TOMCAT1_pkg_prepare.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2015-12-22T11:28:22Z",
+      "side": 1,
+      "message": "google sed",
+      "parentUuid": "9a5c5d37_ad022e3c",
+      "revId": "7c0794aff106e0cb475b36509fde07a1556626f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_cded628d",
         "filename": "rubbos/rubbos_scripts/1-1-1/scripts/TOMCAT1_pkg_prepare.sh",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2015-12-22T11:07:50Z",
       "side": 1,
       "message": "the same question of the HTTPD_HOST one.",
+      "revId": "7c0794aff106e0cb475b36509fde07a1556626f1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_ad258ec3",
+        "filename": "rubbos/rubbos_scripts/1-1-1/scripts/TOMCAT1_pkg_prepare.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2015-12-22T11:28:22Z",
+      "side": 1,
+      "message": "replied there.",
+      "parentUuid": "9a5c5d37_cded628d",
       "revId": "7c0794aff106e0cb475b36509fde07a1556626f1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
