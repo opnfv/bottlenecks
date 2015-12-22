@@ -2,10 +2,8 @@
 
 set -ex
 
-bottlenecks_create_instance()
+bottlenecks_env_prepare()
 {
-   echo "create bottlenecks instance using heat template"
-
    if [ -d $BOTTLENECKS_REPO_DIR ]; then
        rm -rf ${BOTTLENECKS_REPO_DIR}
    fi
@@ -15,6 +13,11 @@ bottlenecks_create_instance()
    git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
 
    source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
+}
+
+bottlenecks_create_instance()
+{
+   echo "create bottlenecks instance using heat template"
 
    echo "upload keypair"
    nova keypair-add --pub_key $KEY_PATH/bottleneck_key.pub $KEY_NAME
@@ -112,6 +115,7 @@ main()
    #need FIX
    #IMAGE_FILE_NAME=""
 
+   bottlenecks_env_prepare
    #bottlenecks_cleanup
    #bottlenecks_build_image
    bottlenecks_load_cirros_image
