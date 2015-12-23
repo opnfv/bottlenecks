@@ -1,0 +1,49 @@
+All the plugins should subclass EnvBuilderPlugin from "model.py".
+
+The EnvBuilderPlugin is a template class with a template algorithm:
+
+	def __init__(self, ):
+		pass
+	@abstractmethod    
+    def clean(self):
+        #clean Environment before goes further.
+    @abstractmethod        
+    def install(self):
+        #install network virtualization software from source code.
+    @abstractmethod
+    def load_drivers(self):
+        #loads drivers for network card.
+    @abstractmethod    
+    def create_brs(self):         
+        #creates virtual switches.         
+    @abstractmethod
+    def config_br_ports(self):
+        #config the vlan property for vswitch ports.
+    def create_vms(self):
+        #create vms         
+    def wait_vms(self):
+        #wait vm to boot up and config vm for ips and other configurations.
+    def check_vm_connectivity(self):
+        #check if the vms correctly setup the control panel ips.
+    def build(self, cfg_intent):
+        self.host_cfg = cfg_intent #please retrieve options from self.host_cfg for your use in other methods.
+        self.clean()
+        self.download_and_compile()
+        self.load_drivers()
+        self.create_brs()
+        self.create_vms()
+        self.wait_vms()
+        self.config_tap_vlans()
+        self.check_vm_connectivity()
+        
+You should implements the abstract methods left empty, however you can make some methods do nothing to skip steps..
+
+The plugin receives a "cfg_intent", The "cfg_intent" is a python dict parsed from a env-build configuration file.
+
+It contains the detail configurations for the plugin to build a "virtual network" for testing.
+
+There are some example json config files for building different type of "virtual network" under "etc/vstf/env" that you can refer to.
+
+Before you creates a new plugin, you should make sure you understand these json config file properly.   
+
+

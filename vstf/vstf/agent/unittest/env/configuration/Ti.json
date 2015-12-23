@@ -1,0 +1,58 @@
+{
+    "scenario": "ti",
+    "env-build": [
+        {
+            "ip": "192.168.188.16", 
+            "drivers": [
+                "ixgbe",
+                "vhost_net"
+            ], 
+            "vms": [
+                {
+                	"vm_cpu": 3,
+                    "vm_name": "test1",
+                    "vm_memory": 4194304, 
+                    "image_path": "/mnt/sdb/test1.qcow2",
+                    "image_type": "qcow2",
+                    "init_config": {
+                        "amqp_server": "192.168.188.10",
+                        "ctrl_ip_setting": "192.168.188.200/23", 
+                        "ctrl_gw": "192.168.188.1"
+                    }, 
+                    "taps":[
+                    	{
+	                    	"tap_name": "tap_in",
+	                    	"br_type": "ovs",
+	                    	"br_name": "ovs1",
+	                    	"tap_mac": "56:6f:44:a5:3f:a2",
+                    		"vlan_mode": "access",
+                    		"vlan_id": "100"
+                    	}
+                    ],
+                    "ctrl_mac": "16:6f:44:a5:3f:a2", 
+                    "ctrl_br": "br0"
+                }
+            ], 
+            "bridges": [
+                {
+                    "type": "ovs",
+                    "name": "ovs1",
+                    "uplinks": [
+                    	{
+	                    	"bdf": "04:00.0",
+	                    	"vlan_mode": "trunk",
+	                    	"vlan_id": "100,200,300,400"
+                    	}
+                    ],
+                    "vtep":{},
+                    "fastlink":[
+	                    {
+	                    	"inport":"04: 00.0",
+	                    	"outport":"tap_in"
+	                    }
+	                ]
+                }
+            ]
+        }
+    ]
+}

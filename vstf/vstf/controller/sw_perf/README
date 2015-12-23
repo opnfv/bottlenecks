@@ -1,0 +1,39 @@
+Tree
+
+|--- flow_producer.py
+|--- model.py
+|--- performance.py
+|--- perf_provider.py
+|--- raw_data.py
+
+Entry:
+    performance.py
+        usage: performance.py [-h] [-case CASE]
+                          [-tool {pktgen,netperf,qperf,iperf,netmap}]
+                          [-protocol {tcp,udp}] [-profile {rdp,fastlink,l2switch}]
+                          [-type {throughput,latency,frameloss}] [-sizes SIZES]
+                          [--monitor MONITOR]
+
+        optional arguments:
+          -h, --help            show this help message and exit
+          -case CASE            test case like Ti-1, Tn-1, Tnv-1, Tu-1...
+          -tool {pktgen,netperf,qperf,iperf,netmap}
+          -protocol {tcp,udp}
+          -profile {rdp,fastlink,l2switch}
+          -type {throughput,latency,frameloss}
+          -sizes SIZES          test size list "64 128"
+          --monitor MONITOR     which ip to be monitored
+
+Interface:
+    usage:
+        conn = Server(host=args.monitor)
+        flows_settings = FlowsSettings()
+        tool_settings = ToolSettings()
+        tester_settings = TesterSettings()
+        flow_producer = FlowsProducer(conn, flows_settings)
+        provider = PerfProvider(flows_settings.settings, tool_settings.settings, tester_settings.settings)
+        perf = Performance(conn, provider)
+        flow_producer.create(scenario, case)
+        LOG.info(flows_settings.settings())
+        result = perf.run(tool, protocol, type, sizes)
+

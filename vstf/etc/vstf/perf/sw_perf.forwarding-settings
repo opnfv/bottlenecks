@@ -1,0 +1,51 @@
+{
+    "head": {
+        "ip": "192.168.1.100",
+        "namespace": "vstf-space-1"
+    },
+
+    "tail": {
+        "ip": "192.168.1.101",
+        "namespace": "vstf-space-2"
+    },
+
+    "Tnv":{
+        "flows":[
+            ["tester", 0],
+            ["host", 0],
+            ["host", 2],
+            ["host", 3],
+            ["host", 1],
+            ["tester", 1]
+        ],
+        "watchers": [1, 4]
+    },
+    "Tn":{
+        "flows":[
+            ["tester", 0],
+            ["host", 0],
+            ["host", 1],
+            ["tester", 1]
+        ],
+        "watchers": [1, 2]
+    },
+    "Tu":{
+        "flows":[
+            ["vm-200", 0],
+            ["host", 2],
+            ["host", 3],
+            ["vm-201", 0]
+
+        ],
+        "watchers": [1, 2]
+    },
+    "Ti":{
+        "flows":[
+            ["tester", 1],
+            ["host", 0],
+            ["host", 2],
+            ["vm-200", 0]
+        ],
+        "watchers": [1, 2]
+    }
+}

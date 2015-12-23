@@ -1,0 +1,18 @@
+{
+    "server": {
+        "host": "localhost",
+        "username": null,
+        "password": null
+    },
+    "body": {
+        "from": [
+            "hangzhou_vstf_ci@huawei.com"
+        ],
+        "to": [
+            "Yiting.Li@gerrit.opnfv.org",
+        ],
+        "cc": [ ],
+        "bcc": [],
+        "subject": "Virtual Switching Performance Test Report"
+    }
+}

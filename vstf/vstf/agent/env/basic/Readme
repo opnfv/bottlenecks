@@ -1,0 +1,39 @@
+the modules in this directory include some basic common purpose functions that can be used for other plugins.
+you can see the modules in this directory as libraries that you can import for ease of creating your own plugin.
+
+the main functions of the modules are listed as follows:
+ 
+ImageManger:
+	role:
+		virtual machine images manager. used by VmManager.
+		wraps 'qemu-img' command as underlying mechanism.
+	features:
+		provides a function to create child image from a parent image.
+		provides a function to delete child image.
+	
+SourceManager:
+	role:
+		source code manager.
+		using 'pramiko' as underlying mechanism.
+	features:
+		provides a function to download source code 
+		provides a function which wrap 'make clean;make;make install' to compile and install.
+	
+VmManager:
+	role:
+		virtual machine manager which can create vm and configure vm on bootstrap.
+		use libvirt as underlying mechanism. wrap 'virsh' command for creating vm.
+	features:
+		provides a function to create vm from a vm configuration context.
+		provides functions to detect if vm boots up successfully and onfigure bootstrap options for vm like ip and rabbitmq conf file.
+
+vm9pfs:
+	used by VmManager.
+	host side 9pfs operation (mainly file operations) to communicate with vm by libvirt 9pfs.
+	see as communication protocol on client side. The vm runs a agent for receiving the commands. 
+			
+VmXmlHelp:
+	used by VmManager.
+	just some divided libvirt xml string templates for building a complete libvirt xml file on demand by VmManager.
+
+

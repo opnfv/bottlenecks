@@ -1,0 +1,29 @@
+//Place your settings in the file "user/sw_perf.tool-settings",
+//which overrides the settings in here.
+{
+    "pktgen":{
+        "threads": 2,
+        "wait": 5,
+        "time": 20
+    },
+    "netperf":{
+        "threads": 2,
+        "wait": 5,
+        "time": 20
+    },
+    "qperf":{
+        "threads": 1,
+        "wait": 5,
+        "time": 2
+    },
+    "iperf":{
+        "threads": 1,
+        "wait": 5,
+        "time": 20
+    },
+    "netmap":{
+        "threads": 1,
+        "wait": 12,
+        "time": 20
+    }
+}

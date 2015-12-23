@@ -1,0 +1,71 @@
+{
+    "scenario": "tu",
+    "env-build": [
+        {
+            "ip": "192.168.188.16",
+            "drivers": [
+                "tap_vhost"
+            ],
+            "vms": [
+                {
+                    "vm_cpu": 3,
+                    "vm_name": "test1",
+                    "vm_memory": 4194304,
+                    "image_path": "/mnt/sdb/test1.qcow2",
+                    "image_type": "qcow2",
+                    "init_config": {
+                        "amqp_server": "192.168.188.10",
+                        "ctrl_ip_setting": "192.168.188.200/23",
+                        "ctrl_gw": "192.168.188.1"
+                    },
+                    "taps": [
+                        {
+                            "tap_name": "tap1",
+                            "br_type": "ovs",
+                            "br_name": "ovs1",
+                            "tap_mac": "56:6f:44:a5:3f:a2",
+                            "vlan_mode": "access",
+                            "vlan_id": "100"
+                        }
+                    ]
+                },
+                {
+                    "vm_cpu": 3,
+                    "vm_name": "test2",
+                    "vm_memory": 4194304,
+                    "image_path": "/mnt/sdb/test2.qcow2",
+                    "image_type": "qcow2",
+                    "init_config": {
+                        "amqp_server": "192.168.188.10",
+                        "ctrl_ip_setting": "192.168.188.201/23",
+                        "ctrl_gw": "192.168.188.1"
+                    },
+                    "taps": [
+                        {
+                            "tap_name": "tap2",
+                            "br_type": "ovs",
+                            "br_name": "ovs1",
+                            "tap_mac": "56:6f:44:a5:3f:a3",
+                            "vlan_mode": "access",
+                            "vlan_id": "100"
+                        }
+                    ]
+                }
+            ],
+            "bridges": [
+                {
+                    "type": "ovs",
+                    "name": "ovs1",
+                    "uplinks": [],
+                    "vtep": {},
+                    "fastlink": [
+                        {
+                            "inport": "tap1",
+                            "outport": "tap2"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

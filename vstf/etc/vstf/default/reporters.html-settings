@@ -1,0 +1,22 @@
+{
+    "style":{
+        "table":{
+            "font-family":"\"Trebuchet MS\", Arial, Helvetica, sans-serif",
+            "border":"1px solid green",
+            "border-collapse":"collapse",
+            "padding":"8px",
+            "text-align":"center"
+        },
+        "td":{
+            "border":"1px solid green",
+            "padding":"8px",
+            "word-wrap":"break-all"
+        },
+        "th":{
+            "background-color":"#EAF2D3",
+            "border":"1px solid green",
+            "padding":"8px"
+        }
+    }
+    
+}

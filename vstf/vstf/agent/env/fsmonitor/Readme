@@ -1,0 +1,13 @@
+FSMonitor is a daemon process which runs in the vm.
+FSMonitor receive "commands" from 'VmManager' by libvirt 9pfs. 
+
+Basically the process works like this: 
+	1.The 'VmManager' writes 'command string' to 'command' file on the libvirt 9pfs used by vm.
+	2.The FSMonitor constantly detects file changes on the libvirt 9pfs. 
+	3.The FSMonitor finds the newly created file, it then reads the file and execute the command. 
+
+All the dependencies of FSMonitor should be satisfied by modules in this directory.
+
+When deploying FSMonitor, just copy this directory into the vm.
+
+

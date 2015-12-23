@@ -1,0 +1,16 @@
+{
+    "env-build": [
+        {
+            "ip": "hostA",
+            "drivers": ["ixgbe"],
+            "bridges": [],
+            "vms": []
+        },
+        {
+            "ip": "hostB",
+            "drivers": ["ixgbe"],
+            "bridges": [],
+            "vms": []
+        }	
+    ]
+}

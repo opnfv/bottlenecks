@@ -1,0 +1,21 @@
+//Place your settings in the file "user/reporters.mail.mail-settings",
+//which overrides the settings in here.
+{
+    "server": 
+    {
+        "host": "localhost",
+        "username": null, 
+        "password": null
+    },
+    "body":
+    {
+        "from": ["vstf_from@vstf.com"],
+        "to": ["vstf_to@vstf.com"],
+        "cc": ["vstf_cc@vstf.com"],
+        "bcc": ["vstf_bcc@vstf.com"],
+        "subject": "Virtual Switching Performance Test Report"
+    }
+}
+
+
+

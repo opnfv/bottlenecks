@@ -1,0 +1,32 @@
+[
+   {
+      "cover":{
+         "title":[],
+         "logo":[],
+         "header": [],
+         "footer": [],
+         "note": [],
+      }
+   },
+   {
+      "chapter":
+      {
+          "title":[],
+          "type":[],
+          "content":[
+              "paragraph":{
+                  "type": [],
+                  "content":[]
+              }
+              "section"
+
+
+          }
+
+
+      }
+
+   }
+
+
+]

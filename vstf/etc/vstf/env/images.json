@@ -1,0 +1,7 @@
+{
+    "parent_image": "/mnt/sdb/ubuntu_salt_master.img",
+    "dst_location": "/mnt/sdb",
+    "full_clone":false,
+    "type": "qcow2",
+    "names": ["test1","test2","test3","test4"]
+}

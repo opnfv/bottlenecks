@@ -1,0 +1,90 @@
+{
+    "Tn":[
+        {
+            "case": "Tn-1",
+            "tool": "netperf",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        },
+        {
+            "case": "Tn-2",
+            "tool": "pktgen",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        }
+    ],
+    "Ti":[
+        {
+            "case": "Ti-1",
+            "tool": "netperf",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        },
+        {
+            "case": "Ti-2",
+            "tool": "pktgen",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        },
+        {
+            "case": "Ti-3",
+            "tool": "pktgen",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        }
+    ],
+    "Tnv":[
+        {
+            "case": "Tnv-1",
+            "tool": "netmap",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        },
+        {
+            "case": "Tnv-2",
+            "tool": "netperf",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        }
+    ],
+    "Tu":[
+        {
+            "case": "Tu-1",
+            "tool": "netperf",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        },
+        {
+            "case": "Tu-2",
+            "tool": "pktgen",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        },
+        {
+            "case": "Tu-3",
+            "tool": "netperf",
+            "protocol": "udp",
+            "profile": "rdp",
+            "type": "frameloss",
+            "sizes": [64, 128, 512, 1024]
+        }
+    ]
+}

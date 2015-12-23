@@ -1,0 +1,61 @@
+This module providers a set of profile management solution
+File:
+    settings.py
+Interface:
+    Settings
+
+	1. it is a base class and supports two modes "Default" and "Single"
+	   if the mode is "Default", the program will load the 'json' file from 'default'
+	   and 'user' , merge the input, save only the 'json' file from 'user'
+	   if the mode is "Single", the program will only load and save the 'json' file
+	2. it saves a file two, one is only in memory and the other is in file
+	3. it provides two types of functions, one is like "set_" and "add_" and the
+	   other is like "mset" and "madd". the functions are automatically registered.
+
+	4. You can overload the function _register_func to achieve the functions what you desire
+	   by function "_setting_file","_adding_file","_setting_memory" and "_addting_memory"
+
+	5. it provides "settings" to show the result in memory
+	6. it provides "reset" to reload the file
+
+Example:
+
+    1. create your-settings file and paste the contents
+
+		{
+			"items1": "value1",
+			"items2": "value2"
+		}
+
+
+	2. create your_settings file and paste the codes
+
+        import vstf.controller.settings.settings as sets
+		class YourSettings(sets.Settings):
+			def __init__(self, path="./", filename="your-settings", mode=sets.SETS_SINGLE):
+				super(MailSettings, self).__init__(path, filename, mode)
+
+		def unit_test():
+			setting = YourSettings()
+			print setting.settings()
+			value1 = "test_set_items1"
+			setting.set_items1(value1)
+			print setting.settings()
+			value2 = "test_set_items2"
+            setting.mset_items2(value2)
+            print setting.settings()
+            settings.reset()
+            print setting.settings()
+
+		if __name__ == '__main__':
+			unit_test()
+
+Tree:
+
+    data_settings.py
+    flows_settings.py
+    perf_settings.py
+
+    mail_settings.py
+    tool_settings.py
+    html_settings.py
