@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_23064fcf",
+        "filename": "utils/dashboard/uploader.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 331
+      },
+      "writtenOn": "2015-12-23T07:38:45Z",
+      "side": 1,
+      "message": "i\u0027ll use a simple config file to do this",
+      "parentUuid": "9a5c5d37_c3cf73af",
+      "range": {
+        "startLine": 20,
+        "startChar": 22,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "957f45319e44baf7930b43558e811ea4c55fc197",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_a3c47f92",
         "filename": "utils/dashboard/uploader.py",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_030b4bd7",
+        "filename": "utils/dashboard/uploader.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 331
+      },
+      "writtenOn": "2015-12-23T07:38:45Z",
+      "side": 1,
+      "message": "redundant. i\u0027ll delete it",
+      "parentUuid": "9a5c5d37_a3c47f92",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "957f45319e44baf7930b43558e811ea4c55fc197",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_03d6ab4f",
         "filename": "utils/dashboard/uploader.py",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-12-23T07:04:33Z",
       "side": 1,
       "message": "rename to main or some others, make uploader.py as a cmd tool.",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "957f45319e44baf7930b43558e811ea4c55fc197",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_e30f17e0",
+        "filename": "utils/dashboard/uploader.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 331
+      },
+      "writtenOn": "2015-12-23T07:38:45Z",
+      "side": 1,
+      "message": "you\u0027re, it should be a python can be called by script\n\ni\u0027ll fix it.",
+      "parentUuid": "9a5c5d37_03d6ab4f",
       "range": {
         "startLine": 50,
         "startChar": 4,
