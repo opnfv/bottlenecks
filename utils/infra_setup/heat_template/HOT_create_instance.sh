@@ -79,7 +79,7 @@ bottlenecks_load_bottlenecks_image()
 {
    echo "load bottlenecks image"
 
-   wget $IMAGE_URL -O /tmp/bottlenecks-trusty-server.img
+   curl --connect-timeout 10 -o /tmp/bottlenecks-trusty-server.img $IMAGE_URL -v
 
    result=$(glance image-create \
        --name $IMAGE_NAME \
