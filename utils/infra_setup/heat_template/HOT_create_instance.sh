@@ -49,7 +49,7 @@ bottlenecks_cleanup()
    if nova keypair-list; then
        for key in $(nova keypair-list | grep -e $KEY_NAME | awk '{print $2}'); do
            echo "clean up key $key"
-           nova keypair-delete || true
+           nova keypair-delete $key || true
        done
    fi
 }
