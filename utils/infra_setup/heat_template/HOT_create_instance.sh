@@ -21,23 +21,37 @@ bottlenecks_create_instance()
 
    echo "upload keypair"
    nova keypair-add --pub_key $KEY_PATH/bottlenecks_key.pub $KEY_NAME
-   #need FIX, only upload the public key? should be keypair
+
+   echo "create flavor"
+   nova flavor-create $FLAVOR_NAME 200 2048 10 1
 
    echo "use heat template to create stack"
    cd $HOT_PATH
-   heat stack-create bottlenecks -f ${TEMPLATE_NAME} -P "image=$IMAGE_NAME;key=$KEY_NAME;public_network=$PUBLIC_NET_NAME"
-   sleep 60
+   heat stack-create bottlenecks -f ${TEMPLATE_NAME} \
+        -P "image=$IMAGE_NAME;key_name=$KEY_NAME;public_net=$PUBLIC_NET_NAME;flavor=$FLAVOR_NAME"
+   sleep 120
    heat stack-list
    heat stack-show bottlenecks
    nova list
+   nova list | grep rubbos_control
+   control_ip=$(nova list | grep rubbos_control | awk '{print $13}')
+   ssh -i $KEY_PATH/bottlenecks_key \
+       -o StrictHostKeyChecking=no \
+       -o BatchMode=yes root@$control_ip "uname -a"
    heat stack-delete bottlenecks
-
-   #need FIX, use stack to create 9 VMs
 }
 
 bottlenecks_cleanup()
 {
    echo "clean up bottlenecks images and keys"
+
+   if heat stack-list; then
+       for stack in $(heat stack-list | grep -e bottlenecks | awk '{print $2}'); do
+           echo "clean up stack $stack"
+           heat stack-delete $stack || true
+           sleep 30
+       done
+   fi
 
    if glance image-list; then
        for image in $(glance image-list | grep -e $IMAGE_NAME | awk '{print $2}'); do
@@ -49,63 +63,40 @@ bottlenecks_cleanup()
    if nova keypair-list; then
        for key in $(nova keypair-list | grep -e $KEY_NAME | awk '{print $2}'); do
            echo "clean up key $key"
-           nova keypair-delete || true
+           nova keypair-delete $key || true
+       done
+   fi
+
+   if nova flavor-list; then
+       for flavor in $(nova flavor-list | grep -e $FLAVOR_NAME | awk '{print $2}'); do
+           echo "clean up flavor $flavor"
+           nova flavor-delete $flavor || true
        done
    fi
 }
 
-bottlenecks_build_image()
-{
-   echo "build bottlenecks image"
-
-   #need FIX
-}
-
-bottlenecks_load_cirros_image()
-{
-   echo "load bottlenecks cirros image"
-
-   wget http://download.cirros-cloud.net/0.3.3/cirros-0.3.3-x86_64-disk.img -O /tmp/cirros.img
-
-   result=$(glance image-create \
-       --name cirros-0.3.3 \
-       --disk-format qcow2 \
-       --container-format bare \
-       --file /tmp/cirros.img)
-   echo "$result"
-
-   rm -rf /tmp/cirros.img
-
-   IMAGE_ID_CIRROS=$(echo "$result" | grep " id " | awk '{print $(NF-1)}')
-   if [ -z "$IMAGE_ID_CIRROS" ]; then
-        echo 'failed to upload cirros image to openstack'
-        exit 1
-   fi
-
-   echo "cirros image id: $IMAGE_ID_CIRROS"
-}
-
-bottlenecks_load_image()
+bottlenecks_load_bottlenecks_image()
 {
    echo "load bottlenecks image"
 
-   result=$(glance --os-image-api-version 1 image-create \
-      --name $IMAGE_NAME \
-      --is-public true --disk-format qcow2 \
-      --container-format bare \
-      --file $IMAGE_FILE_NAME)
+   wget $IMAGE_URL -O /tmp/bottlenecks-trusty-server.img
+
+   result=$(glance image-create \
+       --name $IMAGE_NAME \
+       --disk-format qcow2 \
+       --container-format bare \
+       --file /tmp/bottlenecks-trusty-server.img)
    echo "$result"
 
-   GLANCE_IMAGE_ID=$(echo "$result" | grep " id " | awk '{print $(NF-1)}')
+   rm -rf /tmp/bottlenecks-trusty-server.img
 
-   if [ -z "$GLANCE_IMAGE_ID" ]; then
-       echo 'add image to glance failed'
-       exit 1
+   IMAGE_ID_BOTTLENECKS=$(echo "$result" | grep " id " | awk '{print $(NF-1)}')
+   if [ -z "$IMAGE_ID_BOTTLENECKS" ]; then
+        echo 'failed to upload bottlenecks image to openstack'
+        exit 1
    fi
 
-   sudo rm -f $IMAGE_FILE_NAME
-
-   echo "add glance image completed: $GLANCE_IMAGE_ID"
+   echo "bottlenecks image id: $IMAGE_ID_BOTTLENECKS"
 }
 
 main()
@@ -114,22 +105,20 @@ main()
 
    BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
    BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo/bottlenecks
-   #IMAGE_URL=http://205.177.226.235:9999
-   IMAGE_NAME=cirros-0.3.3
-   #need FIX, need a script to transfer the image from the url to be the installer images
+   IMAGE_URL=http://205.177.226.235:9999/bottlenecks/rubbos/bottlenecks-trusty-server.img
+   IMAGE_NAME=bottlenecks-trusty-server
    KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
    HOT_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/heat_template
-   KEY_NAME=bottlenecks_key
-   TEMPLATE_NAME=bottlenecks_template1.yaml
+   KEY_NAME=bottlenecks-key
+   FLAVOR_NAME=bottlenecks-flavor
+   TEMPLATE_NAME=bottlenecks_rubbos_hot.yaml
    PUBLIC_NET_NAME=net04_ext
-   #need FIX
-   #IMAGE_FILE_NAME=""
 
    bottlenecks_env_prepare
    bottlenecks_cleanup
-   #bottlenecks_build_image
-   bottlenecks_load_cirros_image
+   bottlenecks_load_bottlenecks_image
    bottlenecks_create_instance
+   bottlenecks_cleanup
 }
 
 main
