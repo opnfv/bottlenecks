@@ -20,7 +20,7 @@ chmod ug+x $RUBBOS_HOME/bench/*.sh
 #build clients
 echo "COMPILING RUBBOS CLIENT on $HOSTNAME"
 cd $RUBBOS_HOME/Client
-make clean
-make
+make clean >/dev/null
+make >/dev/null 2>&1
 
 echo "DONE CONFIGURING RUBBOS CLIENT on $HOSTNAME"
