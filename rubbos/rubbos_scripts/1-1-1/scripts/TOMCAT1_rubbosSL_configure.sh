@@ -18,9 +18,9 @@ sed 's/public static final int    BrowseCategoriesPoolSize      = 6;/public stat
 mv Config.java.tmp Config.java
 
 cd $RUBBOS_HOME/Servlets
-/bottlenecks/rubbos/app/apache-ant-1.6.5/bin/ant clean
-/bottlenecks/rubbos/app/apache-ant-1.6.5/bin/ant dist
-make
+/bottlenecks/rubbos/app/apache-ant-1.6.5/bin/ant clean >/dev/null
+/bottlenecks/rubbos/app/apache-ant-1.6.5/bin/ant dist >/dev/null
+make >/dev/null
 cp rubbos.war $CATALINA_HOME/webapps/
 
 echo "DONE CONFIGURING RUBBOS SERVLET on $HOSTNAME" 
