@@ -104,8 +104,6 @@ bottlenecks_rubbos_install_exe()
 
     cd $RUBBOS_RUN_DIR
     sudo ./run.sh
-    cd $RUBBOS_EXE_DIR
-    sudo ./CONTROL_rubbos_exec.sh
 }
 
 main()

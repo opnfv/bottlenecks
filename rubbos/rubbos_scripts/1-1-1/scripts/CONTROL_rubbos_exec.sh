@@ -20,7 +20,6 @@ ssh $BENCHMARK_HOST "
 #TODO use for loop to genrate rubbos.properties file 200 ~ 1700
 for i in {2..2}
 do
-
   ssh $BENCHMARK_HOST "
     source /bottlenecks/rubbos/rubbos_scripts/1-1-1/set_bottlenecks_rubbos_env.sh
     rm -f $RUBBOS_HOME/Client/rubbos.properties
@@ -65,6 +64,7 @@ do
   #" &
 
   ssh $BENCHMARK_HOST "
+    set -x
     source /bottlenecks/rubbos/rubbos_scripts/1-1-1/set_bottlenecks_rubbos_env.sh
 
     cd $RUBBOS_HOME/bench
@@ -80,7 +80,7 @@ do
     for host in $BENCHMARK_HOST $CLIENT1_HOST $CLIENT2_HOST $CLIENT3_HOST \
                 $CLIENT4_HOST $HTTPD_HOST $TOMCAT1_HOST $MYSQL1_HOST
     do
-      for f in sar-* ps-* iostat-* mysql_mon-* postgres_lock-*
+      for f in 'sar-*' 'ps-*' 'iostat-*' 'mysql_mon-*' 'postgres_lock-*'
       do
         scp $scp_options \$host:$RUBBOS_APP/\$f ./
       done
@@ -91,11 +91,9 @@ do
     mv 20* $TMP_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME/
   "
 
-  # TODO debug the rest of sciripts
-  exit 0
   #$OUTPUT_HOME/scripts/stop_all.sh
-  $OUTPUT_HOME/scripts/kill_all.sh
-  sleep 15
+  #$OUTPUT_HOME/scripts/kill_all.sh
+  #sleep 15
   echo "End Browsing Only with rubbos.properties_$((100*i))"
 
   # Read/Write
@@ -105,18 +103,31 @@ done
 echo "Processing the results..."
 ssh $BENCHMARK_HOST "
   cd $TMP_RESULTS_DIR_BASE
-  cd $RUBBOS_RESULTS_DIR_NAME
-  scp $RUBBOS_RESULTS_HOST:$RUBBOS_RESULTS_DIR_BASE/calc-sarSummary.prl ../
-  ../calc-sarSummary.prl
+  #cd $RUBBOS_RESULTS_DIR_NAME
+  #scp $RUBBOS_RESULTS_HOST:$RUBBOS_RESULTS_DIR_BASE/calc-sarSummary.prl ../
+  #../calc-sarSummary.prl
 
-  rm -f 20*/*.bin
+  #rm -f 20*/*.bin
 
-  cd ../
-  tar zcvf $RUBBOS_RESULTS_DIR_NAME.tgz $RUBBOS_RESULTS_DIR_NAME
-  scp $RUBBOS_RESULTS_DIR_NAME.tgz $RUBBOS_RESULTS_HOST:$RUBBOS_RESULTS_DIR_BASE/
+  #cd ../
+  tar zcf $RUBBOS_RESULTS_DIR_NAME.tgz $RUBBOS_RESULTS_DIR_NAME
+  scp $scp_options $RUBBOS_RESULTS_DIR_NAME.tgz $RUBBOS_RESULTS_HOST:$RUBBOS_RESULTS_DIR_BASE/
 "
 
+echo "Push the results to DB..."
+cd $RUBBOS_RESULTS_DIR_BASE
+
+ls $RUBBOS_RESULTS_DIR_NAME.tgz
+tar zxf $RUBBOS_RESULTS_DIR_NAME.tgz
+ls $RUBBOS_RESULTS_DIR_NAME
+
+python $BOTTLENECKS_TOP/utils/dashboard/process_data.py \
+           $RUBBOS_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME \
+           $BOTTLENECKS_TOP/utils/dashboard/dashboard.yaml
+cd -
+
 echo "Finish RUBBoS"
+touch /tmp/rubbos_finished
 
 set +x
 
