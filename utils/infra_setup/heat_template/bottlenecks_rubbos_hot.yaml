@@ -88,6 +88,7 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   rubbos_control_floating_ip:
     type: OS::Neutron::FloatingIP
@@ -111,6 +112,7 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   rubbos_mysql1:
     type: OS::Nova::Server
@@ -128,6 +130,7 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   rubbos_tomcat1:
     type: OS::Nova::Server
@@ -145,6 +148,7 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   rubbos_client1:
     type: OS::Nova::Server
@@ -162,6 +166,7 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   rubbos_client2:
     type: OS::Nova::Server
@@ -179,6 +184,7 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   rubbos_client3:
     type: OS::Nova::Server
@@ -196,6 +202,7 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   rubbos_client4:
     type: OS::Nova::Server
@@ -213,6 +220,7 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   rubbos_benchmark:
     type: OS::Nova::Server
@@ -230,6 +238,24 @@ resources:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+
+  server_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      description: Rubbos group for servers access.
+      name: rubbos-security-group
+      rules: [
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: tcp,
+        port_range_min: 1,
+        port_range_max: 65535},
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: udp,
+        port_range_min: 1,
+        port_range_max: 65535},
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: icmp}]
 
 outputs:
   rubbos_control_private_ip:
