@@ -119,6 +119,32 @@ bottlenecks_create_instance()
          -P "image=$IMAGE_NAME;key_name=$KEY_NAME;public_net=$PUBLIC_NET_NAME;flavor=$FLAVOR_NAME"
 }
 
+bottlenecks_rubbos_wait_finish()
+{
+    retry=0
+    while true
+    do
+        ssh $ssh_args ec2-user@$control_ip "
+            FILE=/tmp/rubbos_finished
+            if [ -f \$FILE ]; then
+               exit 0
+            else
+               exit 1
+            fi
+        "
+        if [ $? = 0 ]; then
+            echo "Rubbos test case successfully finished :)"
+            return 0
+        fi
+        sleep 30
+        let retry+=1
+        if [[ $retry -ge $1 ]]; then
+            echo "Rubbos test case timeout :("
+            return 1
+        fi
+    done
+}
+
 bottlenecks_rubbos_run()
 {
     echo "Run Rubbos"
@@ -141,7 +167,9 @@ bottlenecks_rubbos_run()
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
         ec2-user@$control_ip:/tmp
     ssh $ssh_args \
-        ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh"
+        ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
+
+    bottlenecks_rubbos_wait_finish 240
 
     rm -rf $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 }
