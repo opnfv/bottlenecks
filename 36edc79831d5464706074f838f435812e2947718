@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_a37c7f21",
+        "filename": "utils/dashboard/uploader.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 331
+      },
+      "writtenOn": "2015-12-25T07:19:02Z",
+      "side": 1,
+      "message": "i see",
+      "parentUuid": "9a5c5d37_2389af26",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 2,
+        "endChar": 49
+      },
+      "revId": "36edc79831d5464706074f838f435812e2947718",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_038eab2e",
         "filename": "utils/dashboard/uploader.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-23T08:54:13Z",
       "side": 1,
       "message": "it is too long",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 55,
+        "endChar": 119
+      },
+      "revId": "36edc79831d5464706074f838f435812e2947718",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b264c622",
+        "filename": "utils/dashboard/uploader.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 331
+      },
+      "writtenOn": "2015-12-25T07:19:02Z",
+      "side": 1,
+      "message": "i\u0027ll cut it into lines",
+      "parentUuid": "9a5c5d37_038eab2e",
       "range": {
         "startLine": 55,
         "startChar": 3,
