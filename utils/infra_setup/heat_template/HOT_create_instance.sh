@@ -109,7 +109,7 @@ main()
 
    BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
    BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo/bottlenecks
-   IMAGE_URL=http://205.177.226.235:9999/bottlenecks/rubbos/bottlenecks-trusty-server.img
+   IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
    IMAGE_NAME=bottlenecks-trusty-server
    KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
    HOT_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/heat_template
