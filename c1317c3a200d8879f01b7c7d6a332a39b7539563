@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_1e08392c",
+        "filename": "utils/dashboard/uploader.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2015-12-30T07:18:18Z",
+      "side": 1,
+      "message": "make this configurable could be better.",
+      "range": {
+        "startLine": 15,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "c1317c3a200d8879f01b7c7d6a332a39b7539563",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
