@@ -28,6 +28,20 @@ bottlenecks_download_repo()
     fi
 }
 
+bottlenecks_config_hosts_ip()
+{
+    sed -i -e "s/REPLACE_CONTROL_HOST/$rubbos_control/g" \
+           -e "s/REPLACE_HTTPD_HOST/$rubbos_httpd/g" \
+           -e "s/REPLACE_MYSQL1_HOST/$rubbos_mysql1/g" \
+           -e "s/REPLACE_TOMCAT1_HOST/$rubbos_tomcat1/g" \
+           -e "s/REPLACE_CLIENT1_HOST/$rubbos_client1/g" \
+           -e "s/REPLACE_CLIENT2_HOST/$rubbos_client2/g" \
+           -e "s/REPLACE_CLIENT3_HOST/$rubbos_client3/g" \
+           -e "s/REPLACE_CLIENT4_HOST/$rubbos_client4/g" \
+           -e "s/REPLACE_BENCHMARK_HOST/$rubbos_benchmark/g" \
+           $BOTTELENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/set_bottlenecks_rubbos_env.sh
+}
+
 bottlenecks_download_packages()
 {
     echo "Bottlenecks: download rubbos dependent packages from artifacts"
@@ -56,6 +70,7 @@ main()
     SCRIPT_DIR=`cd ${BASH_SOURCE[0]%/*};pwd`
 
     source $SCRIPT_DIR/package.conf
+    source $SCRIPT_DIR/hosts.conf
 
     bottlenecks_prepare_env
     bottlenecks_download_repo

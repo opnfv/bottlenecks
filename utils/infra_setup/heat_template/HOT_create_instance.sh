@@ -40,6 +40,14 @@ bottlenecks_rubbos_run()
 {
    echo "Run Rubbos"
    control_ip=$(nova list | grep rubbos_control | awk '{print $13}')
+   for i in rubbos_benchmark rubbos_client1 rubbos_client2 rubbos_client3 \
+            rubbos_client4 rubbos_control rubbos_httpd rubbos_mysql1 \
+            rubbos_tomcat1
+   do
+         ip=$(nova list | grep $i | awk '{print $12}' | awk -F [=,] '{print $2}')
+         echo "$i=$ip" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+   done
+
    chmod 600 $KEY_PATH/bottlenecks_key
    ssh -i $KEY_PATH/bottlenecks_key \
        -o StrictHostKeyChecking=no \
@@ -51,6 +59,9 @@ bottlenecks_rubbos_run()
    ssh -i $KEY_PATH/bottlenecks_key \
        -o StrictHostKeyChecking=no \
        -o BatchMode=yes root@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh"
+
+   rm -rf $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+
 }
 
 bottlenecks_cleanup()
@@ -92,10 +103,10 @@ bottlenecks_load_bottlenecks_image()
    echo "load bottlenecks image"
 
    curl --connect-timeout 10 -o /tmp/bottlenecks-trusty-server.img $IMAGE_URL -v
-   if [ $? != 0 ]; then
+   #if [ $? != 0 ]; then
         wget http://download.cirros-cloud.net/0.3.3/cirros-0.3.3-x86_64-disk.img -O \
              /tmp/bottlenecks-trusty-server.img
-   fi
+   #fi
 
    result=$(glance image-create \
        --name $IMAGE_NAME \
