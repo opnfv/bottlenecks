@@ -34,11 +34,23 @@ bottlenecks_create_instance()
    heat stack-show bottlenecks
    nova list
    nova list | grep rubbos_control
+}
+
+bottlenecks_rubbos_run()
+{
+   echo "Run Rubbos"
    control_ip=$(nova list | grep rubbos_control | awk '{print $13}')
+   chmod 600 $KEY_PATH/bottlenecks_key
    ssh -i $KEY_PATH/bottlenecks_key \
        -o StrictHostKeyChecking=no \
        -o BatchMode=yes root@$control_ip "uname -a"
-   heat stack-delete bottlenecks
+   scp -r -i $KEY_PATH/bottlenecks_key \
+       -o StrictHostKeyChecking=no -o BatchMode=yes \
+       $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
+       root@$control_ip:/tmp
+   ssh -i $KEY_PATH/bottlenecks_key \
+       -o StrictHostKeyChecking=no \
+       -o BatchMode=yes root@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh"
 }
 
 bottlenecks_cleanup()
@@ -80,7 +92,7 @@ bottlenecks_load_bottlenecks_image()
    echo "load bottlenecks image"
 
    curl --connect-timeout 10 -o /tmp/bottlenecks-trusty-server.img $IMAGE_URL -v
-   if [ $?!=0 ]; then
+   if [ $? != 0 ]; then
         wget http://download.cirros-cloud.net/0.3.3/cirros-0.3.3-x86_64-disk.img -O \
              /tmp/bottlenecks-trusty-server.img
    fi
@@ -122,6 +134,7 @@ main()
    bottlenecks_cleanup
    bottlenecks_load_bottlenecks_image
    bottlenecks_create_instance
+   bottlenecks_rubbos_run
    bottlenecks_cleanup
 }
 

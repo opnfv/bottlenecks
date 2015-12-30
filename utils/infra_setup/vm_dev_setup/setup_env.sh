@@ -52,7 +52,7 @@ bottlenecks_rubbos_install_exe()
 
 main()
 {
-    PreInstall_Packages="gcc gettext g++ libaio1 libaio-dev make"
+    PreInstall_Packages="git gcc gettext g++ libaio1 libaio-dev make"
     SCRIPT_DIR=`cd ${BASH_SOURCE[0]%/*};pwd`
 
     source $SCRIPT_DIR/package.conf
