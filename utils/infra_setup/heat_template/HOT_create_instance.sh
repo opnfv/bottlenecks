@@ -15,6 +15,15 @@ bottlenecks_env_prepare()
     source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
 }
 
+bottlenecks_check_instance()
+{
+    echo "check instance"
+    heat stack-list
+    heat stack-show bottlenecks
+    nova list
+    nova list | grep rubbos_control
+}
+
 bottlenecks_create_instance()
 {
     echo "create bottlenecks instance using heat template"
@@ -29,10 +38,6 @@ bottlenecks_create_instance()
     cd $HOT_PATH
     heat stack-create bottlenecks -f ${TEMPLATE_NAME} \
          -P "image=$IMAGE_NAME;key_name=$KEY_NAME;public_net=$PUBLIC_NET_NAME;flavor=$FLAVOR_NAME"
-    heat stack-list
-    heat stack-show bottlenecks
-    nova list
-    nova list | grep rubbos_control
 }
 
 bottlenecks_rubbos_cirros_run()
@@ -77,14 +82,14 @@ bottlenecks_rubbos_run()
     chmod 600 $KEY_PATH/bottlenecks_key
     ssh -i $KEY_PATH/bottlenecks_key \
         -o StrictHostKeyChecking=no \
-        -o BatchMode=yes root@$control_ip "uname -a"
+        -o BatchMode=yes ec2-user@$control_ip "uname -a"
     scp -r -i $KEY_PATH/bottlenecks_key \
         -o StrictHostKeyChecking=no -o BatchMode=yes \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
-        root@$control_ip:/tmp
+        ec2-user@$control_ip:/tmp
     ssh -i $KEY_PATH/bottlenecks_key \
         -o StrictHostKeyChecking=no \
-        -o BatchMode=yes root@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh"
+        -o BatchMode=yes ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh"
 
     rm -rf $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 }
@@ -152,7 +157,10 @@ bottlenecks_load_bottlenecks_image()
 {
     echo "load bottlenecks image"
 
-    curl --connect-timeout 10 -o /tmp/bottlenecks-trusty-server.img $IMAGE_URL -v
+#    curl --connect-timeout 10 -o /tmp/bottlenecks-trusty-server.img $IMAGE_URL -v
+
+    wget https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img -O \
+              /tmp/bottlenecks-trusty-server.img
 
     result=$(glance image-create \
         --name $IMAGE_NAME \
@@ -192,15 +200,16 @@ main()
     bottlenecks_load_cirros_image
     bottlenecks_create_instance
     sleep 120
+    bottlenecks_check_instance
     bottlenecks_rubbos_cirros_run
     bottlenecks_cleanup
     bottlenecks_load_bottlenecks_image
     bottlenecks_create_instance
     sleep 600
+    bottlenecks_check_instance
     bottlenecks_rubbos_run
     bottlenecks_cleanup
 }
 
 main
 set +ex
-
