@@ -5,6 +5,7 @@ set -ex
 bottlenecks_prepare_env()
 {
     echo "Bottlenecks: install preinstall packages in VM"
+    sudo apt-get update
 
     for i in $PreInstall_Packages; do
         if ! apt --installed list 2>/dev/null |grep "\<$i\>"

@@ -13,15 +13,53 @@ bottlenecks_env_prepare()
     git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
 
     source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
+    chmod 600 $KEY_PATH/bottlenecks_key
 }
 
-bottlenecks_check_instance()
+wait_heat_stack_complete() {
+    retry=0
+    while true
+    do
+        status=$(heat stack-list | grep bottlenecks | awk '{print $6}')
+        if [ x$status = x"CREATE_COMPLETE" ]; then
+            echo "bottlenecks stacke create complete"
+            heat stack-show bottlenecks
+            break;
+        fi
+        echo "bottlenecks stack status $status"
+        sleep 1
+        let retry+=1
+        if [[ $retry -ge $1 ]];then
+            echo "Heat stack create timeout!!!"
+            exit 1
+        fi
+    done
+}
+
+wait_rubbos_control_ok() {
+    control_ip=$(nova list | grep rubbos_control | awk '{print $13}')
+
+    retry=0
+    until timeout 1s ssh $ssh_args ec2-user@$control_ip "exit" >/dev/null 2>&1
+    do
+        echo "retry connect rubbos control $retry"
+        sleep 1
+        let retry+=1
+        if [[ $retry -ge $1 ]];then
+            echo "rubbos control start timeout !!!"
+            exit 1
+        fi
+    done
+    ssh $ssh_args ec2-user@$control_ip "uname -a"
+}
+
+bottlenecks_check_instance_ok()
 {
     echo "check instance"
-    heat stack-list
-    heat stack-show bottlenecks
-    nova list
-    nova list | grep rubbos_control
+
+    wait_heat_stack_complete 120
+    wait_rubbos_control_ok 300
+    nova list | grep rubbos_
 }
 
 bottlenecks_create_instance()
@@ -40,33 +78,6 @@ bottlenecks_create_instance()
          -P "image=$IMAGE_NAME;key_name=$KEY_NAME;public_net=$PUBLIC_NET_NAME;flavor=$FLAVOR_NAME"
 }
 
-bottlenecks_rubbos_cirros_run()
-{
-    echo "Run Rubbos based on cirros image"
-    control_ip=$(nova list | grep rubbos_control | awk '{print $13}')
-    for i in rubbos_benchmark rubbos_client1 rubbos_client2 rubbos_client3 \
-             rubbos_client4 rubbos_control rubbos_httpd rubbos_mysql1 \
-             rubbos_tomcat1
-    do
-          ip=$(nova list | grep $i | awk '{print $12}' | awk -F [=,] '{print $2}')
-          echo "$i=$ip" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
-    done
-
-    chmod 600 $KEY_PATH/bottlenecks_key
-    ssh -i $KEY_PATH/bottlenecks_key \
-        -o StrictHostKeyChecking=no \
-        -o BatchMode=yes cirros@$control_ip "uname -a"
-    scp -r -i $KEY_PATH/bottlenecks_key \
-        -o StrictHostKeyChecking=no -o BatchMode=yes \
-        $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
-        cirros@$control_ip:/tmp
-    ssh -i $KEY_PATH/bottlenecks_key \
-        -o StrictHostKeyChecking=no \
-        -o BatchMode=yes cirros@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh"
-
-    rm -rf $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
-}
-
 bottlenecks_rubbos_run()
 {
     echo "Run Rubbos"
@@ -79,17 +90,11 @@ bottlenecks_rubbos_run()
           echo "$i=$ip" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
     done
 
-    chmod 600 $KEY_PATH/bottlenecks_key
-    ssh -i $KEY_PATH/bottlenecks_key \
-        -o StrictHostKeyChecking=no \
-        -o BatchMode=yes ec2-user@$control_ip "uname -a"
-    scp -r -i $KEY_PATH/bottlenecks_key \
-        -o StrictHostKeyChecking=no -o BatchMode=yes \
+    scp $ssh_args -r \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
         ec2-user@$control_ip:/tmp
-    ssh -i $KEY_PATH/bottlenecks_key \
-        -o StrictHostKeyChecking=no \
-        -o BatchMode=yes ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh"
+    ssh $ssh_args \
+        ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh"
 
     rm -rf $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 }
@@ -128,39 +133,11 @@ bottlenecks_cleanup()
     fi
 }
 
-bottlenecks_load_cirros_image()
-{
-    echo "load cirros image"
-
-    wget http://download.cirros-cloud.net/0.3.3/cirros-0.3.3-x86_64-disk.img -O \
-             /tmp/bottlenecks-cirros.img
-
-    result=$(glance image-create \
-        --name $IMAGE_NAME \
-        --disk-format qcow2 \
-        --container-format bare \
-        --file /tmp/bottlenecks-cirros.img)
-    echo "$result"
-
-    rm -rf /tmp/bottlenecks-cirros.img
-
-    IMAGE_ID_BOTTLENECKS=$(echo "$result" | grep " id " | awk '{print $(NF-1)}')
-    if [ -z "$IMAGE_ID_BOTTLENECKS" ]; then
-         echo 'failed to upload bottlenecks image to openstack'
-         exit 1
-    fi
-
-    echo "bottlenecks image id: $IMAGE_ID_BOTTLENECKS"
-}
-
 bottlenecks_load_bottlenecks_image()
 {
     echo "load bottlenecks image"
 
-#    curl --connect-timeout 10 -o /tmp/bottlenecks-trusty-server.img $IMAGE_URL -v
-
-    wget https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img -O \
-              /tmp/bottlenecks-trusty-server.img
+    curl --connect-timeout 10 -o /tmp/bottlenecks-trusty-server.img $IMAGE_URL -v
 
     result=$(glance image-create \
         --name $IMAGE_NAME \
@@ -186,7 +163,8 @@ main()
 
     BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
     BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo/bottlenecks
-    IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    #IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    IMAGE_URL=https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
     IMAGE_NAME=bottlenecks-trusty-server
     KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
     HOT_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/heat_template
@@ -194,22 +172,17 @@ main()
     FLAVOR_NAME=bottlenecks-flavor
     TEMPLATE_NAME=bottlenecks_rubbos_hot.yaml
     PUBLIC_NET_NAME=net04_ext
+    ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
 
     bottlenecks_env_prepare
     bottlenecks_cleanup
-    bottlenecks_load_cirros_image
-    bottlenecks_create_instance
-    sleep 120
-    bottlenecks_check_instance
-    bottlenecks_rubbos_cirros_run
-    bottlenecks_cleanup
     bottlenecks_load_bottlenecks_image
     bottlenecks_create_instance
-    sleep 600
-    bottlenecks_check_instance
+    bottlenecks_check_instance_ok
     bottlenecks_rubbos_run
     bottlenecks_cleanup
 }
 
 main
 set +ex
+
