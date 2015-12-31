@@ -22,6 +22,30 @@
       "revId": "c1317c3a200d8879f01b7c7d6a332a39b7539563",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_090485be",
+        "filename": "utils/dashboard/uploader.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 331
+      },
+      "writtenOn": "2015-12-31T01:20:15Z",
+      "side": 1,
+      "message": "thanks, i may change this as parameters to make sure there won\u0027t be and relative path problem.",
+      "parentUuid": "9a5c5d37_1e08392c",
+      "range": {
+        "startLine": 15,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "c1317c3a200d8879f01b7c7d6a332a39b7539563",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
