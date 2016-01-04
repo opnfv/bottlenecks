@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 generate_ssh_key() {
     if [ ! -d ~/.ssh ]; then
         mkdir ~/.ssh
@@ -45,9 +47,12 @@ configue_nameserver()
 {
     echo "Bottlenecks: configue nameserver"
     sudo rm /etc/resolv.conf
-    sudo echo "nameserver $1" > /etc/resolv.conf
     sudo echo "nameserver 8.8.8.8" >> /etc/resolv.conf
     sudo echo "nameserver 8.8.4.4" >> /etc/resolv.conf
+
+    sudo ifconfig
+    sudo cat /etc/resolv.conf
+    ping -c 5 www.google.com
 }
 
 install_packages()
@@ -62,4 +67,6 @@ install_packages()
         fi
     done
 }
+
+set +ex
 
