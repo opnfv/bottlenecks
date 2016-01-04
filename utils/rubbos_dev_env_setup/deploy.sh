@@ -55,7 +55,7 @@ function launch_host_vms() {
     i=0
     for host in $HOSTNAMES; do
         echo "creating vm disk for instance $host" \
-             "ip ${IPADDR_PREFIX}${i}" \
+             "ip ${IPADDR_PREFIX}$((i+11))" \
              "mac ${mac_array[$i]}"
         vm_dir=$host_vm_dir/$host
         mkdir -p $vm_dir
