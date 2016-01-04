@@ -2,6 +2,8 @@
 
 set -ex
 
+GERRIT_REFSPEC_DEBUG=$1
+
 bottlenecks_env_prepare()
 {
     if [ -d $BOTTLENECKS_REPO_DIR ]; then
@@ -11,6 +13,9 @@ bottlenecks_env_prepare()
     mkdir -p ${BOTTLENECKS_REPO_DIR}
     git config --global http.sslVerify false
     git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
+    if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
+        git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
+    fi
 
     source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
     chmod 600 $KEY_PATH/bottlenecks_key
@@ -93,6 +98,8 @@ bottlenecks_rubbos_run()
     nameserver_ip=$(grep -m 1 '^nameserver' \
         /etc/resolv.conf | awk '{ print $2 '})
     echo "nameserver_ip=$nameserver_ip" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+
+    echo "GERRIT_REFSPEC_DEBUG=$GERRIT_REFSPEC_DEBUG" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 
     scp $ssh_args -r \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \

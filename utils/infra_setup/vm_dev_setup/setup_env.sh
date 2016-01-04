@@ -51,10 +51,17 @@ bottlenecks_download_repo()
     if [ -d $BOTTELENECKS_REPO_DIR/.git ]; then
         cd $BOTTLENECKS_REPO_DIR
         sudo git pull origin master
+        if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
+            sudo git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
+        fi
         cd -
     else
         sudo rm -rf $BOTTLENECKS_REPO_DIR
         sudo git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
+        if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
+            sudo git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
+        fi
+
     fi
 }
 
