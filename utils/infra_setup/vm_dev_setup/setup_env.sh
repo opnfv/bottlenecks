@@ -6,14 +6,14 @@ wait_vm_ok() {
     ip=$1
 
     retry=0
-    until timeout 1s ssh $ssh_args ec2-user@$ip "exit" >/dev/null 2>&1
+    until timeout 10s ssh $ssh_args ec2-user@$ip "exit" >/dev/null 2>&1
     do
         echo "retry connect rubbos vm ip $ip $retry"
         sleep 1
         let retry+=1
         if [[ $retry -ge $2 ]];then
             echo "rubbos control start timeout !!!"
-            exit 1
+            #exit 1
         fi
     done
 }
@@ -29,7 +29,7 @@ bottlenecks_prepare_env()
     for i in $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
              $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
     do
-        wait_vm_ok $i 120
+        wait_vm_ok $i 360
     done
 
     # asynchronous configue other VMs
