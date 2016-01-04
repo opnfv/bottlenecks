@@ -6,14 +6,14 @@ wait_vm_ok() {
     ip=$1
 
     retry=0
-    until timeout 1s ssh $ssh_args ec2-user@$ip "exit" >/dev/null 2>&1
+    until timeout 10s ssh $ssh_args ec2-user@$ip "exit" >/dev/null 2>&1
     do
         echo "retry connect rubbos vm ip $ip $retry"
         sleep 1
         let retry+=1
         if [[ $retry -ge $2 ]];then
             echo "rubbos control start timeout !!!"
-            exit 1
+            #exit 1
         fi
     done
 }
@@ -29,19 +29,26 @@ bottlenecks_prepare_env()
     for i in $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
              $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
     do
-        wait_vm_ok $i 120
+        wait_vm_ok $i 360
     done
 
-    # asynchronous configue other VMs
+    # configue other VMs
     for i in $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
              $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
     do
           scp $ssh_args -r $SCRIPT_DIR ec2-user@$i:$SCRIPT_DIR
-          ssh $ssh_args ec2-user@$i "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh" &
+          ssh $ssh_args ec2-user@$i "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh"
     done
 
     # ugly use ssh execute script to fix ec2-user previlege issue
     ssh $ssh_args ec2-user@$rubbos_control "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh"
+
+    # test root access
+    for i in $rubbos_control $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
+             $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
+    do
+          ssh $ssh_args root@$i "uname -a"
+    done
 }
 
 bottlenecks_download_repo()
@@ -84,10 +91,10 @@ bottlenecks_download_packages()
     echo "Bottlenecks: download rubbos dependent packages from artifacts"
 
     curl --connect-timeout 10 -o /tmp/app_tools.tar.gz $RUBBOS_APP_TOOLS_URL 2>/dev/null
-    sudo tar zxvf /tmp/app_tools.tar.gz -C $RUBBOS_DIR
+    sudo tar zxf /tmp/app_tools.tar.gz -C $RUBBOS_DIR
     rm -rf /tmp/app_tools.tar.gz
     curl --connect-timeout 10 -o /tmp/rubbosMulini6.tar.gz $RUBBOS_MULINI6_URL 2>/dev/null
-    sudo tar zxvf /tmp/rubbosMulini6.tar.gz -C $RUBBOS_MULINI6_DIR
+    sudo tar zxf /tmp/rubbosMulini6.tar.gz -C $RUBBOS_MULINI6_DIR
     rm -rf /tmp/rubbosMulini6.tar.gz
 }
 
