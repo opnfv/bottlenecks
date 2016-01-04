@@ -14,8 +14,11 @@ bottlenecks_env_prepare()
     git config --global http.sslVerify false
     git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
     if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
+        cd ${BOTTLENECKS_REPO_DIR}
         git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
+        cd -
     fi
+    cat ${BOTTLENECKS_REPO_DIR}/utils/infra_setup/heat_template/HOT_create_instance.sh
 
     source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
     chmod 600 $KEY_PATH/bottlenecks_key
