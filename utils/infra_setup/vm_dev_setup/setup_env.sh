@@ -13,7 +13,7 @@ wait_vm_ok() {
         let retry+=1
         if [[ $retry -ge $2 ]];then
             echo "rubbos control start timeout !!!"
-            exit 1
+            #exit 1
         fi
     done
 }
@@ -29,7 +29,7 @@ bottlenecks_prepare_env()
     for i in $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
              $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
     do
-        wait_vm_ok $i 120
+        wait_vm_ok $i 360
     done
 
     # asynchronous configue other VMs

@@ -14,8 +14,11 @@ bottlenecks_env_prepare()
     git config --global http.sslVerify false
     git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
     if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
+        cd ${BOTTLENECKS_REPO_DIR}
         git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
+        cd -
     fi
+    cat ${BOTTLENECKS_REPO_DIR}/utils/infra_setup/heat_template/HOT_create_instance.sh
 
     source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
     chmod 600 $KEY_PATH/bottlenecks_key
@@ -65,6 +68,15 @@ bottlenecks_check_instance_ok()
     wait_heat_stack_complete 120
     wait_rubbos_control_ok 300
     nova list | grep rubbos_
+    while true
+    do
+        for i in rubbos_benchmark rubbos_client1 rubbos_client2 rubbos_client3 rubbos_client4 rubbos_control rubbos_httpd rubbos_mysql1 rubbos_tomcat1
+        do
+           echo "logging $i"
+           nova console-log $i
+        done
+        sleep 10
+    done
 }
 
 bottlenecks_create_instance()
