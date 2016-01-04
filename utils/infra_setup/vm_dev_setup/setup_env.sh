@@ -2,17 +2,46 @@
 
 set -ex
 
-bottlenecks_prepare_env()
-{
-    echo "Bottlenecks: install preinstall packages in VM"
-    sudo apt-get update
+wait_vm_ok() {
+    ip=$1
 
-    for i in $PreInstall_Packages; do
-        if ! apt --installed list 2>/dev/null |grep "\<$i\>"
-        then
-            sudo apt-get install  -y --force-yes  $i
+    retry=0
+    until timeout 1s ssh $ssh_args ec2-user@$ip "exit" >/dev/null 2>&1
+    do
+        echo "retry connect rubbos vm ip $ip $retry"
+        sleep 1
+        let retry+=1
+        if [[ $retry -ge $2 ]];then
+            echo "rubbos control start timeout !!!"
+            exit 1
         fi
     done
+}
+
+bottlenecks_prepare_env()
+{
+    echo "Bottlenecks prepare env in VMs"
+
+    # configue rubbos control ssh key
+    generate_ssh_key
+
+    # wait all other VMs ok
+    for i in $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
+             $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
+    do
+        wait_vm_ok $i 120
+    done
+
+    # asynchronous configue other VMs
+    for i in $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
+             $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
+    do
+          scp $ssh_args -r $SCRIPT_DIR ec2-user@$i:$SCRIPT_DIR
+          ssh $ssh_args ec2-user@$i "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh" &
+    done
+
+    # ugly use ssh execute script to fix ec2-user previlege issue
+    ssh $ssh_args ec2-user@$rubbos_control "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh"
 }
 
 bottlenecks_download_repo()
@@ -21,11 +50,11 @@ bottlenecks_download_repo()
 
     if [ -d $BOTTELENECKS_REPO_DIR/.git ]; then
         cd $BOTTLENECKS_REPO_DIR
-        git pull origin master
+        sudo git pull origin master
         cd -
     else
-        rm -rf $BOTTLENECKS_REPO_DIR
-        git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
+        sudo rm -rf $BOTTLENECKS_REPO_DIR
+        sudo git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
     fi
 }
 
@@ -48,10 +77,10 @@ bottlenecks_download_packages()
     echo "Bottlenecks: download rubbos dependent packages from artifacts"
 
     curl --connect-timeout 10 -o /tmp/app_tools.tar.gz $RUBBOS_APP_TOOLS_URL 2>/dev/null
-    tar zxvf /tmp/app_tools.tar.gz -C $RUBBOS_DIR
+    sudo tar zxvf /tmp/app_tools.tar.gz -C $RUBBOS_DIR
     rm -rf /tmp/app_tools.tar.gz
     curl --connect-timeout 10 -o /tmp/rubbosMulini6.tar.gz $RUBBOS_MULINI6_URL 2>/dev/null
-    tar zxvf /tmp/rubbosMulini6.tar.gz -C $RUBBOS_MULINI6_DIR
+    sudo tar zxvf /tmp/rubbosMulini6.tar.gz -C $RUBBOS_MULINI6_DIR
     rm -rf /tmp/rubbosMulini6.tar.gz
 }
 
@@ -60,18 +89,19 @@ bottlenecks_rubbos_install_exe()
     echo "Bottlenecks: install and run rubbos"
 
     cd $RUBBOS_RUN_DIR
-    ./run.sh
+    sudo ./run.sh
     cd $RUBBOS_EXE_DIR
-    ./CONTROL_rubbos_exec.sh
+    sudo ./CONTROL_rubbos_exec.sh
 }
 
 main()
 {
-    PreInstall_Packages="git gcc gettext g++ libaio1 libaio-dev make"
     SCRIPT_DIR=`cd ${BASH_SOURCE[0]%/*};pwd`
 
+    ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes"
     source $SCRIPT_DIR/package.conf
     source $SCRIPT_DIR/hosts.conf
+    source $SCRIPT_DIR/common.sh
 
     bottlenecks_prepare_env
     bottlenecks_download_repo

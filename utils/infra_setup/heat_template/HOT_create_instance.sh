@@ -90,6 +90,10 @@ bottlenecks_rubbos_run()
           echo "$i=$ip" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
     done
 
+    nameserver_ip=$(grep -m 1 '^nameserver' \
+        /etc/resolv.conf | awk '{ print $2 '})
+    echo "nameserver_ip=$nameserver_ip" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+
     scp $ssh_args -r \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
         ec2-user@$control_ip:/tmp
