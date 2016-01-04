@@ -14,8 +14,11 @@ bottlenecks_env_prepare()
     git config --global http.sslVerify false
     git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
     if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
+        cd ${BOTTLENECKS_REPO_DIR}
         git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
+        cd -
     fi
+    cat ${BOTTLENECKS_REPO_DIR}/utils/infra_setup/heat_template/HOT_create_instance.sh
 
     source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
     chmod 600 $KEY_PATH/bottlenecks_key
@@ -31,6 +34,8 @@ wait_heat_stack_complete() {
             heat stack-show bottlenecks
             break;
         fi
+        heat stack-show bottlenecks
+        nova list | grep rubbos_
         echo "bottlenecks stack status $status"
         sleep 1
         let retry+=1
@@ -45,7 +50,7 @@ wait_rubbos_control_ok() {
     control_ip=$(nova list | grep rubbos_control | awk '{print $13}')
 
     retry=0
-    until timeout 1s ssh $ssh_args ec2-user@$control_ip "exit" >/dev/null 2>&1
+    until timeout 3s ssh $ssh_args ec2-user@$control_ip "exit" >/dev/null 2>&1
     do
         echo "retry connect rubbos control $retry"
         sleep 1
@@ -65,6 +70,24 @@ bottlenecks_check_instance_ok()
     wait_heat_stack_complete 120
     wait_rubbos_control_ok 300
     nova list | grep rubbos_
+    date
+    while true
+    do
+        for i in rubbos_benchmark rubbos_client1 rubbos_client2 rubbos_client3 rubbos_client4 rubbos_control rubbos_httpd rubbos_mysql1 rubbos_tomcat1
+        do
+           echo "logging $i"
+           nova console-log $i | tail -n 2 | grep Cloud-init | grep finished
+           if [ $? != 0 ]; then
+               break
+           fi
+           if [ $i = rubbos_tomcat1 ]; then
+               echo "all vm Cloud-init finished!"
+               date
+               return
+           fi
+        done
+        sleep 10
+    done
 }
 
 bottlenecks_create_instance()
@@ -174,8 +197,8 @@ main()
 
     BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
     BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo/bottlenecks
-    #IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
-    IMAGE_URL=https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
+    IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    #IMAGE_URL=https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
     IMAGE_NAME=bottlenecks-trusty-server
     KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
     HOT_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/heat_template
