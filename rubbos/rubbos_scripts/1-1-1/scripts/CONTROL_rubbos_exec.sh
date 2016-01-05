@@ -86,6 +86,8 @@ do
       done
     done
     cd ..
+    find -type f
+    find -type f | grep stat_client | xargs grep throughput
     mv 20* $TMP_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME/
   "
 

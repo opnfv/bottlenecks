@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -x
 
 wait_vm_ok() {
     ip=$1
@@ -36,8 +36,8 @@ bottlenecks_prepare_env()
     for i in $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
              $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
     do
-          scp $ssh_args -r $SCRIPT_DIR ec2-user@$i:$SCRIPT_DIR
-          ssh $ssh_args ec2-user@$i "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh"
+          scp $ssh_args -r $SCRIPT_DIR ec2-user@$i:/tmp
+          ssh $ssh_args ec2-user@$i "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh" &
     done
 
     # ugly use ssh execute script to fix ec2-user previlege issue
@@ -74,7 +74,7 @@ bottlenecks_download_repo()
 
 bottlenecks_config_hosts_ip()
 {
-    sed -i -e "s/REPLACE_CONTROL_HOST/$rubbos_control/g" \
+    sudo sed -i -e "s/REPLACE_CONTROL_HOST/$rubbos_control/g" \
            -e "s/REPLACE_HTTPD_HOST/$rubbos_httpd/g" \
            -e "s/REPLACE_MYSQL1_HOST/$rubbos_mysql1/g" \
            -e "s/REPLACE_TOMCAT1_HOST/$rubbos_tomcat1/g" \
@@ -119,9 +119,10 @@ main()
 
     bottlenecks_prepare_env
     bottlenecks_download_repo
+    bottlenecks_config_hosts_ip
     bottlenecks_download_packages
     bottlenecks_rubbos_install_exe
 }
 
 main
-set +ex
+set +x
