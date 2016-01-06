@@ -33,7 +33,7 @@ main()
     echo "bottlenecks vstf: create instances with heat template"
 
     BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
-    BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo/bottlenecks
+    BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo_vstf/bottlenecks
     #vstf parameter here
 
     bottlenecks_env_prepare

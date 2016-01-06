@@ -14,4 +14,3 @@ fi
 $SCRIPT_DIR/../utils/infra_setup/heat_template/vstf_heat_template/vstf_HOT_create_instance.sh $GERRIT_REFSPEC_DEBUG
 
 set +ex
-
