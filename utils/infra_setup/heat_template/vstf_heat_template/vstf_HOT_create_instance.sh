@@ -28,6 +28,11 @@ bottlenecks_env_prepare()
 
 #vstf logic function here
 
+vstf_DEBUG()
+{
+    echo "vstf DEBUG, try me please"
+}
+
 main()
 {
     echo "bottlenecks vstf: create instances with heat template"
@@ -38,6 +43,7 @@ main()
 
     bottlenecks_env_prepare
     #vstf function here
+    vstf_DEBUG
 }
 
 main
