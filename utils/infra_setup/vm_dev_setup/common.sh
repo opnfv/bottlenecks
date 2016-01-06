@@ -1,8 +1,10 @@
 #!/bin/bash
 
-set -ex
+set -x
 
 generate_ssh_key() {
+    uname -a
+    whoami
     if [ ! -d ~/.ssh ]; then
         mkdir ~/.ssh
     fi
@@ -110,5 +112,21 @@ install_packages()
     done
 }
 
-set +ex
+hosts_config()
+{
+    echo "Bottlnecks: hosts config"
+    sudo echo "
+$rubbos_benchmark rubbos-benchmark
+$rubbos_client1 rubbos-client1
+$rubbos_client2 rubbos-client2
+$rubbos_client3 rubbos-client3
+$rubbos_client4 rubbos-client4
+$rubbos_control rubbos-control
+$rubbos_httpd rubbos-httpd
+$rubbos_mysql1 rubbos-mysql1
+$rubbos_tomcat1 rubbos-tomcat1
+" >> /etc/hosts
+}
+
+set +x
 

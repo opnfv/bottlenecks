@@ -8,6 +8,7 @@ main()
     source $SCRIPT_DIR/hosts.conf
     source $SCRIPT_DIR/common.sh
 
+    hosts_config
     generate_ssh_key
     configue_nameserver $nameserver_ip
     #install_packages $PreInstall_Packages

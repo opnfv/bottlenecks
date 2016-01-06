@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -x
 
 GERRIT_REFSPEC_DEBUG=$1
 
@@ -232,5 +232,5 @@ main()
 }
 
 main
-set +ex
+set +x
 
