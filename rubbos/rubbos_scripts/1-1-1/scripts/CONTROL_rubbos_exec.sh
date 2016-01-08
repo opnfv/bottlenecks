@@ -121,6 +121,11 @@ ls $RUBBOS_RESULTS_DIR_NAME.tgz
 tar zxf $RUBBOS_RESULTS_DIR_NAME.tgz
 ls $RUBBOS_RESULTS_DIR_NAME
 
+echo "Fetch POD env parameters"
+sed -i -e "s/UNKNOWN_POD_NAME/$POD_NAME/g"\
+       -e "s/UNKNOWN_INSTALLER_TYPE/$INSTALLER_TYPE/g"\
+          $BOTTLENECKS_TOP/utils/dashboard/dashboard.yaml
+
 python $BOTTLENECKS_TOP/utils/dashboard/process_data.py \
            $RUBBOS_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME \
            $BOTTLENECKS_TOP/utils/dashboard/dashboard.yaml

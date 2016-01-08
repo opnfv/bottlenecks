@@ -165,6 +165,9 @@ bottlenecks_rubbos_run()
 
     echo "GERRIT_REFSPEC_DEBUG=$GERRIT_REFSPEC_DEBUG" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 
+    echo "POD_NAME=$POD_NAME" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+    echo "INSTALLER_TYPE=$INSTALLER_TYPE" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+
     scp $ssh_args -r \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
         ec2-user@$control_ip:/tmp

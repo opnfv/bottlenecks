@@ -1,6 +1,6 @@
 ---
 
-pod_name: unknown-pod
-installer: fuel
+pod_name: UNKNOWN_POD_NAME
+installer: UNKNOWN_INSTALLER_TYPE
 version: unknown
 target: http://127.0.0.1/results
