@@ -66,7 +66,10 @@ bottlenecks_download_repo()
         sudo rm -rf $BOTTLENECKS_REPO_DIR
         sudo git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
         if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
+            cd $BOTTLENECKS_REPO_DIR
+            echo "fetch $GERRIT_REFSPEC_DEBUG"
             sudo git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
+            cd -
         fi
 
     fi
@@ -116,6 +119,7 @@ main()
     source $SCRIPT_DIR/common.sh
 
     bottlenecks_prepare_env
+    set -x
     bottlenecks_download_repo
     bottlenecks_config_hosts_ip
     bottlenecks_download_packages
