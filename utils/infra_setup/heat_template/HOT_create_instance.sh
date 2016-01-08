@@ -168,10 +168,12 @@ bottlenecks_rubbos_run()
     scp $ssh_args -r \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
         ec2-user@$control_ip:/tmp
+    #ssh $ssh_args \
+    #    ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
     ssh $ssh_args \
-        ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
+        ec2-user@$control_ip "echo hello!!!!!!!!!!; sleep 1000; echo bbbbbbbbbbbb#####" &
 
-    bottlenecks_rubbos_wait_finish 240
+    bottlenecks_rubbos_wait_finish 10
 
     rm -rf $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 }
@@ -253,6 +255,8 @@ main()
     ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
 
     bottlenecks_env_prepare
+    set -x
+    echo "BBBBBBBBBBBBBBBBBBBBBBB"
     bottlenecks_cleanup
     bottlenecks_load_bottlenecks_image
     bottlenecks_create_instance
