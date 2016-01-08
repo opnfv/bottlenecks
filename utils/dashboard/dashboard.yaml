@@ -1,6 +1,6 @@
 ---
 
-pod_name: unknown-pod
-installer: fuel
-version: unknown
-target: http://127.0.0.1/results
+pod_name: REPLACE_POD_NAME
+installer: REPLACE_INSTALLER_TYPE
+version: REPLACE_VERSION
+target: target: http://REPLACE_BOTTLENECKS_DB_TARGET/results
