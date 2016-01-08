@@ -39,7 +39,8 @@ wait_heat_stack_complete() {
             exit 1
         fi
 
-        if [ $BOTTLENECKS_DEBUG = True ]; then
+        #if [ $BOTTLENECKS_DEBUG = True ]; then
+        if false; then
             heat stack-show bottlenecks
             nova list | grep rubbos_
             for i in $(nova list | grep rubbos_ | grep ERROR | awk '{print $2}')
@@ -126,7 +127,9 @@ bottlenecks_rubbos_wait_finish()
     while true
     do
         ssh $ssh_args ec2-user@$control_ip "
+            uname -a
             FILE=/tmp/rubbos_finished
+            ls /tmp
             if [ -f \$FILE ]; then
                exit 0
             else
@@ -171,7 +174,7 @@ bottlenecks_rubbos_run()
     ssh $ssh_args \
         ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
 
-    bottlenecks_rubbos_wait_finish 240
+    bottlenecks_rubbos_wait_finish 60
 
     rm -rf $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 }
@@ -253,6 +256,7 @@ main()
     ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
 
     bottlenecks_env_prepare
+    set -x
     bottlenecks_cleanup
     bottlenecks_load_bottlenecks_image
     bottlenecks_create_instance
