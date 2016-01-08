@@ -121,6 +121,15 @@ ls $RUBBOS_RESULTS_DIR_NAME.tgz
 tar zxf $RUBBOS_RESULTS_DIR_NAME.tgz
 ls $RUBBOS_RESULTS_DIR_NAME
 
+echo "Fetch POD env parameters"
+sed -i -e "s/REPLACE_POD_NAME/$POD_NAME/g"\
+       -e "s/REPLACE_INSTALLER_TYPE/$INSTALLER_TYPE/g"\
+       -e "s/REPLACE_VERSION/$BOTTLENECKS_VERSION/g"\
+       -e "s/REPLACE_TARGET_URL/$BOTTLENECKS_DB_TARGET/g"\
+          $BOTTLENECKS_TOP/utils/dashboard/dashboard.yaml
+
+cat $BOTTLENECKS_TOP/utils/dashboard/dashboard.yaml
+
 python $BOTTLENECKS_TOP/utils/dashboard/process_data.py \
            $RUBBOS_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME \
            $BOTTLENECKS_TOP/utils/dashboard/dashboard.yaml
