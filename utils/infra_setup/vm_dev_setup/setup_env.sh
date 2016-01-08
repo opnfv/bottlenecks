@@ -20,7 +20,10 @@ wait_vm_ok() {
 
 bottlenecks_prepare_env()
 {
-    echo "Bottlenecks prepare env in VMs"
+    echo "Bottlenecks prepare env"
+
+    # export env for dashboard config file
+    export POD_NAME INSTALLER_TYPE BOTTLENECKS_VERSION BOTTLENECKS_DB_TARGET
 
     # configue rubbos control ssh key
     generate_ssh_key

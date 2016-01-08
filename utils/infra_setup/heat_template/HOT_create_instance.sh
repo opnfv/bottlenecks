@@ -167,6 +167,11 @@ bottlenecks_rubbos_run()
 
     echo "GERRIT_REFSPEC_DEBUG=$GERRIT_REFSPEC_DEBUG" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 
+    echo "POD_NAME=$POD_NAME" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+    echo "INSTALLER_TYPE=$INSTALLER_TYPE" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+    echo "BOTTLENECKS_VERSION=$BOTTLENECKS_VERSION" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+    echo "BOTTLENECKS_DB_TARGET=$BOTTLENECKS_DB_TARGET" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+
     scp $ssh_args -r \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
         ec2-user@$control_ip:/tmp
@@ -255,6 +260,10 @@ main()
     TEMPLATE_NAME=bottlenecks_rubbos_hot.yaml
     PUBLIC_NET_NAME=net04_ext
     ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
+    : ${POD_NAME:='opnfv-jump-2'}
+    : ${INSTALLER_TYPE:='fuel'}
+    : ${BOTTLENECKS_VERSION:='master'}
+    : ${BOTTLENECKS_DB_TARGET:='http://213.77.62.197/results'}
 
     bottlenecks_env_prepare
     set -x
