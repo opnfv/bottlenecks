@@ -47,8 +47,8 @@ done
 #ssh $CLIENT3_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
 #ssh $CLIENT4_HOST "$RUBBOS_HOME/bench/flush_cache 490000"       # remote client
 
-RAMPUP=480000
-MI=720000
+RAMPUP=48000
+MI=72000
 current_seconds=`date +%s`
 start_seconds=`echo \( $RAMPUP / 1000 \) + $current_seconds - 60 | bc`
 SMI=`date -d "1970-01-01 $start_seconds secs UTC" +%Y%m%d%H%M%S`
@@ -61,7 +61,9 @@ do
     ssh $scp_options $host "sudo nice -n -1 $RUBBOS_APP/cpu_mem.sh $SMI $EMI" &
 done
 
+echo "Rubbos emulator start $(date)"
 make emulator
+echo "Rubbos emulator end $(date)"
 
 set -x
 

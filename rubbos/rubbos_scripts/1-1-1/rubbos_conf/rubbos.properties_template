@@ -43,11 +43,11 @@ workload_maximum_number_of_transitions = 1000
 workload_use_tpcw_think_time = yes
 workload_number_of_stories_per_page = 20
 
-workload_up_ramp_time_in_ms = 480000
+workload_up_ramp_time_in_ms = 48000
 workload_up_ramp_slowdown_factor = 2
 
-workload_session_run_time_in_ms = 720000
-workload_down_ramp_time_in_ms = 30000
+workload_session_run_time_in_ms = 72000
+workload_down_ramp_time_in_ms = 3000
 workload_down_ramp_slowdown_factor = 3
 workload_percentage_of_author = 10
 
