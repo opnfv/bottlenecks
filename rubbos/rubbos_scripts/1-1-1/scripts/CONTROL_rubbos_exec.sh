@@ -18,7 +18,7 @@ ssh $BENCHMARK_HOST "
 "
 
 #TODO use for loop to genrate rubbos.properties file 200 ~ 1700
-for i in {2..17..5}
+for i in {2..3}
 do
   echo "Start Browsing Only with rubbos.properties_$((100*i)) $(date)"
 
@@ -120,6 +120,16 @@ cd $RUBBOS_RESULTS_DIR_BASE
 ls $RUBBOS_RESULTS_DIR_NAME.tgz
 tar zxf $RUBBOS_RESULTS_DIR_NAME.tgz
 ls $RUBBOS_RESULTS_DIR_NAME
+
+echo "Fetch POD env parameters"
+source /tmp/vm_dev_setup/hosts.conf
+sed -i -e "s/REPLACE_POD_NAME/$POD_NAME/g" \
+       -e "s/REPLACE_INSTALLER_TYPE/$INSTALLER_TYPE/g" \
+       -e "s/REPLACE_VERSION/$BOTTLENECKS_VERSION/g" \
+       -e "s#REPLACE_BOTTLENECKS_DB_TARGET#$BOTTLENECKS_DB_TARGET#g" \
+          $BOTTLENECKS_TOP/utils/dashboard/dashboard.yaml
+
+cat $BOTTLENECKS_TOP/utils/dashboard/dashboard.yaml
 
 python $BOTTLENECKS_TOP/utils/dashboard/process_data.py \
            $RUBBOS_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME \
