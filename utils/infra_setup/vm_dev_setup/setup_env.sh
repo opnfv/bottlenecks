@@ -20,7 +20,7 @@ wait_vm_ok() {
 
 bottlenecks_prepare_env()
 {
-    echo "Bottlenecks prepare env in VMs"
+    echo "Bottlenecks prepare env"
 
     # configue rubbos control ssh key
     generate_ssh_key
