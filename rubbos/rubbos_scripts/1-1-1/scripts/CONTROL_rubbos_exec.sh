@@ -18,8 +18,10 @@ ssh $BENCHMARK_HOST "
 "
 
 #TODO use for loop to genrate rubbos.properties file 200 ~ 1700
-for i in {2..2}
+for i in {2..17..5}
 do
+  echo "Start Browsing Only with rubbos.properties_$((100*i)) $(date)"
+
   ssh $BENCHMARK_HOST "
     source /bottlenecks/rubbos/rubbos_scripts/1-1-1/set_bottlenecks_rubbos_env.sh
     rm -f $RUBBOS_HOME/Client/rubbos.properties
@@ -38,8 +40,8 @@ do
   scp $OUTPUT_HOME/rubbos_conf/rubbos.properties $BENCHMARK_HOST:$RUBBOS_HOME/Client/rubbos.properties
   rm -rf $OUTPUT_HOME/rubbos_conf/rubbos.properties
 
-  #echo "Resetting all data"
-  #$OUTPUT_HOME/scripts/reset_all.sh
+  echo "Resetting all data"
+  $OUTPUT_HOME/scripts/reset_all.sh
 
   # Browsing Only
   echo "Start Browsing Only with rubbos.properties_$((100*i))"
@@ -91,13 +93,11 @@ do
     mv 20* $TMP_RESULTS_DIR_BASE/$RUBBOS_RESULTS_DIR_NAME/
   "
 
-  #$OUTPUT_HOME/scripts/stop_all.sh
-  #$OUTPUT_HOME/scripts/kill_all.sh
-  #sleep 15
-  echo "End Browsing Only with rubbos.properties_$((100*i))"
+  $OUTPUT_HOME/scripts/stop_all.sh
+  $OUTPUT_HOME/scripts/kill_all.sh
+  sleep 15
 
-  # Read/Write
-
+  echo "End Browsing Only with rubbos.properties_$((100*i)) $(date)"
 done
 
 echo "Processing the results..."

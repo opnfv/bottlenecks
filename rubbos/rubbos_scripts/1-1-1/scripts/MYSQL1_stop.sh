@@ -6,6 +6,7 @@ source set_bottlenecks_rubbos_env.sh
 echo "STOPPING MYSQL on $HOSTNAME"
 
 cd $MYSQL_HOME
-bin/mysqladmin --socket=$MYSQL_SOCKET  --user=root --password=$ROOT_PASSWORD shutdown
+#bin/mysqladmin --socket=$MYSQL_SOCKET  --user=root --password=$ROOT_PASSWORD shutdown
+bin/mysqladmin shutdown
 
 echo "MYSQL IS STOPPED on $HOSTNAME"
