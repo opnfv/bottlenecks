@@ -173,7 +173,7 @@ bottlenecks_rubbos_run()
     ssh $ssh_args \
         ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
 
-    bottlenecks_rubbos_wait_finish 80
+    bottlenecks_rubbos_wait_finish 200
 
     rm -rf $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 }
