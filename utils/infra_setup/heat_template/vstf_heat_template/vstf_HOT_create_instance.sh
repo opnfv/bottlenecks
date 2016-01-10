@@ -39,13 +39,18 @@ vstf_cleanup()
         done
     fi
     
-    glance image-delete ${MANAGER_IMAGE_NAME};glance image-delete "${AGENT_IMAGE_NAME}"
+    echo "begin to clean the image"
+    glance image-delete ${MANAGER_IMAGE_NAME};glance image-delete "${TARGET_IMAGE_NAME}";glance image-delete "${TESTER_IMAGE_NAME}"
     if glance image-list; then
         for image in $(glance image-list | grep -e "${MANAGER_IMAGE_NAME}" | awk '{print $2}'); do
             echo "[INFO]clean up image $image"
             glance image-delete $image || true
         done
-        for image in $(glance image-list | grep  -e "${AGENT_IMAGE_NAME}" | awk '{print $2}'); do
+        for image in $(glance image-list | grep  -e "${TARGET_IMAGE_NAME}" | awk '{print $2}'); do
+            echo "[INFO]clean up image $image"
+            glance image-delete $image || true
+        done
+        for image in $(glance image-list | grep  -e "${TESTER_IMAGE_NAME}" | awk '{print $2}'); do
             echo "[INFO]clean up image $image"
             glance image-delete $image || true
         done
@@ -63,7 +68,11 @@ vstf_cleanup()
         flag=`nova flavor-list | grep "m1.large "`
         echo "[INFO]the flavor m1.large num is $flag"
     fi
+    
+    #delete image file
+    rm -rf /tmp/vstf-manager.img;rm -rf /tmp/vstf-agent.img ;rm -rf /tmp/vstf-agent_1.img
     return 0
+ 
 }
 
 vstf_register()
@@ -74,6 +83,7 @@ vstf_register()
     #curl --connect-timeout 10 -o /tmp/vstf-agent.img $AGENT_IMAGE_URL -v
     curl --connect-timeout 10 -o /tmp/vstf-manager.img $MANAGER_IMAGE_URL -v
     curl --connect-timeout 10 -o /tmp/vstf-agent.img $AGENT_IMAGE_URL -v
+    curl --connect-timeout 10 -o /tmp/vstf-agent_1.img $AGENT_IMAGE_URL -v
     #echo "begin to test downloading from vstf directory!!!!!!"
     #curl --connect-timeout 10 -o /tmp/vstf-test.txt
     #echo "begin to cat /tmp/vstf-test.txt vstf directory!!!!!!"
@@ -88,15 +98,22 @@ vstf_register()
     echo "Manager image register result $result."
 
     result=$(glance image-create \
-        --name $AGENT_IMAGE_NAME \
+        --name $TESTER_IMAGE_NAME \
         --disk-format qcow2 \
         --container-format bare \
         --file /tmp/vstf-agent.img)
     echo "Agent image register result $result."
 
+    result=$(glance image-create \
+        --name $TARGET_IMAGE_NAME \
+        --disk-format qcow2 \
+        --container-format bare \
+        --file /tmp/vstf-agent_1.img)
+    echo "Agent image register result $result."
+
     glance image-list
 
-    rm -rf /tmp/vstf-manager.img;rm -rf /tmp/vstf-agent.img
+    rm -rf /tmp/vstf-manager.img;rm -rf /tmp/vstf-agent.img ;rm -rf /tmp/vstf-agent_1.img
 }
 
 #vstf logic function here
@@ -174,12 +191,14 @@ main()
     BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
     BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo_vstf/bottlenecks
     #vstf parameter here
-    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf/vstf-manager.img
-    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf/vstf-agent.img
-    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
-    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf-manager-new.img
+    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf-agent-new.img
+    #MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    #AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
     MANAGER_IMAGE_NAME="vstf-manager"
-    AGENT_IMAGE_NAME="vstf-agent"
+    TESTER_IMAGE_NAME="vstf-tester"
+    TARGET_IMAGE_NAME="vstf-target" 
+   
     KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
     HOT_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/heat_template/vstf_heat_template
     KEY_NAME=vstf-key
@@ -190,7 +209,12 @@ main()
 
     #load adminrc 
     bottlenecks_env_prepare
-
+    echo "check the version"
+    lsb_release -a 
+    cat /etc/version
+    echo "install expect"
+    yum install expect
+    which expect
     #vstf function here
     vstf_cleanup
     vstf_register
@@ -200,15 +224,15 @@ main()
     nova list
     sleep 100
     vstf_launch
-    #sleep 30
+    sleep 30
     vstf_test
-    #sleep 10
-    #echo "[INFO]bottleneck vstf testsuite done ,results in the directory ${HOT_PATH}/result"
+    sleep 10
+    echo "[INFO]bottleneck vstf testsuite done ,results in the directory ${HOT_PATH}/result"
     echo "[INFO]Begin to clean up the vstf heat-stack and image"
     vstf_cleanup
-    sleep 30
-    heat stack-list
-    nova list
+    #sleep 30
+    #heat stack-list
+    #nova list
     
 }
 

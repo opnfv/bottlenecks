@@ -72,17 +72,18 @@ function fn_generate_amqp(){
 
 function fn_provision_agent_file(){
 
-    apt-get -y install expect
+    #apt-get -y install expect
     #manager
     fn_generate_amqp "manager"
-
+    
     #target
     fn_generate_amqp "target"
     #scp_cmd ${target_control_public_ip} ${VM_TARGET_USER} ${VM_TARGET_PASSWD} "./vstf-target.ini" "/etc/vstf/amqp/amqp.ini" "file"
-
+    sshpass -p root scp -o StrictHostKeyChecking=no "./vstf-target.ini" root@${target_control_public_ip}:/etc/vstf/amqp/amqp.ini
     #tester
     fn_generate_amqp "tester"
     #scp_cmd ${tester_control_public_ip} ${VM_TESTER_USER} ${VM_TESTER_PASSWD} "./vstf-tester.ini" "/etc/vstf/amqp/amqp.ini" "file"
+    sshpass -p root scp -o StrictHostKeyChecking=no "./vstf-tester.ini" root@${tester_control_public_ip}:/etc/vstf/amqp/amqp.ini
 
     return 0
 }
@@ -91,14 +92,20 @@ function fn_launch_vstf_process(){
 
     #launch manager
     local manager_cmd="vstf-manager stop;pkill vstf-manager;rm -rf /opt/vstf/vstf-server.pid;vstf-manager start --monitor ${manager_control_private_ip} --port ${RABBITMQ_PORT}"
-    run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${manager_cmd}"
-
+    #run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${manager_cmd}"
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "ifconfig -a"
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "${manager_cmd}"
+    
     #launch target agent
     local target_cmd="vstf-agent stop;pkill vstf-agent;rm -rf /tmp/esp_rpc_client.pid;vstf-agent start --config_file=/etc/vstf/amqp/amqp.ini"
-    run_cmd ${target_control_public_ip} ${VM_TARGET_USER} ${VM_TARGET_PASSWD} "${target_cmd}"
-
+    #run_cmd ${target_control_public_ip} ${VM_TARGET_USER} ${VM_TARGET_PASSWD} "${target_cmd}"
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${target_control_public_ip} "ifconfig -a"
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${target_control_public_ip} "${target_cmd}"
+    
     #launch tester agent
-    run_cmd ${tester_control_public_ip} ${VM_TESTER_USER} ${VM_TESTER_PASSWD} "${target_cmd}"
+    #run_cmd ${tester_control_public_ip} ${VM_TESTER_USER} ${VM_TESTER_PASSWD} "${target_cmd}"
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${tester_control_public_ip} "ifconfig -a"
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${tester_control_public_ip} "${target_cmd}"
 
     return 0
 }
@@ -106,7 +113,11 @@ function fn_launch_vstf_process(){
 function main(){
     fn_parser_ipaddress
     fn_provision_agent_file
-    #fn_launch_vstf_process
+    fn_launch_vstf_process
+    cmd="rabbitmqctl list_queues"
+    sleep 20
+    #${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${cmd}"
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "${cmd}"
     return 0
 }
 
