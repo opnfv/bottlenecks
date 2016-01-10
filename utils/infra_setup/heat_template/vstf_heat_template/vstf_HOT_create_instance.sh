@@ -174,10 +174,10 @@ main()
     BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
     BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo_vstf/bottlenecks
     #vstf parameter here
-    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf/vstf-manager.img
-    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf/vstf-agent.img
-    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
-    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf-manager-new.img
+    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf/vstf-agent-new.img
+    #MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    #AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
     MANAGER_IMAGE_NAME="vstf-manager"
     AGENT_IMAGE_NAME="vstf-agent"
     KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
