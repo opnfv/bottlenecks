@@ -33,9 +33,10 @@ function fn_vstf_test_config(){
     echo "tester_testing_ip = ${tester_testing_ip}"
     echo "target_testing_ip = ${target_testing_ip}"
     #setting testting ipaddress
-    local cmd='vstfadm settings ${tester_testing_ip} ${target_testing_ip}'
+    local cmd="vstfadm settings ${tester_testing_ip} ${target_testing_ip}"
     echo "$cmd"
     #run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${cmd}"
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "${cmd}"
 
     return 0
 }
