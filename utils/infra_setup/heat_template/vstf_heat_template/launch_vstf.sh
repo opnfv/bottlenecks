@@ -78,11 +78,11 @@ function fn_provision_agent_file(){
 
     #target
     fn_generate_amqp "target"
-    #scp_cmd ${target_control_public_ip} ${VM_TARGET_USER} ${VM_TARGET_PASSWD} "./vstf-target.ini" "/etc/vstf/amqp/amqp.ini" "file"
+    scp_cmd ${target_control_public_ip} ${VM_TARGET_USER} ${VM_TARGET_PASSWD} "./vstf-target.ini" "/etc/vstf/amqp/amqp.ini" "file"
 
     #tester
     fn_generate_amqp "tester"
-    #scp_cmd ${tester_control_public_ip} ${VM_TESTER_USER} ${VM_TESTER_PASSWD} "./vstf-tester.ini" "/etc/vstf/amqp/amqp.ini" "file"
+    scp_cmd ${tester_control_public_ip} ${VM_TESTER_USER} ${VM_TESTER_PASSWD} "./vstf-tester.ini" "/etc/vstf/amqp/amqp.ini" "file"
 
     return 0
 }
@@ -107,6 +107,8 @@ function main(){
     fn_parser_ipaddress
     fn_provision_agent_file
     #fn_launch_vstf_process
+    cmd="rabbitmqctl list_queues"
+    run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${cmd}"
     return 0
 }
 

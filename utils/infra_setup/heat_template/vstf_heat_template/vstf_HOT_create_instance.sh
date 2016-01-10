@@ -174,10 +174,10 @@ main()
     BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
     BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo_vstf/bottlenecks
     #vstf parameter here
-    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf/vstf-manager.img
-    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf/vstf-agent.img
-    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
-    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf-manager-new.img
+    AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/vstf-agent-new.img
+    #MANAGER_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    #AGENT_IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
     MANAGER_IMAGE_NAME="vstf-manager"
     AGENT_IMAGE_NAME="vstf-agent"
     KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
@@ -190,25 +190,30 @@ main()
 
     #load adminrc 
     bottlenecks_env_prepare
-
+    echo "check the version"
+    lsb_release -a 
+    cat /etc/version
+    echo "install expect"
+    yum install expect
+    which expect
     #vstf function here
     vstf_cleanup
-    vstf_register
-    vstf_create_heat_template
-    vstf_check_instance_ok
-    heat stack-list
-    nova list
-    sleep 100
-    vstf_launch
+    #vstf_register
+    #vstf_create_heat_template
+    #vstf_check_instance_ok
+    #heat stack-list
+    #nova list
+    #sleep 100
+    #vstf_launch
     #sleep 30
-    vstf_test
+    #vstf_test
     #sleep 10
     #echo "[INFO]bottleneck vstf testsuite done ,results in the directory ${HOT_PATH}/result"
-    echo "[INFO]Begin to clean up the vstf heat-stack and image"
-    vstf_cleanup
-    sleep 30
-    heat stack-list
-    nova list
+    #echo "[INFO]Begin to clean up the vstf heat-stack and image"
+    #vstf_cleanup
+    #sleep 30
+    #heat stack-list
+    #nova list
     
 }
 
