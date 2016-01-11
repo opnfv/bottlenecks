@@ -44,7 +44,7 @@ function fn_vstf_test_config(){
 
 function fn_testing_scenario(){
     local head_cmd="vstfadm perf-test "
-    local test_length_list="64"
+    local test_length_list="64 128 256 512 1024"
     local test_scenario_list="Tu-1 Tu-3"
     local test_tool="netperf"
     local protocol="udp"
