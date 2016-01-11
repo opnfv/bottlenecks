@@ -20,10 +20,14 @@ parameters:
     type: string
     description: Name of image to use for servers
     default: vstf-manager
-  image_vstf_agent:
+  image_vstf_tester:
     type: string
     description: Name of image to use for servers
-    default: vstf-agent
+    default: vstf-tester
+  image_vstf_target:
+    type: string
+    description: Name of image to use for servers
+    default: vstf-target
   #nova flavor-list to query available flavors
   flavor:
     type: string
@@ -170,7 +174,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: vstf-target
-      image: { get_param: image_vstf_agent }
+      image: { get_param: image_vstf_target }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
       networks:
@@ -201,7 +205,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: vstf-tester
-      image: { get_param: image_vstf_agent }
+      image: { get_param: image_vstf_tester }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
       networks:
