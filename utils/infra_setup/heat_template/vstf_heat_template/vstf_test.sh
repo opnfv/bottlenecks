@@ -33,9 +33,11 @@ function fn_vstf_test_config(){
     echo "tester_testing_ip = ${tester_testing_ip}"
     echo "target_testing_ip = ${target_testing_ip}"
     #setting testting ipaddress
-    local cmd='vstfadm settings ${tester_testing_ip} ${target_testing_ip}'
+    local cmd="vstfadm settings ${tester_testing_ip} ${target_testing_ip}"
     echo "$cmd"
     #run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${cmd}"
+    ssh-keygen -f "/home/jenkins-ci/.ssh/known_hosts" -R ${manager_control_public_ip}
+    sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "${cmd}"
 
     return 0
 }
@@ -51,7 +53,11 @@ function fn_testing_scenario(){
     do
         local cmd="${head_cmd} ${scene} ${test_tool} ${protocol} ${test_type} \"${test_length_list}\" > /root/${scene}-result.txt"
         echo ${cmd}
-        run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${head_cmd} ${scene} ${test_tool} ${protocol} ${test_type} \"${test_length_list}\" > /root/${scene}"
+
+        ssh-keygen -f "/home/jenkins-ci/.ssh/known_hosts" -R ${manager_control_public_ip}
+        #run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${head_cmd} ${scene} ${test_tool} ${protocol} ${test_type} \"${test_length_list}\" > /root/${scene}"
+        sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "${cmd}"
+        
     done
     return 0
 }
@@ -62,7 +68,9 @@ function fn_result(){
     rm -rf ./result/*
     for scene in ${test_scenario_list}
     do
-        remote_scp_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "/root/${scene}-result.txt" "./result/${scene}" "file"
+        #remote_scp_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "/root/${scene}-result.txt" "./result/${scene}" "file"
+        sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "cat /root/${scene}-result.txt"
+        sshpass -p root scp -o StrictHostKeyChecking=no root@${manager_control_public_ip}:/root/${scene}-result.txt "./result/${scene}"
     done
     return 0
 }
