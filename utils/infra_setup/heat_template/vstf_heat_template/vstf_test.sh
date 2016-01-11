@@ -75,11 +75,16 @@ function fn_result(){
     return 0
 }
 
+function fn_upload(){
+    python vstf_collector.py --config dashboard.json --dir result
+}
+
 function main(){
     fn_parser_ipaddress
     fn_vstf_test_config
     fn_testing_scenario
     fn_result
+    fn_upload
     return 0
 }
 
