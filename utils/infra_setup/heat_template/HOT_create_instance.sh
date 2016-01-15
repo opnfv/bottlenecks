@@ -8,13 +8,13 @@ bottlenecks_env_prepare()
 {
     echo "Bottlenecks env prepare start $(date)"
 
-    if [ -d $BOTTLENECKS_REPO_DIR ]; then
-        rm -rf ${BOTTLENECKS_REPO_DIR}
-    fi
+    #if [ -d $BOTTLENECKS_REPO_DIR ]; then
+    #    rm -rf ${BOTTLENECKS_REPO_DIR}
+    #fi
 
-    mkdir -p ${BOTTLENECKS_REPO_DIR}
-    git config --global http.sslVerify false
-    git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
+    #mkdir -p ${BOTTLENECKS_REPO_DIR}
+    #git config --global http.sslVerify false
+    #git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
     if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
         cd ${BOTTLENECKS_REPO_DIR}
         git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
@@ -118,7 +118,7 @@ bottlenecks_create_instance()
     nova keypair-add --pub_key $KEY_PATH/bottlenecks_key.pub $KEY_NAME
 
     echo "create flavor"
-    nova flavor-create $FLAVOR_NAME 200 4096 20 4
+    nova flavor-create $FLAVOR_NAME 200 4096 20 2
 
     echo "use heat template to create stack"
     cd $HOT_PATH
@@ -232,7 +232,7 @@ bottlenecks_load_bottlenecks_image()
         --file /tmp/bottlenecks-trusty-server.img)
     echo "$result"
 
-    rm -rf /tmp/bottlenecks-trusty-server.img
+    #rm -rf /tmp/bottlenecks-trusty-server.img
 
     IMAGE_ID_BOTTLENECKS=$(echo "$result" | grep " id " | awk '{print $(NF-1)}')
     if [ -z "$IMAGE_ID_BOTTLENECKS" ]; then
@@ -258,12 +258,14 @@ main()
     KEY_NAME=bottlenecks-key
     FLAVOR_NAME=bottlenecks-flavor
     TEMPLATE_NAME=bottlenecks_rubbos_hot.yaml
-    PUBLIC_NET_NAME=net04_ext
+    #TODO use EXTERNAL_NET
+    PUBLIC_NET_NAME=ext-net
     ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
     : ${POD_NAME:='opnfv-jump-2'}
     : ${INSTALLER_TYPE:='fuel'}
     : ${BOTTLENECKS_VERSION:='master'}
-    : ${BOTTLENECKS_DB_TARGET:='213.77.62.197'}
+    #: ${BOTTLENECKS_DB_TARGET:='213.77.62.197'}
+    : ${BOTTLENECKS_DB_TARGET:='213.77.62.19'}
 
     bottlenecks_env_prepare
     set -x
@@ -272,7 +274,7 @@ main()
     bottlenecks_create_instance
     bottlenecks_check_instance_ok
     bottlenecks_rubbos_run
-    bottlenecks_cleanup
+    #bottlenecks_cleanup
     echo "main end $(date)"
 }
 
