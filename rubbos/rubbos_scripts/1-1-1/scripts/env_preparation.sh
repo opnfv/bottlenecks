@@ -17,7 +17,7 @@ RELENG_REPO_DIR=/tmp/opnfvrepo/releng
 INSTALLER_TYPE=fuel
 INSTALLER_IP=10.20.0.2
 
-POD_NAME=opnfv-jump-2
+NODE_NAME=opnfv-jump-2
 EXTERNAL_NET=net04_ext
 
 echo "INFO: Creating openstack credentials .."
@@ -46,5 +46,5 @@ if [ "$INSTALLER_TYPE" == "fuel" ]; then
     fi
 fi
 
-export EXTERNAL_NET INSTALLER_TYPE POD_NAME
+export EXTERNAL_NET INSTALLER_TYPE NODE_NAME
 set +ex

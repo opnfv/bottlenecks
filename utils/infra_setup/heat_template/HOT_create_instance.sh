@@ -19,7 +19,24 @@ bottlenecks_env_prepare()
         cd -
     fi
 
-    source $BOTTLENECKS_REPO_DIR/rubbos/rubbos_scripts/1-1-1/scripts/env_preparation.sh
+    echo "Creating openstack credentials .."
+    set -e
+
+    if [ -d $RELENG_REPO_DIR ]; then
+        rm -rf ${RELENG_REPO_DIR}
+    fi
+    mkdir -p ${RELENG_REPO_DIR}
+    git config --global http.sslVerify false
+    git clone ${RELENG_REPO} ${RELENG_REPO_DIR}
+
+    # Create openstack credentials
+    $RELENG_REPO_DIR/utils/fetch_os_creds.sh \
+        -d /tmp/openrc \
+        -i ${INSTALLER_TYPE} -a ${INSTALLER_IP}
+
+    source /tmp/openrc
+    set +e
+
     chmod 600 $KEY_PATH/bottlenecks_key
 
     echo "Bottlenecks env prepare end $(date)"
@@ -63,7 +80,7 @@ wait_rubbos_control_ok() {
     control_ip=$(nova list | grep rubbos_control | awk '{print $13}')
 
     retry=0
-    until timeout 3s ssh $ssh_args ec2-user@$control_ip "exit" >/dev/null 2>&1
+    until timeout 3s ssh $ssh_args ubuntu@$control_ip "exit" >/dev/null 2>&1
     do
         echo "retry connect rubbos control $retry"
         sleep 1
@@ -73,7 +90,7 @@ wait_rubbos_control_ok() {
             exit 1
         fi
     done
-    ssh $ssh_args ec2-user@$control_ip "uname -a"
+    ssh $ssh_args ubuntu@$control_ip "uname -a"
 }
 
 bottlenecks_check_instance_ok()
@@ -116,12 +133,12 @@ bottlenecks_create_instance()
     nova keypair-add --pub_key $KEY_PATH/bottlenecks_key.pub $KEY_NAME
 
     echo "create flavor"
-    nova flavor-create $FLAVOR_NAME 200 4096 20 4
+    nova flavor-create $FLAVOR_NAME 200 4096 20 2
 
     echo "use heat template to create stack"
     cd $HOT_PATH
     heat stack-create bottlenecks -f ${TEMPLATE_NAME} \
-         -P "image=$IMAGE_NAME;key_name=$KEY_NAME;public_net=$PUBLIC_NET_NAME;flavor=$FLAVOR_NAME"
+         -P "image=$IMAGE_NAME;key_name=$KEY_NAME;public_net=$EXTERNAL_NET;flavor=$FLAVOR_NAME"
 
     echo "Bottlenecks create instance using heat template end $(date)"
 }
@@ -132,7 +149,7 @@ bottlenecks_rubbos_wait_finish()
     retry=0
     while true
     do
-        ssh $ssh_args ec2-user@$control_ip "FILE=/tmp/rubbos_finished; if [ -f \$FILE ]; then exit 0; else exit 1; fi"
+        ssh $ssh_args ubuntu@$control_ip "FILE=/tmp/rubbos_finished; if [ -f \$FILE ]; then exit 0; else exit 1; fi"
         if [ $? = 0 ]; then
             echo "Rubbos test case successfully finished :)"
             return 0
@@ -165,16 +182,23 @@ bottlenecks_rubbos_run()
 
     echo "GERRIT_REFSPEC_DEBUG=$GERRIT_REFSPEC_DEBUG" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 
-    echo "POD_NAME=$POD_NAME" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+    echo "NODE_NAME=$NODE_NAME" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
     echo "INSTALLER_TYPE=$INSTALLER_TYPE" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
     echo "BOTTLENECKS_VERSION=$BOTTLENECKS_VERSION" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
     echo "BOTTLENECKS_DB_TARGET=$BOTTLENECKS_DB_TARGET" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+    echo "PACKAGE_URL=$PACKAGE_URL" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 
     scp $ssh_args -r \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
-        ec2-user@$control_ip:/tmp
+        ubuntu@$control_ip:/tmp
     ssh $ssh_args \
-        ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
+        ubuntu@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
+
+    if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
+        # TODO fix hard coded path
+        scp $ssh_args \
+            ubuntu@$control_ip:"/bottlenecks/rubbos/rubbos_results/2015-01-20T081237-0700.tgz" /tmp
+    fi
 
     bottlenecks_rubbos_wait_finish 200
 
@@ -248,20 +272,23 @@ main()
     BOTTLENECKS_DEBUG=True
     BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
     BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo/bottlenecks
-    IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
-    #IMAGE_URL=https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
+    RELENG_REPO=https://gerrit.opnfv.org/gerrit/releng
+    RELENG_REPO_DIR=/tmp/opnfvrepo/releng
     IMAGE_NAME=bottlenecks-trusty-server
     KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
     HOT_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/heat_template
     KEY_NAME=bottlenecks-key
     FLAVOR_NAME=bottlenecks-flavor
     TEMPLATE_NAME=bottlenecks_rubbos_hot.yaml
-    PUBLIC_NET_NAME=net04_ext
     ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
-    : ${POD_NAME:='opnfv-jump-2'}
+    : ${EXTERNAL_NET:='net04_ext'}
+    : ${PACKAGE_URL:='http://artifacts.opnfv.org/bottlenecks'}
+    : ${NODE_NAME:='opnfv-jump-2'}
     : ${INSTALLER_TYPE:='fuel'}
+    : ${INSTALLER_IP:='10.20.0.2'}
     : ${BOTTLENECKS_VERSION:='master'}
     : ${BOTTLENECKS_DB_TARGET:='213.77.62.197'}
+    IMAGE_URL=${PACKAGE_URL}/rubbos/bottlenecks-trusty-server.img
 
     bottlenecks_env_prepare
     set -x
