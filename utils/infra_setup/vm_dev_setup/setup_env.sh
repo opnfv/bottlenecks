@@ -6,7 +6,7 @@ wait_vm_ok() {
     ip=$1
 
     retry=0
-    until timeout 10s ssh $ssh_args ec2-user@$ip "exit" >/dev/null 2>&1
+    until timeout 10s ssh $ssh_args ubuntu@$ip "exit" >/dev/null 2>&1
     do
         echo "retry connect rubbos vm ip $ip $retry"
         sleep 1
@@ -36,12 +36,12 @@ bottlenecks_prepare_env()
     for i in $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
              $rubbos_client3 $rubbos_client4 $rubbos_httpd $rubbos_mysql1 $rubbos_tomcat1
     do
-          scp $ssh_args -r $SCRIPT_DIR ec2-user@$i:/tmp
-          ssh $ssh_args ec2-user@$i "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh" &
+          scp $ssh_args -r $SCRIPT_DIR ubuntu@$i:/tmp
+          ssh $ssh_args ubuntu@$i "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh" &
     done
 
-    # ugly use ssh execute script to fix ec2-user previlege issue
-    ssh $ssh_args ec2-user@$rubbos_control "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh"
+    # ugly use ssh execute script to fix ubuntu previlege issue
+    ssh $ssh_args ubuntu@$rubbos_control "sudo bash $SCRIPT_DIR/vm_prepare_setup.sh"
 
     # test root access
     for i in $rubbos_control $rubbos_benchmark $rubbos_client1 $rubbos_client2 \
