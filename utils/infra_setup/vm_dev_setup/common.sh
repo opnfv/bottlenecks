@@ -94,9 +94,7 @@ configue_nameserver()
     sudo echo "nameserver 8.8.8.8" >> /etc/resolv.conf
     sudo echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 
-    sudo ifconfig
-    sudo cat /etc/resolv.conf
-    ping -c 5 www.google.com
+    ping -c 1 www.google.com
 }
 
 install_packages()
