@@ -18,7 +18,7 @@ ssh $BENCHMARK_HOST "
 "
 
 # run test rubbos.properties from 200 to 3200
-for i in {2..32..5}
+for i in {2..7..5}
 do
   echo "Start Browsing Only with rubbos.properties_$((100*i)) $(date)"
 
