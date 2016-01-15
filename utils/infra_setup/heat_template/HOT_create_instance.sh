@@ -8,13 +8,13 @@ bottlenecks_env_prepare()
 {
     echo "Bottlenecks env prepare start $(date)"
 
-    if [ -d $BOTTLENECKS_REPO_DIR ]; then
-        rm -rf ${BOTTLENECKS_REPO_DIR}
-    fi
+    #if [ -d $BOTTLENECKS_REPO_DIR ]; then
+    #    rm -rf ${BOTTLENECKS_REPO_DIR}
+    #fi
 
-    mkdir -p ${BOTTLENECKS_REPO_DIR}
-    git config --global http.sslVerify false
-    git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
+    #mkdir -p ${BOTTLENECKS_REPO_DIR}
+    #git config --global http.sslVerify false
+    #git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
     if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
         cd ${BOTTLENECKS_REPO_DIR}
         git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
@@ -65,7 +65,7 @@ wait_rubbos_control_ok() {
     control_ip=$(nova list | grep rubbos_control | awk '{print $13}')
 
     retry=0
-    until timeout 3s ssh $ssh_args ec2-user@$control_ip "exit" >/dev/null 2>&1
+    until timeout 3s ssh $ssh_args ubuntu@$control_ip "exit" >/dev/null 2>&1
     do
         echo "retry connect rubbos control $retry"
         sleep 1
@@ -75,7 +75,7 @@ wait_rubbos_control_ok() {
             exit 1
         fi
     done
-    ssh $ssh_args ec2-user@$control_ip "uname -a"
+    ssh $ssh_args ubuntu@$control_ip "uname -a"
 }
 
 bottlenecks_check_instance_ok()
@@ -118,7 +118,7 @@ bottlenecks_create_instance()
     nova keypair-add --pub_key $KEY_PATH/bottlenecks_key.pub $KEY_NAME
 
     echo "create flavor"
-    nova flavor-create $FLAVOR_NAME 200 4096 20 4
+    nova flavor-create $FLAVOR_NAME 200 4096 20 2
 
     echo "use heat template to create stack"
     cd $HOT_PATH
@@ -134,7 +134,7 @@ bottlenecks_rubbos_wait_finish()
     retry=0
     while true
     do
-        ssh $ssh_args ec2-user@$control_ip "FILE=/tmp/rubbos_finished; if [ -f \$FILE ]; then exit 0; else exit 1; fi"
+        ssh $ssh_args ubuntu@$control_ip "FILE=/tmp/rubbos_finished; if [ -f \$FILE ]; then exit 0; else exit 1; fi"
         if [ $? = 0 ]; then
             echo "Rubbos test case successfully finished :)"
             return 0
@@ -174,9 +174,9 @@ bottlenecks_rubbos_run()
 
     scp $ssh_args -r \
         $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup \
-        ec2-user@$control_ip:/tmp
+        ubuntu@$control_ip:/tmp
     ssh $ssh_args \
-        ec2-user@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
+        ubuntu@$control_ip "bash /tmp/vm_dev_setup/setup_env.sh" &
 
     bottlenecks_rubbos_wait_finish 200
 
@@ -232,7 +232,7 @@ bottlenecks_load_bottlenecks_image()
         --file /tmp/bottlenecks-trusty-server.img)
     echo "$result"
 
-    rm -rf /tmp/bottlenecks-trusty-server.img
+    #rm -rf /tmp/bottlenecks-trusty-server.img
 
     IMAGE_ID_BOTTLENECKS=$(echo "$result" | grep " id " | awk '{print $(NF-1)}')
     if [ -z "$IMAGE_ID_BOTTLENECKS" ]; then
@@ -250,7 +250,8 @@ main()
     BOTTLENECKS_DEBUG=True
     BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
     BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo/bottlenecks
-    IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    #IMAGE_URL=http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img
+    IMAGE_URL=file:///tmp/trusty-server.img
     #IMAGE_URL=https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
     IMAGE_NAME=bottlenecks-trusty-server
     KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
@@ -258,12 +259,14 @@ main()
     KEY_NAME=bottlenecks-key
     FLAVOR_NAME=bottlenecks-flavor
     TEMPLATE_NAME=bottlenecks_rubbos_hot.yaml
-    PUBLIC_NET_NAME=net04_ext
+    #TODO use EXTERNAL_NET
+    PUBLIC_NET_NAME=ext-net
     ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
     : ${POD_NAME:='opnfv-jump-2'}
     : ${INSTALLER_TYPE:='fuel'}
     : ${BOTTLENECKS_VERSION:='master'}
-    : ${BOTTLENECKS_DB_TARGET:='213.77.62.197'}
+    #: ${BOTTLENECKS_DB_TARGET:='213.77.62.197'}
+    : ${BOTTLENECKS_DB_TARGET:='213.77.62.19'}
 
     bottlenecks_env_prepare
     set -x
@@ -272,7 +275,7 @@ main()
     bottlenecks_create_instance
     bottlenecks_check_instance_ok
     bottlenecks_rubbos_run
-    bottlenecks_cleanup
+    #bottlenecks_cleanup
     echo "main end $(date)"
 }
 
