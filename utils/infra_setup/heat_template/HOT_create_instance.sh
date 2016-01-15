@@ -258,7 +258,8 @@ main()
     KEY_NAME=bottlenecks-key
     FLAVOR_NAME=bottlenecks-flavor
     TEMPLATE_NAME=bottlenecks_rubbos_hot.yaml
-    PUBLIC_NET_NAME=net04_ext
+    #TODO use EXTERNAL_NET
+    PUBLIC_NET_NAME=ext-net
     ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
     : ${POD_NAME:='opnfv-jump-2'}
     : ${INSTALLER_TYPE:='fuel'}

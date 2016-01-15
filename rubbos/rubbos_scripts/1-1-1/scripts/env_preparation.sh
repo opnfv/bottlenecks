@@ -14,11 +14,11 @@ RELENG_REPO=https://gerrit.opnfv.org/gerrit/releng
 RELENG_REPO_DIR=/tmp/opnfvrepo/releng
 #RELENG_BRANCH=master # branch, tag, sha1 or refspec
 
-INSTALLER_TYPE=fuel
-INSTALLER_IP=10.20.0.2
+INSTALLER_TYPE=compass
+INSTALLER_IP=192.168.200.2
 
-POD_NAME=opnfv-jump-2
-EXTERNAL_NET=net04_ext
+POD_NAME=huawei-us-deploy-bare-1
+EXTERNAL_NET=ext-net
 
 echo "INFO: Creating openstack credentials .."
 
