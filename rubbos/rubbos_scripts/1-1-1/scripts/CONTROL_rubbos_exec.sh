@@ -18,7 +18,7 @@ ssh $BENCHMARK_HOST "
 "
 
 # run test rubbos.properties from 200 to 3200
-for i in {2..32..5}
+for i in {2..7..5}
 do
   echo "Start Browsing Only with rubbos.properties_$((100*i)) $(date)"
 
@@ -123,7 +123,7 @@ ls $RUBBOS_RESULTS_DIR_NAME
 
 echo "Fetch POD env parameters"
 source /tmp/vm_dev_setup/hosts.conf
-sed -i -e "s/REPLACE_POD_NAME/$POD_NAME/g" \
+sed -i -e "s/REPLACE_NODE_NAME/$NODE_NAME/g" \
        -e "s/REPLACE_INSTALLER_TYPE/$INSTALLER_TYPE/g" \
        -e "s/REPLACE_VERSION/$BOTTLENECKS_VERSION/g" \
        -e "s#REPLACE_BOTTLENECKS_DB_TARGET#$BOTTLENECKS_DB_TARGET#g" \

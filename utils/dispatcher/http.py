@@ -49,7 +49,7 @@ class HttpDispatcher(DispatchBase):
         self.result = {
             "project_name": "bottlenecks",
             "description": "bottlenecks test cases result",
-            "pod_name": os.environ.get('POD_NAME', 'unknown'),
+            "pod_name": os.environ.get('NODE_NAME', 'unknown'),
             "installer": os.environ.get('INSTALLER_TYPE', 'unknown'),
             "version": os.environ.get('BOTTLENECKS_VERSION', 'unknown')
         }
