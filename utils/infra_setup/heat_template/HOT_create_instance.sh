@@ -2,8 +2,6 @@
 
 set -x
 
-GERRIT_REFSPEC_DEBUG=$1
-
 bottlenecks_env_prepare()
 {
     echo "Bottlenecks env prepare start $(date)"
