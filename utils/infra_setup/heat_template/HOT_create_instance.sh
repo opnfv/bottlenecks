@@ -140,7 +140,7 @@ bottlenecks_create_instance()
     nova keypair-add --pub_key $KEY_PATH/bottlenecks_key.pub $KEY_NAME
 
     echo "create flavor"
-    nova flavor-create $FLAVOR_NAME 200 4096 20 1
+    nova flavor-create $FLAVOR_NAME 200 4096 20 2
 
     echo "use heat template to create stack"
     cd $HOT_PATH
