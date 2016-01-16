@@ -71,10 +71,10 @@ bottlenecks_download_repo()
     if [ ! -d $BOTTLENECKS_REPO_DIR ]; then
         sudo git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
     fi
-    sudo cd $BOTTLENECKS_REPO_DIR
+    cd $BOTTLENECKS_REPO_DIR
     sudo git checkout master && sudo git pull
     git_checkout $BOTTLENECKS_BRANCH $BOTTLENECKS_REPO
-    sudo cd -
+    cd -
 }
 
 bottlenecks_config_hosts_ip()
