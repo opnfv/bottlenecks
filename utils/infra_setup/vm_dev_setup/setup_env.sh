@@ -53,13 +53,13 @@ bottlenecks_prepare_env()
 
 git_checkout()
 {
-    if git cat-file -e $1^{commit} 2>/dev/null; then
+    if sudo git cat-file -e $1^{commit} 2>/dev/null; then
         # branch, tag or sha1 object
-        git checkout $1
+        sudo git checkout $1
     else
         # refspec / changeset
-        git fetch --tags --progress $2 $1
-        git checkout FETCH_HEAD
+        sudo git fetch --tags --progress $2 $1
+        sudo git checkout FETCH_HEAD
     fi
 }
 
@@ -69,12 +69,12 @@ bottlenecks_download_repo()
 
     sudo git config --global http.sslVerify false
     if [ ! -d $BOTTLENECKS_REPO_DIR ]; then
-        git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
+        sudo git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
     fi
-    cd $BOTTLENECKS_REPO_DIR
-    git checkout master && git pull
+    sudo cd $BOTTLENECKS_REPO_DIR
+    sudo git checkout master && sudo git pull
     git_checkout $BOTTLENECKS_BRANCH $BOTTLENECKS_REPO
-    cd -
+    sudo cd -
 }
 
 bottlenecks_config_hosts_ip()
