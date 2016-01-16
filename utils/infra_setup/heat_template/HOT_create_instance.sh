@@ -2,32 +2,39 @@
 
 set -x
 
-bottlenecks_env_prepare()
+git_checkout()
 {
+    if git cat-file -e $1^{commit} 2>/dev/null; then
+        # branch, tag or sha1 object
+        git checkout $1
+    else
+        # refspec / changeset
+        git fetch --tags --progress $2 $1
+        git checkout FETCH_HEAD
+    fi
+}
+
+bottlenecks_env_prepare() {
+    set -e
     echo "Bottlenecks env prepare start $(date)"
-
-    if [ -d $BOTTLENECKS_REPO_DIR ]; then
-        rm -rf ${BOTTLENECKS_REPO_DIR}
-    fi
-
-    mkdir -p ${BOTTLENECKS_REPO_DIR}
     git config --global http.sslVerify false
-    git clone ${BOTTLENECKS_REPO} ${BOTTLENECKS_REPO_DIR}
-    if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
-        cd ${BOTTLENECKS_REPO_DIR}
-        git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && git checkout FETCH_HEAD
-        cd -
+
+    if [ ! -d $BOTTLENECKS_REPO_DIR ]; then
+        git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
     fi
+    cd $BOTTLENECKS_REPO_DIR
+    git checkout master && git pull
+    git_checkout $BOTTLENECKS_BRANCH $BOTTLENECKS_REPO
+    cd -
 
     echo "Creating openstack credentials .."
-    set -e
-
-    if [ -d $RELENG_REPO_DIR ]; then
-        rm -rf ${RELENG_REPO_DIR}
+    if [ ! -d $RELENG_REPO_DIR ]; then
+        git clone $RELENG_REPO $RELENG_REPO_DIR
     fi
-    mkdir -p ${RELENG_REPO_DIR}
-    git config --global http.sslVerify false
-    git clone ${RELENG_REPO} ${RELENG_REPO_DIR}
+    cd $RELENG_REPO_DIR
+    git checkout master && git pull
+    git_checkout $RELENG_BRANCH $RELENG_REPO
+    cd -
 
     # Create openstack credentials
     $RELENG_REPO_DIR/utils/fetch_os_creds.sh \
@@ -35,11 +42,11 @@ bottlenecks_env_prepare()
         -i ${INSTALLER_TYPE} -a ${INSTALLER_IP}
 
     source /tmp/openrc
-    set +e
 
     chmod 600 $KEY_PATH/bottlenecks_key
 
     echo "Bottlenecks env prepare end $(date)"
+    set +e
 }
 
 wait_heat_stack_complete() {
@@ -181,6 +188,7 @@ bottlenecks_rubbos_run()
     echo "nameserver_ip=$nameserver_ip" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 
     echo "GERRIT_REFSPEC_DEBUG=$GERRIT_REFSPEC_DEBUG" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
+    echo "BOTTLENECKS_BRANCH=$BOTTLENECKS_BRANCH" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
 
     echo "NODE_NAME=$NODE_NAME" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
     echo "INSTALLER_TYPE=$INSTALLER_TYPE" >> $BOTTLENECKS_REPO_DIR/utils/infra_setup/vm_dev_setup/hosts.conf
@@ -269,23 +277,26 @@ main()
 {
     echo "main start $(date)"
 
-    BOTTLENECKS_DEBUG=True
-    BOTTLENECKS_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
-    BOTTLENECKS_REPO_DIR=/tmp/opnfvrepo/bottlenecks
-    RELENG_REPO=https://gerrit.opnfv.org/gerrit/releng
-    RELENG_REPO_DIR=/tmp/opnfvrepo/releng
-    IMAGE_NAME=bottlenecks-trusty-server
+    : ${BOTTLENECKS_DEBUG:='True'}
+    : ${BOTTLENECKS_REPO:='https://gerrit.opnfv.org/gerrit/bottlenecks'}
+    : ${BOTTLENECKS_REPO_DIR:='/tmp/opnfvrepo/bottlenecks'}
+    : ${BOTTLENECKS_BRANCH:='master'} # branch, tag, sha1 or refspec
+    : ${RELENG_REPO:='https://gerrit.opnfv.org/gerrit/releng'}
+    : ${RELENG_REPO_DIR:='/tmp/opnfvrepo/releng'}
+    : ${RELENG_BRANCH:='master'} # branch, tag, sha1 or refspec
+    : ${IMAGE_NAME:='bottlenecks-trusty-server'}
     KEY_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/bottlenecks_key
     HOT_PATH=$BOTTLENECKS_REPO_DIR/utils/infra_setup/heat_template
-    KEY_NAME=bottlenecks-key
-    FLAVOR_NAME=bottlenecks-flavor
-    TEMPLATE_NAME=bottlenecks_rubbos_hot.yaml
+    : ${KEY_NAME:='bottlenecks-key'}
+    : ${FLAVOR_NAME:='bottlenecks-flavor'}
+    : ${TEMPLATE_NAME:='bottlenecks_rubbos_hot.yaml'}
     ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i $KEY_PATH/bottlenecks_key"
     : ${EXTERNAL_NET:='net04_ext'}
     : ${PACKAGE_URL:='http://artifacts.opnfv.org/bottlenecks'}
     : ${NODE_NAME:='opnfv-jump-2'}
     : ${INSTALLER_TYPE:='fuel'}
     : ${INSTALLER_IP:='10.20.0.2'}
+    # TODO fix for dashboard
     : ${BOTTLENECKS_VERSION:='master'}
     : ${BOTTLENECKS_DB_TARGET:='213.77.62.197'}
     IMAGE_URL=${PACKAGE_URL}/rubbos/bottlenecks-trusty-server.img
