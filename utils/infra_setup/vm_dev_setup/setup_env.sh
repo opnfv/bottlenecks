@@ -51,29 +51,30 @@ bottlenecks_prepare_env()
     done
 }
 
+git_checkout()
+{
+    if git cat-file -e $1^{commit} 2>/dev/null; then
+        # branch, tag or sha1 object
+        git checkout $1
+    else
+        # refspec / changeset
+        git fetch --tags --progress $2 $1
+        git checkout FETCH_HEAD
+    fi
+}
+
 bottlenecks_download_repo()
 {
     echo "Bottlenecks: download bottlenecks repo"
 
     sudo git config --global http.sslVerify false
-    if [ -d $BOTTLENECKS_REPO_DIR/.git ]; then
-        cd $BOTTLENECKS_REPO_DIR
-        sudo git pull origin master
-        if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
-            sudo git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && sudo git checkout FETCH_HEAD
-        fi
-        cd -
-    else
-        sudo rm -rf $BOTTLENECKS_REPO_DIR
-        sudo git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
-        if [ x"$GERRIT_REFSPEC_DEBUG" != x ]; then
-            cd $BOTTLENECKS_REPO_DIR
-            echo "fetch $GERRIT_REFSPEC_DEBUG"
-            sudo git fetch $BOTTLENECKS_REPO $GERRIT_REFSPEC_DEBUG && sudo git checkout FETCH_HEAD
-            cd -
-        fi
-
+    if [ ! -d $BOTTLENECKS_REPO_DIR ]; then
+        git clone $BOTTLENECKS_REPO $BOTTLENECKS_REPO_DIR
     fi
+    cd $BOTTLENECKS_REPO_DIR
+    git checkout master && git pull
+    git_checkout $BOTTLENECKS_BRANCH $BOTTLENECKS_REPO
+    cd -
 }
 
 bottlenecks_config_hosts_ip()
