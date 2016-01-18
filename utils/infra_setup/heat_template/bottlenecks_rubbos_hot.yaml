@@ -81,6 +81,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_control_port }
+      admin_user: ubuntu
 
   rubbos_control_port:
     type: OS::Neutron::Port
@@ -105,6 +106,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_httpd_port }
+      admin_user: ubuntu
 
   rubbos_httpd_port:
     type: OS::Neutron::Port
@@ -123,6 +125,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_mysql1_port }
+      admin_user: ubuntu
 
   rubbos_mysql1_port:
     type: OS::Neutron::Port
@@ -141,6 +144,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_tomcat1_port }
+      admin_user: ubuntu
 
   rubbos_tomcat1_port:
     type: OS::Neutron::Port
@@ -159,6 +163,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_client1_port }
+      admin_user: ubuntu
 
   rubbos_client1_port:
     type: OS::Neutron::Port
@@ -177,6 +182,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_client2_port }
+      admin_user: ubuntu
 
   rubbos_client2_port:
     type: OS::Neutron::Port
@@ -195,6 +201,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_client3_port }
+      admin_user: ubuntu
 
   rubbos_client3_port:
     type: OS::Neutron::Port
@@ -213,6 +220,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_client4_port }
+      admin_user: ubuntu
 
   rubbos_client4_port:
     type: OS::Neutron::Port
@@ -231,6 +239,7 @@ resources:
       key_name: { get_param: key_name }
       networks:
         - port: { get_resource: rubbos_benchmark_port }
+      admin_user: ubuntu
 
   rubbos_benchmark_port:
     type: OS::Neutron::Port
