@@ -1,8 +1,12 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
-# author: wly
-# date: 2015-07-29
-# see license for license details
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 __version__ = ''' '''
 import os
 import logging
@@ -10,7 +14,8 @@ import logging
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import and_
-from vstf.controller.database.tables import *
+import vstf.controller.database.tables as table
+from vstf.controller.database import constants as const
 
 LOG = logging.getLogger(__name__)
 
@@ -38,7 +43,7 @@ class DbManage(object):
         except Exception as e:
             raise e
 
-        # if the db is new , cleate all tables and init static tables
+        # if the db is new , create all tables and init static tables
         if not db_exists:
             self.create_tables()
             self.init_tables()
@@ -47,11 +52,11 @@ class DbManage(object):
         self._engine.close_all()
 
     def create_tables(self):
-        Base.metadata.create_all(self._engine)
+        table.Base.metadata.create_all(self._engine)
         self._session.commit()
 
     def drop_tables(self):
-        Base.metadata.drop_all(self._engine)
+        table.Base.metadata.drop_all(self._engine)
         self._session.commit()
 
     def init_tables(self):
@@ -62,9 +67,9 @@ class DbManage(object):
     def init_scenario_table(self):
         items = []
         for values in const.SCENARIO_INFO_LIST:
-            item = TblScenarioInfo(ScenarioName=values[0],
-                                   FigurePath=values[1],
-                                   Description=values[2])
+            item = table.TblScenarioInfo(ScenarioName=values[0],
+                                         FigurePath=values[1],
+                                         Description=values[2])
             items.append(item)
         self._session.add_all(items)
 
@@ -72,53 +77,53 @@ class DbManage(object):
     def init_casetable(self):
         items = []
         for values in const.CASE_INFO_LIST:
-            item = TblCaseInfo(CaseTag=values[0],
-                               ScenarioName=values[1],
-                               CaseName=values[2],
-                               FigurePath=values[3],
-                               Description=values[4],
-                               Direction=values[5],
-                               Directiontag=values[6],
-                               Configure=values[7])
+            item = table.TblCaseInfo(CaseTag=values[0],
+                                     ScenarioName=values[1],
+                                     CaseName=values[2],
+                                     FigurePath=values[3],
+                                     Description=values[4],
+                                     Direction=values[5],
+                                     Directiontag=values[6],
+                                     Configure=values[7])
             items.append(item)
         self._session.add_all(items)
 
     def query_caseinfo(self):
-        query = self._session.query(TblCaseInfo.ScenarioName,
-                                    TblCaseInfo.CaseTag,
-                                    TblCaseInfo.CaseName,
-                                    TblCaseInfo.Direction,
-                                    TblCaseInfo.Configure)
+        query = self._session.query(table.TblCaseInfo.ScenarioName,
+                                    table.TblCaseInfo.CaseTag,
+                                    table.TblCaseInfo.CaseName,
+                                    table.TblCaseInfo.Direction,
+                                    table.TblCaseInfo.Configure)
         return query.all()
 
     def query_case(self, casetag):
-        query = self._session.query(TblCaseInfo.ScenarioName,
-                                    TblCaseInfo.Directiontag)
+        query = self._session.query(table.TblCaseInfo.ScenarioName,
+                                    table.TblCaseInfo.Directiontag)
         return query.first()
 
     # Single TblTaskList API
     def get_last_taskid(self):
-        query = self._session.query(TblTaskList.TaskID)
+        query = self._session.query(table.TblTaskList.TaskID)
         if query:
             return query.all()[-1][0]
         else:
             return 0
 
     def query_tasklist(self):
-        query = self._session.query(TblTaskList)
+        query = self._session.query(table.TblTaskList)
         return query.all()
 
     def query_taskdate(self, taskid):
-        query = self._session.query(TblTaskList.Date).filter(and_(
-            TblTaskList.TaskID == taskid))
+        query = self._session.query(table.TblTaskList.Date).filter(and_(
+            table.TblTaskList.TaskID == taskid))
         result = ""
         if query:
             result += query.first()[0]
         return result
 
     def query_taskname(self, taskid):
-        query = self._session.query(TblTaskList.TaskName).filter(and_(
-            TblTaskList.TaskID == taskid))
+        query = self._session.query(table.TblTaskList.TaskName).filter(and_(
+            table.TblTaskList.TaskID == taskid))
         result = ""
         if query:
             result += query.first()[0]
@@ -126,7 +131,7 @@ class DbManage(object):
 
     def create_task(self, name, date, desc):
         try:
-            item = TblTaskList(name, date, desc)
+            item = table.TblTaskList(name, date, desc)
             self._session.add(item)
             self._session.commit()
         except Exception:
@@ -137,32 +142,33 @@ class DbManage(object):
     # Single TblHostInfo API
     def add_host_2task(self, taskid, name, machine, cpu, men, nic, os):
         """All var except task must be string"""
-        item = TblHostInfo(taskid, name, machine, cpu, men, nic, os)
+        item = table.TblHostInfo(taskid, name, machine, cpu, men, nic, os)
 
         self._session.add(item)
         self._session.commit()
 
     def query_task_host_list(self, taskid):
-        query = self._session.query(TblHostInfo.HostName,
-                                    TblHostInfo.Server,
-                                    TblHostInfo.CPU,
-                                    TblHostInfo.MEM,
-                                    TblHostInfo.NIC,
-                                    TblHostInfo.OS).filter(
-            TblHostInfo.TaskID == taskid)
+        query = self._session.query(table.TblHostInfo.HostName,
+                                    table.TblHostInfo.Server,
+                                    table.TblHostInfo.CPU,
+                                    table.TblHostInfo.MEM,
+                                    table.TblHostInfo.NIC,
+                                    table.TblHostInfo.OS).filter(
+            table.TblHostInfo.TaskID == taskid)
         return query.all()
 
     # Single TblTestList API
     def get_last_testid(self):
-        query = self._session.query(TblTestList.TestID)
+        query = self._session.query(table.TblTestList.TestID)
+        print query.all()
         if query:
             return query.all()[-1][0]
         else:
             return 0
 
-    def add_test_2task(self, task, case, protocol, provider, typ, tool):
+    def add_test_2task(self, task, case, protocol, typ, switch, provider, tool):
         try:
-            item = TblTestList(task, case, protocol, provider, typ, tool)
+            item = table.TblTestList(task, case, protocol, typ, switch, provider, tool)
             self._session.add(item)
             self._session.commit()
         except Exception:
@@ -171,12 +177,12 @@ class DbManage(object):
         return self.get_last_testid()
 
     def get_test_type(self, testid):
-        query = self._session.query(TblTestList.Type).filter(
-            TblTestList.TestID == testid)
+        query = self._session.query(table.TblTestList.Type).filter(
+            table.TblTestList.TestID == testid)
         return query.first()
 
     def add_extent_2task(self, task, name, content, description):
-        item = TblEXTInfo(task, name, content, description)
+        item = table.TblEXTInfo(task, name, content, description)
         self._session.add(item)
         self._session.commit()
 
@@ -199,9 +205,9 @@ class DbManage(object):
         """
         ptype = self.get_test_type(testid)
         instance_map = {
-            'throughput': TblThroughput,
-            'frameloss': TblFrameloss,
-            'latency': TblLatency
+            'throughput': table.TblThroughput,
+            'frameloss': table.TblFrameloss,
+            'latency': table.TblLatency
         }
 
         if ptype and ptype[0] not in instance_map:
@@ -228,37 +234,37 @@ class DbManage(object):
 
     def query_tasks(self):
         result = []
-        ret = self._session.query(TblTaskList)
+        ret = self._session.query(table.TblTaskList)
         if ret:
             for tmp in ret.all():
                 result.append([tmp.TaskID, tmp.TaskName, tmp.Date, tmp.EXTInfo])
         return result
 
     def query_all_task_id(self):
-        query = self._session.query(TblTaskList.TaskID)
+        query = self._session.query(table.TblTaskList.TaskID)
         if query:
             return query.all()
         else:
             return []
 
     def get_caseinfo(self):
-        query = self._session.query(TblCaseInfo.ScenarioName,
-                                    TblCaseInfo.CaseTag,
-                                    TblCaseInfo.CaseName,
-                                    TblCaseInfo.Direction,
-                                    TblCaseInfo.Configure)
+        query = self._session.query(table.TblCaseInfo.ScenarioName,
+                                    table.TblCaseInfo.CaseTag,
+                                    table.TblCaseInfo.CaseName,
+                                    table.TblCaseInfo.Direction,
+                                    table.TblCaseInfo.Configure)
         return query.all()
 
     def query_scenario(self, casetag):
-        query = self._session.query(TblCaseInfo.ScenarioName).filter(TblCaseInfo.CaseTag == casetag)
+        query = self._session.query(table.TblCaseInfo.ScenarioName).filter(table.TblCaseInfo.CaseTag == casetag)
         ret = ""
         if query and query.first():
             ret = query.first()[0]
         return ret
 
     def query_casefigure(self, casetag, tools):
-        query = self._session.query(TblCaseInfo.FigurePath).filter(and_(
-            TblCaseInfo.CaseTag == casetag))
+        query = self._session.query(table.TblCaseInfo.FigurePath).filter(and_(
+            table.TblCaseInfo.CaseTag == casetag))
         result = ""
         if query:
             result += query.first()[0]
@@ -267,167 +273,183 @@ class DbManage(object):
         return result
 
     def query_casename(self, casetag):
-        query = self._session.query(TblCaseInfo.CaseName).filter(and_(
-            TblCaseInfo.CaseTag == casetag))
+        query = self._session.query(table.TblCaseInfo.CaseName).filter(and_(
+            table.TblCaseInfo.CaseTag == casetag))
         result = ""
         if query:
             result += query.first()[0]
         return result
 
-    # Single TblScenarioInfo API
+    # Single TblTestList API
 
     def query_caselist(self, taskid, scenario):
-        query = self._session.query(TblTestList.CaseTag).filter(and_(
-            TblTestList.CaseTag == TblCaseInfo.CaseTag,
-            TblCaseInfo.ScenarioName == scenario,
-            TblTestList.TaskID == taskid)).group_by(TblCaseInfo.CaseTag)
+        query = self._session.query(table.TblTestList.CaseTag).filter(and_(
+            table.TblTestList.CaseTag == table.TblCaseInfo.CaseTag,
+            table.TblCaseInfo.ScenarioName == scenario,
+            table.TblTestList.TaskID == taskid)).group_by(table.TblCaseInfo.CaseTag)
+        return query.all()
+
+    def query_testlist(self, taskid, scenario):
+        """
+
+        :rtype : object
+        """
+        query = self._session.query(table.TblTestList).filter(and_(
+            table.TblTestList.CaseTag == table.TblCaseInfo.CaseTag,
+            table.TblCaseInfo.ScenarioName == scenario,
+            table.TblTestList.TaskID == taskid))
         return query.all()
 
     def query_casetool(self, taskid, casetag, provider, ptype):
-        query = self._session.query(TblTestList.Tools).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider,
-            TblTestList.Type == ptype))
+        query = self._session.query(table.TblTestList.Tools).filter(and_(
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider,
+            table.TblTestList.Type == ptype))
         return query.all()
 
     def query_casetools(self, taskid, casetag):
-        query = self._session.query(TblTestList.Tools).filter(and_(
-            TblTestList.CaseTag == casetag,
-            TblTestList.TaskID == taskid)).group_by(TblTestList.Tools)
+        query = self._session.query(table.TblTestList.Tools).filter(and_(
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.TaskID == taskid)).group_by(table.TblTestList.Tools)
         return query.all()
 
     def query_scenariolist(self, taskid):
-        query = self._session.query(TblCaseInfo.ScenarioName).filter(and_(
-            TblTestList.CaseTag == TblCaseInfo.CaseTag,
-            TblTestList.TaskID == taskid)).group_by(TblCaseInfo.ScenarioName)
+        query = self._session.query(table.TblCaseInfo.ScenarioName).filter(and_(
+            table.TblTestList.CaseTag == table.TblCaseInfo.CaseTag,
+            table.TblTestList.TaskID == taskid)).group_by(table.TblCaseInfo.ScenarioName)
         return query.all()
 
     def query_throughput_load(self, taskid, casetag, provider):
         ptype = 'throughput'
-        query = self._session.query(TblThroughput.AvgFrameSize, TblThroughput.OfferedLoad).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblThroughput.TestID))
+        query = self._session.query(table.TblThroughput.AvgFrameSize, table.TblThroughput.OfferedLoad).filter(and_(
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblThroughput.TestID))
         return query.all()
 
     def query_throughput_bandwidth(self, taskid, casetag, provider):
         ptype = 'throughput'
-        query = self._session.query(TblThroughput.AvgFrameSize, TblThroughput.Bandwidth).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblThroughput.TestID))
+        query = self._session.query(table.TblThroughput.AvgFrameSize, table.TblThroughput.Bandwidth).filter(and_(
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblThroughput.TestID))
         return query.all()
 
     def query_throughput_table(self, taskid, casetag, provider):
         ptype = 'throughput'
-        query = self._session.query(TblThroughput.AvgFrameSize,
-                                    TblThroughput.Bandwidth,
-                                    TblThroughput.OfferedLoad,
-                                    TblThroughput.CPU,
-                                    TblThroughput.MppspGhz,
-                                    TblThroughput.MinimumLatency,
-                                    TblThroughput.MaximumLatency,
-                                    TblThroughput.AverageLatency,
+        query = self._session.query(table.TblThroughput.AvgFrameSize,
+                                    table.TblThroughput.Bandwidth,
+                                    table.TblThroughput.OfferedLoad,
+                                    table.TblThroughput.CPU,
+                                    table.TblThroughput.MppspGhz,
+                                    table.TblThroughput.MinimumLatency,
+                                    table.TblThroughput.MaximumLatency,
+                                    table.TblThroughput.AverageLatency,
                                     ).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblThroughput.TestID))
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblThroughput.TestID))
         return query.all()
 
     def query_throughput_simpletable(self, taskid, casetag, provider):
         ptype = 'throughput'
-        query = self._session.query(TblThroughput.AvgFrameSize,
-                                    TblThroughput.Bandwidth,
-                                    TblThroughput.OfferedLoad,
-                                    TblThroughput.CPU,
-                                    TblThroughput.MppspGhz,
-                                    TblThroughput.AverageLatency,
+        query = self._session.query(table.TblThroughput.AvgFrameSize,
+                                    table.TblThroughput.Bandwidth,
+                                    table.TblThroughput.OfferedLoad,
+                                    table.TblThroughput.CPU,
+                                    table.TblThroughput.MppspGhz,
+                                    table.TblThroughput.AverageLatency,
                                     ).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblThroughput.TestID))
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblThroughput.TestID))
+        return query.all()
+
+    def query_testdata(self, testid, ptype):
+        obj = getattr(table, "Tbl%s" % (ptype.title()))
+        query = self._session.query(obj).filter(obj.TestID == testid)
         return query.all()
 
     def query_throughput_avg(self, taskid, casetag, provider):
         ptype = 'throughput'
-        query = self._session.query(TblThroughput.AvgFrameSize, TblThroughput.AverageLatency).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblThroughput.TestID))
+        query = self._session.query(table.TblThroughput.AvgFrameSize, table.TblThroughput.AverageLatency).filter(and_(
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblThroughput.TestID))
         return query.all()
 
     def query_frameloss_bandwidth(self, taskid, casetag, provider):
         ptype = 'frameloss'
-        query = self._session.query(TblFrameloss.AvgFrameSize, TblFrameloss.Bandwidth).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblFrameloss.TestID))
+        query = self._session.query(table.TblFrameloss.AvgFrameSize, table.TblFrameloss.Bandwidth).filter(and_(
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblFrameloss.TestID))
         return query.all()
 
     def query_frameloss_load(self, taskid, casetag, provider):
         ptype = 'frameloss'
-        query = self._session.query(TblFrameloss.AvgFrameSize, TblFrameloss.OfferedLoad).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblFrameloss.TestID))
+        query = self._session.query(table.TblFrameloss.AvgFrameSize, table.TblFrameloss.OfferedLoad).filter(and_(
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblFrameloss.TestID))
         return query.all()
 
     def query_frameloss_table(self, taskid, casetag, provider):
         ptype = 'frameloss'
-        query = self._session.query(TblFrameloss.AvgFrameSize,
-                                    TblFrameloss.Bandwidth,
-                                    TblFrameloss.OfferedLoad,
-                                    TblFrameloss.CPU,
-                                    TblFrameloss.MppspGhz,
-                                    TblFrameloss.MinimumLatency,
-                                    TblFrameloss.MaximumLatency,
-                                    TblFrameloss.AverageLatency,
+        query = self._session.query(table.TblFrameloss.AvgFrameSize,
+                                    table.TblFrameloss.Bandwidth,
+                                    table.TblFrameloss.OfferedLoad,
+                                    table.TblFrameloss.CPU,
+                                    table.TblFrameloss.MppspGhz,
+                                    table.TblFrameloss.MinimumLatency,
+                                    table.TblFrameloss.MaximumLatency,
+                                    table.TblFrameloss.AverageLatency
                                     ).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblFrameloss.TestID))
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblFrameloss.TestID))
         return query.all()
 
     def query_frameloss_simpletable(self, taskid, casetag, provider):
         ptype = 'frameloss'
-        query = self._session.query(TblFrameloss.AvgFrameSize,
-                                    TblFrameloss.Bandwidth,
-                                    TblFrameloss.OfferedLoad,
-                                    TblFrameloss.CPU,
-                                    TblFrameloss.MppspGhz,
-                                    TblFrameloss.AverageLatency,
+        query = self._session.query(table.TblFrameloss.AvgFrameSize,
+                                    table.TblFrameloss.Bandwidth,
+                                    table.TblFrameloss.OfferedLoad,
+                                    table.TblFrameloss.CPU,
+                                    table.TblFrameloss.MppspGhz,
+                                    table.TblFrameloss.AverageLatency
                                     ).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblFrameloss.TestID))
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblFrameloss.TestID))
         return query.all()
 
     def query_frameloss_avg(self, taskid, casetag, provider):
         ptype = 'frameloss'
-        query = self._session.query(TblFrameloss.AvgFrameSize, TblFrameloss.AverageLatency).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblFrameloss.TestID))
+        query = self._session.query(table.TblFrameloss.AvgFrameSize, table.TblFrameloss.AverageLatency).filter(and_(
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblFrameloss.TestID))
         return query.all()
 
     def query_latency_avg(self, taskid, casetag, provider):
         ptype = 'latency'
-        query = self._session.query(TblLatency.AvgFrameSize, TblLatency.AverageLatency).filter(and_(
-            TblTestList.TaskID == taskid,
-            TblTestList.CaseTag == casetag,
-            TblTestList.Provider == provider, TblTestList.Type == ptype,
-            TblTestList.TestID == TblLatency.TestID))
+        query = self._session.query(table.TblLatency.AvgFrameSize, table.TblLatency.AverageLatency).filter(and_(
+            table.TblTestList.TaskID == taskid,
+            table.TblTestList.CaseTag == casetag,
+            table.TblTestList.Provider == provider, table.TblTestList.Type == ptype,
+            table.TblTestList.TestID == table.TblLatency.TestID))
         return query.all()
 
     def query_summary_table(self, taskid, casetag, provider, ptype):
@@ -461,50 +483,51 @@ class DbManage(object):
         return []
 
     def query_throughput_provider(self, taskid, casetag, provider):
-        query = self._session.query(TblThroughput).filter(and_(TblTestList.CaseTag == casetag,
-                                                               TblTestList.Provider == provider,
-                                                               TblTestList.TaskID == taskid,
-                                                               TblTestList.TestID == TblThroughput.TestID))
+        query = self._session.query(table.TblThroughput).filter(and_(table.TblTestList.CaseTag == casetag,
+                                                                     table.TblTestList.Provider == provider,
+                                                                     table.TblTestList.TaskID == taskid,
+                                                                     table.TblTestList.TestID == table.TblThroughput.TestID))
         return query.all()
 
     def query_frameloss_provider(self, taskid, casetag, provider):
-        query = self._session.query(TblFrameloss).filter(and_(TblTestList.CaseTag == casetag,
-                                                              TblTestList.Provider == provider,
-                                                              TblTestList.TaskID == taskid,
-                                                              TblTestList.TestID == TblFrameloss.TestID))
+        query = self._session.query(table.TblFrameloss).filter(and_(table.TblTestList.CaseTag == casetag,
+                                                                    table.TblTestList.Provider == provider,
+                                                                    table.TblTestList.TaskID == taskid,
+                                                                    table.TblTestList.TestID == table.TblFrameloss.TestID))
         return query.all()
 
     def query_latency_provider(self, taskid, casetag, provider):
-        query = self._session.query(TblLatency).filter(and_(TblTestList.CaseTag == casetag,
-                                                            TblTestList.Provider == provider,
-                                                            TblTestList.TaskID == taskid,
-                                                            TblTestList.TestID == TblLatency.TestID))
+        query = self._session.query(table.TblLatency).filter(and_(table.TblTestList.CaseTag == casetag,
+                                                                  table.TblTestList.Provider == provider,
+                                                                  table.TblTestList.TaskID == taskid,
+                                                                  table.TblTestList.TestID == table.TblLatency.TestID))
         return query.all()
 
     def query_case_type_count(self, taskid, casetag, ptype):
-        query = self._session.query(TblTestList).filter(and_(TblTestList.CaseTag == casetag,
-                                                             TblTestList.Type == ptype, TblTestList.TaskID == taskid))
+        query = self._session.query(table.TblTestList).filter(and_(table.TblTestList.CaseTag == casetag,
+                                                                   table.TblTestList.Type == ptype,
+                                                                   table.TblTestList.TaskID == taskid))
 
         return query.count()
 
     def query_case_provider_count(self, taskid, casetag, provider):
-        query = self._session.query(TblTestList).filter(and_(TblTestList.CaseTag == casetag,
-                                                             TblTestList.Provider == provider,
-                                                             TblTestList.TaskID == taskid))
+        query = self._session.query(table.TblTestList).filter(and_(table.TblTestList.CaseTag == casetag,
+                                                                   table.TblTestList.Provider == provider,
+                                                                   table.TblTestList.TaskID == taskid))
         return query.count()
 
     def query_case_type_provider_count(self, taskid, casetag, provider, ptype):
-        query = self._session.query(TblTestList).filter(and_(TblTestList.CaseTag == casetag,
-                                                             TblTestList.Type == ptype,
-                                                             TblTestList.Provider == provider,
-                                                             TblTestList.TaskID == taskid))
+        query = self._session.query(table.TblTestList).filter(and_(table.TblTestList.CaseTag == casetag,
+                                                                   table.TblTestList.Type == ptype,
+                                                                   table.TblTestList.Provider == provider,
+                                                                   table.TblTestList.TaskID == taskid))
 
         return query.count()
 
     def query_exten_info(self, taskid):
-        query = self._session.query(TblEXTInfo.EXTName,
-                                    TblEXTInfo.EXTContent,
-                                    TblEXTInfo.Description).filter(TblEXTInfo.TaskID == taskid)
+        query = self._session.query(table.TblEXTInfo.EXTName,
+                                    table.TblEXTInfo.EXTContent,
+                                    table.TblEXTInfo.Description).filter(table.TblEXTInfo.TaskID == taskid)
         return query.all()
 
 
@@ -517,7 +540,7 @@ def unit_test():
     dbase.add_extent_2task(taskid, "CETH", "driver", "version 2.0")
     dbase.add_extent_2task(taskid, "EVS", "switch", "version 3.0")
 
-    testid = dbase.add_test_2task(taskid, "Tn-1", 'udp', "rdp", "throughput", "netperf")
+    testid = dbase.add_test_2task(taskid, "Tn-1", 'udp', "throughput", "ovs", None, "netperf")
     data = {
         '64': {
             'OfferedLoad': 2,
@@ -535,7 +558,7 @@ def unit_test():
     }
     dbase.add_data_2test(testid, data)
 
-    testid = dbase.add_test_2task(taskid, "Tn-1", 'udp', "rdp", "frameloss", "netperf")
+    testid = dbase.add_test_2task(taskid, "Tn-1", 'udp', "frameloss", "ovs", None, "netperf")
     data = {
         '64': {
             'OfferedLoad': 2,
@@ -553,7 +576,7 @@ def unit_test():
     }
     dbase.add_data_2test(testid, data)
 
-    testid = dbase.add_test_2task(taskid, "Tn-1", 'udp', "rdp", "latency", "netperf")
+    testid = dbase.add_test_2task(taskid, "Tn-1", 'udp', "latency", "ovs", None, "netperf")
     data = {
         64: {'MaximumLatency': 0.0, 'AverageLatency': 0.0, 'MinimumLatency': 0.0, 'OfferedLoad': 0.0},
         128: {'MaximumLatency': 0.0, 'AverageLatency': 0.0, 'MinimumLatency': 0.0, 'OfferedLoad': 0.0},
@@ -561,7 +584,12 @@ def unit_test():
         1024: {'MaximumLatency': 0.0, 'AverageLatency': 0.0, 'MinimumLatency': 0.0, 'OfferedLoad': 0.0}
     }
     dbase.add_data_2test(testid, data)
+    query = dbase.query_testlist(1, "Tn")
+    for item in query:
+        print item.Protocol
 
+    query = dbase.query_testdata(1, "throughput")
+    print query
 
 if __name__ == '__main__':
     unit_test()

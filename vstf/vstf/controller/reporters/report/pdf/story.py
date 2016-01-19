@@ -1,5 +1,12 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 __doc__ = """
 Story Decorator contains ImageStory, HeaderStory, PageBreakStory,
 TableStory, LinePlotStory, TitleStory, ParagraphStory
@@ -88,44 +95,32 @@ class TableOfContentsStory(StoryDecorator):
         self._story.storylist.append(toc)
 
 
-class uTableStory(StoryDecorator):
-    def new_story(self):
-        print "utable story"
-        style = ts_left
-        if not self._data:
-            print "data error "
-            return
-        self._story.storylist.append(eCommonTable(self._data, style).table)
-
-
-class TableStory(StoryDecorator):
-    def new_story(self):
-        print "table story"
-        style = ts_default
-        self._story.storylist.append(eDataTable(self._data, style).table)
-
-
 class SpaceStory(StoryDecorator):
     def new_story(self):
         style = ps_space
         self._story.storylist.append(eParagraph([" ", " "], style).para)
 
 
-class cTableStory(StoryDecorator):
+class TableStory(StoryDecorator):
     def new_story(self):
         print "table story"
         style = ts_default
-        if self._style == 0:
-            self._story.storylist.append(eConfigTable(self._data, style).table)
-        elif self._style == 1:
-            self._story.storylist.append(eOptionsTable(self._data, style).table)
-        elif self._style == 2:
-            self._story.storylist.append(eProfileTable(self._data, style).table)
+        if self._style == 1:
+            self._story.storylist.append(eDataTable(self._data, style).table)
+        elif self._style ==2:
+            style = ts_left
+            self._story.storylist.append(eCommonTable(self._data, style).table)
         elif self._style == 3:
-            self._story.storylist.append(eSummaryTable(self._data, style).table)
+            self._story.storylist.append(eConfigTable(self._data, style).table)
         elif self._style == 4:
-            self._story.storylist.append(eScenarioTable(self._data, style).table)
+            self._story.storylist.append(eOptionsTable(self._data, style).table)
         elif self._style == 5:
+            self._story.storylist.append(eProfileTable(self._data, style).table)
+        elif self._style == 6:
+            self._story.storylist.append(eSummaryTable(self._data, style).table)
+        elif self._style == 7:
+            self._story.storylist.append(eScenarioTable(self._data, style).table)
+        elif self._style == 8:
             self._story.storylist.append(eGitInfoTable(self._data, style).table)
 
 

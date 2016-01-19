@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
 # author: wly
-# date: 2015-07-29
+# date: 2015-12-25
 # see license for license details
 __version__ = ''' '''
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
@@ -127,22 +127,24 @@ class TblTestList(Base):
     TaskID = Column(Integer, ForeignKey('TblTaskList.TaskID'))
     CaseTag = Column(String(const.CASE_TAG_LEN))
     Protocol = Column(String(const.PROTOCOL_LEN))
-    Provider = Column(String(const.PROVIDER_LEN))
     Type = Column(String(const.TYPE_LEN))
+    Switch = Column(String(const.SWITCH_LEN))
+    Provider = Column(String(const.PROVIDER_LEN))
     Tools = Column(String(const.TOOLS_LEN))
 
-    def __init__(self, taskid, casetag, protocol, provider, typ, tools, **kwargs):
+    def __init__(self, taskid, casetag, protocol, typ, switch, provider, tools, **kwargs):
         """Table of test"""
         self.TaskID = taskid
         self.CaseTag = casetag
         self.Protocol = protocol
-        self.Provider = provider
         self.Type = typ
+        self.Switch = switch
+        self.Provider = provider
         self.Tools = tools
 
     def __repr__(self):
-        return "<User(TaskID='%d', CaseTag='%s', Protocol='%s', Provider=%s, Type='%s', Tools='%s')>" % (
-            self.TaskID, self.CaseTag, self.Protocol, self.Provider, self.Type, self.Tools)
+        return "<User(TaskID='%d', CaseTag='%s', Protocol='%s', Type='%s', Switch=%s, Provider=%s, Tools='%s')>" % (
+            self.TaskID, self.CaseTag, self.Protocol, self.Type, self.Switch, self.Provider, self.Tools)
 
 
 class TblThroughput(Base):

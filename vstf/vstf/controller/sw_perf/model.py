@@ -1,8 +1,11 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
-# author:
-# date:
-# see license for license details
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 
 import logging
 
@@ -161,7 +164,11 @@ class CpuWatcher(Fabricant):
     def __init__(self, dst, conn):
         super(CpuWatcher, self).__init__(dst, conn)
         self._pid = None
-        self._data = {}
+        self._data = {
+            "cpu_num": 0,
+            "idle": 0,
+            "cpu_mhz": 0
+        }
 
     def start(self):
         print "CpuWatcher.start"

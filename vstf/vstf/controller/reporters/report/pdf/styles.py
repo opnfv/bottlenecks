@@ -1,10 +1,17 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 from reportlab.lib.styles import PropertySet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_LEFT
+import reportlab.lib.enums as ens
 
 
 class TemplateStyle(PropertySet):
@@ -108,20 +115,14 @@ class BarChartStyle(PropertySet):
             "fastlink": (colors.pink, '%4.1f'),
             "l2switch": (colors.lightblue, '%4.1f'),
             "kernel rdp": (colors.lightgreen, '%4.1f'),
+            "ovs": (colors.purple, '%4.1f')
         },
         background=colors.lightgrey,
         labelsfont=6,
     )
 
 
-ts_left = TableStyle(
-    name='left',
-    table_hAlign='LEFT',  # LEFT,CENTRE or RIGHT
-    table_vAlign='BOTTOM',  # BOTTOM,MIDDLE or TOP
-    table_colWidths=None,
-    table_rowHeights=None
-)
-
+tes_default = TemplateStyle(name='default')
 is_default = ImageStyle(name='default')
 is_traffic = ImageStyle(name='traffic',
                         image_height=150,
@@ -129,12 +130,19 @@ is_traffic = ImageStyle(name='traffic',
                         image_hAlign='CENTRE')
 
 ts_default = TableStyle(name='default')
+ts_left = TableStyle(
+    name='left',
+    table_hAlign='LEFT',  # LEFT,CENTRE or RIGHT
+    table_vAlign='BOTTOM',  # BOTTOM,MIDDLE or TOP
+    table_colWidths=None,
+    table_rowHeights=None
+)
 lps_default = LinePlotStyle(name='default')
 lcs_default = LineChartStyle(name='default')
 bcs_default = BarChartStyle(name='default')
 ps_head_lv1 = ParagraphStyle(name='ps_head_lv1',
                              fontName='Courier-Bold',
-                             alignment=TA_LEFT,  # TA_CENTRE,
+                             alignment=ens.TA_CENTER,  # TA_LEFT, TA_RIGHT
                              fontSize=13,
                              leading=22,
                              leftIndent=0)

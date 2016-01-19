@@ -1,11 +1,14 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
-# author: wly
-# date: 2015-07-29
-# see license for license details
-__version__ = ''' '''
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 
 from vstf.controller.database.dbinterface import DbManage
+import vstf.common.constants as cst
 
 
 class DataProvider(object):
@@ -15,59 +18,12 @@ class DataProvider(object):
 
 
 class CommonData(DataProvider):
-    def get_components(self):
-        result = []
-        query = self._dbase.query_exten_info(self._taskid)
-        print "CommonData", query
-        for item in query:
-            if item[2]:
-                context = "%s:%s(%s)" % (item[0], item[1], item[2])
-            else:
-                context = "%s:%s" % (item[0], item[1])
-            result.append(context)
-        return result
-
-    def get_software(self):
-        result = [
-            "  Host OS:  ubuntu 14.04.2",
-            "  Guest OS: ubuntu 12.04.4"
-        ]
-        return result
-
-    def get_hardware(self):
-        result = [
-            "  Server: Dell R920",
-            "  CPU: E7-8893/2P/3.4GHz/10-Cores/37.5M-L3C",
-            "  MEM: 128G",
-            "  NIC: Intel 82599"
-        ]
-        return result
-
     def get_taskname(self):
         return self._dbase.query_taskname(self._taskid)
 
-    def get_gitinfo_tabledata(self):
-        result = []
-        return result
-
-    def get_profileparameters_tabledData(self):
-        result = [
-        ]
-        return result
-
-    def get_testingoptions_tabledata(self):
-        result = [
-        ]
-        return result
-
-    def get_systeminfo_tabledata(self):
-        result = [
-        ]
-        return result
-
     def get_systeminfo(self):
         systable = [
-            ['host', 'Server', 'CPU', 'MEM', 'NIC', 'OS'],
+            ['Host', 'Server', 'CPU', 'MEM', 'NIC', 'OS'],
         ]
         query = self._dbase.query_task_host_list(self._taskid)
         query = map(lambda x: list(x), query)
@@ -103,14 +59,6 @@ class CommonData(DataProvider):
             return True
         return False
 
-    def get_contact(self):
-        result = [
-            "Name: xxx",
-            "ID: xxxxxxxx",
-            "Email: xxxx@xxx.com"
-        ]
-        return result
-
     def get_casename(self, case):
         return self._dbase.query_casename(case)
 
@@ -123,23 +71,6 @@ class ScenarioData(DataProvider):
         print "ScenarioData in"
         DataProvider.__init__(self, taskid, dbase)
         self._scenario = scenario
-
-    def get_covertitle(self):
-        result = [
-            "",
-            "",
-            "Elastic Virtual Switching Performance "
-            "Test Report",
-            "Scenario %s" % (self._scenario)
-        ]
-        return result
-
-    def get_test(self):
-        result = [
-            "Scenario: %s" % (self._scenario),
-            "Configuration: without VLAN",
-        ]
-        return result
 
     def get_test_tools(self, case):
         query = self._dbase.query_casetools(self._taskid, case)
@@ -156,6 +87,13 @@ class ScenarioData(DataProvider):
             return result[0]
         else:
             return result
+
+    def get_testlist(self):
+        query = self._dbase.query_testlist(self._taskid, self._scenario)
+        result = []
+        for item in query:
+            result.append(item.__dict__)
+        return query
 
     def is_provider_start(self, case, provider):
         count = self._dbase.query_case_provider_count(self._taskid, case, provider)
@@ -231,12 +169,27 @@ class ScenarioData(DataProvider):
                 ]
         return table_head + table_body
 
+    def get_ratedata(self, testid, test_type):
+        table_head = [
+            ["FrameSize (bytes)", "Bandwidth(Mpps)", "Load (%)", "CPU Usage(%)", "Mpps/Ghz", "AvgLatency(uSec)"],
+        ]
+        query = self._dbase.query_testdata(testid, test_type)
+        table_body = []
+        for item in query:
+            table_body.append([item.AvgFrameSize, item.Bandwidth, item.OfferedLoad, item.CPU, item.MppspGhz,
+                               item.AverageLatency])
+        result = []
+        if table_body:
+            result = table_head + table_body
+        return result
+
     def get_tabledata(self, case, test_type, item):
         type_dict = {
             "FrameSize": "FrameSize (byte)",
             "fastlink": "fastlink",
             "l2switch": "l2switch",
             "rdp": "kernel rdp",
+            None: "ovs",
             "line": "line speed"
         }
         item_dict = {
@@ -244,11 +197,10 @@ class ScenarioData(DataProvider):
             "Mpps": "   ",
             "Avg": "   ",
         }
-        provider_list = ["fastlink", "rdp", "l2switch"]
         table = []
         line_speed = 20.0 if case in ["Tn-2v", "Tn-2"] else 10.0
 
-        for provider in provider_list:
+        for provider in cst.PROVIDERS:
             if self.is_provider_start(case, provider):
                 if item == 'Percent':
                     query = self._dbase.query_load(self._taskid, case, provider, test_type)
@@ -260,9 +212,9 @@ class ScenarioData(DataProvider):
                 if query:
                     table_head = [[type_dict["FrameSize"]] + map(lambda x: "  %4d  " % (x), query[0])]
                     if item == "Avg":
-                        data = map(lambda x: item_dict[item] + "%.1f" % (x) + item_dict[item], query[1])
+                        data = map(lambda x: item_dict[item] + "%.1f" % x + item_dict[item], query[1])
                     else:
-                        data = map(lambda x: item_dict[item] + "%.2f" % (x) + item_dict[item], query[1])
+                        data = map(lambda x: item_dict[item] + "%.2f" % x + item_dict[item], query[1])
                     if item == "Mpps":
                         line_table = map(lambda x: "%.2f" % (line_speed * 1000 / (8 * (x + 20))), query[0])
                     table.append([type_dict[provider]] + data)
@@ -362,7 +314,7 @@ class TaskData(object):
 class HistoryData(DataProvider):
     def get_data(self, task_list, case, provider, ttype, item):
         """
-        @provider  in ["fastlink", "rdp", "l2switch"]
+        @provider  in ["fastlink", "rdp", "l2switch", ""]
         @ttype in ["throughput", "frameloss", "latency"]
         @item in ["avg", "ratep", "load"]
         """
@@ -415,7 +367,6 @@ class HistoryData(DataProvider):
         return task_list
 
     def get_history_info(self, case):
-        providers = ["fastlink", "rdp", "l2switch"]
         provider_dict = {"fastlink": "Fast Link ", "l2switch": "L2Switch ", "rdp": "Kernel RDP "}
         ttype_dict = {
             "throughput": "Throughput Testing ",
@@ -431,15 +382,14 @@ class HistoryData(DataProvider):
         task_list = self.get_tasklist()
         result = []
 
-        ttypes = ["throughput", "frameloss", "latency"]
-        for ttype in ttypes:
+        for ttype in cst.TTYPES:
             content = {}
             if ttype == "latency":
                 item = "avg"
             else:
                 item = "ratep"
 
-            for provider in providers:
+            for provider in cst.PROVIDERS:
                 table_data = self.get_data(task_list, case, provider, ttype, item)
                 if table_data:
                     data = {
@@ -451,9 +401,7 @@ class HistoryData(DataProvider):
                     content["data"].append(data)
             if content:
                 result.append(content)
-        print "xxxxxxxxxxxxxx"
         print result
-        print "xxxxxxxxxxxxxx"
         return result
 
 
@@ -475,11 +423,10 @@ def unit_test():
 
     case = "Tn-1"
 
-    providers = ["fastlink", "rdp", "l2switch"]
     ttypes = ["throughput", "frameloss"]
     items = ["ratep", "load"]
 
-    for provider in providers:
+    for provider in cst.PROVIDERS:
         for ttype in ttypes:
             for item in items:
                 print provider

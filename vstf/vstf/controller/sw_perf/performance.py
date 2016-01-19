@@ -1,8 +1,12 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
-# author: wly
-# date: 2015-09-19
-# see license for license details
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 
 import time
 import argparse
@@ -11,6 +15,7 @@ import logging
 from vstf.controller.sw_perf import model
 from vstf.common import perfmark as mark
 import vstf.common.constants as cst
+import vstf.common.decorator as deco
 from vstf.rpc_frame_work.rpc_producer import Server
 from vstf.controller.settings.flows_settings import FlowsSettings
 from vstf.controller.settings.tool_settings import ToolSettings
@@ -137,12 +142,12 @@ class Performance(object):
         for watcher in self._watchers:
             watcher.stop()
 
-    def start_cpuwatcher(self):
-        if self._cpuwatcher:
+    def start_cpuwatcher(self, enable=True):
+        if self._cpuwatcher and enable:
             self._cpuwatcher.start()
 
-    def stop_cpuwatcher(self):
-        if self._cpuwatcher:
+    def stop_cpuwatcher(self, enable=True):
+        if self._cpuwatcher and enable:
             self._cpuwatcher.stop()
 
     def getlimitspeed(self, ptype, size):
@@ -167,22 +172,26 @@ class Performance(object):
         self.destory(tool)
         LOG.info("run_pre_affability_settings end")
 
+    @deco.check("ratep", defaults=0)
+    @deco.check("cpu_watch", defaults=False)
     def run_bandwidth_test(self, tool, tpro, pktsize, **kwargs):
         LOG.info("run_bandwidth_test ")
+        cpu_watch = kwargs.pop("cpu_watch")
         self.create(tool, tpro)
         self.start_receivers()
         self.start_senders(pktsize, **kwargs)
         time.sleep(self._provider.wait_balance(tool))
         self.start_watchers()
-        self.start_cpuwatcher()
+        self.start_cpuwatcher(cpu_watch)
         time.sleep(self._provider.duration(tool))
         self.stop_watchers()
-        self.stop_cpuwatcher()
+        self.stop_cpuwatcher(cpu_watch)
         self.stop_senders()
         self.stop_receivers()
         self.destory(tool)
         LOG.info("run_bandwidth_test end")
 
+    @deco.check("ratep", defaults=0)
     def run_latency_test(self, tool, tpro, pktsize, **kwargs):
         LOG.info("run_latency_test start")
         self.create(tool, tpro)
@@ -223,7 +232,7 @@ class Performance(object):
             elif ttype in ['latency']:
                 lat_tpro = protocol + '_lat'
                 lat_type = ttype
-                self.run_latency_test(tool, lat_tpro, size, ratep=None)
+                self.run_latency_test(tool, lat_tpro, size, ratep=0)
                 lat_result = self.result(tool, lat_type)
                 result[size] = lat_result
             else:
@@ -242,8 +251,8 @@ class Performance(object):
                 mark.avgLatency: 0,
                 mark.maxLatency: 0,
                 mark.minLatency: 0,
-                mark.rxMbps:0,
-                mark.txMbps:0
+                mark.rxMbps: 0,
+                mark.txMbps: 0
             }
 
             cpu_data = self._cpuwatcher.result()
@@ -262,16 +271,22 @@ class Performance(object):
                 record[mark.rxMbps] += nic_data['rxmB/s']
                 record[mark.txMbps] += nic_data['txmB/s']
 
+            if record[mark.rxMbps] > record[mark.txMbps]:
+                record[mark.rxMbps], record[mark.txMbps] = record[mark.txMbps], record[mark.rxMbps]
+
+            if record[mark.rxCount] > record[mark.txCount]:
+                record[mark.rxCount], record[mark.txCount] = record[mark.txCount], record[mark.rxCount]
+
             if record[mark.txCount]:
                 record[mark.percentLoss] = round(100 * (1 - record[mark.rxCount] / record[mark.txCount]),
-                                              cst.PKTLOSS_ROUND)
+                                                 cst.PKTLOSS_ROUND)
             else:
                 record[mark.percentLoss] = 100
 
             record[mark.bandwidth] /= 1000000.0
             if cpu_mhz and record[mark.cpu]:
                 record[mark.mppsGhz] = round(record[mark.bandwidth] / (record[mark.cpu] * cpu_mhz / 100000),
-                                           cst.CPU_USAGE_ROUND)
+                                             cst.CPU_USAGE_ROUND)
 
             record[mark.bandwidth] = round(record[mark.bandwidth], cst.RATEP_ROUND)
 
@@ -349,7 +364,7 @@ def main():
                         )
     parser.add_argument("profile",
                         action="store",
-                        choices=cst.PROFILES,
+                        choices=cst.PROVIDERS,
                         )
     parser.add_argument("type",
                         action="store",

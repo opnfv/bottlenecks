@@ -1,3 +1,13 @@
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+
 import uuid
 import time
 import os
@@ -10,7 +20,6 @@ from vstf.common import unix, message, cliutil, excepts
 from vstf.common.vstfcli import VstfParser
 from vstf.common.log import setup_logging
 from vstf.common import daemon
-from vstf.rpc_frame_work import rpc_producer
 from vstf.controller.fabricant import Fabricant
 from vstf.agent.env.basic.commandline import CommandLine
 from vstf.controller.env_build.env_build import EnvBuildApi as Builder
@@ -25,7 +34,9 @@ from vstf.controller.settings.tool_settings import ToolSettings
 from vstf.controller.settings.perf_settings import PerfSettings
 from vstf.controller.sw_perf.perf_provider import PerfProvider
 from vstf.controller.sw_perf.flow_producer import FlowsProducer
+from vstf.controller.settings.forwarding_settings import ForwardingSettings
 import vstf.controller.reporters.reporter as rp
+import vstf.rpc_frame_work.rpc_producer as rpc
 import vstf.common.constants as cst
 import vstf.common.check as chk
 
@@ -39,12 +50,11 @@ class OpsChains(object):
         and setup a thread to watch the queues of rabbitmq
         
         """
-        super(OpsChains, self).__init__()
+        LOG.info("VSTF Manager start to listen to %s", monitor)
         if not os.path.exists(cst.VSTFCPATH):
             os.mkdir(cst.VSTFCPATH)
 
-        LOG.info("VSTF Manager start to listen to %s", monitor)
-        self.chanl = rpc_producer.Server(host=monitor, port=port)
+        self.chanl = rpc.Server(host=monitor, port=port)
         self.dbconn = DbManage()
         self.collection = EnvCollectApi(self.chanl)
 
@@ -146,16 +156,25 @@ class OpsChains(object):
                                        nic_info["desc"],
                                        json.dumps(os_info[cst.OS_INFO]))
 
-        self.dbconn.add_extent_2task(taskid, "CETH", "driver", "version 2.0")
-        self.dbconn.add_extent_2task(taskid, "EVS", "switch", "version 3.0")
+        self.dbconn.add_extent_2task(taskid, "ixgbe", "driver", "")
+        self.dbconn.add_extent_2task(taskid, "OVS", "switch", "")
         return taskid
 
-    def settings(self, mail=False, perf=False):
-        LOG.info("mail:%s, perf:%s" % (mail, perf))
-        if mail:
-            MailSettings().input()
-        if perf:
-            PerfSettings().input()
+    def settings(self, head, tail):
+
+        forward_settings = ForwardingSettings()
+        head_d = {
+            "ip": head,
+            "namespace":forward_settings.settings["head"]["namespace"]
+        }
+        tail_d = {
+            "ip": tail,
+            "namespace":forward_settings.settings["tail"]["namespace"]
+        }
+        LOG.info(head_d)
+        LOG.info(tail_d)
+        forward_settings.set_head(head_d)
+        forward_settings.set_tail(tail_d)
 
     def report(self, rpath='./', mail_off=False, taskid=-1):
         report = rp.Report(self.dbconn, rpath)
@@ -165,13 +184,15 @@ class OpsChains(object):
         info_str = "do report over"
         return info_str
 
-    def run_perf_cmd(self, case, rpath='./', affctl=False, build_on=False, save_on=False, report_on=False, mail_on=False):
+    def run_perf_cmd(self, case, rpath='./', affctl=False, build_on=False, save_on=False, report_on=False,
+                     mail_on=False):
         LOG.info(case)
         LOG.info("build_on:%s report_on:%s mail_on:%s" % (build_on, report_on, mail_on))
         casetag = case['case']
         tool = case['tool']
         protocol = case['protocol']
-        profile = case['profile']
+        switch = "ovs"
+        provider = None
         ttype = case['type']
         sizes = case['sizes']
 
@@ -204,7 +225,7 @@ class OpsChains(object):
         LOG.info(result)
         if save_on:
             taskid = self._create_task(scenario)
-            testid = self.dbconn.add_test_2task(taskid, casetag, protocol, profile, ttype, tool)
+            testid = self.dbconn.add_test_2task(taskid, casetag, protocol, ttype, switch, provider, tool)
             LOG.info(testid)
             self.dbconn.add_data_2test(testid, result)
             if report_on:
@@ -239,7 +260,8 @@ class OpsChains(object):
                 casetag = case['case']
                 tool = case['tool']
                 protocol = case['protocol']
-                profile = case['profile']
+                provider = None
+                switch = "ovs"
                 ttype = case['type']
                 sizes = case['sizes']
 
@@ -252,7 +274,7 @@ class OpsChains(object):
                 result = perf.run(tool, protocol, ttype, sizes, affctl)
                 LOG.info(result)
 
-                testid = self.dbconn.add_test_2task(taskid, casetag, protocol, profile, ttype, tool)
+                testid = self.dbconn.add_test_2task(taskid, casetag, protocol, ttype, switch, provider, tool)
                 LOG.info(testid)
 
                 self.dbconn.add_data_2test(testid, result)
@@ -285,7 +307,7 @@ class Manager(daemon.Daemon):
         self.run_flag = True
 
     def deal_unknown_obj(self, obj):
-        return "unknown response %s" % obj
+        return "unknown response %s:%s" % (self, obj)
 
     def run(self):
         signal.signal(signal.SIGTERM, self.daemon_die)
