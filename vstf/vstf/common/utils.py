@@ -1,3 +1,12 @@
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 import re
 import logging
 import subprocess
@@ -13,10 +22,10 @@ LOG = logging.getLogger(__name__)
 def info():
     def _deco(func):
         def __deco(*args, **kwargs):
-            if "shell" in kwargs and not kwargs["shell"]:
-                LOG.info(' '.join(args[0]))
-            else:
+            if "shell" in kwargs and kwargs["shell"]:
                 LOG.info(args[0])
+            else:
+                LOG.info(' '.join(args[0]))
             return func(*args, **kwargs)
         return __deco
     return _deco

@@ -30,7 +30,11 @@ if [ $1 == "manager" ]; then
     then
         vstf-manager start
     else
-        vstf-manager start --monitor ${SERVER} --port ${PORT}
+        if [ "${PORT}x" == "x" ]; then
+            vstf-manager start --monitor ${SERVER}
+        else
+            vstf-manager start --monitor ${SERVER} --port ${PORT}
+        fi
     fi
 elif [ $1 == "agent" ];then
     vstf-manager stop

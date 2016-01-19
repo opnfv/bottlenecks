@@ -7,6 +7,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+
 import logging
 
 import vstf.controller.settings.settings as sets
@@ -14,8 +15,8 @@ import vstf.controller.settings.settings as sets
 LOG = logging.getLogger(__name__)
 
 
-class DeviceSettings(sets.Settings):
-    def __init__(self, path="/etc/vstf/perf/",
-                 filename="sw_perf.device-settings",
+class TemplateSettings(sets.Settings):
+    def __init__(self, path="/etc/vstf/reporter/",
+                 filename="reporters.template-settings",
                  mode=sets.SETS_SINGLE):
-        super(DeviceSettings, self).__init__(path, filename, mode)
+        super(TemplateSettings, self).__init__(path, filename, mode)

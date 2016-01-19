@@ -1,0 +1,36 @@
+{
+    "theme":{
+        "style": "default",
+        "title": ["Virtual Switch Test Framework Report", "Scenario Tn"],
+        "logo": ["/root/workspace/esp-atf-2/vstf/controller/res/logo.jpg"],
+        "header": [""],
+        "footer": [""],
+        "note": [""]
+    },
+    "contents":{
+        "enable": true
+    },
+    "context":{
+        "01##chapter#1": {
+            "01##title#1": ["System Environment"],
+            "02##table#1": None
+        },
+        "02##chapter#2": {
+            "01##title#1": ["Scenario Result"],
+            "02##section#1": {
+                "01##title#2": ["Case: Tn-1"],
+                "02##paragraph#2": ["Parameter"],
+                "03##paragraph#2": ["test tool: pktgen", "vswitch: ovs", "protocol: udp", "type: frameloss" ],
+                "04##paragraph#2": ["Result"],
+                "05##table#1":[
+                    ["FrameSize (bytes)", "Bandwidth(Mpps)", "Load(%)", "CPU Usage(%)", "Mpps/Ghz"],
+                    ["64", "", "", "", "", ""]
+                ],
+                "06##plot#1":[
+                    ["64", "", "", "", "", ""]
+                ]
+            }
+        }
+
+    }
+}

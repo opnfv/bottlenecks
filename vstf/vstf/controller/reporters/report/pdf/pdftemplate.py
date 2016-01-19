@@ -1,13 +1,21 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 import time
 
 from reportlab.platypus.doctemplate import SimpleDocTemplate
 from reportlab.platypus import PageBreak
 from vstf.controller.reporters.report.pdf.styles import TemplateStyle, ps_head_lv1, ps_head_lv2, ps_head_lv3
+import vstf.common.constants as cst
 
 
-class MyDocTemplate(SimpleDocTemplate):
+class BaseDocTemplate(SimpleDocTemplate):
     def __init__(self, filename, **kw):
         self.allowSplitting = 0
         SimpleDocTemplate.__init__(self, filename, **kw)
@@ -25,17 +33,16 @@ class MyDocTemplate(SimpleDocTemplate):
                 self.notify('TOCEntry', (2, text, self.page - 1))
 
 
-class PdfTemplate:
-    def __init__(self, style, title, logo, header, footer, output, note=None):
-        self._style = style
+class PdfTemplate(object):
+    def __init__(self, title, logo, header, footer, note=[], style="default"):
+        self._style = TemplateStyle(name=style)
         self._title = title
         self._logo = logo[0]
-        self._header = header[0]
+        #self._header = header[0]
         self._footer = footer
-        self._output = output[0]
         self._note = note
-        info = " Generated on %s " % time.strftime('%Y/%m/%d %H:%M:%S', time.localtime())
-        self._note[0] += info
+        info = " Generated on %s " % time.strftime(cst.TIME_FORMAT2, time.localtime())
+        self._note += [info]
 
     def myFirstPage(self, canvas, doc):
         raise NotImplementedError("abstract StoryDecorator")
@@ -43,9 +50,9 @@ class PdfTemplate:
     def myLaterPages(self, canvas, doc):
         raise NotImplementedError("abstract StoryDecorator")
 
-    def generate(self, story):
+    def generate(self, story, output):
         sizes = (self._style.page_wight, self._style.page_height)
-        doc = MyDocTemplate(self._output, pagesize=sizes)
+        doc = BaseDocTemplate(output, pagesize=sizes)
         #    doc.build(story, onFirstPage=self.myFirstPage, onLaterPages=self.myLaterPages)
         doc.multiBuild(story, onFirstPage=self.myFirstPage, onLaterPages=self.myLaterPages)
 
