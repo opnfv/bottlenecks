@@ -1,4 +1,13 @@
-#!/usr/bin/python
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+
 import Tkinter
 
 
@@ -17,7 +26,7 @@ class stcPython():
         self.stcpkg = '/home/Spirent_TestCenter_4.46/Spirent_TestCenter_Application_Linux'
         self.tclsh.eval("set auto_path [ linsert $auto_path 0 %s ]" %(self.stcpkg))
         self.tclsh.eval("package require SpirentTestCenter")
-        
+
     def build_cmd(self, *args):
         cmd = ''
         for arg in args:
@@ -107,7 +116,7 @@ class stcPython():
         #pdb.set_trace()
         cmd = port_name+' -location //'+chassisAddress+'/'+slot+'/'+port+' -UseDefaultHost False'
         return self.stc_config(cmd)
-    # create streamblock under port 
+    # create streamblock under port
     # return: streamblock name
     def stc_create_streamblock(self,port_name,vlan_tag,ExpectedRxPort,srcMac,dstMac,sourceAddr,destAddr):
         #import pdb

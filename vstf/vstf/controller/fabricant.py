@@ -1,3 +1,12 @@
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 from vstf.rpc_frame_work import constant as const
 import vstf.common.constants as cst
 
@@ -43,7 +52,9 @@ class Fabricant(object):
     def __transfer_msg(self, command):
         def infunc(timeout=cst.TIMEOUT, **kwargs):
             msg = self.conn.make_msg(command, **kwargs)
-            return self.conn.call(msg, self.target, timeout)
+            if self.target:
+                return self.conn.call(msg, self.target, timeout)
+            return None
 
         infunc.__name__ = command
         return infunc

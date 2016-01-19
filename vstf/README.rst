@@ -1,2 +1,2 @@
-welcome to open vstf(Virtual Switch Test Framwork
+welcome to open vstf(Virtual Switch Test Framework
 )

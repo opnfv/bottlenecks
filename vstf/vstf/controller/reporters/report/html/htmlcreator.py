@@ -1,117 +1,85 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
-# author: wly
-# date: 2015-08-04
-# see license for license details
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 __version__ = ''' '''
 
 import logging
 
-from vstf.controller.reporters.report.data_factory import TaskData
-from vstf.controller.database.dbinterface import DbManage
-from vstf.controller.reporters.report.html.html_base import *
+import vstf.common.candy_text as candy
+from vstf.controller.reporters.report.provider.html_provider import HtmlProvider
+from vstf.controller.settings.template_settings import TemplateSettings
+from vstf.controller.settings.html_settings import HtmlSettings
+from vstf.controller.reporters.report.html.html_base import HtmlBase, pyhtm
 
 LOG = logging.getLogger(__name__)
 
 
-class HtmlvSwitchCreator(HtmlBase):
-    def __init__(self, task_data, provider, ofile='creator.html'):
-        HtmlBase.__init__(self, provider, ofile)
-        self._task = task_data
-        self._table_type = 'html'
-
+class HtmlCreator(HtmlBase):
     def create_story(self):
-        self.add_subject()
-        self.add_gitinfo()
-        self.add_envinfo()
-        self.add_scenarios()
+        self.add_context()
 
-    def add_subject(self):
-        job_name = "JOB_NAME: " + self._task.common.get_taskname()
-        self._page << H2(job_name)
+    def add_context(self):
+        context = self._provider.get_context
+        self._raw_context(context)
 
-    def add_gitinfo(self):
-        self._page << H2("Trigger and Repository Info")
+    def _raw_context(self, context, ci=0, si=0, ui=0, level=-1):
+        _story = []
+        for key, value in sorted(context.items()):
+            LOG.info(key)
+            LOG.info(value)
+            _sn, _node, _style = candy.text2tuple(key)
+            if _node in candy.dom:
+                if _node == candy.chapter:
+                    ci = _style
+                elif _node == candy.section:
+                    si = _style
+                else:
+                    ui = _style
+                self._raw_context(value, ci, si, ui, level + 1)
 
-        git_table = self._task.common.get_gitinfo_tabledata()
-        if git_table:
-            self.add_table(git_table)
+            else:
+                LOG.info("node: %s  %s" % (_node, candy.title))
+                if _node == candy.title:
+                    assert value
+                    if level in range(len(candy.dom)):
+                        if level == 0:
+                            value[0] = "Chapter %s %s" % (ci, value[0])
+                            for title in value:
+                                self._page << pyhtm.H2(title)
+                        elif level == 1:
+                            value[0] = "%s.%s %s" % (ci, si, value[0])
+                            for title in value:
+                                self._page << pyhtm.H3(title)
+                        else:
+                            value[0] = "%s.%s.%s %s" % (ci, si, ui, value[0])
+                            for title in value:
+                                self._page << pyhtm.H3(title)
 
-    def add_envinfo(self):
-        self._page << H2("System Environment Information")
-        env_table = self._task.common.get_systeminfo()
-        LOG.info(env_table)
-        if env_table:
-            self.add_table(env_table)
-
-    def add_scenarios(self):
-        scenario_list = self._task.common.get_scenariolist()
-        self._page << H2("Scenario List: " + ', '.join(scenario_list))
-        for scenario in scenario_list:
-            self._page << H2("Scenario: " + scenario)
-            data = getattr(self._task, scenario)
-            self.add_scenario(data)
-
-    def add_scenario(self, scenario_data):
-        case_list = scenario_data.get_caselist()
-        for case in case_list:
-            self.add_case(scenario_data, case)
-
-    def add_case(self, scenario_data, case):
-        case_name = self._task.common.get_casename(case)
-        title = "Case : %s (%s)" % (case, case_name)
-        self._page << H2(title)
-
-        provider_list = ["fastlink", "rdp", "l2switch"]
-        provider_dict = {"fastlink": "Fast Link", "l2switch": "L2Switch", "rdp": "Kernel RDP"}
-
-        for provider in provider_list:
-            if scenario_data.is_provider_start(case, provider):
-                title = " %s (%s_%s)" % (provider_dict[provider], case_name, provider)
-                self._page << H3(title)
-                test_types = ["throughput", "frameloss"]
-                for test_type in test_types:
-                    if scenario_data.is_type_provider_start(case, provider, test_type):
-                        self.add_casedata(scenario_data, case, provider, test_type)
-
-        if scenario_data.is_latency_start(case):
-            self.add_latency_result(scenario_data, case)
-
-    def add_casedata(self, scenario_data, case, provider, test_type):
-        table_content = scenario_data.get_summary_tabledata(case, provider, test_type, self._table_type)
-        if table_content:
-            title = "Test type:%s" % (test_type)
-            self._page << H4(title)
-            self.add_table(table_content)
-
-    def add_latency_result(self, scenario_data, case):
-        title = "Average Latency Summary"
-        table_content = scenario_data.get_latency_tabledata(case)
-        if table_content:
-            self._page << H2(title)
-            self.add_table(table_content)
+                elif _node == candy.table:
+                    self.add_table(value)
+                elif _node == candy.paragraph:
+                    for para in value:
+                        para = pyhtm.space(2) + para
+                        self._page << pyhtm.P(para)
 
 
 def unit_test():
     from vstf.common.log import setup_logging
     setup_logging(level=logging.DEBUG, log_file="/var/log/html-creator.log", clevel=logging.INFO)
 
-    dbase = DbManage()
-    taskid = dbase.get_last_taskid()
-    task_data = TaskData(taskid, dbase)
+    out_file = "vstf_report.html"
 
-    from vstf.controller.settings.html_settings import HtmlSettings
-    from vstf.controller.reporters.report.provider.html_provider import StyleProvider
-
+    info = TemplateSettings()
     html_settings = HtmlSettings()
-    LOG.info(html_settings.settings)
-
-    provider = StyleProvider(html_settings.settings)
-    html = HtmlvSwitchCreator(task_data, provider)
-
-    result = html.create(True)
-    print result
-
+    provider = HtmlProvider(info.settings, html_settings.settings)
+    reporter = HtmlCreator(provider)
+    reporter.create(out_file)
 
 if __name__ == '__main__':
     unit_test()

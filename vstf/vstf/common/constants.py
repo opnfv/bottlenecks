@@ -1,3 +1,12 @@
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 slave_project_path = "/opt/esp-atf"
 VSTFCPATH = "/opt/vstf"
 sockaddr = VSTFCPATH + "/vstf.socket"
@@ -23,7 +32,7 @@ OPERATIONS = ["start", "stop", "restart"]
 ACTIONS = ["send", "receive"]
 PROTOCOLS = ["tcp_lat", "udp_lat", "tcp_bw", "udp_bw"]
 TPROTOCOLS = ["tcp", "udp"]
-PROFILES = ["rdp", "fastlink", "l2switch"]
+PROVIDERS = ["rdp", "fastlink", "l2switch", None]
 TTYPES = ["throughput", "latency", "frameloss"]
 SCENARIOS = ["Ti", "Tn", "Tnv", "Tu"]
 SOCKET_BUF = 102400
@@ -33,7 +42,8 @@ PKTLOSS_ROUND = 2
 RATEP_ROUND = 3
 TIME_ROUND = 3
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-TIME_STR = "%Y%m%d_%H%M%S"
+TIME_FORMAT2 = "%Y/%m/%d %H:%M:%S"
+TIME_FORMAT3 = "%Y%m%d_%H%M%S"
 REPORT_DEFAULTS = "/tmp"
 
 CASE_ACTOR_MAP = {

@@ -1,5 +1,15 @@
-#!/usr/bin/env python
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+# !/usr/bin/env python
 # coding=utf-8
+
 import logging
 import argparse
 import signal
@@ -61,11 +71,11 @@ class Client(daemon.Daemon):
     def loop_thread(self):
         LOG.info("Try to create direct proxy...")
         self.proxy = rpc_consumer.VstfConsumer(self.agent,
-                                                self.config.rabbit.user,
-                                                self.config.rabbit.passwd,
-                                                self.config.rabbit.host,
-                                                self.config.rabbit.port,
-                                                self.config.rabbit.id)
+                                               self.config.rabbit.user,
+                                               self.config.rabbit.passwd,
+                                               self.config.rabbit.host,
+                                               self.config.rabbit.port,
+                                               self.config.rabbit.id)
         self.proxy.run()
 
     def run(self):

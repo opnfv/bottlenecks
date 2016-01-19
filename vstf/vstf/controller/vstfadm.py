@@ -1,3 +1,12 @@
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 import sys
 import logging
 import json
@@ -105,9 +114,8 @@ def do_show_tasks(args):
 
 
 @cliutil.arg("case", action="store", help="test case like Ti-1, Tn-1, Tnv-1, Tu-1, see case definition in documents")
-@cliutil.arg("tool", action="store", choices=cst.TOOLS, )
-@cliutil.arg("protocol", action="store", choices=cst.TPROTOCOLS, )
-@cliutil.arg("profile", action="store", choices=cst.PROFILES, )
+@cliutil.arg("tool", action="store", choices=cst.TOOLS)
+@cliutil.arg("protocol", action="store", choices=cst.TPROTOCOLS)
 @cliutil.arg("type", action="store", choices=cst.TTYPES)
 @cliutil.arg("sizes", action="store", default="64", help='test size list "64 128"')
 @cliutil.arg("--affctl", action="store_true", help="when affctl is True, it will do affctl before testing")
@@ -118,7 +126,6 @@ def do_perf_test(args):
         'case': args.case,
         'tool': args.tool,
         'protocol': args.protocol,
-        'profile': args.profile,
         'type': args.type,
         'sizes': map(lambda x: int(x), args.sizes.strip().split())
     }
@@ -247,6 +254,13 @@ def do_spirent_test(args):
              help="which host to list affctl info")
 def do_affctl_list(args):
     ret = call(make_msg("affctl_list", host=args.host))
+    print_stdout(ret)
+
+
+@cliutil.arg("head", action="store", help="ip of head")
+@cliutil.arg("tail", action="store", help="ip of tail")
+def do_settings(args):
+    ret = call(make_msg("settings", head=args.head, tail=args.tail))
     print_stdout(ret)
 
 
