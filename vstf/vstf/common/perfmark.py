@@ -19,5 +19,5 @@ rxCount = 'RxFrameCount'
 duration = 'Duration'
 cpu = 'CPU'
 mppsGhz = 'MppspGhz'
-rxMbps = "RxMbit"
-txMbps = 'TxMbit'
+rxMbps = "RxMbps"
+txMbps = 'TxMbps'
