@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_f1644a4a",
+        "filename": "docs/bottlenecks_brahmaputra_docs/userguide/vstf/vstf_installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-01-19T08:51:14Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "8c58dbbfe2c3870afd24afe52cbee40353e2e0dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
