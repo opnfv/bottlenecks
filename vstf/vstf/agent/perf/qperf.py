@@ -133,7 +133,7 @@ class Qperf(object):
                 if data[3] == "us":
                     latency = float(data[2]) / 1000
                 else:
-                    latency = float(data[2]) / 1000
+                    latency = float(data[2])
         result = {
             mark.minLatency: latency,
             mark.avgLatency: latency,

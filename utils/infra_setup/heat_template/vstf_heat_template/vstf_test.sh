@@ -1,12 +1,17 @@
 #!/bin/bash
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 set -x
 
 VM_MANAGER_USER="root"
 VM_MANAGER_PASSWD="root"
 STACK_NAME="vstf"
-#load func
-source ./ssh.sh
-source ./scp.sh
 
 function fn_parser_ipaddress(){
     #parser and get output ipaddress
@@ -35,7 +40,6 @@ function fn_vstf_test_config(){
     #setting testting ipaddress
     local cmd="vstfadm settings ${tester_testing_ip} ${target_testing_ip}"
     echo "$cmd"
-    #run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${cmd}"
     ssh-keygen -f "/home/jenkins-ci/.ssh/known_hosts" -R ${manager_control_public_ip}
     sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "${cmd}"
 
@@ -55,7 +59,6 @@ function fn_testing_scenario(){
         echo ${cmd}
 
         ssh-keygen -f "/home/jenkins-ci/.ssh/known_hosts" -R ${manager_control_public_ip}
-        #run_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "${head_cmd} ${scene} ${test_tool} ${protocol} ${test_type} \"${test_length_list}\" > /root/${scene}"
         sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "${cmd}"
         sleep 10        
     done
@@ -68,7 +71,6 @@ function fn_result(){
     rm -rf ./result/*
     for scene in ${test_scenario_list}
     do
-        #remote_scp_cmd ${manager_control_public_ip} ${VM_MANAGER_USER} ${VM_MANAGER_PASSWD} "/root/${scene}-result.txt" "./result/${scene}" "file"
         sshpass -p root ssh -o StrictHostKeyChecking=no root@${manager_control_public_ip} "cat /root/${scene}-result.txt"
         sshpass -p root scp -o StrictHostKeyChecking=no root@${manager_control_public_ip}:/root/${scene}-result.txt "./result/${scene}"
     done
