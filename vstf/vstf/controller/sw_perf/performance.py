@@ -268,8 +268,8 @@ class Performance(object):
                 record[mark.rxCount] += nic_data['rxpck']
                 record[mark.txCount] += nic_data['txpck']
                 record[mark.bandwidth] += nic_data['rxpck/s']
-                record[mark.rxMbps] += nic_data['rxmB/s']
-                record[mark.txMbps] += nic_data['txmB/s']
+                record[mark.rxMbps] += nic_data['rxmB/s'] * 8
+                record[mark.txMbps] += nic_data['txmB/s'] * 8
 
             if record[mark.rxMbps] > record[mark.txMbps]:
                 record[mark.rxMbps], record[mark.txMbps] = record[mark.txMbps], record[mark.rxMbps]
