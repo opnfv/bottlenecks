@@ -1,7 +1,0 @@
-To enable Perf unittest, please make sure:
-
-	1. you have setup a "Tn virtual network" on Target Host, so you can ping from one nic to the other nic.
-	2. change options in "unittest/configuration.py". 
-
-run tests:
-	python run_test.py

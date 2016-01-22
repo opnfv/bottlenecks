@@ -7,9 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-__author__ = 'wly'
-__version__ = '0.1'
-
 import os
 
 

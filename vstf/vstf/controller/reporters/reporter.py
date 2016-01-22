@@ -26,7 +26,6 @@ from vstf.controller.reporters.report.candy_generator import CandyGenerator
 import vstf.common.constants as cst
 
 
-__version__ = ''' '''
 LOG = logging.getLogger(__name__)
 
 

@@ -7,8 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-__version__ = ''' '''
-
 
 from vstf.controller.reporters.report.pdf.pdftemplate import PdfVswitch
 from vstf.controller.reporters.report.pdf.story import TitleStory, SpaceStory, ImageStory, TableStory, \
