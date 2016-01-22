@@ -107,7 +107,7 @@ class Mail(object):
 if __name__ == "__main__":
     m = Mail()
     m.attach_addr(["vstf_server@vstf.com"], m.FROM)
-    m.attach_addr(["wangli11@huawei.com"], m.TO)
+    m.attach_addr(["test@test.com"], m.TO)
     context = """
         <!DOCTYPE html>
         <html>

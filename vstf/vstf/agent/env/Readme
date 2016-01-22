@@ -1,9 +1,0 @@
-Modules in the directory are for "Environment Building".
-"Environment Building" is for creating "virtual network" for Performance Evaluation.
-The builder.py contains the quick test code for creates a "virtual network" from a config file.
-
-Usage:
-    python builder.py --config /etc/vstf/env/Tn.json
-
-Please modify example config file "/etc/vstf/model/Tn.json" to suit your own Environment.
-

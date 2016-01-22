@@ -94,17 +94,6 @@ def unit_test():
     }
     mail_settings.set_server(mail_server)
 
-    from_list = ['vstf_from@vstf.com']
-    mail_settings.set_from(from_list)
-    to_list = ['wangli11@huawei.com']
-    mail_settings.set_to(to_list)
-    cc_list = ['wangli11@huawei.com']
-    mail_settings.set_cc(cc_list)
-    bcc_list = ['wangli11@huawei.com']
-    mail_settings.set_bcc(bcc_list)
-    bcc_list = ['wangli11@huawei.com']
-    mail_settings.set_bcc(bcc_list)
-
     subject = "Virtual Switching Performance Test Report"
     mail_settings.set_subject(subject)
 

@@ -1,9 +1,12 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
-# author: wly
-# date: 2015-12-25
-# see license for license details
-__version__ = ''' '''
+##############################################################################
+# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from vstf.controller.database import constants as const

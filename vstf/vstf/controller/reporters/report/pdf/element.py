@@ -7,7 +7,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-__version__ = ''' '''
+
 __doc__ = """
 it contains the base element for pdf
 eImage is used to draw picture on the pdf document
