@@ -8,9 +8,12 @@ Introduction
 
 Bottlenecks_ is an OPNFV Project.
 
-The project's goal is
-
-The Project's scope is
+The project's goal is to find system bottlenecks by testing and verifying
+OPNFV infrastructure in a staging environment before committing it to a production environment.
+Instead of debugging a deployment in production environment,
+an automatic method for executing benchmarks which plans to
+validate the deployment during staging is adopted.
+This project will provide frameworks to find the bottlenecks of OPNFV infrastructure.
 
 The *Bottlenecks* framework is deployed in several  OPNFV community labs. It is
 installer, infrastructure and application independent.
