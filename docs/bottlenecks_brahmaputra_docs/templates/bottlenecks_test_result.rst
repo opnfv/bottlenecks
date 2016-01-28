@@ -16,4 +16,3 @@ Test results are visible in the following dashboard:
 
 * *Testing dashboard*: uses Mongo DB to store test results and Bitergia for
   visualization, which includes the rubbos test result, vstf test result.
-
