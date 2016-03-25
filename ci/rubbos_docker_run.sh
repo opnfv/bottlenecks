@@ -22,7 +22,7 @@ fi
 
 envs="-e INSTALLER_TYPE=${INSTALLER_TYPE} -e INSTALLER_IP=${INSTALLER_IP} -e NODE_NAME=${NODE_NAME} -e EXTERNAL_NET=${EXTERNAL_NETWORK} -e BOTTLENECKS_BRANCH=${BOTTLENECKS_BRANCH} -e GERRIT_REFSPEC_DEBUG=${GERRIT_REFSPEC_DEBUG} -e BOTTLENECKS_DB_TARGET=${BOTTLENECKS_DB_TARGET} -e PACKAGE_URL=${PACKAGE_URL}"
 volumes="-v ${BOTTLENECKS_TOP_DIR}:${BOTTLENECKS_TOP_DIR}"
-run_rubbos_testsuite=${BOTTLENECKS_TOP_DIR}/ci/run_test.sh -s rubbos
+run_rubbos_testsuite=${BOTTLENECKS_TOP_DIR}/run_tests.sh -s rubbos
 
 echo ${envs} ${ops} ${volumes}
 
@@ -34,4 +34,3 @@ ${cmd}
 echo "Bottlenecks: done!"
 
 set +ex
-

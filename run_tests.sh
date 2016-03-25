@@ -33,10 +33,10 @@ function check_testcase(){
     check_suite="$1"
     case $check_suite in
          "-rubbos")
-             $SUITE_PREFIX=$SUITE_PREFIX_CONFIG/rubbos
+             $SUITE_PREFIX=$SUITE_PREFIX_CONFIG/rubbos/testcase_cfg
          ;;
          "-vstf")
-             $SUITE_PREFIX=$SUITE_PREFIX_CONFIG/vstf
+             $SUITE_PREFIX=$SUITE_PREFIX_CONFIG/vstf/testcase_cfg
          ;;
     esac
 
@@ -67,7 +67,7 @@ function run_test(){
     case $test_suite in
         "rubbos")
             info "Running rubbos test suite"
-            test_file="/home/opnfv/bottlenecks/config/testcase_conf/rubbos.yaml"
+            test_file="/home/opnfv/bottlenecks/testsuite/rubbos/testsuite_story/rubbos_story1"
             if [[ -f $test_file ]]; then
                 testcases=($(cat $test_file))
             else
@@ -83,7 +83,7 @@ function run_test(){
         ;;
         "vstf")
             info "Running vstf test suite"
-            test_file="/home/opnfv/bottlenecks/config/testcase_conf/vstf.yaml"
+            test_file="/home/opnfv/bottlenecks/testsuite/vstf/testsuite_story/vstf_story1"
             if [[ -f $test_file ]]; then
                 testcases=($(cat $test_file))
             else
