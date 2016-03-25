@@ -1,13 +1,15 @@
 #!/bin/bash
-
+##############################################################################
+# Copyright (c) 2016 Huawei Technologies Co.,Ltd and others.
+#
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
-#
+##############################################################################
 
 mkdir -p /home/opnfv/bottlenecks/config
-config_file=/home/opnfv/functest/config/bottlenecks_cfg.yaml
+config_file=/home/opnfv/bottlenecks/config/bottlenecks_cfg.yaml
 
 if [ ! -f ${config_file} ]; then
     default_config_file=$(find /home/opnfv/repos -name bottlenecks_cfg.yaml)

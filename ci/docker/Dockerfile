@@ -13,7 +13,7 @@ MAINTAINER Qi Liang <liangqi1@huawei.com>
 LABEL image=opnfv/bottlenecks
 
 # GIT repo directory
-ENV REPOS_DIR /home/opnfv/repos
+ENV REPOS_DIR /home/opnfv
 
 # Bottlenecks repo
 ENV BOTTLENECKS_REPO_DIR ${REPOS_DIR}/bottlenecks

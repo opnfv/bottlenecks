@@ -10,7 +10,7 @@
 
 set -ex
 
-docker build -t opnfv/bottlenecks ${BOTTLENECKS_TOP_DIR}/ci/docker/bottlenecks-ci/
+docker build -t opnfv/bottlenecks ${BOTTLENECKS_TOP_DIR}/ci/docker/
 
 if [ x"${GERRIT_REFSPEC_DEBUG}" != x ]; then
     opts="--privileged=true"
@@ -22,12 +22,12 @@ fi
 
 envs="-e INSTALLER_TYPE=${INSTALLER_TYPE} -e INSTALLER_IP=${INSTALLER_IP} -e NODE_NAME=${NODE_NAME} -e EXTERNAL_NET=${EXTERNAL_NETWORK} -e BOTTLENECKS_BRANCH=${BOTTLENECKS_BRANCH} -e GERRIT_REFSPEC_DEBUG=${GERRIT_REFSPEC_DEBUG} -e BOTTLENECKS_DB_TARGET=${BOTTLENECKS_DB_TARGET} -e PACKAGE_URL=${PACKAGE_URL}"
 volumes="-v ${BOTTLENECKS_TOP_DIR}:${BOTTLENECKS_TOP_DIR}"
-create_instance=${BOTTLENECKS_TOP_DIR}/utils/infra_setup/heat_template/HOT_create_instance.sh
+run_rubbos_testsuite=${BOTTLENECKS_TOP_DIR}/ci/run_test.sh -s rubbos
 
 echo ${envs} ${ops} ${volumes}
 
 # Run docker
-cmd="sudo docker run ${opts} ${envs} ${volumes} opnfv/bottlenecks ${create_instance}"
+cmd="sudo docker run ${opts} ${envs} ${volumes} opnfv/bottlenecks ${run_rubbos_testsuite}"
 echo "Bottlenecks: Running docker cmd: ${cmd}"
 ${cmd}
 
