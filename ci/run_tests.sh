@@ -1,6 +1,6 @@
 #!/bin/bash
 ##############################################################################
-# Copyright (c) 2015 Huawei Technologies Co.,Ltd and others.
+# Copyright (c) 2016 Huawei Technologies Co.,Ltd and others.
 #
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
@@ -41,7 +41,7 @@ function check_testcase(){
     esac
 
     TEST_CASE=$2
-    
+
     #find all the test case yaml files first
     find $SUITE_PREFIX -name "*yaml" > /tmp/all_testcases.yaml
     all_testcases_insuite=`cat /tmp/all_testcases.yaml | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}'`
@@ -77,7 +77,6 @@ function run_test(){
                 #check if the testcase is legal or not
                 check_testcase -rubbos $i
                 #adjust config parameters, different test suite has different methods, take rubbos as an example
-                
                 #run test case, different test suite has different methods
 
             done
