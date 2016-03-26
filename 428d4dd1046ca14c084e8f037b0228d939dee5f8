@@ -34,6 +34,24 @@
       "revId": "428d4dd1046ca14c084e8f037b0228d939dee5f8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ed94bd38",
+        "filename": "testsuites/rubbos/puppet_manifests/modules/params/manifests/rubbos_params.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-03-26T08:04:31Z",
+      "side": 1,
+      "message": "yep. The situation is that when there\u0027s a need to use the code outside /rubbos in Bottlenecks repo, there maybe occur some errors, however, if u would say, the design isolate /rubbos perfect, then it will work well, too.",
+      "parentUuid": "1a486d77_2d73f54e",
+      "revId": "428d4dd1046ca14c084e8f037b0228d939dee5f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
