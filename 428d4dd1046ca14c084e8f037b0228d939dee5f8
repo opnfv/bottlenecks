@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_6d79ed2e",
+        "filename": "testsuites/rubbos/puppet_manifests/modules/params/manifests/rubbos_params.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-03-26T07:46:26Z",
+      "side": 1,
+      "message": "we have changed the directory, so it should be /bottlenecks/testsuites/rubbos...",
+      "revId": "428d4dd1046ca14c084e8f037b0228d939dee5f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
