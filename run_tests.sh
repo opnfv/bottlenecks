@@ -67,7 +67,7 @@ function run_test(){
     case $test_suite in
         "rubbos")
             info "Running rubbos test suite"
-            test_file="/home/opnfv/bottlenecks/testsuite/rubbos/testsuite_story/rubbos_story1"
+            test_file="/home/opnfv/bottlenecks/testsuites/rubbos/testsuite_story/rubbos_story1"
             if [[ -f $test_file ]]; then
                 testcases=($(cat $test_file))
             else
@@ -78,7 +78,8 @@ function run_test(){
                 check_testcase -rubbos $i
                 #adjust config parameters, different test suite has different methods, take rubbos as an example
                 #run test case, different test suite has different methods
-
+                file={$BASEDIR}/testsuites/rubbos/testcase_cfg/{$i}.yaml
+                python ${BOTTLENECK_TOP_DIR}/testsuites/rubbos/run_rubbos.py $file
             done
         ;;
         "vstf")
