@@ -11,8 +11,11 @@
 ## Variables used in {rubbos} test suite
 class params::rubbos_params {
 
-  $rubbos_app		= "/bottlenecks/rubbos/app"
-  $rubbos_app_tools	= "/bottlenecks/rubbos/app_tools"
-  $rubbos_home		= "/bottlenecks/rubbos/app/RUBBoS"
+  $rubbos_app           = "/bottlenecks/rubbos/app"
+  $rubbos_app_tools     = "/bottlenecks/rubbos/app_tools"
+  $rubbos_home          = "/bottlenecks/rubbos/app/RUBBoS"
+  $mysql_user_group     = "mysql"
+  $mysql_user_name      = "mysql"
+  $mysql_user_password  = "mysql"
 
 }

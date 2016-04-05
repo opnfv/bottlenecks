@@ -9,13 +9,13 @@
 
 
 class rubbos_common::rubbos_common_on {
-
+  
   include params::rubbos_params
 
   # Declare some variables
-  $rubbos_app		= $params::rubbos_params::rubbos_app
-  $rubbos_app_tool	= $params::rubbos_params::rubbos_app_tool
-  $rubbos_home		= $params::rubbos_params::rubbos_home
+  $rubbos_app           = $params::rubbos_params::rubbos_app
+  $rubbos_app_tools     = $params::rubbos_params::rubbos_app_tools
+  $rubbos_home          = $params::rubbos_params::rubbos_home
 
   # Prepare RUBBOS_APP folder
   exec {'mkdir -p ${rubbos_app}':
@@ -24,19 +24,19 @@ class rubbos_common::rubbos_common_on {
         path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
   }
 
-  # Prepare RUBBOS_APP_TOOLS folder
-  exec {'mkdir -p ${rubbos_app_tool}':
-        command => "mkdir -p ${rubbos_app_tool}",
-        unless  => "test -d ${rubbos_app_tool}",
+  # Prepare RUBBOS_APP_TOOLS folder 
+  exec {'mkdir -p ${rubbos_app_tools}':
+        command => "mkdir -p ${rubbos_app_tools}",
+        unless  => "test -d ${rubbos_app_tools}",
         path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
   }
 
   # Prepare RUBBOS_HOME folder
   exec {'mkdir -p ${rubbos_home}':
-        command	=> "mkdir -p ${rubbos_home}",
-        unless	=> "test -d ${rubbos_home}",
-        path	=> ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require	=> Exec['mkdir -p ${rubbos_app}'],
+        command => "mkdir -p ${rubbos_home}",
+        unless  => "test -d ${rubbos_home}",
+        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        require => Exec['mkdir -p ${rubbos_app}'],
   }
 
   # Prepare common packages:
@@ -54,19 +54,19 @@ class rubbos_common::rubbos_common_on {
   }
 
   # Install jdk
-  file {'${rubbos_app_tool}/jdk-6u27-linux-x64.bin':
+  file {'${rubbos_app_tools}/jdk-6u27-linux-x64.bin':
         ensure  => file,
-        path    => "${rubbos_app_tool}/jdk-6u27-linux-x64.bin",
+        path    => "${rubbos_app_tools}/jdk-6u27-linux-x64.bin",
         source  => "puppet:///modules/rubbos_common/jdk-6u27-linux-x64.bin",
         mode    => 0711,
         backup  => false,
-	require	=> Exec['mkdir -p ${rubbos_app_tool}'],
+        require => Exec['mkdir -p ${rubbos_app_tools}'],
   }
   exec {'jdk-6u27-linux-x64.bin':
-        cwd     => "${rubbos_app_tool}",
-        command => "${rubbos_app_tool}/jdk-6u27-linux-x64.bin",
+        cwd     => "${rubbos_app_tools}",
+        command => "${rubbos_app_tools}/jdk-6u27-linux-x64.bin",
         path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => File['${rubbos_app_tool}/jdk-6u27-linux-x64.bin'],
+        require => File['${rubbos_app_tools}/jdk-6u27-linux-x64.bin'],
   }
 
 }
