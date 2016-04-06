@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_f0ffedff",
+        "filename": "testsuites/rubbos/puppet_manifests/modules/rubbos_httpd/files/apache_conf/httpd.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-04-06T01:56:54Z",
+      "side": 1,
+      "message": "please add apache2.0 license head",
+      "revId": "8e07b0ccf174d88efd26ae0ef0b06f3e3695d034",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_3c032111",
+        "filename": "testsuites/rubbos/puppet_manifests/modules/rubbos_httpd/files/apache_conf/httpd.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-04-06T01:56:54Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "8e07b0ccf174d88efd26ae0ef0b06f3e3695d034",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_7c099930",
+        "filename": "testsuites/rubbos/puppet_manifests/modules/rubbos_httpd/files/apache_conf/workers.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-04-06T01:56:54Z",
+      "side": 1,
+      "message": "please add apache 2.0 license head",
+      "revId": "8e07b0ccf174d88efd26ae0ef0b06f3e3695d034",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_9c0c5544",
+        "filename": "testsuites/rubbos/puppet_manifests/modules/rubbos_httpd/files/apache_conf/workers.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-04-06T01:56:54Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "8e07b0ccf174d88efd26ae0ef0b06f3e3695d034",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_5c06dd21",
+        "filename": "testsuites/rubbos/puppet_manifests/modules/rubbos_httpd/manifests/rubbos_httpd_on.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-04-06T01:56:54Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "8e07b0ccf174d88efd26ae0ef0b06f3e3695d034",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
