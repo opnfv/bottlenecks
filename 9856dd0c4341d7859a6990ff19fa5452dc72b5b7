@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_103169ec",
+        "filename": "utils/infra_setup/heat/tests/data/generated_templates/rubbos_1-1-1_template.tmp",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-06T04:57:27Z",
+      "side": 1,
+      "message": "what is the file(tmp) for? If it is a temprary file, it should be removed after using it?",
+      "revId": "9856dd0c4341d7859a6990ff19fa5452dc72b5b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_902559ad",
+        "filename": "utils/infra_setup/heat/tests/generate_template_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-06T04:57:27Z",
+      "side": 1,
+      "message": "it might be better if putting these lines in setUp function",
+      "revId": "9856dd0c4341d7859a6990ff19fa5452dc72b5b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_303465dd",
+        "filename": "utils/infra_setup/heat/tests/generate_template_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-06T04:57:27Z",
+      "side": 1,
+      "message": "putting these lines in setUp function?",
+      "revId": "9856dd0c4341d7859a6990ff19fa5452dc72b5b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_b020559c",
+        "filename": "utils/infra_setup/heat/tests/generate_template_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-06T04:57:27Z",
+      "side": 1,
+      "message": "Does it work to compare two yaml files?\n\nIn the end, __main__ function might be needed?",
+      "revId": "9856dd0c4341d7859a6990ff19fa5452dc72b5b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
