@@ -14,6 +14,7 @@ class rubbos_monitor::rubbos_monitor_off {
 
   # Declare some variables
   $rubbos_app           = $params::rubbos_params::rubbos_app
+  $rubbos_home          = $params::rubbos_params::rubbos_home
 
   # Make uninstall sysstat
   exec {'make uninstall sysstat':
@@ -31,6 +32,22 @@ class rubbos_monitor::rubbos_monitor_off {
 	recurse	=> true,
         backup  => false,
         require	=> Exec['make uninstall sysstat'],
+  }
+
+  # Remove bench folder
+  file {'${rubbos_home}/bench.tar.gz':
+        ensure  => absent,
+        path    => "${rubbos_home}/bench.tar.gz",
+        backup  => false,
+  }
+
+  file {'${rubbos_home}/bench':
+        ensure          => absent,
+        path            => "${rubbos_home}/bench",
+        force           => true,
+        recurse         => true,
+        backup          => false,
+        show_diff       => false,
   }
 
 }
