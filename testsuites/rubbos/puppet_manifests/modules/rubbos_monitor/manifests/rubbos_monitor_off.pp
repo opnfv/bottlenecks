@@ -14,23 +14,40 @@ class rubbos_monitor::rubbos_monitor_off {
 
   # Declare some variables
   $rubbos_app           = $params::rubbos_params::rubbos_app
+  $rubbos_home          = $params::rubbos_params::rubbos_home
 
   # Make uninstall sysstat
   exec {'make uninstall sysstat':
         cwd     => "${rubbos_app}/sysstat-9.0.6",
         command => "make uninstall",
-	path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-	onlyif	=> "test -d ${rubbos_app}/sysstat-9.0.6",
+        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        onlyif  => "test -d ${rubbos_app}/sysstat-9.0.6",
   }
 
-  # Remove folder
+  # Remove sysstat-9.0.6 folder
   file {'${rubbos_app}/sysstat-9.0.6':
         ensure  => absent,
         path    => "${rubbos_app}/sysstat-9.0.6",
         force   => true,
-	recurse	=> true,
+        recurse => true,
         backup  => false,
-        require	=> Exec['make uninstall sysstat'],
+        require => Exec['make uninstall sysstat'],
+  }
+
+  # Remove bench folder
+  file {'${rubbos_home}/bench.tar.gz':
+        ensure  => absent,
+        path    => "${rubbos_home}/bench.tar.gz",
+        backup  => false,
+  }
+
+  file {'${rubbos_home}/bench':
+        ensure          => absent,
+        path            => "${rubbos_home}/bench",
+        force           => true,
+        recurse         => true,
+        backup          => false,
+        show_diff       => false,
   }
 
 }
