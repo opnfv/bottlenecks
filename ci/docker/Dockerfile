@@ -8,7 +8,6 @@
 ##############################################################################
 
 FROM ubuntu:14.04
-MAINTAINER Qi Liang <liangqi1@huawei.com>
 
 LABEL image=opnfv/bottlenecks
 
@@ -19,6 +18,7 @@ ENV REPOS_DIR /home/opnfv
 ENV BOTTLENECKS_REPO_DIR ${REPOS_DIR}/bottlenecks
 ENV RELENG_REPO_DIR ${REPOS_DIR}/releng
 
+#new test suite required packages can be added here
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
