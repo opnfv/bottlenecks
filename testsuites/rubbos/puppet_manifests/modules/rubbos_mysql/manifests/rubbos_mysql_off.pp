@@ -43,6 +43,14 @@ class rubbos_mysql::rubbos_mysql_off {
         require => Service['stop mysql'],
   }
 
+  file {'${rubbos_home}/prepare_rubbos_mysql_db.sh':
+        ensure          => absent,
+        path            => "${rubbos_home}/prepare_rubbos_mysql_db.sh",
+        backup          => false,
+        show_diff       => false,
+        require         => Service['stop mysql'],
+  }
+
   # Remove user and group
   user {'${mysql_user_name}':
         name            => "${mysql_user_name}",

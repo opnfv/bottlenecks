@@ -75,6 +75,15 @@ class rubbos_mysql::rubbos_mysql_on {
         require => Exec['ln -s ${rubbos_app_tools}/mysql-5.5.46-linux2.6-x86_64 mysql'],
   }
 
+  # Prepare a script
+  file {'${rubbos_home}/prepare_rubbos_mysql_db.sh':
+        path            => "${rubbos_home}/prepare_rubbos_mysql_db.sh",
+        ensure          => present,
+        source          => "puppet:///modules/rubbos_mysql/prepare_rubbos_mysql_db.sh",
+        backup          => false,
+        show_diff       => false,
+  }
+
   # Start mysql service
   service {'mysql':
         ensure          => running,
