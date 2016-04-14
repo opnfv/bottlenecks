@@ -21,13 +21,19 @@ ENV RELENG_REPO_DIR ${REPOS_DIR}/releng
 
 #new test suite required packages can be added here
 RUN apt-get update && apt-get install -y \
+    libffi-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxslt1-dev \
     curl \
     wget \
     git \
     sshpass \
     python \
     python-dev \
-    python-pip
+    python-pip \
+    python-setuptools && \
+    easy_install -U setuptools
 
 RUN apt-get -y autoremove && \
     apt-get clean
