@@ -79,7 +79,7 @@ function run_test(){
                 #adjust config parameters, different test suite has different methods, take rubbos as an example
                 #run test case, different test suite has different methods
                 file={$BASEDIR}/testsuites/rubbos/testcase_cfg/{$i}.yaml
-                python ${BOTTLENECK_TOP_DIR}/testsuites/rubbos/run_rubbos.py -c $file
+                python /home/opnfv/bottlenecks/testsuites/rubbos/run_rubbos.py -c $file
             done
         ;;
         "vstf")
