@@ -10,6 +10,7 @@
 import os
 import argparse
 import time
+import logging
 import heatclient
 import keystoneclient
 import glanceclient
