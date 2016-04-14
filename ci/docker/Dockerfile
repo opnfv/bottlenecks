@@ -8,6 +8,7 @@
 ##############################################################################
 
 FROM ubuntu:14.04
+MAINTAINER MatthewLi <matthew.lijun@huawei.com>
 
 LABEL image=opnfv/bottlenecks
 
