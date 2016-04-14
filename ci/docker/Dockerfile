@@ -26,11 +26,8 @@ RUN apt-get update && apt-get install -y \
     git \
     sshpass \
     python \
-    python-glanceclient \
-    python-heatclient \
-    python-keystoneclient \
-    python-neutronclient \
-    python-novaclient
+    python-dev \
+    python-pip
 
 RUN apt-get -y autoremove && \
     apt-get clean
@@ -41,4 +38,4 @@ RUN git config --global http.sslVerify false
 RUN git clone https://gerrit.opnfv.org/gerrit/bottlenecks ${BOTTLENECKS_REPO_DIR}
 RUN git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO_DIR}
 
-#COPY ./run_tests.sh /usr/local/bin/
+RUN pip install -r ${REPOS_DIR}/bottlenecks/requirements.txt
