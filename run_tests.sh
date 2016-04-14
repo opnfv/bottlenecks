@@ -71,7 +71,7 @@ function run_test(){
             if [[ -f $test_file ]]; then
                 testcases=($(cat $test_file))
             else
-                error("no rubbos test suite file ")
+                error "no rubbos test suite file"
             fi
             for i in "${testcases[@]}"; do
                 #check if the testcase is legal or not
@@ -88,7 +88,7 @@ function run_test(){
             if [[ -f $test_file ]]; then
                 testcases=($(cat $test_file))
             else
-                error("no vstf test suite file ")
+                error "no vstf test suite file "
             fi
             for i in "${testcases[@]}"; do
                 #check if the testcase is legal or not
