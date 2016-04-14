@@ -41,4 +41,4 @@ RUN git config --global http.sslVerify false
 RUN git clone https://gerrit.opnfv.org/gerrit/bottlenecks ${BOTTLENECKS_REPO_DIR}
 RUN git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO_DIR}
 
-COPY ../../run_tests.sh /usr/local/bin/
+#COPY ./run_tests.sh /usr/local/bin/
