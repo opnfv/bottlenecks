@@ -33,10 +33,10 @@ function check_testcase(){
     check_suite="$1"
     case $check_suite in
          "-rubbos")
-             $SUITE_PREFIX=$SUITE_PREFIX_CONFIG/rubbos/testcase_cfg
+             SUITE_PREFIX=$SUITE_PREFIX_CONFIG/rubbos/testcase_cfg
          ;;
          "-vstf")
-             $SUITE_PREFIX=$SUITE_PREFIX_CONFIG/vstf/testcase_cfg
+             SUITE_PREFIX=$SUITE_PREFIX_CONFIG/vstf/testcase_cfg
          ;;
     esac
 
@@ -50,7 +50,7 @@ function check_testcase(){
     if [ "${TEST_CASE}" != "" ]; then
        testcase_exec=(${TEST_CASE// /})
        for i in "${testcase_exec[@]}"; do
-           if [[ " ${all_test_cases[*]} " != *" $i "* ]]; then
+           if [[ " ${all_testcases[*]} " != *" $i "* ]]; then
                error "unknown test case: $i. available test cases are: ${all_test_cases[@]}"
            fi
        done
