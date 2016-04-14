@@ -44,4 +44,5 @@ RUN git config --global http.sslVerify false
 RUN git clone https://gerrit.opnfv.org/gerrit/bottlenecks ${BOTTLENECKS_REPO_DIR}
 RUN git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO_DIR}
 
+RUN easy_install pytz
 RUN pip install -r ${REPOS_DIR}/bottlenecks/requirements.txt
