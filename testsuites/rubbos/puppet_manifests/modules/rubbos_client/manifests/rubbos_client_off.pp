@@ -39,10 +39,10 @@ class rubbos_client::rubbos_client_off {
         backup          => false,
   }
 
-  # bench/rubbos.properties.template
-  file {'${rubbos_home}/bench/rubbos.properties.template':
+  # Client/rubbos.properties.template
+  file {'${rubbos_home}/Client/rubbos.properties.template':
         ensure          => absent,
-        path            => "${rubbos_home}/bench/rubbos.properties.template",
+        path            => "${rubbos_home}/Client/rubbos.properties.template",
         show_diff       => false,
         backup          => false,
   }

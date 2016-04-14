@@ -119,16 +119,17 @@ class rubbos_client::rubbos_client_on {
         backup          => false,
   }
 
-  # rubbos.properties.template
-  file {'${rubbos_home}/bench/rubbos.properties.template':
+  # Client/rubbos.properties.template
+  file {'${rubbos_home}/Client/rubbos.properties.template':
         ensure          => file,
-        path            => "${rubbos_home}/bench/rubbos.properties.template",
+        path            => "${rubbos_home}/Client/rubbos.properties.template",
         source          => "puppet:///modules/rubbos_client/rubbos.properties.template",
         show_diff       => false,
         backup          => false,
+        require         => Exec['tar xvzf ${rubbos_home}/Client.tar.gz'],
   }
 
-  # executable scripts
+  # bench/executable scripts
   file {'${rubbos_home}/bench/run_emulator.sh':
         ensure          => file,
         path            => "${rubbos_home}/bench/run_emulator.sh",
@@ -153,7 +154,6 @@ class rubbos_client::rubbos_client_on {
                         File['${rubbos_home}/Makefile'],
                         File['${rubbos_home}/config.mk'],
                         Exec['tar xvzf ${rubbos_home}/Client.tar.gz']],
-                        #File['${rubbos_home}/Client']],
   }
 
   exec {'ant jar':
