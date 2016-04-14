@@ -47,7 +47,7 @@ function check_testcase(){
     all_testcases_insuite=`cat /tmp/all_testcases.yaml | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}'`
     all_testcases=(${all_testcases_insuite})
 
-    if ["${TEST_CASE}" != ""]; then
+    if [ "${TEST_CASE}" != "" ]; then
        testcase_exec=(${TEST_CASE// /})
        for i in "${testcase_exec[@]}"; do
            if [[ " ${all_test_cases[*]} " != *" $i "* ]]; then
