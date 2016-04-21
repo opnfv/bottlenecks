@@ -25,31 +25,31 @@ class rubbos_httpd::rubbos_httpd_on {
 
   # Prepare packages
   file {'${rubbos_app_tools}/httpd-2.0.64.tar.gz':
-        ensure  => file,
+        ensure  => present,
         path    => "${rubbos_app_tools}/httpd-2.0.64.tar.gz",
         source  => "puppet:///modules/rubbos_httpd/httpd-2.0.64.tar.gz",
-        backup  => false,
   }
 
   exec {'tar xzvf ${rubbos_app_tools}/httpd-2.0.64.tar.gz':
-        cwd     => "${rubbos_app_tools}",
-        command => "tar xzvf ${rubbos_app_tools}/httpd-2.0.64.tar.gz",
-        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => File['${rubbos_app_tools}/httpd-2.0.64.tar.gz'],
+        cwd         => "${rubbos_app_tools}",
+        command     => "tar xzvf ${rubbos_app_tools}/httpd-2.0.64.tar.gz",
+        path        => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        subscribe   => File['${rubbos_app_tools}/httpd-2.0.64.tar.gz'],
+        refreshonly => true,
   }
 
   file {'${rubbos_app_tools}/tomcat-connectors-1.2.32-src.tar.gz':
-        ensure  => file,
+        ensure  => present,
         path    => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src.tar.gz",
         source  => "puppet:///modules/rubbos_httpd/tomcat-connectors-1.2.32-src.tar.gz",
-        backup	=> false,
   }
 
   exec {'tar xzvf ${rubbos_app_tools}/tomcat-connectors-1.2.32-src.tar.gz':
-        cwd     => "${rubbos_app_tools}",
-        command => "tar xzvf ${rubbos_app_tools}/tomcat-connectors-1.2.32-src.tar.gz",
-        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => File['${rubbos_app_tools}/tomcat-connectors-1.2.32-src.tar.gz'],
+        cwd         => "${rubbos_app_tools}",
+        command     => "tar xzvf ${rubbos_app_tools}/tomcat-connectors-1.2.32-src.tar.gz",
+        path        => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        subscribe   => File['${rubbos_app_tools}/tomcat-connectors-1.2.32-src.tar.gz'],
+        refreshonly => true
   }
 
   # Add user and group
@@ -63,79 +63,85 @@ class rubbos_httpd::rubbos_httpd_on {
         ensure          => present,
         groups          => "apache",
         password        => "apache",
+        before          => Exec['${rubbos_app_tools}/httpd-2.0.64/configure'],
   }
 
   # Install apache http server
   exec {'${rubbos_app_tools}/httpd-2.0.64/configure':
-        cwd     => "${rubbos_app_tools}/httpd-2.0.64",
-        command => "${rubbos_app_tools}/httpd-2.0.64/configure --prefix=${rubbos_app_tools}/apache2 --enable-module=so --enable-so --with-mpm=worker",
-        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => [
-                Exec['tar xzvf ${rubbos_app_tools}/httpd-2.0.64.tar.gz'],
-                User['apache'],
-                Exec['mkdir ${rubbos_app_tools}/apache2']],
+        cwd         => "${rubbos_app_tools}/httpd-2.0.64",
+        command     => "${rubbos_app_tools}/httpd-2.0.64/configure --prefix=${rubbos_app_tools}/apache2 --enable-module=so --enable-so --with-mpm=worker",
+        path        => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        subscribe   => Exec['tar xzvf ${rubbos_app_tools}/httpd-2.0.64.tar.gz'],
+        refreshonly => true,
   }
 
   exec {'make httpd':
-        cwd     => "${rubbos_app_tools}/httpd-2.0.64",
-        command => "make",
-        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => Exec['${rubbos_app_tools}/httpd-2.0.64/configure'],
+        cwd         => "${rubbos_app_tools}/httpd-2.0.64",
+        command     => "make",
+        path        => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        subscribe   => Exec['${rubbos_app_tools}/httpd-2.0.64/configure'],
+        refreshonly => true,
   }
 
   exec {'make install httpd':
-        cwd     => "${rubbos_app_tools}/httpd-2.0.64",
-        command => "make install",
-        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => Exec['make httpd'],
+        cwd         => "${rubbos_app_tools}/httpd-2.0.64",
+        command     => "make install",
+        path        => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        subscribe   => Exec['make httpd'],
+        refreshonly => true,
   }
 
   # Install mod jk
   exec {'${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native/configure':
-        cwd     => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native",
-        command => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native/configure --with-apxs=${rubbos_app_tools}/apache2/bin/apxs --enable-jni --with-java-home=${rubbos_app_tools}/jdk1.6.0_27",
-        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => Exec['make install httpd'],
+        cwd         => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native",
+        command     => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native/configure --with-apxs=${rubbos_app_tools}/apache2/bin/apxs --enable-jni --with-java-home=${rubbos_app_tools}/jdk1.6.0_27",
+        path        => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        subscribe   => [
+                    Exec['tar xzvf ${rubbos_app_tools}/tomcat-connectors-1.2.32-src.tar.gz'],
+                    Exec['make install httpd']],
+        refreshonly => true,
   }
 
   exec {'make mod jk':
-        cwd     => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native",
-        command => "make",
-        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => Exec['${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native/configure'],
+        cwd         => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native",
+        command     => "make",
+        path        => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        subscribe   => Exec['${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native/configure'],
+        refreshonly => true,
   }
 
   exec {'make install mod jk':
-        cwd     => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native",
-        command => "make install",
-        path    => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
-        require => Exec['make mod jk'],
+        cwd         => "${rubbos_app_tools}/tomcat-connectors-1.2.32-src/native",
+        command     => "make install",
+        path        => ["/bin","/sbin","/usr/bin","/usr/sbin","/usr/local/bin","/usr/local/sbin"],
+        subscribe   => Exec['make mod jk'],
+        refreshonly => true,
   }
 
   # Config apache http server
   file {'${rubbos_app_tools}/apache2/conf/httpd.conf':
-        ensure          => file,
+        ensure          => present,
         path            => "${rubbos_app_tools}/apache2/conf/httpd.conf",
         source          => "puppet:///modules/rubbos_httpd/apache_conf/httpd.conf",
         show_diff       => false,
-        require         => Exec['make install mod jk'],
+        subscribe       => [Exec['make install httpd'],Exec['make install mod jk']],
   }
 
   file {'${rubbos_app_tools}/apache2/conf/workers.properties':
-        ensure          => file,
+        ensure          => present,
         path            => "${rubbos_app_tools}/apache2/conf/workers.properties",
         source          => "puppet:///modules/rubbos_httpd/apache_conf/workers.properties",
-        show_diff       => false,
-        require         => Exec['make install mod jk'],
+        show_diff       => present,
+        subscribe       => [Exec['make install httpd'],Exec['make install mod jk']],
   }
 
   file {'${rubbos_app_tools}/apache2/htdocs/rubbos':
-        ensure          => directory,
+        ensure          => present,
         path            => "${rubbos_app_tools}/apache2/htdocs/rubbos",
         recurse         => true,
         source          => "puppet:///modules/rubbos_httpd/apache_files/rubbos_html",
         show_diff       => false,
-        require         => Exec['make install mod jk'],
+        subscribe       => [Exec['make install httpd'],Exec['make install mod jk']],
   }
 
   # Ensure apache2 service is running
@@ -145,7 +151,9 @@ class rubbos_httpd::rubbos_httpd_on {
         status          => "ps aux | grep 'bin/httpd.*start$'",
         start           => "${rubbos_app_tools}/apache2/bin/apachectl -f ${rubbos_app_tools}/apache2/conf/httpd.conf -k start",
         stop            => "${rubbos_app_tools}/apache2/bin/apachectl -f ${rubbos_app_tools}/apache2/conf/httpd.conf -k stop",
-        require         => File['${rubbos_app_tools}/apache2/htdocs/rubbos'],
+        subscribe       => [
+                        File['${rubbos_app_tools}/apache2/conf/httpd.conf'],
+                        File['${rubbos_app_tools}/apache2/conf/workers.properties']],
   }
 
 }
