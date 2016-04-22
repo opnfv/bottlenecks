@@ -135,6 +135,25 @@ resources:
         - subnet_id: { get_resource: private_subnet }
       security_groups: [{ get_resource: server_security_group }]
 
+   rubbos_mysql2:
+    type: OS::Nova::Server
+    properties:
+      name: rubbos_mysql2
+      image: { get_param: image }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: rubbos_mysql2_port }
+      admin_user: ubuntu
+
+  rubbos_mysql2_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+
   rubbos_tomcat1:
     type: OS::Nova::Server
     properties:
@@ -147,25 +166,6 @@ resources:
       admin_user: ubuntu
 
   rubbos_tomcat1_port:
-    type: OS::Neutron::Port
-    properties:
-      network_id: { get_resource: private_net }
-      fixed_ips:
-        - subnet_id: { get_resource: private_subnet }
-      security_groups: [{ get_resource: server_security_group }]
-
-  rubbos_tomcat2:
-    type: OS::Nova::Server
-    properties:
-      name: rubbos_tomcat2
-      image: { get_param: image }
-      flavor: { get_param: flavor }
-      key_name: { get_param: key_name }
-      networks:
-        - port: { get_resource: rubbos_tomcat2_port }
-      admin_user: ubuntu
-
-  rubbos_tomcat2_port:
     type: OS::Neutron::Port
     properties:
       network_id: { get_resource: private_net }
@@ -298,12 +298,12 @@ outputs:
   rubbos_mysql1_private_ip:
     description: IP address of rubbos_mysql1 in private network
     value: { get_attr: [ rubbos_mysql1, first_address ] }
+   rubbos_mysql2_private_ip:
+    description: IP address of rubbos_mysql2 in private network
+    value: { get_attr: [ rubbos_mysql2, first_address ] }
   rubbos_tomcat1_private_ip:
     description: IP address of rubbos_tomcat1 in private network
     value: { get_attr: [ rubbos_tomcat1, first_address ] }
-  rubbos_tomcat2_private_ip:
-    description: IP address of rubbos_tomcat2 in private network
-    value: { get_attr: [ rubbos_tomcat2, first_address ] }
   rubbos_client1_private_ip:
     description: IP address of rubbos_client1 in private network
     value: { get_attr: [ rubbos_client1, first_address ] }
