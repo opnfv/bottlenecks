@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_5300fe00",
+        "filename": "testsuites/rubbos/run_rubbos.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-22T06:08:09Z",
+      "side": 1,
+      "message": "Here should be \u0027bottlenecks_rubbos_flavor\u0027 which is created before stack creation",
+      "revId": "b864b9e2b25b31b38277d157f41bbeb1f619373f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_33058211",
+        "filename": "testsuites/rubbos/run_rubbos.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-22T06:08:09Z",
+      "side": 1,
+      "message": "The \u0027public_net\u0027 need to be created by ourself or be compatible with different PODs, imo",
+      "revId": "b864b9e2b25b31b38277d157f41bbeb1f619373f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
