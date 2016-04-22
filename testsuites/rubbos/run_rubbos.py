@@ -8,7 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-
 import os
 import argparse
 import time
@@ -26,7 +25,7 @@ from novaclient.client import Client as NovaClient
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--conf",
                     help="configuration files for the testcase, in yaml format",
-                    default="/tmp/rubbos_1-1-1.yaml")
+                    default="/home/opnfv/bottlenecks/testsuites/rubbos/testcase_cfg/rubbos_1-1-1.yaml")
 args = parser.parse_args()
 
 #--------------------------------------------------
@@ -81,10 +80,10 @@ def rubbos_stack_satisfy(name="bottlenecks_rubbos_stack", status="CREATE_COMPLET
     for stack in heat.stacks.list():
         if status == None and stack.stack_name == name:
             # Found target stack
-            print "Found stack, name=" + stack.stack_name
+            print "Found stack, name=" + str(stack.stack_name)
             return True
         elif stack.stack_name == name and stack.stack_status==status:
-            print "Found stack, name=" + stack.stack_name + ", status=" + stack.stack_status
+            print "Found stack, name=" + str(stack.stack_name) + ", status=" + str(stack.stack_status)
             return True
     return False
 
@@ -105,17 +104,17 @@ def rubbos_env_cleanup():
 
     for keypair in nova.keypairs.list():
         if keypair.name.find("bottlenecks_rubbos") >= 0:
-            print "Delete keypair, id:" + keypair.id + ", name:" + keypair.name
+            print "Delete keypair, id:" + str(keypair.id) + ", name:" + str(keypair.name)
             nova.keypairs.delete(keypair.id)
 
     for flavor in nova.flavors.list():
         if flavor.name.find("bottlenecks_rubbos") >= 0:
-            print "Delete flavor, id:" + str(flavor.id) + ", name:" + flavor.name
+            print "Delete flavor, id:" + str(flavor.id) + ", name:" + str(flavor.name)
             nova.flavors.delete(flavor.id)
 
     for stack in heat.stacks.list():
         if stack.stack_name.find("bottlenecks_rubbos") >= 0:
-            print "Delete stack, id: " + str(stack.id) + ", name:" + str(stack.stack_name
+            print "Delete stack, id: " + str(stack.id) + ", name:" + str(stack.stack_name)
             heat.stacks.delete(stack.id)
 
     timeInProgress = 0
@@ -175,7 +174,7 @@ def rubbos_create_instance(template_file, rubbos_parameters=None, stack_name="bo
     stack_id = stack['stack']['id']
     stack_status = heat.stacks.get(stack_id).stack_status
 
-    print "Created stack, id=" + stack_id + ", status=" + stack_status
+    print "Created stack, id=" + str(stack_id) + ", status=" + str(stack_status)
 
     timeInProgress= 0
     while stack_status == "CREATE_IN_PROGRESS" and timeInProgress < 150:
@@ -194,9 +193,9 @@ def main():
     global Heat_template
     global Bottlenecks_repo_dir
     global image_url
-    Bottlenecks_repo_dir = "/tmp/opnfvrepo/bottlenecks"
+    Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"      # same in Dockerfile, docker directory
     #Bottlenecks_repo_dir = "/root/wyg/bottlenecks"       # Test dir in local env
- 
+
     image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img'
 
     if not (args.conf):
@@ -205,10 +204,11 @@ def main():
     else:
        Heat_template = args.conf
 
+    #TO DO:the parameters are all used defaults here, it should be changed depends on what it is really named
     parameters={'image': 'bottlenecks_rubbos_image',
                 'key_name': 'bottlenecks_rubbos_keypair',
-                'flavor': 'm1.small',
-                'public_net': 'ext-net'}
+                'flavor': 'bottlenecks_rubbos_flavor',
+                'public_net': os.environ.get('EXTERNAL_NET')}
 
     print "Heat_template_file: " + Heat_template
     print "parameters:\n" + str(parameters)
