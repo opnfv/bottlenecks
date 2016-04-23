@@ -164,7 +164,7 @@ def rubbos_create_flavors(name="bottlenecks_rubbos_flavor", ram=4096, vcpus=2, d
     nova = _get_nova_client()
     nova.flavors.create(name=name, ram=ram, vcpus=vcpus, disk=disk)
 
-def rubbos_create_instance(template_file, rubbos_parameters=None, stack_name="bottlenecks_rubbos_stack"):
+def rubbos_create_instances(template_file, rubbos_parameters=None, stack_name="bottlenecks_rubbos_stack"):
     print "========== Create rubbos instances =========="
     heat = _get_heat_client()
 
