@@ -18,6 +18,7 @@ ENV REPOS_DIR /home/opnfv
 # Bottlenecks repo
 ENV BOTTLENECKS_REPO_DIR ${REPOS_DIR}/bottlenecks
 ENV RELENG_REPO_DIR ${REPOS_DIR}/releng
+ENV creds ${BOTTLENECKS_REPO_DIR}/config/openstack.creds
 
 #new test suite required packages can be added here
 RUN apt-get update && apt-get install -y \
