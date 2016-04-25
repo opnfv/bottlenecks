@@ -12,7 +12,7 @@ mkdir -p /home/opnfv/bottlenecks/config
 config_file=/home/opnfv/bottlenecks/config/bottlenecks_cfg.yaml
 
 if [ ! -f ${config_file} ]; then
-    default_config_file=$(find /home/opnfv/repos -name bottlenecks_cfg.yaml)
+    default_config_file=$(find /home/opnfv -name bottlenecks_cfg.yaml)
     cp $default_config_file $config_file
     echo "bottlenecks_cfg.yaml not provided. Using default one"
 fi
