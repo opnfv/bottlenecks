@@ -186,15 +186,70 @@ def rubbos_create_instances(template_file, rubbos_parameters=None, stack_name="b
     print "After %d seconds, the stack's status is [%s]" %(timeInProgress, stack_status)
     return True if stack_status == "CREATE_COMPLETE" else False
 
+def get_instances(nova_client):
+    try:
+        instances = nova_client.servers.list(search_opts={'all_tenants': 1})
+        return instances
+    except Exception, e:
+        print "Error [get_instances(nova_client)]:", e
+        return None
+
 def rubbos_run():
-    pass
+    print "========== run rubbos ==========="
+
+    nova = _get_nova_client()
+
+    instances = get_instances(nova)
+    control_servers = []
+    client_servers = []
+    web_servers = []
+    cjdbc_controller = []
+    database_servers = []
+    for instance in instances:
+        name = getattr(instance, 'name')
+        private_ip = [ x['addr'] for x in getattr(instance, 'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'fixed']
+	public_ip =  [ x['addr'] for x in getattr(instance, 'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'floating']
+
+        if name.find("control") > 0:
+           control_servers.append(''.join(str(name)+':'+public_ip[0]+':'+private_ip[0]))
+        if name.find("client") > 0:
+           client_servers.append(''.join(str(name)+':'+private_ip[0]))
+        if name.find("tomcat") > 0:
+           web_servers.append(''.join(str(name)+':'+private_ip[0]))
+        if name.find("cjdbc") > 0:
+           cjdbc_controller.append(''.join(str(name)+':'+private_ip[0]))
+        if name.find("mysql") > 0:
+           database_servers.append(''.join(str(name)+':'+private_ip[0]))
+
+    f = open('hosts.conf', 'w')
+    print >> f, '[Controller]'
+    print >> f, 'controller =',
+    for i in control_servers:
+        print >> f, i + ',',
+    print >> f, '\n'
+    print >> f, '[Hosts]'
+    print >> f, 'client_servers =',
+    for i in client_servers:
+        print >> f, i + ',',
+    print >> f, '\n'
+    print >> f, 'web_servers =',
+    for i in web_servers:
+        print >> f, i + ',',
+    print >> f, '\n'
+    print >> f, 'cjdbc_controller =',
+    for i in cjdbc_controller:
+        print >> f, i + ',',
+    print >> f, '\n'
+    print >> f, 'database_servers =',
+    for i in database_servers:
+        print >> f, i + ',',
+    f.close()
 
 def main():
     global Heat_template
     global Bottlenecks_repo_dir
     global image_url
     Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"      # same in Dockerfile, docker directory
-    #Bottlenecks_repo_dir = "/root/wyg/bottlenecks"       # Test dir in local env
 
     image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img'
 
