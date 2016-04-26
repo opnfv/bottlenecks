@@ -44,7 +44,6 @@ def main():
     i = 1
     params = dict()
     while (i < len(sys.argv)):
-        print sys.argv[i]
         if sys.argv[i]=="-i" or sys.argv[i]=="--input":
             params["input"] = sys.argv[i+1]
         if sys.argv[i]=="-s" or sys.argv[i]=="--suite":

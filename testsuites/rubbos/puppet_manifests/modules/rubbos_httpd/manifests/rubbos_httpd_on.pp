@@ -131,7 +131,7 @@ class rubbos_httpd::rubbos_httpd_on {
         ensure          => present,
         path            => "${rubbos_app_tools}/apache2/conf/workers.properties",
         source          => "puppet:///modules/rubbos_httpd/apache_conf/workers.properties",
-        show_diff       => present,
+        show_diff       => false,
         subscribe       => [Exec['make install httpd'],Exec['make install mod jk']],
   }
 

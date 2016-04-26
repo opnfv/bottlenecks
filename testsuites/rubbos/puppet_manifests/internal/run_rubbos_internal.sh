@@ -50,6 +50,8 @@ webservers_arr=
 appservers_arr=
 dbservers_arr=
 all_agents_arr=
+hostname_arr=
+hostip_arr=
 
 # Other variables used in this script
 class_nodes=
@@ -60,16 +62,50 @@ read_conf() {
     if [ ${#line} -gt 0 ] && [ ${line:0:1} != "#" ] && [ ${line:0:1} != "[" ];then
       line=(${line//=/ })
       case ${line[0]} in
+        "controller" )
+          e_arr=(${line[1]//:/ })
+          controller_host=${e_arr[0]}
+          controller_ip=${e_arr[2]}
+          hostname_arr=("${hostname_arr[@]}" "${e_arr[0]}")
+          hostip_arr=("${hostip_arr[@]}" "${e_arr[2]}");;
         "client_servers" )
-          client_servers=${line[1]};;
+          elems=(${line[1]//,/ })
+          for e in "${elems[@]}";do
+            e_arr=(${e//:/ })
+            client_servers=${client_servers}${e_arr[0]}","
+            hostname_arr=("${hostname_arr[@]}" "${e_arr[0]}")
+            hostip_arr=("${hostip_arr[@]}" "${e_arr[1]}")
+          done
+          client_servers=${client_servers%,};;
         "web_servers" )
-          web_servers=${line[1]};;
+          elems=(${line[1]//,/ })
+          for e in "${elems[@]}";do
+            e_arr=(${e//:/ })
+            web_servers=${web_servers}${e_arr[0]}","
+            hostname_arr=("${hostname_arr[@]}" "${e_arr[0]}")
+            hostip_arr=("${hostip_arr[@]}" "${e_arr[1]}")
+          done
+          web_servers=${web_servers%,};;
         "app_servers" )
-          app_servers=${line[1]};;
+          elems=(${line[1]//,/ })
+          for e in "${elems[@]}";do
+            e_arr=(${e//:/ })
+            app_servers=${app_servers}${e_arr[0]}","
+            hostname_arr=("${hostname_arr[@]}" "${e_arr[0]}")
+            hostip_arr=("${hostip_arr[@]}" "${e_arr[1]}")
+          done
+          app_servers=${app_servers%,};;
         "cjdbc_controller" )
           cjdbc_controller=${line[1]};;
-        "database_servers" )
-          database_servers=${line[1]};;
+        "db_servers" )
+          elems=(${line[1]//,/ })
+          for e in "${elems[@]}";do
+            e_arr=(${e//:/ })
+            database_servers=${database_servers}${e_arr[0]}","
+            hostname_arr=("${hostname_arr[@]}" "${e_arr[0]}")
+            hostip_arr=("${hostip_arr[@]}" "${e_arr[1]}")
+          done
+          database_servers=${database_servers%,};;
         "database_port" )
           database_port=${line[1]};;
         "db_username" )
@@ -102,6 +138,11 @@ read_conf() {
   fi
 
   echo "-------------Main conf info:----------"
+  i=1
+  while [ $i -lt ${#hostname_arr[@]} ]; do
+    echo ${hostip_arr[$i]}" "${hostname_arr[$i]}
+    let i=i+1
+  done
   echo "clients_arr:           "${clients_arr[@]}
   echo "bench_client:          "$bench_client
   echo "remote_client_servers: "$remote_client_servers
