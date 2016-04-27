@@ -1,0 +1,252 @@
+heat_template_version: 2013-05-23
+description: >
+  This template is used for creating a new environment on the Openstack Release L ,
+  and the deployment will create three virtual machine on the compute node, one manager
+  and two agent vm included. Each vm will has a nic on the controlplane switch and two
+  agent vms will has a additional nic on the dataplane.
+parameters:
+  #nova keypair-list to query available key pair
+  key_name:
+    type: string
+    description: Name of keypair to assign to servers
+    default: bottlenecks_vstf_keypair
+  #nova image-list to query available images
+  image:
+    type: string
+    description: Name of image to use for servers
+    default: bottlenecks-trusty-server
+  #new addition image for the actual deployment
+  image_vstf_manager:
+    type: string
+    description: Name of image to use for servers
+    default: vstf-manager
+  image_vstf_tester:
+    type: string
+    description: Name of image to use for servers
+    default: vstf-tester
+  image_vstf_target:
+    type: string
+    description: Name of image to use for servers
+    default: vstf-target
+  #nova flavor-list to query available flavors
+  flavor:
+    type: string
+    description: Flavor to use for servers
+    default: m1.large
+  #nova net-list to query available
+  public_net:
+    type: string
+    description: >
+      ID or name of public network for which floating IP addresses will be allocated
+    default: net04_ext
+
+  #private controlplane
+  private_net_name:
+    type: string
+    description: Name of private network to be created
+    default: vstf-private
+  private_net_cidr:
+    type: string
+    description: Private network address (CIDR notation)
+    default: "10.0.11.0/24"
+  private_net_gateway:
+    type: string
+    description: Private network gateway address
+    default: "10.0.11.1"
+  private_net_pool_start:
+    type: string
+    description: Start of private network IP address allocation pool
+    default: "10.0.11.2"
+  private_net_pool_end:
+    type: string
+    description: End of private network IP address allocation pool
+    default: "10.0.11.199"
+
+  #testing dataplane
+  testing_net_name:
+    type: string
+    description: Name of private network to be created
+    default: bottlenecks-testing
+  testing_net_cidr:
+    type: string
+    description: Private network address (CIDR notation)
+    default: "10.0.20.0/24"
+  testing_net_gateway:
+    type: string
+    description: Private network gateway address
+    default: "10.0.20.1"
+  testing_net_pool_start:
+    type: string
+    description: Start of private network IP address allocation pool
+    default: "10.0.20.2"
+  testing_net_pool_end:
+    type: string
+    description: End of private network IP address allocation pool
+    default: "10.0.20.199"
+
+
+resources:
+  #control plane
+  private_net:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: private_net_name }
+  private_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: private_net }
+      cidr: { get_param: private_net_cidr }
+      gateway_ip: { get_param: private_net_gateway }
+      allocation_pools:
+        - start: { get_param: private_net_pool_start }
+          end: { get_param: private_net_pool_end }
+
+  #dataplane
+  testing_net:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: testing_net_name }
+  testing_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: testing_net }
+      cidr: { get_param: testing_net_cidr }
+      gateway_ip: { get_param: testing_net_gateway }
+      allocation_pools:
+        - start: { get_param: testing_net_pool_start }
+          end: { get_param: testing_net_pool_end }
+
+  #router info
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: public_net }
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: private_subnet }
+
+  #security_group
+  server_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      description: vstf group for servers access.
+      name: vstf-security-group
+      rules: [
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: tcp,
+        port_range_min: 1,
+        port_range_max: 65535},
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: udp,
+        port_range_min: 1,
+        port_range_max: 65535},
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: icmp}]
+
+  #nova server vstf manager definition info
+  vstf-manager:
+    type: OS::Nova::Server
+    properties:
+      name: vstf-manager
+      image: { get_param: image_vstf_manager }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: manager_control_port }
+  manager_control_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+  manager_control_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: public_net }
+      port_id: { get_resource: manager_control_port }
+
+  #nova server vstf target definition info
+  vstf-target:
+    type: OS::Nova::Server
+    properties:
+      name: vstf-target
+      image: { get_param: image_vstf_target }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: target_control_port }
+        - port: { get_resource: target_testing_port }
+  target_control_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+  target_testing_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: testing_net }
+      fixed_ips:
+        - subnet_id: { get_resource: testing_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+  target_control_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: public_net }
+      port_id: { get_resource: target_control_port }
+
+  #nova server vstf tester definition info
+  vstf-tester:
+    type: OS::Nova::Server
+    properties:
+      name: vstf-tester
+      image: { get_param: image_vstf_tester }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: tester_control_port }
+        - port: { get_resource: tester_testing_port }
+  tester_control_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+  tester_testing_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: testing_net }
+      fixed_ips:
+        - subnet_id: { get_resource: testing_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+  tester_control_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: public_net }
+      port_id: { get_resource: tester_control_port }
+
+outputs:
+  manager_control_private_ip:
+    description: IP address of manager_control in private network
+    value: { get_attr: [ vstf-manager, first_address ] }
+  manager_control_public_ip:
+    description: Floating IP address of manager_control in public network
+    value: { get_attr: [ manager_control_floating_ip, floating_ip_address ] }
+  target_control_private_ip:
+    description: IP address of manager_control in private network
+    value: { get_attr: [ vstf-target, first_address ] }
+  target_control_public_ip:
+    description: Floating IP address of manager_control in public network
+    value: { get_attr: [ target_control_floating_ip, floating_ip_address ] }
+  tester_control_private_ip:
+    description: IP address of manager_control in private network
+    value: { get_attr: [ vstf-tester, first_address ] }
+  tester_control_public_ip:
+    description: Floating IP address of manager_control in public network
+    value: { get_attr: [ tester_control_floating_ip, floating_ip_address ] }
