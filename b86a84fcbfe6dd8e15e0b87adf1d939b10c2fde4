@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_5fc7eb12",
+        "filename": "testsuites/vstf/run_vstf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "Notice, we should upload two images here. invoking this function twice in main()",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 74
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_dfda1be9",
+        "filename": "testsuites/vstf/run_vstf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "So far, it needs two images in vstf",
+      "range": {
+        "startLine": 202,
+        "startChar": 4,
+        "endLine": 202,
+        "endChar": 93
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_bfe1579c",
+        "filename": "testsuites/vstf/run_vstf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "pass two images",
+      "range": {
+        "startLine": 205,
+        "startChar": 17,
+        "endLine": 205,
+        "endChar": 49
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_5fee0b8d",
+        "filename": "testsuites/vstf/run_vstf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "upload two images into the vstf_stack",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 49
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_7ff3cf73",
+        "filename": "testsuites/vstf/run_vstf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "remove #",
+      "range": {
+        "startLine": 237,
+        "startChar": 5,
+        "endLine": 237,
+        "endChar": 21
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_3f88e7e6",
+        "filename": "testsuites/vstf/testcase_cfg/vstf_heat_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "In vstf, let\u0027s make one yaml for each test case. the yaml file\u0027s name may be tu_1.yaml",
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_df6c5b39",
+        "filename": "testsuites/vstf/testcase_cfg/vstf_heat_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "So far, let\u0027s keep it as vstf_tester",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 13
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_ff691f26",
+        "filename": "testsuites/vstf/testcase_cfg/vstf_heat_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "Notice, to use right image",
+      "range": {
+        "startLine": 104,
+        "startChar": 26,
+        "endLine": 104,
+        "endChar": 31
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_5f604b35",
+        "filename": "testsuites/vstf/testcase_cfg/vstf_heat_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "in order to run tu1 correctly, it requires a floating ip",
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_3f5f8774",
+        "filename": "testsuites/vstf/testcase_cfg/vstf_heat_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "vstf_target",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 119,
+        "endChar": 13
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_9f4d73c7",
+        "filename": "testsuites/vstf/testcase_cfg/vstf_heat_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "notice here",
+      "range": {
+        "startLine": 123,
+        "startChar": 26,
+        "endLine": 123,
+        "endChar": 31
+      },
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_bf4ab7aa",
+        "filename": "testsuites/vstf/testcase_cfg/vstf_heat_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 3065
+      },
+      "writtenOn": "2016-04-27T09:35:02Z",
+      "side": 1,
+      "message": "in order to run tu1 correctly, it requires a floating ip",
+      "revId": "b86a84fcbfe6dd8e15e0b87adf1d939b10c2fde4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
