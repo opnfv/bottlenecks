@@ -1,0 +1,167 @@
+heat_template_version: 2013-05-23
+
+description: >
+  HOT template to create a new neutron network plus a router to the public
+  network, and for deploying nine servers into the new network. The template also
+  assigns floating IP addresses to vstf_manager server so it is routable from the
+  public network.
+parameters:
+  key_name:
+    type: string
+    description: Name of keypair to assign to servers
+    default: bottlenecks-key
+  image:
+    type: string
+    description: Name of image to use for servers
+    default: bottlenecks-trusty-server
+  flavor:
+    type: string
+    description: Flavor to use for servers
+    default: bottlenecks-flavor
+  public_net:
+    type: string
+    description: >
+      ID or name of public network for which floating IP addresses will be allocated
+    default: ext-net
+  private_net_name:
+    type: string
+    description: Name of private network to be created
+    default: bottlenecks-private
+  private_net_cidr:
+    type: string
+    description: Private network address (CIDR notation)
+    default: "10.0.10.0/24"
+  private_net_gateway:
+    type: string
+    description: Private network gateway address
+    default: "10.0.10.1"
+  private_net_pool_start:
+    type: string
+    description: Start of private network IP address allocation pool
+    default: "10.0.10.2"
+  private_net_pool_end:
+    type: string
+    description: End of private network IP address allocation pool
+    default: "10.0.10.199"
+
+resources:
+  private_net:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: private_net_name }
+
+  private_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: private_net }
+      cidr: { get_param: private_net_cidr }
+      gateway_ip: { get_param: private_net_gateway }
+      allocation_pools:
+        - start: { get_param: private_net_pool_start }
+          end: { get_param: private_net_pool_end }
+
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: public_net }
+
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: private_subnet }
+
+  vstf_manager:
+    type: OS::Nova::Server
+    properties:
+      name: vstf_manager
+      image: { get_param: image }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: vstf_manager_port }
+      admin_user: ubuntu
+
+  vstf_manager_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+
+  vstf_manager_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: public_net }
+      port_id: { get_resource: vstf_manager_port }
+
+  vstf_agent1:
+    type: OS::Nova::Server
+    properties:
+      name: vstf_agent1
+      image: { get_param: image }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: vstf_agent1_port }
+      admin_user: ubuntu
+
+  vstf_agent1_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+
+  vstf_agent2:
+    type: OS::Nova::Server
+    properties:
+      name: vstf_agent2
+      image: { get_param: image }
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: vstf_agent2_port }
+      admin_user: ubuntu
+
+  vstf_agent2_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+
+  server_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      description: vstf group for servers access.
+      name: vstf-security-group
+      rules: [
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: tcp,
+        port_range_min: 1,
+        port_range_max: 65535},
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: udp,
+        port_range_min: 1,
+        port_range_max: 65535},
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: icmp}]
+
+outputs:
+  vstf_manager_private_ip:
+    description: IP address of vstf manager in private network
+    value: { get_attr: [ vstf_manager, first_address ] }
+  vstf_manager_public_ip:
+    description: Floating IP address of vstf manager in public network
+    value: { get_attr: [ vstf_manager_floating_ip, floating_ip_address ] }
+  vstf_agent1_private_ip:
+    description: IP address of vstf agent1 in private network
+    value: { get_attr: [ vstf_agent1, first_address ] }
+  vstf_agent2_private_ip:
+    description: IP address of vstf agent2 in private network
+    value: { get_attr: [ vstf_agent2, first_address ] }
