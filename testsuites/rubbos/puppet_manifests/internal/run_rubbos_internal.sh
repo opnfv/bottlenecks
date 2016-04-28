@@ -180,6 +180,39 @@ fetch_remote_resources() {
   mkdir -p $local_results_dir
 }
 
+# ssh all vms/instances once only after first creation
+direct_ssh() {
+  sudo cp ${LOCAL_GIT_REPO}/bottlenecks/utils/infra_setup/bottlenecks_key/bottlenecks_key /home/ubuntu/.ssh/id_rsa
+  sudo chmod 0600 /home/ubuntu/.ssh/id_rsa
+  echo 'StrictHostKeyChecking no' > /home/ubuntu/.ssh/config
+  sudo cp /home/ubuntu/.ssh/id_rsa /root/.ssh/
+  sudo cp /home/ubuntu/.ssh/config /root/.ssh/
+  local ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i /home/ubuntu/.ssh/id_rsa"
+  i=1
+  while [ $i -lt ${#hostname_arr[@]} ]; do
+    echo ${hostip_arr[$i]}" "${hostname_arr[$i]}
+    if [ ${hostname_arr[$i]} == ${controller_host} ];then
+      let i=i+1
+      continue
+    fi
+    echo ${hostip_arr[$i]}" "${hostname_arr[$i]} >> /etc/hosts
+    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "echo 'StrictHostKeyChecking no' > /home/ubuntu/.ssh/config"
+    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo cp /home/ubuntu/.ssh/config /root/.ssh/"
+    scp ${ssh_args} /home/ubuntu/.ssh/id_rsa ubuntu@${hostname_arr[$i]}:/home/ubuntu/.ssh/
+    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo cp /home/ubuntu/.ssh/id_rsa /root/.ssh/"
+    echo "Append hosts for "${hostname_arr[$i]}
+    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo cp /etc/hosts /home/ubuntu/ && sudo chmod 646 /home/ubuntu/hosts"
+    j=1
+    while [ $j -lt ${#hostname_arr[@]} ];do
+      local host_item=${hostip_arr[$j]}" "${hostname_arr[$j]}
+      ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo echo ${host_item} >> /home/ubuntu/hosts"
+      let j=j+1
+    done
+    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo chmod 644 /home/ubuntu/hosts && sudo cp /home/ubuntu/hosts /etc/ && sudo rm -rf /home/ubuntu/hosts"
+    let i=i+1
+  done
+}
+
 # inline function
 # It requires one local file path which needs to be replaced
 _replace_text() {
@@ -276,16 +309,17 @@ prepare_manifests() {
 
 execute_catalog() {
   # start all (exec catalog)
-  echo "--> Cleanup all agents..."
-  sudo cp ${LOCAL_RUBBOS_MANIFESTS_HOME}/site_off.pp /etc/puppet/manifests/site.pp
-  _execute_catalog
-
-  sleep 3s
-
-  echo "--> Start to execute catalogs in all agents..."
-  sudo cp ${LOCAL_RUBBOS_MANIFESTS_HOME}/site_on.pp /etc/puppet/manifests/site.pp
-  _execute_catalog
-  echo "--> Finish to execute catalogs in all agents."
+  if [ "x"$1 == "xstart" ];then
+    echo "--> Start to execute catalogs in all agents..."
+    sudo cp ${LOCAL_RUBBOS_MANIFESTS_HOME}/site_on.pp /etc/puppet/manifests/site.pp
+    _execute_catalog
+    echo "--> Finish to execute catalogs in all agents."
+  elif [ "x"$1 == "xclean" ];then
+    echo "--> Cleanup all agents..."
+    sudo cp ${LOCAL_RUBBOS_MANIFESTS_HOME}/site_off.pp /etc/puppet/manifests/site.pp
+    _execute_catalog
+   echo "--> Finish to cleanup all agents."
+  fi
 }
 
 run_emulator() {
@@ -325,16 +359,20 @@ main() {
   read_conf
   echo "==> fetch_remote_resources:"
   fetch_remote_resources
+  echo "==> direct_ssh:"
+  direct_ssh
   echo "==> prepare_manifests:"
   prepare_manifests
-  echo "==> execute_catalog:"
-  execute_catalog
+  echo "==> execute_catalog start:"
+  execute_catalog start
   echo "==> run_emulator:"
   run_emulator
   echo "==> collect_results (to controller:${local_results_dir}):"
   collect_results
   echo "==> process_results:"
   process_results
+  echo "==> execute_catalog clean:"
+  execute_catalog clean
 }
 
 main
