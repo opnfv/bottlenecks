@@ -1,0 +1,14 @@
+#cloud-config
+
+runcmd:
+  - wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+  - sudo dpkg -i puppetlabs-release-trusty.deb
+  - sudo apt-get update
+  - sudo apt-get -y install puppet
+  - sed -i '/^factpath/a basemodulepath=\/etc\/puppet\/modules' /etc/puppet/puppet.conf
+  - sed -i '/^factpath/a server=REPLACED_PUPPET_MASTER_SERVER' /etc/puppet/puppet.conf
+  - sed -i '/^factpath/a runinterval=1d' /etc/puppet/puppet.conf
+  - sed -i '/^templatedir/d' /etc/puppet/puppet.conf
+  - sed -i 's/START=no/START=yes/g' /etc/default/puppet
+
+final_message: "The system with puppet is finally up, after $UPTIME seconds."
