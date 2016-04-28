@@ -78,7 +78,7 @@ function run_test(){
                 check_testcase -rubbos $i
                 #adjust config parameters, different test suite has different methods, take rubbos as an example
                 #run test case, different test suite has different methods
-                file={$BASEDIR}/testsuites/rubbos/testcase_cfg/{$i}.yaml
+                file=${BASEDIR}/testsuites/rubbos/testcase_cfg/${i}.yaml
                 python /home/opnfv/bottlenecks/testsuites/rubbos/run_rubbos.py -c $file
             done
         ;;
@@ -95,7 +95,7 @@ function run_test(){
                 check_testcase -vstf $i
                 #adjust config parameters
                 #run test case
-                file={$BASEDIR}/testsuites/vstf/testcase_cfg/{$i}.yaml
+                file=${BASEDIR}/testsuites/vstf/testcase_cfg/${i}.yaml
                 python /home/opnfv/bottlenecks/testsuites/vstf/run_vstf.py -c $file
             done
         ;;
