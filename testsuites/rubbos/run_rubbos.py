@@ -202,6 +202,7 @@ def rubbos_run():
     instances = get_instances(nova)
     control_servers = []
     client_servers = []
+    app_servers = []
     web_servers = []
     cjdbc_controller = []
     database_servers = []
@@ -214,8 +215,10 @@ def rubbos_run():
            control_servers.append(''.join(str(name)+':'+public_ip[0]+':'+private_ip[0]))
         if name.find("client") > 0:
            client_servers.append(''.join(str(name)+':'+private_ip[0]))
-        if name.find("tomcat") > 0:
+        if name.find("httpd") > 0:
            web_servers.append(''.join(str(name)+':'+private_ip[0]))
+        if name.find("tomcat") > 0:
+           app_servers.append(''.join(str(name)+':'+private_ip[0]))
         if name.find("cjdbc") > 0:
            cjdbc_controller.append(''.join(str(name)+':'+private_ip[0]))
         if name.find("mysql") > 0:
@@ -234,6 +237,10 @@ def rubbos_run():
     f.write('\n')
     f.write('web_servers=')
     for i in web_servers:
+        f.write(i+',')
+    f.write('\n')
+    f.write('app_servers=')
+    for i in app_servers:
         f.write(i+',')
     f.write('\n')
     f.write('cjdbc_controller=')
