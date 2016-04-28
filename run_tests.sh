@@ -140,6 +140,10 @@ if [ "${SUITE}" != "" ]; then
     info "Tests to execute: ${SUITE}"
 fi
 
+# Source credentials
+info "Sourcing Credentials openstack.creds to run the tests.."
+source /home/opnfv/bottlenecks/config/openstack.creds
+
 #run tests
 if [ "${SUITE}" != "" ]; then
     for i in "${suite_exec[@]}"; do
