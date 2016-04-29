@@ -297,7 +297,8 @@ def main():
     global image_url
     Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"      # same in Dockerfile, docker directory
 
-    image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/trusty-server-cloudimg-amd64-btnks.img'
+    #image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/trusty-server-cloudimg-amd64-btnks.img'
+    image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img'
 
     if not (args.conf):
        logger.error("Configuration files are not set for testcase")
