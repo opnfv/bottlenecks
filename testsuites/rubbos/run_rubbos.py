@@ -11,6 +11,7 @@
 import os
 import argparse
 import time
+import subprocess
 import logging
 import urllib2
 import shutil
@@ -198,64 +199,96 @@ def rubbos_run():
     print "========== run rubbos ==========="
 
     nova = _get_nova_client()
-
     instances = get_instances(nova)
-    control_servers = []
-    client_servers = []
-    web_servers = []
-    app_servers = []
-    cjdbc_controller = []
-    database_servers = []
+    if instances == None:
+        print "Found *None* instances, exit rubbos_run()!"
+        return False
+
+    control_public_ip = ""
+    control_server = ""
+    client_servers = ""
+    web_servers = ""
+    app_servers = ""
+    cjdbc_controller = ""
+    database_servers = ""
     for instance in instances:
         name = getattr(instance, 'name')
         private_ip = [ x['addr'] for x in getattr(instance, 'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'fixed']
         public_ip =  [ x['addr'] for x in getattr(instance, 'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'floating']
 
-        if name.find("control") > 0:
-           control_servers.append(''.join(str(name)+':'+public_ip[0]+':'+private_ip[0]))
-        if name.find("client") > 0:
-           client_servers.append(''.join(str(name)+':'+private_ip[0]))
-        if name.find("httpd") > 0:
-           web_servers.append(''.join(str(name)+':'+private_ip[0]))
-        if name.find("tomcat") > 0:
-           app_servers.append(''.join(str(name)+':'+private_ip[0]))
-        if name.find("cjdbc") > 0:
-           cjdbc_controller.append(''.join(str(name)+':'+private_ip[0]))
-        if name.find("mysql") > 0:
-           database_servers.append(''.join(str(name)+':'+private_ip[0]))
+        if name.find("rubbos_control") >= 0:
+            control_public_ip = public_ip[0]
+            control_server = str(name) + ':' + public_ip[0] + ':' + private_ip[0]
+        if name.find("rubbos_client") >= 0:
+            client_servers = client_servers + str(name)+':'+private_ip[0] + ","
+        if name.find("rubbos_httpd") >= 0:
+            web_servers = web_servers + str(name)+':'+private_ip[0] + ","
+        if name.find("rubbos_tomcat") >= 0:
+            app_servers = app_servers + str(name) + ':' + private_ip[0] + ","
+        if name.find("rubbos_cjdbc") >= 0:
+            cjdbc_controller = str(name) + ':' + private_ip[0]
+        if name.find("rubbos_mysql") >= 0:
+            database_servers = database_servers + str(name) + ':' + private_ip[0] + ","
 
-    f = open('rubbos.conf', 'w')
-    f.write('[Controller]\n\n')
-    f.write('controller=')
-    for i in control_servers:
-        f.write(i+',')
-    f.write('\n\n')
-    f.write('[Hosts]\n\n')
-    f.write('client_servers=')
-    for i in client_servers:
-        f.write(i + ',')
-    f.write('\n')
-    f.write('web_servers=')
-    for i in web_servers:
-        f.write(i+',')
-    f.write('\n')
-    f.write('app_servers=')
-    for i in app_servers:
-        f.write(i+',')
-    f.write('\n')
-    f.write('cjdbc_controller=')
-    for i in cjdbc_controller:
-        f.write(i+',')
-    f.write('\n')
-    f.write('database_servers=')
-    for i in database_servers:
-        f.write(i + ',')
-    f.close()
-    f = open('rubbos.conf','r')
-    line = f.readlines()
-    f.close()
-    for i in line:
-        print(i)
+    client_servers = client_servers[0:len(client_servers)-1]
+    web_servers = web_servers[0:len(web_servers)-1]
+    app_servers = app_servers[0:len(app_servers)-1]
+    database_servers = database_servers[0:len(database_servers)-1]
+    print "control_server:    %s" % control_server
+    print "client_servers:    %s" % client_servers
+    print "web_servers:       %s" % web_servers
+    print "app_servers:       %s" % app_servers
+    print "cjdbc_controller:  %s" % cjdbc_controller
+    print "database_servers:  %s" % database_servers
+    with open(Bottlenecks_repo_dir+"/testsuites/rubbos/puppet_manifests/internal/rubbos.conf") as temp_f, open('rubbos.conf', 'w') as new_f:
+        for line in temp_f.readlines():
+            if line.find("REPLACED_CONTROLLER") >= 0 :
+                new_f.write( line.replace("REPLACED_CONTROLLER", control_server) )
+            elif line.find("REPLACED_CLIENT_SERVERS") >= 0:
+                new_f.write( line.replace("REPLACED_CLIENT_SERVERS", client_servers) )
+            elif line.find("REPLACED_WEB_SERVERS") >= 0:
+                new_f.write( line.replace("REPLACED_WEB_SERVERS", web_servers) )
+            elif line.find("REPLACED_APP_SERVERS") >= 0:
+                new_f.write( line.replace("REPLACED_APP_SERVERS", app_servers) )
+            elif line.find("REPLACED_CJDBC_CONTROLLER") >= 0:
+                new_f.write( line.replace("REPLACED_CJDBC_CONTROLLER", cjdbc_controller) )
+            elif line.find("REPLACED_DB_SERVERS") >= 0:
+                new_f.write( line.replace("REPLACED_DB_SERVERS", database_servers) )
+            elif line.find("REPLACED_CLIENTS_PER_NODE") >= 0:
+                new_f.write( line.replace("REPLACED_CLIENTS_PER_NODE", "200 400 800 1600 3200") )
+            else:
+                new_f.write(line)
+    if os.path.exists("rubbos.conf") == False:
+        return False
+
+    cmd = "sudo chmod 0600 " + Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key"
+    subprocess.call(cmd, shell=True)
+
+    ssh_args = "-o StrictHostKeyChecking=no -o BatchMode=yes -i " + Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key "
+    cmd = "scp " + ssh_args + "rubbos.conf ubuntu@" + control_public_ip + ":/home/ubuntu/"
+    print "Exec shell: " + cmd
+    subprocess.call(cmd, shell=True)
+
+    cmd = "scp " + ssh_args + Bottlenecks_repo_dir + "/testsuites/rubbos/puppet_manifests/internal/run_rubbos_internal.sh ubuntu@" + control_public_ip + ":/home/ubuntu/"
+    print "Exec shell: " + cmd
+    subprocess.call(cmd, shell=True)
+
+    # call remote run_rubbos_internal.sh
+    cmd = "ssh " + ssh_args + " ubuntu@" + control_public_ip + ' sudo /home/ubuntu/run_rubbos_internal.sh /home/ubuntu/rubbos.conf /home/ubuntu/btnks-results'
+    print "Exec shell: " + cmd
+    subprocess.call(cmd, shell=True)
+    cmd = "scp " + ssh_args + " ubuntu@" + control_public_ip + "/home/ubuntu/btnks-results/rubbos.out ./rubbos.out"
+    print "Exec shell: " + cmd
+    subprocess.call(cmd, shell=True)
+    if os.path.exists("rubbos.out") == False:
+        return False
+    
+    with open("rubbos.out") as f:
+        lines = f.readlines()
+        print "Rubbos results:"
+        for line in lines:
+            print line
+    return True
 
 def main():
     global Heat_template
@@ -263,19 +296,29 @@ def main():
     global image_url
     Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"      # same in Dockerfile, docker directory
 
-    image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img'
+    image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/trusty-server-cloudimg-amd64-btnks.img'
 
     if not (args.conf):
        logger.error("Configuration files are not set for testcase")
        exit(-1)
     else:
        Heat_template = args.conf
+    
+    master_user_data=""
+    agent_user_data=""
+    with open(Bottlenecks_repo_dir+"/utils/infra_setup/user_data/p-master-user-data") as f:
+        master_user_data=f.read()
+    master_user_data = master_user_data.replace('REPLACED_PUPPET_MASTER_SERVER','rubbos_control')
+    with open(Bottlenecks_repo_dir+"/utils/infra_setup/user_data/p-agent-user-data") as f:
+        agent_user_data=f.read()
+    agent_user_data = agent_user_data.replace('REPLACED_PUPPET_MASTER_SERVER','rubbos_control')
 
-    #TO DO:the parameters are all used defaults here, it should be changed depends on what it is really named
     parameters={'image': 'bottlenecks_rubbos_image',
                 'key_name': 'bottlenecks_rubbos_keypair',
                 'flavor': 'bottlenecks_rubbos_flavor',
-                'public_net': os.environ.get('EXTERNAL_NET')}
+                'public_net': os.environ.get('EXTERNAL_NET'),
+                'master_user_data': master_user_data,
+                'agent_user_data': agent_user_data }
 
     print "Heat_template_file: " + Heat_template
     print "parameters:\n" + str(parameters)
