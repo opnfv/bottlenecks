@@ -274,13 +274,14 @@ def rubbos_run():
     subprocess.call(cmd, shell=True)
 
     # call remote run_rubbos_internal.sh
-    cmd = "ssh " + ssh_args + " ubuntu@" + control_public_ip + ' sudo /home/ubuntu/run_rubbos_internal.sh /home/ubuntu/rubbos.conf /home/ubuntu/btnks-results'
+    cmd = "ssh " + ssh_args + " ubuntu@" + control_public_ip + ' "sudo /home/ubuntu/run_rubbos_internal.sh /home/ubuntu/rubbos.conf /home/ubuntu/btnks-results" '
     print "Exec shell: " + cmd
     subprocess.call(cmd, shell=True)
     cmd = "scp " + ssh_args + " ubuntu@" + control_public_ip + "/home/ubuntu/btnks-results/rubbos.out ./rubbos.out"
     print "Exec shell: " + cmd
     subprocess.call(cmd, shell=True)
     if os.path.exists("rubbos.out") == False:
+        print "Failed to fetch results from the rubbos_control node!"
         return False
     
     with open("rubbos.out") as f:
