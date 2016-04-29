@@ -213,6 +213,21 @@ direct_ssh() {
   done
 }
 
+start_puppet_service() {
+  # Start puppetserver
+  local ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i /home/ubuntu/.ssh/id_rsa"
+  sudo service puppetserver status
+  sudo service puppetserver start
+  # Start all puppet agents
+  for host in "${all_agents_arr[@]}";do
+    ssh ${ssh_args} ubuntu@${host} "sudo service puppet start --no-client"
+  done
+  sudo service puppetserver status
+  sudo puppet cert list --all
+  sudo puppet cert sign --all
+  sudo puppet cert list --all
+}
+
 # inline function
 # It requires one local file path which needs to be replaced
 _replace_text() {
@@ -361,6 +376,8 @@ main() {
   fetch_remote_resources
   echo "==> direct_ssh:"
   direct_ssh
+  echo "==> start_puppet_service:"
+  start_puppet_service
   echo "==> prepare_manifests:"
   prepare_manifests
   echo "==> execute_catalog start:"
