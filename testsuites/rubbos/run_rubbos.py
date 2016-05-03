@@ -265,6 +265,23 @@ def rubbos_run():
     subprocess.call(cmd, shell=True)
 
     ssh_args = "-o StrictHostKeyChecking=no -o BatchMode=yes -i " + Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key "
+    print "############### Test #################"
+    print "## Ping test:"
+    cmd = "ping -c 5 " + control_public_ip
+    print cmd
+    subprocess.call(cmd, shell=True)
+    print "## ssh date test:"
+    cmd = "ssh " + ssh_args + " ubuntu@" + control_public_ip + ' "date"'
+    print cmd
+    subprocess.call(cmd, shell=True)
+    print "## neutruon net-list:"
+    subprocess.call("neutron net-list", shell=True)
+    print "## neutron subnet-list:"
+    subprocess.call("neutron subnet-list", shell=True)
+    print "## neutron security-group-list:"
+    subprocess.call("neutron security-group-list", shell=True)
+    print "############### Test #################"
+
     cmd = "scp " + ssh_args + "rubbos.conf ubuntu@" + control_public_ip + ":/home/ubuntu/"
     print "Exec shell: " + cmd
     subprocess.call(cmd, shell=True)
