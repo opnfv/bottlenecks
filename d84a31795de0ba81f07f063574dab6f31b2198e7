@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_9ed80c55",
+        "filename": "testsuites/rubbos/run_rubbos.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-05-05T16:26:40Z",
+      "side": 1,
+      "message": "hi, why do u change to - rather than _?",
+      "range": {
+        "startLine": 219,
+        "startChar": 28,
+        "endLine": 219,
+        "endChar": 29
+      },
+      "revId": "d84a31795de0ba81f07f063574dab6f31b2198e7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
