@@ -216,18 +216,18 @@ def rubbos_run():
         private_ip = [ x['addr'] for x in getattr(instance, 'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'fixed']
         public_ip =  [ x['addr'] for x in getattr(instance, 'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'floating']
 
-        if name.find("rubbos_control") >= 0:
+        if name.find("rubbos-control") >= 0:
             control_public_ip = public_ip[0]
             control_server = str(name) + ':' + public_ip[0] + ':' + private_ip[0]
-        if name.find("rubbos_client") >= 0:
+        if name.find("rubbos-client") >= 0:
             client_servers = client_servers + str(name)+':'+private_ip[0] + ","
-        if name.find("rubbos_httpd") >= 0:
+        if name.find("rubbos-httpd") >= 0:
             web_servers = web_servers + str(name)+':'+private_ip[0] + ","
-        if name.find("rubbos_tomcat") >= 0:
+        if name.find("rubbos-tomcat") >= 0:
             app_servers = app_servers + str(name) + ':' + private_ip[0] + ","
-        if name.find("rubbos_cjdbc") >= 0:
+        if name.find("rubbos-cjdbc") >= 0:
             cjdbc_controller = str(name) + ':' + private_ip[0]
-        if name.find("rubbos_mysql") >= 0:
+        if name.find("rubbos-mysql") >= 0:
             database_servers = database_servers + str(name) + ':' + private_ip[0] + ","
 
     client_servers = client_servers[0:len(client_servers)-1]
@@ -276,10 +276,8 @@ def rubbos_run():
     subprocess.call(cmd, shell=True)
     print "## neutruon net-list:"
     subprocess.call("neutron net-list", shell=True)
-    print "## neutron subnet-list:"
-    subprocess.call("neutron subnet-list", shell=True)
-    print "## neutron security-group-list:"
-    subprocess.call("neutron security-group-list", shell=True)
+    print "## nova list:"
+    subprocess.call("nova list", shell=True)
     print "############### Test #################"
 
     cmd = "scp " + ssh_args + "rubbos.conf ubuntu@" + control_public_ip + ":/home/ubuntu/"

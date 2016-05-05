@@ -67,6 +67,7 @@ resources:
       allocation_pools:
         - start: { get_param: private_net_pool_start }
           end: { get_param: private_net_pool_end }
+      dns_nameservers: [ "8.8.8.8" ]
 
   router:
     type: OS::Neutron::Router
@@ -110,7 +111,7 @@ resources:
   rubbos_httpd:
     type: OS::Nova::Server
     properties:
-      name: rubbos_httpd
+      name: rubbos-httpd
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
@@ -131,7 +132,7 @@ resources:
   rubbos_mysql1:
     type: OS::Nova::Server
     properties:
-      name: rubbos_mysql1
+      name: rubbos-mysql1
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
@@ -152,7 +153,7 @@ resources:
   rubbos_tomcat1:
     type: OS::Nova::Server
     properties:
-      name: rubbos_tomcat1
+      name: rubbos-tomcat1
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
@@ -173,7 +174,7 @@ resources:
   rubbos_client1:
     type: OS::Nova::Server
     properties:
-      name: rubbos_client1
+      name: rubbos-client1
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
@@ -194,7 +195,7 @@ resources:
   rubbos_client2:
     type: OS::Nova::Server
     properties:
-      name: rubbos_client2
+      name: rubbos-client2
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
@@ -215,7 +216,7 @@ resources:
   rubbos_client3:
     type: OS::Nova::Server
     properties:
-      name: rubbos_client3
+      name: rubbos-client3
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
@@ -236,7 +237,7 @@ resources:
   rubbos_client4:
     type: OS::Nova::Server
     properties:
-      name: rubbos_client4
+      name: rubbos-client4
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
@@ -257,7 +258,7 @@ resources:
   rubbos_client5:
     type: OS::Nova::Server
     properties:
-      name: rubbos_client5
+      name: rubbos-client5
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
