@@ -84,7 +84,7 @@ resources:
   rubbos_control:
     type: OS::Nova::Server
     properties:
-      name: rubbos_control
+      name: rubbos-control
       image: { get_param: image }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
