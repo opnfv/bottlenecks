@@ -10,5 +10,6 @@ runcmd:
   - sed -i '/^factpath/a runinterval=1d' /etc/puppet/puppet.conf
   - sed -i '/^templatedir/d' /etc/puppet/puppet.conf
   - sed -i 's/START=no/START=yes/g' /etc/default/puppet
+  - sed -i '/^\[master\]/a dns_alt_names=REPLACED_PUPPET_MASTER_SERVER' /etc/puppet/puppet.conf
 
 final_message: "The system with puppet is finally up, after $UPTIME seconds."
