@@ -21,10 +21,12 @@ controller_host=`hostname`
 
 REMOTE_GIT_REPO=git://git.opnfv.org/bottlenecks
 REMOTE_ARTIFACTS_REPO=http://artifacts.opnfv.org/bottlenecks/rubbos/rubbos_files.tar.gz
-LOCAL_GIT_REPO=/btnks-git
-LOCAL_ARTIFACTS_REPO=/btnks-artifacts
-LOCAL_RUBBOS_MANIFESTS_HOME=/btnks-git/bottlenecks/testsuites/rubbos/puppet_manifests
-LOCAL_ARTIFACTS_RUBBOS_HOME=/btnks-artifacts/rubbos_files
+LOCAL_GIT_REPO=/home/ubuntu/btnks-git
+LOCAL_ARTIFACTS_REPO=/home/ubuntu/btnks-artifacts
+LOCAL_RUBBOS_MANIFESTS_HOME=/home/ubuntu/btnks-git/bottlenecks/testsuites/rubbos/puppet_manifests
+LOCAL_ARTIFACTS_RUBBOS_HOME=/home/ubuntu/btnks-artifacts/rubbos_files
+
+SSH_ARGS="-o StrictHostKeyChecking=no -o BatchMode=yes -i /home/ubuntu/.ssh/id_rsa"
 
 # conf properties from the input config file
 client_servers=
@@ -171,7 +173,7 @@ fetch_remote_resources() {
   fi
   mkdir -p $LOCAL_ARTIFACTS_REPO
   cd $LOCAL_ARTIFACTS_REPO
-  wget ${REMOTE_ARTIFACTS_REPO}
+  wget -nv ${REMOTE_ARTIFACTS_REPO}
   tar xvzf rubbos_files.tar.gz
 
   if [ -d $local_results_dir ];then
@@ -182,47 +184,61 @@ fetch_remote_resources() {
 
 # ssh all vms/instances once only after first creation
 direct_ssh() {
-  sudo cp ${LOCAL_GIT_REPO}/bottlenecks/utils/infra_setup/bottlenecks_key/bottlenecks_key /home/ubuntu/.ssh/id_rsa
+  echo "127.0.0.1 $(hostname)" >> /etc/hosts
+  echo "write hosts file: 127.0.0.1 $(hostname)"
+  cp ${LOCAL_GIT_REPO}/bottlenecks/utils/infra_setup/bottlenecks_key/bottlenecks_key /home/ubuntu/.ssh/id_rsa
   sudo chmod 0600 /home/ubuntu/.ssh/id_rsa
   echo 'StrictHostKeyChecking no' > /home/ubuntu/.ssh/config
-  sudo cp /home/ubuntu/.ssh/id_rsa /root/.ssh/
-  sudo cp /home/ubuntu/.ssh/config /root/.ssh/
-  local ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i /home/ubuntu/.ssh/id_rsa"
+  sudo chown -R ubuntu:ubuntu /home/ubuntu/.ssh
   i=1
-  while [ $i -lt ${#hostname_arr[@]} ]; do
-    echo ${hostip_arr[$i]}" "${hostname_arr[$i]}
+  while [ $i -lt ${#hostip_arr[@]} ]; do
+    echo ${hostip_arr[$i]}" "${hostname_arr[$i]} >> /etc/hosts
+    let i=i+1
+  done
+  echo "Done controller."
+
+  i=1
+  while [ $i -lt ${#hostip_arr[@]} ]; do
     if [ ${hostname_arr[$i]} == ${controller_host} ];then
       let i=i+1
       continue
     fi
-    echo ${hostip_arr[$i]}" "${hostname_arr[$i]} >> /etc/hosts
-    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "echo 'StrictHostKeyChecking no' > /home/ubuntu/.ssh/config"
-    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo cp /home/ubuntu/.ssh/config /root/.ssh/"
-    scp ${ssh_args} /home/ubuntu/.ssh/id_rsa ubuntu@${hostname_arr[$i]}:/home/ubuntu/.ssh/
-    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo cp /home/ubuntu/.ssh/id_rsa /root/.ssh/"
-    echo "Append hosts for "${hostname_arr[$i]}
-    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo cp /etc/hosts /home/ubuntu/ && sudo chmod 646 /home/ubuntu/hosts"
+    echo "Processing: "${hostip_arr[$i]}" "${hostname_arr[$i]}
+    echo "ssh *sudo hostname* test:"
+    ssh ${SSH_ARGS} ubuntu@${hostip_arr[$i]} "sudo hostname"
+
+    ssh ${SSH_ARGS} ubuntu@${hostip_arr[$i]} "sudo cp /etc/hosts /home/ubuntu/ && sudo chmod 646 /home/ubuntu/hosts"
+    ssh ${SSH_ARGS} ubuntu@${hostip_arr[$i]} "echo 127.0.0.1 ${hostname_arr[$i]} >> /home/ubuntu/hosts"
     j=1
-    while [ $j -lt ${#hostname_arr[@]} ];do
+    while [ $j -lt ${#hostip_arr[@]} ];do
       local host_item=${hostip_arr[$j]}" "${hostname_arr[$j]}
-      ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo echo ${host_item} >> /home/ubuntu/hosts"
+      ssh ${SSH_ARGS} ubuntu@${hostip_arr[$i]} "echo ${host_item} >> /home/ubuntu/hosts"
       let j=j+1
     done
-    ssh ${ssh_args} ubuntu@${hostname_arr[$i]} "sudo chmod 644 /home/ubuntu/hosts && sudo cp /home/ubuntu/hosts /etc/ && sudo rm -rf /home/ubuntu/hosts"
+    ssh ${SSH_ARGS} ubuntu@${hostip_arr[$i]} "sudo chmod 644 /home/ubuntu/hosts && sudo cp /home/ubuntu/hosts /etc/ && sudo rm -rf /home/ubuntu/hosts"
+    echo "done hosts"
+
+    sudo ssh ${SSH_ARGS} ubuntu@${hostip_arr[$i]} "echo 'StrictHostKeyChecking no' > /home/ubuntu/.ssh/config"
+    sudo scp ${SSH_ARGS} /home/ubuntu/.ssh/id_rsa ubuntu@${hostip_arr[$i]}:/home/ubuntu/.ssh/
+
     let i=i+1
   done
 }
 
 start_puppet_service() {
   # Start puppetserver
-  local ssh_args="-o StrictHostKeyChecking=no -o BatchMode=yes -i /home/ubuntu/.ssh/id_rsa"
-  sudo service puppetserver status
+  sudo service puppetserver stop
   sudo service puppetserver start
+  sudo service puppetserver status
   # Start all puppet agents
   for host in "${all_agents_arr[@]}";do
-    ssh ${ssh_args} ubuntu@${host} "sudo service puppet start --no-client"
+    echo "start puppet agent on:"${host}
+    ssh ${SSH_ARGS} ubuntu@${host} "sudo service puppet status"
+    ssh ${SSH_ARGS} ubuntu@${host} "sudo service puppet stop"
+    ssh ${SSH_ARGS} ubuntu@${host} "sudo service puppet start --no-client"
+    ssh ${SSH_ARGS} ubuntu@${host} "sudo service puppet status"
   done
-  sudo service puppetserver status
+
   sudo puppet cert list --all
   sudo puppet cert sign --all
   sudo puppet cert list --all
@@ -277,30 +293,17 @@ _to_puppet_class_nodes() {
 
 # inline function
 _execute_catalog() {
-  # use *class_nodes* to receive return vale
-  _to_puppet_class_nodes ${client_servers}
-  sed -i 's/REPLACED_CLIENT_NODES/'${class_nodes}'/g' /etc/puppet/manifests/site.pp
-
-  _to_puppet_class_nodes ${web_servers}
-  sed -i 's/REPLACED_HTTPD_NODES/'${class_nodes}'/g' /etc/puppet/manifests/site.pp
-
-  _to_puppet_class_nodes ${app_servers}
-  sed -i 's/REPLACED_TOMCAT_NODES/'${class_nodes}'/g' /etc/puppet/manifests/site.pp
-
-  _to_puppet_class_nodes ${database_servers}
-  sed -i 's/REPLACED_MYSQL_NODES/'${class_nodes}'/g' /etc/puppet/manifests/site.pp
-
   for host in "${clients_arr[@]}"; do
-    ssh ubuntu@${host} 'sudo puppet agent -t' &
+    ssh ${SSH_ARGS} ubuntu@${host} 'sudo puppet agent -t' &
   done
   for host in "${webservers_arr[@]}"; do
-    ssh ubuntu@${host} 'sudo puppet agent -t'
+    ssh ${SSH_ARGS} ubuntu@${host} 'sudo puppet agent -t'
   done
   for host in "${appservers_arr[@]}"; do
-    ssh ubuntu@${host} 'sudo puppet agent -t'
+    ssh ${SSH_ARGS} ubuntu@${host} 'sudo puppet agent -t'
   done
   for host in "${dbservers_arr[@]}"; do
-    ssh ubuntu@${host} 'sudo puppet agent -t'
+    ssh ${SSH_ARGS} ubuntu@${host} 'sudo puppet agent -t'
   done
 }
 
@@ -340,24 +343,24 @@ execute_catalog() {
 run_emulator() {
   # prepare data in db servers
   for host in "${dbservers_arr[@]}"; do
-    ssh ubuntu@${host} 'sudo scp ubuntu@'${controller_host}':/etc/puppet/modules/rubbos_mysql/files/rubbos_data_sql.tar.gz '${rubbos_home}''
-    ssh ubuntu@${host} 'cd '${rubbos_home}' && sudo ./prepare_rubbos_mysql_db.sh ./rubbos_data_sql.tar.gz ./rubbos_data_sql_dir'
+    ssh ${SSH_ARGS} ubuntu@${host} 'sudo scp ubuntu@'${controller_host}':/etc/puppet/modules/rubbos_mysql/files/rubbos_data_sql.tar.gz '${rubbos_home}''
+    ssh ${SSH_ARGS} ubuntu@${host} 'cd '${rubbos_home}' && sudo ./prepare_rubbos_mysql_db.sh ./rubbos_data_sql.tar.gz ./rubbos_data_sql_dir'
   done
 
   # run emulator.sh ( Modify rubbos.properties file first)
-  ssh ubuntu@${bench_client} 'sudo rm -rf '${rubbos_home}'/bench/bench'
+  ssh ${SSH_ARGS} ubuntu@${bench_client} 'sudo rm -rf '${rubbos_home}'/bench/bench'
   for x in "${clients_per_node_arr[@]}";do
     echo "run emulator with clients_per_node="$x
     for host in "${clients_arr[@]}";do
-      ssh ubuntu@${host} "sed -e 's/REPLACED_NUMBER_OF_CLIENTS_PER_NODE/'${x}'/g' '${rubbos_home}'/Client/rubbos.properties.template > '${rubbos_home}'/Client/rubbos.properties "
+      ssh ${SSH_ARGS} ubuntu@${host} "sed -e 's/REPLACED_NUMBER_OF_CLIENTS_PER_NODE/'${x}'/g' '${rubbos_home}'/Client/rubbos.properties.template > '${rubbos_home}'/Client/rubbos.properties "
     done
-    ssh ubuntu@${bench_client} 'cd '${rubbos_home}'/bench && ./run_emulator.sh'
+    ssh ${SSH_ARGS} ubuntu@${bench_client} 'cd '${rubbos_home}'/bench && ./run_emulator.sh'
   done
 }
 
 collect_results() {
   # collect results, from bench_host to controller
-  scp -r ubuntu@${bench_client}:${rubbos_home}/bench/bench/* ${local_results_dir}
+  scp ${SSH_ARGS} -r ubuntu@${bench_client}:${rubbos_home}/bench/bench/* ${local_results_dir}
 }
 
 process_results() {
