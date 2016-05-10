@@ -11,25 +11,25 @@
 node default { }
 
 # mysql node:
-node REPLACED_MYSQL_NODES {
+node /.*rubbos[-|_]mysql.*/ {
   include rubbos_mysql::rubbos_mysql_off
   include rubbos_monitor::rubbos_monitor_off
 }
 
 # tomcat node:
-node REPLACED_TOMCAT_NODES {
+node /.*rubbos[-|_]tomcat.*/ {
   include rubbos_tomcat::rubbos_tomcat_off
   include rubbos_monitor::rubbos_monitor_off
 }
 
 # httpd node:
-node REPLACED_HTTPD_NODES {
+node /.*rubbos[-|_]httpd.*/ {
   include rubbos_httpd::rubbos_httpd_off
   include rubbos_monitor::rubbos_monitor_off
 }
 
 # clients
-node REPLACED_CLIENT_NODES {
+node /.*rubbos[-|_]client.*/ {
   include rubbos_monitor::rubbos_monitor_off
   include rubbos_client::rubbos_client_off
 }
