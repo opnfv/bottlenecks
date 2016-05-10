@@ -195,6 +195,18 @@ def get_instances(nova_client):
         print "Error [get_instances(nova_client)]:", e
         return None
 
+def reboot_instances():
+    print("========== reboot instances ==========")
+    nova = _get_nova_client()
+    print("nova servers list:")
+    print(nova.servers.list())
+    for instance in nova.servers.list():
+        name = getattr(instance, 'name')
+        if name.find("rubbos") >= 0:
+            print("reboot %s" % name)
+            instance.reboot()
+    print("Finish reboot all rubbos servers.")
+
 def rubbos_run():
     print "========== run rubbos ==========="
 
@@ -263,9 +275,11 @@ def rubbos_run():
 
     cmd = "sudo chmod 0600 " + Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key"
     subprocess.call(cmd, shell=True)
-
     ssh_args = "-o StrictHostKeyChecking=no -o BatchMode=yes -i " + Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key "
+
     print "############### Test #################"
+    cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R ' + control_public_ip
+    subprocess.call(cmd, shell=True)
     print "## Ping test:"
     cmd = "ping -c 5 " + control_public_ip
     print cmd
@@ -312,23 +326,23 @@ def main():
     global image_url
     Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"      # same in Dockerfile, docker directory
 
-    #image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/trusty-server-cloudimg-amd64-btnks.img'
-    image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img'
+    image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/trusty-server-cloudimg-amd64-btnks.img'
+    #image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img'
 
     if not (args.conf):
        logger.error("Configuration files are not set for testcase")
        exit(-1)
     else:
        Heat_template = args.conf
- 
+
     master_user_data=""
     agent_user_data=""
     with open(Bottlenecks_repo_dir+"/utils/infra_setup/user_data/p-master-user-data") as f:
         master_user_data=f.read()
-    master_user_data = master_user_data.replace('REPLACED_PUPPET_MASTER_SERVER','rubbos_control')
+    master_user_data = master_user_data.replace('REPLACED_PUPPET_MASTER_SERVER','rubbos-control')
     with open(Bottlenecks_repo_dir+"/utils/infra_setup/user_data/p-agent-user-data") as f:
         agent_user_data=f.read()
-    agent_user_data = agent_user_data.replace('REPLACED_PUPPET_MASTER_SERVER','rubbos_control')
+    agent_user_data = agent_user_data.replace('REPLACED_PUPPET_MASTER_SERVER','rubbos-control')
 
     parameters={'image': 'bottlenecks_rubbos_image',
                 'key_name': 'bottlenecks_rubbos_keypair',
@@ -356,6 +370,12 @@ def main():
     else:
         print "Cannot create instances, as Failed to create image(s)."
         exit (-1)
+
+    print "Wait 150 seconds after stack creation........."
+    time.sleep(150)
+
+    reboot_instances()
+    time.sleep(30)
 
     rubbos_run()
     rubbos_env_cleanup()
