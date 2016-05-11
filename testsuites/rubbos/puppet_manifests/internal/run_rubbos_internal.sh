@@ -19,7 +19,8 @@ local_cfg_path=$1
 local_results_dir=$2
 controller_host=`hostname`
 
-REMOTE_GIT_REPO=git://git.opnfv.org/bottlenecks
+#REMOTE_GIT_REPO=git://git.opnfv.org/bottlenecks
+REMOTE_GIT_REPO=https://gerrit.opnfv.org/gerrit/bottlenecks
 REMOTE_ARTIFACTS_REPO=http://artifacts.opnfv.org/bottlenecks/rubbos/rubbos_files.tar.gz
 LOCAL_GIT_REPO=/home/ubuntu/btnks-git
 LOCAL_ARTIFACTS_REPO=/home/ubuntu/btnks-artifacts
