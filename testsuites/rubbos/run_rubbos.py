@@ -26,7 +26,7 @@ from novaclient.client import Client as NovaClient
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--conf",
                     help="configuration files for the testcase, in yaml format",
-                    default="/home/opnfv/bottlenecks/testsuites/rubbos/testcase_cfg/rubbos_1-1-0-1.yaml")
+                    default="/home/opnfv/bottlenecks/testsuites/rubbos/testcase_cfg/rubbos_basic.yaml")
 args = parser.parse_args()
 
 #--------------------------------------------------
