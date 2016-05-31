@@ -375,9 +375,11 @@ def main():
     time.sleep(150)
 
     reboot_instances()
-    time.sleep(30)
+    time.sleep(180)
 
     rubbos_run()
+    time.sleep(30)
+
     rubbos_env_cleanup()
 
 if __name__=='__main__':
