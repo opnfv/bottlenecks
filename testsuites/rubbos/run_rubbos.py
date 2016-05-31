@@ -371,8 +371,8 @@ def main():
         print "Cannot create instances, as Failed to create image(s)."
         exit (-1)
 
-    print "Wait 150 seconds after stack creation........."
-    time.sleep(150)
+    print "Wait 300 seconds after stack creation........."
+    time.sleep(300)
 
     reboot_instances()
     time.sleep(180)
