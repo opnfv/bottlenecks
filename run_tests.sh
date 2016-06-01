@@ -84,7 +84,7 @@ function run_test(){
         ;;
         "vstf")
             info "Running vstf test suite"
-            test_file="/home/opnfv/bottlenecks/testsuite/vstf/testsuite_story/vstf_story1"
+            test_file="/home/opnfv/bottlenecks/testsuites/vstf/testsuite_story/vstf_story1"
             if [[ -f $test_file ]]; then
                 testcases=($(cat $test_file))
             else
