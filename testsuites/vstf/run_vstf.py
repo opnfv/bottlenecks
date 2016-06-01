@@ -127,15 +127,14 @@ def vstf_env_cleanup():
     else:
         return True
 
-def vstf_create_images(src_url=None, image_name="bottlenecks_vstf_image"):
+def vstf_create_images(imagefile=None, image_name="bottlenecks_vstf_image"):
     print "========== Create vstf image in OS =========="
-    dest_dir = '/tmp'
-    file_name = _download_url(src_url, dest_dir)
-    if file_name == None:
+
+    if imagefile == None:
+       print "imagefile not set/found"
        return False
 
     glance = _get_glance_client()
-    imagefile = dest_dir + "/" + file_name
     image = glance.images.create(name=image_name, disk_format="qcow2", container_format="bare")
     with open(imagefile) as fimage:
         glance.images.upload(image.id, fimage)
@@ -209,6 +208,19 @@ def main():
     manager_image_url = 'http://artifacts.opnfv.org/bottlenecks/vstf-manager-new.img'
     agent_image_url = 'http://artifacts.opnfv.org/bottlenecks/vstf-agent-new.img'
 
+    #vstf_env_prepare(testcase_cfg)
+    vstf_env_cleanup()
+
+    dest_dir = "/tmp"
+    manager_file = _download_url(manager_image_url, dest_dir)
+    if manager_file == None:
+       print "error with downloading image(s)"
+       exit(-1)
+    agent_file = _download_url(agent_image_url, dest_dir)
+    if agent_file == None:
+       print "error with downloading image(s)"
+       exit(-1)
+
     #TO DO:the parameters are all used defaults here, it should be changed depends on what it is really named
     parameters={'key_name': 'bottlenecks_vstf_keypair',
                 'flavor': 'bottlenecks_vstf_flavor',
@@ -228,12 +240,9 @@ def main():
     target_image_created = False
     stack_created = False
 
-    #vstf_env_prepare(testcase_cfg)
-    vstf_env_cleanup()
-
-    manager_image_created = vstf_create_images(src_url=manager_image_url, image_name="vstf-manager")
-    tester_image_created = vstf_create_images(src_url=agent_image_url, image_name="vstf-tester")
-    target_image_created = vstf_create_images(src_url=agent_image_url, image_name="vstf-target")
+    manager_image_created = vstf_create_images(imagefile=manager_file, image_name="vstf-manager")
+    tester_image_created = vstf_create_images(imagefile=agent_file, image_name="vstf-tester")
+    target_image_created = vstf_create_images(imagefile=agent_file, image_name="vstf-target")
     keyPath = Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key.pub"
     vstf_create_keypairs(key_path=keyPath)
     vstf_create_flavors()

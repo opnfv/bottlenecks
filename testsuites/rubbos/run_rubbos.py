@@ -129,16 +129,14 @@ def rubbos_env_cleanup():
     else:
         return True
 
-def rubbos_create_images(src_url=None, image_name="bottlenecks_rubbos_image"):
+def rubbos_create_images(imagefile=None, image_name="bottlenecks_rubbos_image"):
     print "========== Create rubbos image in OS =========="
-    dest_dir = '/tmp'
-    file_name = _download_url(src_url, dest_dir)
-    #file_name = "bottlenecks-trusty-server.img"
-    if file_name == None:
+
+    if imagefile == None:
+       print "imagefile not set/found"
        return False
 
     glance = _get_glance_client()
-    imagefile = dest_dir + "/" + file_name
     image = glance.images.create(name=image_name, disk_format="qcow2", container_format="bare")
     with open(imagefile) as fimage:
         glance.images.upload(image.id, fimage)
@@ -360,7 +358,13 @@ def main():
     rubbos_env_prepare(Heat_template)
     rubbos_env_cleanup()
 
-    image_created = rubbos_create_images(image_url)
+    dest_dir = "/tmp"
+    image_file = _download_url(image_url, dest_dir)
+    if image_file == None:
+       print "error with downloading image(s)"
+       exit(-1)
+
+    image_created = rubbos_create_images(imagefile=image_file)
     keyPath = Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key.pub"
     rubbos_create_keypairs(key_path=keyPath)
     rubbos_create_flavors()
@@ -371,7 +375,7 @@ def main():
         print "Cannot create instances, as Failed to create image(s)."
         exit (-1)
 
-    print "Wait 300 seconds after stack creation........."
+    print "Wait 300 seconds after stack creation..."
     time.sleep(300)
 
     #reboot_instances()
