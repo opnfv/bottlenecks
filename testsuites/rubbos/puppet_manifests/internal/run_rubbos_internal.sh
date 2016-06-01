@@ -165,7 +165,8 @@ fetch_remote_resources() {
     rm -rf $LOCAL_GIT_REPO
   fi
   mkdir -p $LOCAL_GIT_REPO
-  sudo dpkg --configure -a
+  #sudo dpkg --configure -a
+  sudo apt-get update
   sudo apt-get install -y git
   cd $LOCAL_GIT_REPO
   git clone ${REMOTE_GIT_REPO}
