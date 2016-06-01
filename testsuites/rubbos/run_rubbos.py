@@ -73,7 +73,7 @@ def _download_url(src_url, dest_dir):
 
     with open(dest, 'wb') as f:
         shutil.copyfileobj(response, f)
-    return file_name
+    return dest
 
 
 def rubbos_stack_satisfy(name="bottlenecks_rubbos_stack", status="CREATE_COMPLETE"):
