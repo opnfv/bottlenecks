@@ -374,8 +374,8 @@ def main():
     print "Wait 300 seconds after stack creation........."
     time.sleep(300)
 
-    reboot_instances()
-    time.sleep(180)
+    #reboot_instances()
+    #time.sleep(180)
 
     rubbos_run()
     time.sleep(30)
