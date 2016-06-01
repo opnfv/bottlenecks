@@ -167,6 +167,8 @@ fetch_remote_resources() {
   mkdir -p $LOCAL_GIT_REPO
   sudo apt-get update
   sudo dpkg --configure -a
+  sudo rm /var/lib/apt/lists/lock
+  sudo rm /var/cache/apt/archives/lock
   sudo apt-get install -y git
   cd $LOCAL_GIT_REPO
   git clone ${REMOTE_GIT_REPO}
