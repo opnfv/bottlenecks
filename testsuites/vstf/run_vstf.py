@@ -191,15 +191,25 @@ def get_instances(nova_client):
         print "Error [get_instances(nova_client)]:", e
         return None
 
-def vstf_run():
+def vstf_run(launch_file=None, test_file=None):
     print "================run vstf==============="
 
     nova = _get_nova_client()
     print(nova.servers.list())
+    time.sleep(100)
     instances = get_instances(nova)
     if instances == None:
         print "Found *None* instances, exit vstf_run()!"
         return False
+    if launch_file == None or test_file == None:
+         print "Error, vstf launch/test file not given"
+         return False
+    cmd = "bash " + launch_file
+    subprocess.call(cmd, shell=True)
+    time.sleep(50)
+    cmd = "bash " + test_file
+    subprocess.call(cmd, shell=True)
+    time.sleep(20)
 
 def main():
 
@@ -256,7 +266,9 @@ def main():
     print "Wait 100 seconds after stack creation..."
     time.sleep(100)
 
-    vstf_run()
+    launchfile = Bottlenecks_repo_dir + "/utils/infra_setup/heat_template/vstf_heat_template/launch_vstf.sh"
+    testfile = Bottlenecks_repo_dir + "utils/infra_setup/heat_template/vstf_heat_template/test_vstf.sh"
+    vstf_run(launch_file=launchfile, test_file=testfile)
 
     vstf_env_cleanup()
 
