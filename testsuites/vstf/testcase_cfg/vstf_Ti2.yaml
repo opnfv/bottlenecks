@@ -1,7 +1,7 @@
-tool: netperf
+tool: pktgen
 protocol: udp
 type: frameloss
 sizes: 64, 128, 512, 1024
-senders: 0, -1
-receivers: -1, 0
-flows: 2
+senders: -1
+receivers: 0
+flows: 1
