@@ -197,6 +197,10 @@ def vstf_run(launch_file=None, test_file=None):
 
     nova = _get_nova_client()
     print(nova.servers.list())
+    print "## neutruon net-list:"
+    subprocess.call("neutron net-list", shell=True)
+    print "## nova list:"
+    subprocess.call("nova list", shell=True)
     time.sleep(100)
     instances = get_instances(nova)
     if instances == None:
@@ -264,11 +268,11 @@ def main():
         print "Cannot create instances, as Failed to create image(s)."
         exit (-1)
 
-    print "Wait 100 seconds after stack creation..."
-    time.sleep(100)
+    print "Wait 300 seconds after stack creation..."
+    time.sleep(300)
 
     launchfile = Bottlenecks_repo_dir + "/utils/infra_setup/heat_template/vstf_heat_template/launch_vstf.sh"
-    testfile = Bottlenecks_repo_dir + "utils/infra_setup/heat_template/vstf_heat_template/test_vstf.sh"
+    testfile = Bottlenecks_repo_dir + "/utils/infra_setup/heat_template/vstf_heat_template/test_vstf.sh"
     vstf_run(launch_file=launchfile, test_file=testfile)
 
     vstf_env_cleanup()
