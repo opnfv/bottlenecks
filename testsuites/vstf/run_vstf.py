@@ -195,6 +195,7 @@ def get_instances(nova_client):
 def vstf_run(launch_file=None, test_file=None):
     print "================run vstf==============="
 
+    heat = _get_heat_client()
     nova = _get_nova_client()
     print(nova.servers.list())
     print "## neutruon net-list:"

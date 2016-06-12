@@ -11,7 +11,7 @@ set -x
 
 VM_MANAGER_USER="root"
 VM_MANAGER_PASSWD="root"
-STACK_NAME="vstf"
+STACK_NAME="bottlenecks_vstf_stack"
 
 function fn_parser_ipaddress(){
     #parser and get output ipaddress
