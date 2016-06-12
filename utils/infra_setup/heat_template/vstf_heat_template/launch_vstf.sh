@@ -9,7 +9,7 @@
 ##############################################################################
 set -x
 
-STACK_NAME="vstf"
+STACK_NAME="bottlenecks_vstf_stack"
 VM_MANAGER_USER="root"
 VM_MANAGER_PASSWD="root"
 VM_TARGET_USER="root"
@@ -19,8 +19,8 @@ VM_TESTER_PASSWD="root"
 RABBITMQ_PORT="5672"
 
 #load func
-source ./ssh.sh
-source ./scp.sh
+#source ./ssh.sh
+#source ./scp.sh
 
 function fn_parser_ipaddress(){
     #parser and get output ipaddress

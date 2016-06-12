@@ -195,6 +195,7 @@ def get_instances(nova_client):
 def vstf_run(launch_file=None, test_file=None):
     print "================run vstf==============="
 
+    heat = _get_heat_client()
     nova = _get_nova_client()
     print(nova.servers.list())
     print "## neutruon net-list:"
@@ -272,7 +273,7 @@ def main():
     time.sleep(300)
 
     launchfile = Bottlenecks_repo_dir + "/utils/infra_setup/heat_template/vstf_heat_template/launch_vstf.sh"
-    testfile = Bottlenecks_repo_dir + "/utils/infra_setup/heat_template/vstf_heat_template/test_vstf.sh"
+    testfile = Bottlenecks_repo_dir + "/utils/infra_setup/heat_template/vstf_heat_template/vstf_test.sh"
     vstf_run(launch_file=launchfile, test_file=testfile)
 
     vstf_env_cleanup()
