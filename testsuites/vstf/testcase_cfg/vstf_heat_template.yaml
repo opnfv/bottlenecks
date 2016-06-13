@@ -19,15 +19,15 @@ parameters:
   image_vstf_manager:
     type: string
     description: Name of image to use for servers
-    default: vstf-manager
+    default: bottlenecks_vstf_manager
   image_vstf_tester:
     type: string
     description: Name of image to use for servers
-    default: vstf-tester
+    default: bottlenecks_vstf_tester
   image_vstf_target:
     type: string
     description: Name of image to use for servers
-    default: vstf-target
+    default: bottlenecks_vstf_target
   #nova flavor-list to query available flavors
   flavor:
     type: string

@@ -256,9 +256,9 @@ def main():
     target_image_created = False
     stack_created = False
 
-    manager_image_created = vstf_create_images(imagefile=manager_file, image_name="vstf-manager")
-    tester_image_created = vstf_create_images(imagefile=agent_file, image_name="vstf-tester")
-    target_image_created = vstf_create_images(imagefile=agent_file, image_name="vstf-target")
+    manager_image_created = vstf_create_images(imagefile=manager_file, image_name="bottlenecks_vstf_manager")
+    tester_image_created = vstf_create_images(imagefile=agent_file, image_name="bottlenecks_vstf_tester")
+    target_image_created = vstf_create_images(imagefile=agent_file, image_name="bottlenecks_vstf_target")
     keyPath = Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key.pub"
     vstf_create_keypairs(key_path=keyPath)
     vstf_create_flavors()

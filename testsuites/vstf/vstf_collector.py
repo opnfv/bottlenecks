@@ -11,10 +11,8 @@ import argparse
 import json
 import requests
 import logging
-__author__ = "qwyang0126@gmail.com"
-__date__ = "2016-01-11"
-LOG = logging.getLogger(__name__)
 
+LOG = logging.getLogger(__name__)
 
 class Uploader(object):
     def __init__(self, conf):
