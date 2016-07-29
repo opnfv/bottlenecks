@@ -11,14 +11,12 @@ Bottlenecks - user guide
 .. toctree::
    :maxdepth: 2
 
-   ./rubbos/rubbos_installation.rst
    ./rubbos/opnfv_bottlenecks_rubbos_basic.rst
    ./rubbos/opnfv_bottlenecks_rubbos_tc1101.rst
    ./rubbos/opnfv_bottlenecks_rubbos_tc1201.rst
    ./rubbos/opnfv_bottlenecks_rubbos_tc1301.rst
    ./rubbos/opnfv_bottlenecks_rubbos_tc1401.rst
    ./rubbos/opnfv_bottlenecks_rubbos_heavy_tc1101.rst
-   ./vstf/vstf_installation.rst
    ./vstf/opnfv_bottlenecks_vstf_Ti1.rst
    ./vstf/opnfv_bottlenecks_vstf_Ti2.rst
    ./vstf/opnfv_bottlenecks_vstf_Ti3.rst
