@@ -19,3 +19,11 @@ Bottlenecks - user guide
    ./rubbos/opnfv_bottlenecks_rubbos_tc1401.rst
    ./rubbos/opnfv_bottlenecks_rubbos_heavy_tc1101.rst
    ./vstf/vstf_installation.rst
+   ./vstf/opnfv_bottlenecks_vstf_Ti1.rst
+   ./vstf/opnfv_bottlenecks_vstf_Ti2.rst
+   ./vstf/opnfv_bottlenecks_vstf_Ti3.rst
+   ./vstf/opnfv_bottlenecks_vstf_Tn1.rst
+   ./vstf/opnfv_bottlenecks_vstf_Tn2.rst
+   ./vstf/opnfv_bottlenecks_vstf_Tu1.rst
+   ./vstf/opnfv_bottlenecks_vstf_Tu2.rst
+   ./vstf/opnfv_bottlenecks_vstf_Tu3.rst
