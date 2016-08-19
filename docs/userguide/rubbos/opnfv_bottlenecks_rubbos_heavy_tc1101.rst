@@ -12,7 +12,7 @@ Bottlenecks Rubbos Test Case Description Heavy TC1101
 |Bottlenecks Rubbos TC Heavy1101                                              |
 |                                                                             |
 +--------------+--------------------------------------------------------------+
-|test case name| opnfv_bottlenecks_rubbos_heavy_tc1101                              |
+|test case name| opnfv_bottlenecks_rubbos_heavy_tc1101                        |
 |              |                                                              |
 +--------------+--------------------------------------------------------------+
 |description   | Rubbos platform for 1 tomcat, 1 Apache and 1 mysql.          |
