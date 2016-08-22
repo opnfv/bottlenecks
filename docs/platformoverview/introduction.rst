@@ -19,6 +19,10 @@ an automatic method for executing benchmarks which plans to
 validate the deployment during staging is adopted.
 This project will provide frameworks to find the bottlenecks of OPNFV infrastructure.
 
+.. image:: images/Framework_Setup.png
+   :width: 800px
+   :alt: Bottlenecks Framework Setup
+
 The *Bottlenecks* framework is deployed in several  OPNFV community labs. It is
 installer, infrastructure and application independent.
 
