@@ -11,13 +11,19 @@ Rubbos Introduction
 ====================
 Rubbos is a bulletin board benchmark modeled after an online news forum like Slashdot.
 It is an open source Middleware and an n-tier system model which
-is used to be deployed on multiple physical node
-to measure the whole performacne of OPNFV planform. for release B.
+is used to be deployed on multiple physical node and
+to measure the whole performacne of OPNFV platform.
 Rubbos can deploy the Apache, tomcat, and DB.
 Based on the deployment, rubbos gives the pressure to the whole system.
 When the system reaches to the peak, the throughput will not grow more.
 This testcase can help to understand the bottlenecks of OPNFV plantform
 and improve the performance of OPNFV platform.
+
+Detailed workflow is illutrated below.
+
+.. image:: ../images/Framework_Setup.png
+   :width: 770px
+   :alt: Bottlenecks Framework Setup
 
 Preinstall Packages
 ====================
