@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_685514c5",
+        "filename": "docs/installationprocedure/rubbos_installation.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-08-22T08:13:29Z",
+      "side": 1,
+      "message": "if add some words here to illustrate the image, it will be better.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "8320241e186dc67ad877b09483d28127395c4f49",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
