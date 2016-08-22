@@ -19,6 +19,10 @@ When the system reaches to the peak, the throughput will not grow more.
 This testcase can help to understand the bottlenecks of OPNFV plantform
 and improve the performance of OPNFV platform.
 
+.. image:: images/Framework_Setup.png
+   :width: 770px
+   :alt: Bottlenecks Framework Setup
+
 Preinstall Packages
 ====================
 There is a need to install some packages before running the rubbos,
