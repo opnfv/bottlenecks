@@ -16,7 +16,7 @@ which is an test framework used for vswitch performance test.
 
 Colorado: rubbos is refactored by using puppet, which makes it quite flexible
 to configure with different number of load generator(Client), worker(tomcat).
-vstf is refactored by extracting the test case's configuration information. 
+vstf is refactored by extracting the test case's configuration information.
 
 ***********************************
 Test suite & Test case Description

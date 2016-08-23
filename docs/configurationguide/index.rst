@@ -9,4 +9,4 @@ Bottlenecks - configureguide
 .. toctree::
    :maxdepth: 2
 
-   ./README.rst   
+   ./README.rst
