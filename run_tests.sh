@@ -26,7 +26,7 @@ examples:
 
 report=true
 
-arr_test_suite=(rubbos vstf)
+arr_test_suite=(rubbos vstf posca)
 
 function check_testcase(){
 
@@ -37,6 +37,9 @@ function check_testcase(){
          ;;
          "-vstf")
              SUITE_PREFIX=$SUITE_PREFIX_CONFIG/vstf/testcase_cfg
+         ;;
+         "-posca")
+             SUITE_PREFIX=$SUITE_PREFIX_CONFIG/posca/testcase_cfg
          ;;
     esac
 
@@ -99,6 +102,23 @@ function run_test(){
                 python /home/opnfv/bottlenecks/testsuites/vstf/run_vstf.py -c $file
             done
         ;;
+        "posca")
+            info "Running posca test suite"
+            test_file="/home/opnfv/bottlenecks/testsuites/posca/testsuite_story/posca_factor_test"
+            if [[ -f $test_file ]]; then
+                testcases=($(cat $test_file))
+            else
+                error "no posca test suite file "
+            fi
+            for i in "${testcases[@]}"; do
+                #check if the testcase is legal or not
+                check_testcase -posca $i
+                #adjust config parameters
+                #run test case
+                file=${BASEDIR}/testsuites/posca/testcase_cfg/${i}.yaml
+                python /home/opnfv/bottlenecks/testsuites/posca/run_posca.py -c $file
+            done
+        ;;
     esac
 }
 
@@ -142,7 +162,7 @@ fi
 
 # Source credentials
 info "Sourcing Credentials openstack.creds to run the tests.."
-source /home/opnfv/bottlenecks/config/openstack.creds
+source $bottleneck_dir/config/openstack.creds
 
 #run tests
 if [ "${SUITE}" != "" ]; then
