@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3b9ae063",
+        "filename": "testsuites/posca/run_posca.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 371
+      },
+      "writtenOn": "2016-09-12T01:12:02Z",
+      "side": 1,
+      "message": "it\u0027s empty here, don\u0027t know why to import so many packages here.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "f8a8184306e496abd90b5029161ceca1fd3a9829",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
