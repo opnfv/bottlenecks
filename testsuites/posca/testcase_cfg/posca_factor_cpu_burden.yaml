@@ -1,0 +1,15 @@
+[config]
+test_ip: 192.168.23.2:8888
+throughput: 1000
+tool: netperf
+protocol: tcp
+test_time: 30
+pkt sizes: 64,32,16,8
+tx cache sizes: 65536
+rx cache sizes: 87380
+cpu load: 0.9
+latency: 500000
+
+[flavor_config]
+rx_flavor: bottlenecks_system_bandwidth_rx,512,1,1
+tx_flavor: bottlenecks_system_bandwidth_tx,512,1,1
