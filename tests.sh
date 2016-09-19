@@ -17,9 +17,9 @@ run_flake8() {
     echo "Running flake8 ... "
     logfile=test_results.log
     if [ $FILE_OPTION == "f" ]; then
-        flake8 bottlenecks > $logfile
+        flake8 ../bottlenecks > $logfile
     else
-        flake8 bottlenecks
+        flake8 ../bottlenecks
     fi
 
     if [ $? -ne 0 ]; then
