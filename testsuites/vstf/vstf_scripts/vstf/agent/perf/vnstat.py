@@ -19,6 +19,7 @@ LOG = logging.getLogger(__name__)
 
 
 class VnStat(object):
+
     def __init__(self):
         self.netns_exec_str = "ip netns exec %s "
         self.vnstat_cmd_str = "vnstat -l -i %s"
@@ -63,7 +64,9 @@ class VnStat(object):
         m = {}
 
         digits = re.compile(r"\d+\.?\d*")
-        units = re.compile("(?:gib|mib|kib|kbit/s|gbits/s|mbit/s|p/s)", re.IGNORECASE | re.MULTILINE)
+        units = re.compile(
+            "(?:gib|mib|kib|kbit/s|gbits/s|mbit/s|p/s)",
+            re.IGNORECASE | re.MULTILINE)
         units_arr = units.findall(buf)
 
         LOG.debug(units_arr)

@@ -16,6 +16,7 @@ except ImportError:
 
 
 class GetPhyInfo(object):
+
     def __init__(self):
         pass
 
@@ -46,7 +47,9 @@ class GetPhyInfo(object):
         numa = {}
         num = self._get_numa_num()
         for numa_id in range(0, int(num)):
-            flag, temp = commands.getstatusoutput('lscpu | grep "NUMA node%s"' % (str(numa_id)))
+            flag, temp = commands.getstatusoutput(
+                'lscpu | grep "NUMA node%s"' %
+                (str(numa_id)))
             try:
                 temp = temp.split(':')[1].split()[0]
             except:
@@ -58,7 +61,9 @@ class GetPhyInfo(object):
     def get_nic_numa(self, nic):
         result = {}
         try:
-            flag, id = commands.getstatusoutput('cat /sys/class/net/%s/device/numa_node' % (nic))
+            flag, id = commands.getstatusoutput(
+                'cat /sys/class/net/%s/device/numa_node' %
+                (nic))
         except:
             print('get nic numa id failed.')
         return id
@@ -102,7 +107,9 @@ class GetPhyInfo(object):
 
         # get vhost info
         proc_name = 'vhost-' + _main_pid
-        flag, temp = commands.getstatusoutput('ps -ef | grep %s | grep -v grep' % (proc_name))
+        flag, temp = commands.getstatusoutput(
+            'ps -ef | grep %s | grep -v grep' %
+            (proc_name))
         for line in temp.split('\n'):
             try:
                 vhost = line.split()[1]
@@ -134,7 +141,8 @@ class GetPhyInfo(object):
 
     def _get_proc_by_irq(self, irq):
         try:
-            flag, info = commands.getstatusoutput('ps -ef | grep irq/%s | grep -v grep ' % (irq))
+            flag, info = commands.getstatusoutput(
+                'ps -ef | grep irq/%s | grep -v grep ' % (irq))
             proc_id = info.split('\n')[0].split()[1]
         except:
             print("[ERROR]grep process id failed.")
@@ -142,7 +150,8 @@ class GetPhyInfo(object):
 
     def get_nic_interrupt_proc(self, nic):
         _phy_nic_thread = []
-        flag, info = commands.getstatusoutput('cat /proc/interrupts | grep %s' % (nic))
+        flag, info = commands.getstatusoutput(
+            'cat /proc/interrupts | grep %s' % (nic))
         for line in info.split('\n'):
             try:
                 irq_num = line.split(':')[0].split()[0]

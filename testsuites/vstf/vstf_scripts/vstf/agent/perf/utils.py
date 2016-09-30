@@ -26,7 +26,9 @@ def get_pid_by_name(process_name):
 
 
 def get_cpu_num():
-    cpu_num = check_output('cat /proc/cpuinfo  | grep processor | wc -l', shell=True).strip()
+    cpu_num = check_output(
+        'cat /proc/cpuinfo  | grep processor | wc -l',
+        shell=True).strip()
     cpu_num = int(cpu_num)
     return cpu_num
 

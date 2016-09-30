@@ -18,6 +18,7 @@ LOG = logging.getLogger(__name__)
 
 
 class CpuSettings(sets.Settings):
+
     def __init__(self, path="/etc/vstf/perf/",
                  filename="sw_perf.cpu-settings",
                  mode=sets.SETS_SINGLE):
@@ -32,9 +33,22 @@ class CpuSettings(sets.Settings):
         for item in body:
             item = item.encode()
             func_name = "set_%s" % item
-            setattr(self, func_name, self._setting_file(func_name, self._mset['affctl'], self._fset['affctl'], item))
+            setattr(
+                self,
+                func_name,
+                self._setting_file(
+                    func_name,
+                    self._mset['affctl'],
+                    self._fset['affctl'],
+                    item))
             func_name = "mset_%s" % item
-            setattr(self, func_name, self._setting_memory(func_name, self._mset['affctl'], item))
+            setattr(
+                self,
+                func_name,
+                self._setting_memory(
+                    func_name,
+                    self._mset['affctl'],
+                    item))
 
         LOG.debug(self.__dict__)
 
@@ -59,8 +73,10 @@ class CpuSettings(sets.Settings):
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-cpu-settings.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-cpu-settings.log",
+        clevel=logging.INFO)
 
 if __name__ == '__main__':
     unit_test()
-

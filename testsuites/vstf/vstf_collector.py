@@ -14,7 +14,9 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+
 class Uploader(object):
+
     def __init__(self, conf):
         self.headers = {'Content-type': 'application/json'}
         self.timeout = 5
@@ -36,12 +38,18 @@ class Uploader(object):
         self.result["case_name"] = case_name
         self.result["details"] = raw_data
         try:
-            LOG.debug('Result to be uploaded:\n %s' % json.dumps(self.result, indent=4))
+            LOG.debug(
+                'Result to be uploaded:\n %s' %
+                json.dumps(
+                    self.result,
+                    indent=4))
             res = requests.post(self.target,
                                 data=json.dumps(self.result),
                                 headers=self.headers,
                                 timeout=self.timeout)
-            print('Test result posting finished with status code %d.' % res.status_code)
+            print(
+                'Test result posting finished with status code %d.' %
+                res.status_code)
         except Exception as err:
             LOG.error('Failed to record result data: %s', err)
 
@@ -49,8 +57,14 @@ class Uploader(object):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', required=True, help="basic config file for uploader, json format.")
-    parser.add_argument('--dir', required=True, help="result files for test cases")
+    parser.add_argument(
+        '--config',
+        required=True,
+        help="basic config file for uploader, json format.")
+    parser.add_argument(
+        '--dir',
+        required=True,
+        help="result files for test cases")
     args = parser.parse_args()
     realpath = os.path.realpath(args.dir)
     for filename in os.listdir(args.dir):
@@ -58,4 +72,9 @@ if __name__ == "__main__":
         LOG.debug("uploading test result from file:%s", filepath)
         with open(filepath) as stream:
             result = eval(stream.read())
-            Uploader(args.config).upload_result(filename.lower().replace('-', ''), result)
+            Uploader(
+                args.config).upload_result(
+                filename.lower().replace(
+                    '-',
+                    ''),
+                result)

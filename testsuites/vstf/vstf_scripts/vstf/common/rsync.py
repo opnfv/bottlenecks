@@ -10,7 +10,15 @@
 
 # from __future__ import nested_scopes
 
-import os, os.path, shutil, glob, re, sys, getopt, stat, string
+import os
+import os.path
+import shutil
+import glob
+import re
+import sys
+import getopt
+import stat
+import string
 
 try:
     import win32file
@@ -19,6 +27,7 @@ except:
 
 
 class Cookie:
+
     def __init__(self):
         self.sink_root = ""
         self.target_root = ""
@@ -45,7 +54,7 @@ class Cookie:
 def visit(cookie, dirname, names):
     """Copy files names from sink_root + (dirname - sink_root) to target_root + (dirname - sink_root)"""
     if os.path.split(cookie.sink_root)[
-        1]:  # Should be tested with (C:\Cvs -> C:\)! (C:\Archives\MyDatas\UltraEdit -> C:\Archives\MyDatas) (Cvs -> "")! (Archives\MyDatas\UltraEdit -> Archives\MyDatas) (\Cvs -> \)! (\Archives\MyDatas\UltraEdit -> Archives\MyDatas)
+            1]:  # Should be tested with (C:\Cvs -> C:\)! (C:\Archives\MyDatas\UltraEdit -> C:\Archives\MyDatas) (Cvs -> "")! (Archives\MyDatas\UltraEdit -> Archives\MyDatas) (\Cvs -> \)! (\Archives\MyDatas\UltraEdit -> Archives\MyDatas)
         dirname = dirname[len(cookie.sink_root) + 1:]
     else:
         dirname = dirname[len(cookie.sink_root):]
@@ -81,7 +90,9 @@ def visit(cookie, dirname, names):
                             elif os.path.isdir(sink):
                                 removeDir(cookie, sink)
                             else:
-                                logError("Sink %s is neither a file nor a folder (skip removal)" % sink)
+                                logError(
+                                    "Sink %s is neither a file nor a folder (skip removal)" %
+                                    sink)
                         names_excluded += [names[name_index]]
                         del (names[name_index])
                         name_index = name_index - 1
@@ -95,7 +106,7 @@ def visit(cookie, dirname, names):
         for name in os.listdir(target_dir):
             if not cookie.delete_excluded and name in names_excluded:
                 continue
-            if not name in names:
+            if name not in names:
                 target = os.path.join(target_dir, name)
                 if os.path.isfile(target):
                     removeFile(cookie, target)
@@ -122,7 +133,9 @@ def visit(cookie, dirname, names):
                     copyFile(cookie, sink, target)
                 else:
                     # file-???
-                    logError("Target %s is neither a file nor folder (skip update)" % sink)
+                    logError(
+                        "Target %s is neither a file nor folder (skip update)" %
+                        sink)
 
             elif os.path.isdir(sink):
                 if os.path.isfile(target):
@@ -131,7 +144,9 @@ def visit(cookie, dirname, names):
                     makeDir(cookie, target)
             else:
                 # ???-xxx
-                logError("Sink %s is neither a file nor a folder (skip update)" % sink)
+                logError(
+                    "Sink %s is neither a file nor a folder (skip update)" %
+                    sink)
 
         elif not cookie.existing:
             # When target dont exist:
@@ -142,7 +157,9 @@ def visit(cookie, dirname, names):
                 # folder
                 makeDir(cookie, target)
             else:
-                logError("Sink %s is neither a file nor a folder (skip update)" % sink)
+                logError(
+                    "Sink %s is neither a file nor a folder (skip update)" %
+                    sink)
 
 
 def log(cookie, message):
@@ -166,7 +183,9 @@ def shouldUpdate(cookie, sink, target):
         sink_sz = sink_st.st_size
         sink_mt = sink_st.st_mtime
     except:
-        logError("Fail to retrieve information about sink %s (skip update)" % sink)
+        logError(
+            "Fail to retrieve information about sink %s (skip update)" %
+            sink)
         return 0
 
     try:
@@ -174,7 +193,9 @@ def shouldUpdate(cookie, sink, target):
         target_sz = target_st.st_size
         target_mt = target_st.st_mtime
     except:
-        logError("Fail to retrieve information about target %s (skip update)" % target)
+        logError(
+            "Fail to retrieve information about target %s (skip update)" %
+            target)
         return 0
 
     if cookie.update:
@@ -203,7 +224,7 @@ def copyFile(cookie, sink, target):
         if cookie.time:
             try:
                 s = os.stat(sink)
-                os.utime(target, (s.st_atime, s.st_mtime));
+                os.utime(target, (s.st_atime, s.st_mtime))
             except:
                 logError("Fail to copy timestamp of %s" % sink)
 
@@ -216,8 +237,9 @@ def updateFile(cookie, sink, target):
             try:
                 if win32file:
                     filemode = win32file.GetFileAttributesW(target)
-                    win32file.SetFileAttributesW(target,
-                                                 filemode & ~win32file.FILE_ATTRIBUTE_READONLY & ~win32file.FILE_ATTRIBUTE_HIDDEN & ~win32file.FILE_ATTRIBUTE_SYSTEM)
+                    win32file.SetFileAttributesW(
+                        target,
+                        filemode & ~win32file.FILE_ATTRIBUTE_READONLY & ~win32file.FILE_ATTRIBUTE_HIDDEN & ~win32file.FILE_ATTRIBUTE_SYSTEM)
                 else:
                     os.chmod(target, stat.S_IWUSR)
             except:
@@ -228,10 +250,11 @@ def updateFile(cookie, sink, target):
             if cookie.time:
                 try:
                     s = os.stat(sink)
-                    os.utime(target, (s.st_atime, s.st_mtime));
+                    os.utime(target, (s.st_atime, s.st_mtime))
                 except:
-                    logError(
-                        "Fail to copy timestamp of %s" % sink)  # The utime api of the 2.3 version of python is not unicode compliant.
+                    # The utime api of the 2.3 version of python is not unicode
+                    # compliant.
+                    logError("Fail to copy timestamp of %s" % sink)
         except:
             logError("Fail to override %s" % sink)
 
@@ -242,8 +265,8 @@ def updateFile(cookie, sink, target):
 def prepareRemoveFile(path):
     if win32file:
         filemode = win32file.GetFileAttributesW(path)
-        win32file.SetFileAttributesW(path,
-                                     filemode & ~win32file.FILE_ATTRIBUTE_READONLY & ~win32file.FILE_ATTRIBUTE_HIDDEN & ~win32file.FILE_ATTRIBUTE_SYSTEM)
+        win32file.SetFileAttributesW(path, filemode & ~win32file.FILE_ATTRIBUTE_READONLY &
+                                     ~win32file.FILE_ATTRIBUTE_HIDDEN & ~win32file.FILE_ATTRIBUTE_SYSTEM)
     else:
         os.chmod(path, stat.S_IWUSR)
 
@@ -305,7 +328,8 @@ def convertPath(path):
     if separator != "/":
         path = re.sub(re.escape(separator), "/", path)
 
-    # Help file, folder pattern to express that it should match the all file or folder name.
+    # Help file, folder pattern to express that it should match the all file
+    # or folder name.
     path = "/" + path
     return path
 
@@ -360,7 +384,7 @@ def convertPatterns(path, sign):
     """Read the files for pattern and return a vector of filters"""
     filters = []
     f = open(path, "r")
-    while 1:
+    while True:
         pattern = f.readline()
         if not pattern:
             break
@@ -428,8 +452,8 @@ def main(args):
             cookie.relative = 1
         elif o in ["-n", "--dry-run"]:
             cookie.dry_run = 1
-        elif o in ["-t", "--times",
-                   "--time"]:  # --time is there to guaranty backward compatibility with previous buggy version.
+        # --time is there to guaranty backward compatibility with previous buggy version.
+        elif o in ["-t", "--times", "--time"]:
             cookie.time = 1
         elif o in ["-u", "--update"]:
             cookie.update = 1
@@ -474,7 +498,7 @@ def main(args):
     target_root = args[1]
     try:  # In order to allow compatibility below 2.3.
         pass
-        if os.path.__dict__.has_key("supports_unicode_filenames") and os.path.supports_unicode_filenames:
+        if "supports_unicode_filenames" in os.path.__dict__ and os.path.supports_unicode_filenames:
             target_root = unicode(target_root, sys.getfilesystemencoding())
     finally:
         cookie.target_root = target_root
@@ -486,7 +510,7 @@ def main(args):
     sink_families = {}
     for sink in sinks:
         try:  # In order to allow compatibility below 2.3.
-            if os.path.__dict__.has_key("supports_unicode_filenames") and os.path.supports_unicode_filenames:
+            if "supports_unicode_filenames" in os.path.__dict__ and os.path.supports_unicode_filenames:
                 sink = unicode(sink, sys.getfilesystemencoding())
         except:
             pass
@@ -499,7 +523,7 @@ def main(args):
                 break
             sink_root, sink_name = os.path.split(sink_root)
         sink_root = sink_drive + sink_root
-        if not sink_families.has_key(sink_root):
+        if sink_root not in sink_families:
             sink_families[sink_root] = []
         sink_families[sink_root] = sink_families[sink_root] + [sink_name]
 
@@ -509,15 +533,28 @@ def main(args):
         else:
             cookie.sink_root = sink_root
 
-        global y  # In order to allow compatibility below 2.1 (nested scope where used before).
+        # In order to allow compatibility below 2.1 (nested scope where used
+        # before).
+        global y
         y = sink_root
-        files = filter(lambda x: os.path.isfile(os.path.join(y, x)), sink_families[sink_root])
+        files = filter(
+            lambda x: os.path.isfile(
+                os.path.join(
+                    y,
+                    x)),
+            sink_families[sink_root])
         if files:
             visit(cookie, sink_root, files)
 
-        # global y # In order to allow compatibility below 2.1 (nested scope where used before).
+        # global y # In order to allow compatibility below 2.1 (nested scope
+        # where used before).
         y = sink_root
-        folders = filter(lambda x: os.path.isdir(os.path.join(y, x)), sink_families[sink_root])
+        folders = filter(
+            lambda x: os.path.isdir(
+                os.path.join(
+                    y,
+                    x)),
+            sink_families[sink_root])
         for folder in folders:
             folder_path = os.path.join(sink_root, folder)
             if not cookie.recursive:

@@ -17,6 +17,7 @@ LOG = logging.getLogger(__name__)
 
 
 class NetDeviceMgr(Fabricant):
+
     @classmethod
     def add(cls, dst, conn, dev):
         self = cls(dst, conn)
@@ -38,6 +39,7 @@ class NetDeviceMgr(Fabricant):
 
 
 class Actor(Fabricant):
+
     def __init__(self, dst, conn, tool, params):
         super(Actor, self).__init__(dst, conn)
         self._tool = tool
@@ -46,12 +48,13 @@ class Actor(Fabricant):
 
     def __repr__(self):
         repr_dict = self.__dict__
-        repr_keys = list(repr_dict.keys())
-        repr_keys.sort()
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(['%s=%r' % (k, repr_dict[k]) for k in repr_keys]))
+        repr_keys = sorted(repr_dict.keys())
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(
+            ['%s=%r' % (k, repr_dict[k]) for k in repr_keys]))
 
 
 class Sender(Actor):
+
     def start(self, pktsize, **kwargs):
         LOG.info("Sender.start")
         if 'ratep' in kwargs and kwargs['ratep']:
@@ -106,6 +109,7 @@ class Sender(Actor):
 
 
 class Receiver(Actor):
+
     def start(self, **kwargs):
         LOG.info("Receiver.start")
         ret, info = self.perf_run(
@@ -136,6 +140,7 @@ class Receiver(Actor):
 
 
 class NicWatcher(Fabricant):
+
     def __init__(self, dst, conn, params):
         super(NicWatcher, self).__init__(dst, conn)
         self._params = params
@@ -144,7 +149,9 @@ class NicWatcher(Fabricant):
 
     def start(self):
         print "NicWatcher.start"
-        self._pid = self.run_vnstat(device=self._params["iface"], namespace=self._params["namespace"])
+        self._pid = self.run_vnstat(
+            device=self._params["iface"],
+            namespace=self._params["namespace"])
         print self._pid
 
     def stop(self):
@@ -161,6 +168,7 @@ class NicWatcher(Fabricant):
 
 
 class CpuWatcher(Fabricant):
+
     def __init__(self, dst, conn):
         super(CpuWatcher, self).__init__(dst, conn)
         self._pid = None

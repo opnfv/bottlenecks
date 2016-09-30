@@ -29,6 +29,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Performance(object):
+
     def __init__(self, conn, provider):
         self._provider = provider
         self._conn = conn
@@ -221,7 +222,8 @@ class Performance(object):
                 lat_tool = "qperf"
                 lat_type = 'latency'
                 lat_tpro = protocol + '_lat'
-                self.run_latency_test(lat_tool, lat_tpro, size, ratep=realspeed)
+                self.run_latency_test(
+                    lat_tool, lat_tpro, size, ratep=realspeed)
                 lat_result = self.result(tool, lat_type)
                 LOG.info(bw_result)
                 LOG.info(lat_result)
@@ -272,23 +274,32 @@ class Performance(object):
                 record[mark.txMbps] += nic_data['txmB/s'] * 8
 
             if record[mark.rxMbps] > record[mark.txMbps]:
-                record[mark.rxMbps], record[mark.txMbps] = record[mark.txMbps], record[mark.rxMbps]
+                record[
+                    mark.rxMbps], record[
+                    mark.txMbps] = record[
+                    mark.txMbps], record[
+                    mark.rxMbps]
 
             if record[mark.rxCount] > record[mark.txCount]:
-                record[mark.rxCount], record[mark.txCount] = record[mark.txCount], record[mark.rxCount]
+                record[
+                    mark.rxCount], record[
+                    mark.txCount] = record[
+                    mark.txCount], record[
+                    mark.rxCount]
 
             if record[mark.txCount]:
-                record[mark.percentLoss] = round(100 * (1 - record[mark.rxCount] / record[mark.txCount]),
-                                                 cst.PKTLOSS_ROUND)
+                record[mark.percentLoss] = round(
+                    100 * (1 - record[mark.rxCount] / record[mark.txCount]), cst.PKTLOSS_ROUND)
             else:
                 record[mark.percentLoss] = 100
 
             record[mark.bandwidth] /= 1000000.0
             if cpu_mhz and record[mark.cpu]:
-                record[mark.mppsGhz] = round(record[mark.bandwidth] / (record[mark.cpu] * cpu_mhz / 100000),
-                                             cst.CPU_USAGE_ROUND)
+                record[mark.mppsGhz] = round(
+                    record[mark.bandwidth] / (record[mark.cpu] * cpu_mhz / 100000), cst.CPU_USAGE_ROUND)
 
-            record[mark.bandwidth] = round(record[mark.bandwidth], cst.RATEP_ROUND)
+            record[mark.bandwidth] = round(
+                record[mark.bandwidth], cst.RATEP_ROUND)
 
         elif ttype in {'latency'}:
             record = {
@@ -319,7 +330,10 @@ class Performance(object):
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-sw_perf.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-sw_perf.log",
+        clevel=logging.INFO)
 
     conn = Server("192.168.188.10")
     perf_settings = PerfSettings()
@@ -327,7 +341,10 @@ def unit_test():
     tool_settings = ToolSettings()
     tester_settings = TesterSettings()
     flow_producer = FlowsProducer(conn, flows_settings)
-    provider = PerfProvider(flows_settings.settings, tool_settings.settings, tester_settings.settings)
+    provider = PerfProvider(
+        flows_settings.settings,
+        tool_settings.settings,
+        tester_settings.settings)
     perf = Performance(conn, provider)
     tests = perf_settings.settings
     for scenario, cases in tests.items():
@@ -348,7 +365,10 @@ def unit_test():
 
 def main():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-performance.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-performance.log",
+        clevel=logging.INFO)
     from vstf.controller.database.dbinterface import DbManage
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument("case",
@@ -374,9 +394,10 @@ def main():
                         action="store",
                         default="64",
                         help='test size list "64 128"')
-    parser.add_argument("--affctl",
-                        action="store_true",
-                        help="when input '--affctl', the performance will do affctl before testing")
+    parser.add_argument(
+        "--affctl",
+        action="store_true",
+        help="when input '--affctl', the performance will do affctl before testing")
     parser.add_argument("--monitor",
                         dest="monitor",
                         default="localhost",
@@ -399,7 +420,10 @@ def main():
     tool_settings = ToolSettings()
     tester_settings = TesterSettings()
     flow_producer = FlowsProducer(conn, flows_settings)
-    provider = PerfProvider(flows_settings.settings, tool_settings.settings, tester_settings.settings)
+    provider = PerfProvider(
+        flows_settings.settings,
+        tool_settings.settings,
+        tester_settings.settings)
     perf = Performance(conn, provider)
     scenario = db_mgr.query_scenario(casetag)
     flow_producer.create(scenario, casetag)

@@ -34,6 +34,7 @@ TEMPLATE_EXTENSION = None
 # Initialization and Input 'heat_templates/'validation
 # ------------------------------------------------------
 
+
 def init(api=False):
     global BASE_DIR
     # BASE_DIR = os.getcwd()
@@ -45,6 +46,7 @@ def init(api=False):
     conf_file_init(api)
     log_init()
     general_vars_init(api)
+
 
 def conf_file_init(api=False):
     global CONF_FILE
@@ -66,24 +68,24 @@ def general_vars_init(api=False):
 
     # Check Section in Configuration File
     InputValidation.validate_configuration_file_section(
-            files.GENERAL,
-            "Section " + files.GENERAL +
-            "is not present in configuration file")
+        files.GENERAL,
+        "Section " + files.GENERAL +
+        "is not present in configuration file")
 
     InputValidation.validate_configuration_file_section(
-            files.OPENSTACK,
-            "Section " + files.OPENSTACK +
-            "is not present in configuration file")
+        files.OPENSTACK,
+        "Section " + files.OPENSTACK +
+        "is not present in configuration file")
 
     TEMPLATE_DIR = '/tmp/heat_templates/'
 
     if not api:
         # Validate template name
         InputValidation.validate_configuration_file_parameter(
-                files.GENERAL,
-                files.TEMPLATE_NAME,
-                "Parameter " + files.TEMPLATE_NAME +
-                "is not present in configuration file")
+            files.GENERAL,
+            files.TEMPLATE_NAME,
+            "Parameter " + files.TEMPLATE_NAME +
+            "is not present in configuration file")
         TEMPLATE_NAME = CONF_FILE.get_variable(files.GENERAL,
                                                files.TEMPLATE_NAME)
         InputValidation.validate_file_exist(
@@ -111,6 +113,7 @@ def log_init():
 # ------------------------------------------------------
 # Configuration file access
 # ------------------------------------------------------
+
 
 class ConfigurationFile:
     """
@@ -188,6 +191,7 @@ class ConfigurationFile:
 # Manage files
 # ------------------------------------------------------
 
+
 def get_heat_template_params():
     """
     Returns the list of deployment parameters from the configuration file
@@ -203,6 +207,7 @@ def get_heat_template_params():
             files.DEPLOYMENT_PARAMETERS, param)
     return testcase_parameters
 
+
 def get_testcase_params():
     """
     Returns the list of testcase parameters from the configuration file
@@ -215,6 +220,7 @@ def get_testcase_params():
         testcase_parameters[param] = CONF_FILE.get_variable(
             files.TESTCASE_PARAMETERS, param)
     return testcase_parameters
+
 
 def get_file_first_line(file_name):
     """
@@ -254,6 +260,8 @@ def replace_in_file(file, text_to_search, text_to_replace):
 # ------------------------------------------------------
 # Shell interaction
 # ------------------------------------------------------
+
+
 def run_command(command):
     LOG.info("Running command: {}".format(command))
     return os.system(command)
@@ -262,8 +270,10 @@ def run_command(command):
 # Expose variables to other modules
 # ------------------------------------------------------
 
+
 def get_base_dir():
     return BASE_DIR
+
 
 def get_template_dir():
     return TEMPLATE_DIR
@@ -271,6 +281,8 @@ def get_template_dir():
 # ------------------------------------------------------
 # Configuration Variables from Config File
 # ------------------------------------------------------
+
+
 def get_deployment_configuration_variables_from_conf_file():
     variables = dict()
     types = dict()
@@ -289,12 +301,16 @@ def get_deployment_configuration_variables_from_conf_file():
 # ------------------------------------------------------
 # benchmarks from Config File
 # ------------------------------------------------------
+
+
 def get_benchmarks_from_conf_file():
     requested_benchmarks = list()
-    benchmarks = CONF_FILE.get_variable(files.GENERAL, files.BENCHMARKS).split(', ')
+    benchmarks = CONF_FILE.get_variable(
+        files.GENERAL, files.BENCHMARKS).split(', ')
     for benchmark in benchmarks:
         requested_benchmarks.append(benchmark)
     return requested_benchmarks
+
 
 class InputValidation(object):
 

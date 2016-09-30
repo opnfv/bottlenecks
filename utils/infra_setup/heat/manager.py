@@ -13,6 +13,7 @@ from heatclient.common import template_utils
 
 import heat.common as common
 
+
 class HeatManager:
 
     def __init__(self, credentials):
@@ -26,14 +27,14 @@ class HeatManager:
 
     def heat_init(self):
         keystone = keystone_client.Client(username=self.user,
-                                         password=self.password,
-                                         tenant_name=self.project_id,
-                                         auth_url=self.auth_uri)
+                                          password=self.password,
+                                          tenant_name=self.project_id,
+                                          auth_url=self.auth_uri)
         auth_token = keystone.auth_token
         self.heat_url = keystone.service_catalog.url_for(
             service_type='orchestration')
         self.heat = heat_client.Client('1', endpoint=self.heat_url,
-                                      token=auth_token)
+                                       token=auth_token)
 
     def stacks_list(self, name=None):
         for stack in self.heat.stacks.list():
@@ -44,7 +45,8 @@ class HeatManager:
     def stack_generate(self, template_file, stack_name, parameters):
         self.heat_init()
         self.stacks_list()
-        tpl_files, template = template_utils.get_template_contents(template_file)
+        tpl_files, template = template_utils.get_template_contents(
+            template_file)
 
         fields = {
             'template': template,

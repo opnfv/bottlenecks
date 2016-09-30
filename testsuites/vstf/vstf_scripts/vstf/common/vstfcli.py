@@ -12,6 +12,7 @@ import sys
 
 
 class VstfHelpFormatter(argparse.HelpFormatter):
+
     def start_section(self, heading):
         # Title-case the headings
         heading = '%s%s' % (heading[0].upper(), heading[1:])
@@ -19,6 +20,7 @@ class VstfHelpFormatter(argparse.HelpFormatter):
 
 
 class VstfParser(argparse.ArgumentParser):
+
     def __init__(self,
                  prog='vstf',
                  description="",
@@ -41,11 +43,12 @@ class VstfParser(argparse.ArgumentParser):
             desc = callback.__doc__ or ''
             action_help = desc.strip()
             arguments = getattr(callback, 'arguments', [])
-            subparser = subparsers.add_parser(command,
-                                              help=action_help,
-                                              description=desc,
-                                              add_help=False,
-                                              formatter_class=VstfHelpFormatter)
+            subparser = subparsers.add_parser(
+                command,
+                help=action_help,
+                description=desc,
+                add_help=False,
+                formatter_class=VstfHelpFormatter)
             subparser.add_argument('-h', '--help',
                                    action='help',
                                    help=argparse.SUPPRESS)

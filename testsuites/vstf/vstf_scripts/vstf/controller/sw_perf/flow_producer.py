@@ -21,6 +21,7 @@ LOG = logging.getLogger(__name__)
 
 
 class FlowsProducer(object):
+
     def __init__(self, conn, flows_settings):
         self._perf = flows_settings
         self._forwarding = ForwardingSettings().settings
@@ -43,12 +44,13 @@ class FlowsProducer(object):
             raise Exception("error devs :%s", devs)
         LOG.info(agent)
         LOG.info(name)
-        if not self._devs_map.has_key((agent, name)):
+        if (agent, name) not in self._devs_map:
             query = Fabricant(agent, self._conn)
             query.clean_all_namespace()
             dev_info = query.get_device_verbose(identity=name)
             if not isinstance(dev_info, dict):
-                err = "get device detail failed, agent:%s net:%s" % (agent, name)
+                err = "get device detail failed, agent:%s net:%s" % (
+                    agent, name)
                 raise Exception(err)
             dev = {
                 "agent": agent,
@@ -127,7 +129,10 @@ class FlowsProducer(object):
 def unit_test():
     from vstf.rpc_frame_work.rpc_producer import Server
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.INFO, log_file="/var/log/vstf/vstf-producer.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.INFO,
+        log_file="/var/log/vstf/vstf-producer.log",
+        clevel=logging.INFO)
 
     conn = Server("192.168.188.10")
     flow_settings = FlowsSettings()

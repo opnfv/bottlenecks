@@ -15,6 +15,7 @@ LOG = logging.getLogger(__name__)
 
 
 class DeviceSettings(sets.Settings):
+
     def __init__(self, path="/etc/vstf/perf/",
                  filename="sw_perf.device-settings",
                  mode=sets.SETS_SINGLE):

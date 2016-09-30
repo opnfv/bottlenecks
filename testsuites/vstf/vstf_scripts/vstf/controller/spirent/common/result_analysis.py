@@ -29,9 +29,11 @@ def restrucData(data_string):
     try:
         data_dict = {}
         p = re.compile('-Columns.*-Output')
-        data_dict['Columns'] = p.findall(data_string)[0].strip('-Columns {} -Output')
+        data_dict['Columns'] = p.findall(
+            data_string)[0].strip('-Columns {} -Output')
         p = re.compile('-Output.*-State')
-        data_dict['Output'] = p.findall(data_string)[0].strip('-Output {} -State')
+        data_dict['Output'] = p.findall(
+            data_string)[0].strip('-Output {} -State')
         if data_dict['Columns'] is not None or data_dict['Output'] is not None:
             return False, None
         return True, data_dict
@@ -90,6 +92,7 @@ def framelossData(column, perfdata):
 
 
 class analysis(object):
+
     def __init__(self):
         pass
 
@@ -148,7 +151,8 @@ class analysis(object):
                     line[column_name_dict['FrameSize']],
                     line[column_name_dict['Load(%)']],
                     line[column_name_dict['Result']],
-                    str(float(line[column_name_dict['ForwardingRate(mpps)']]) / 1000000),
+                    str(float(line[column_name_dict[
+                        'ForwardingRate(mpps)']]) / 1000000),
                     line[column_name_dict['TxFrameCount']],
                     line[column_name_dict['RxFrameCount']],
                     line[column_name_dict['AverageLatency(us)']],

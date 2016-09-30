@@ -34,7 +34,10 @@ def _init_log(log_file, level=logging.INFO, clevel=logging.INFO):
     return file_handler, console
 
 
-def setup_logging(level=logging.INFO, log_file="/var/log/esp_test.log", clevel=logging.WARNING):
+def setup_logging(
+        level=logging.INFO,
+        log_file="/var/log/esp_test.log",
+        clevel=logging.WARNING):
     log = logging.getLogger()
     log.setLevel(level)
     file_handler, console = _init_log(log_file, level, clevel)

@@ -29,7 +29,6 @@ class Uploader(object):
         self.result['version'] = dashboard_conf['version']
         self.target = dashboard_conf['target']
 
-
     def upload_result(self, case_name, raw_data):
         if self.target == '':
             print('No target was set, so no data will be posted.')
@@ -43,7 +42,9 @@ class Uploader(object):
                                 data=json.dumps(self.result),
                                 headers=self.headers,
                                 timeout=self.timeout)
-            print('Test result posting finished with status code %d.' % res.status_code)
+            print(
+                'Test result posting finished with status code %d.' %
+                res.status_code)
         except Exception as err:
             print ('Failed to record result data: %s', err)
 
@@ -55,10 +56,9 @@ def _test():
         print ("no argumens input!!")
         exit(1)
 
-    with open(sys.argv[1],'r') as stream:
+    with open(sys.argv[1], 'r') as stream:
         data = json.load(stream)
         Uploader().upload_result(data)
 
 if __name__ == "__main__":
     _test()
-

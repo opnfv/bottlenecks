@@ -12,12 +12,14 @@ import vstf.common.constants as cst
 
 
 class DataProvider(object):
+
     def __init__(self, taskid, dbase):
         self._dbase = dbase
         self._taskid = taskid
 
 
 class CommonData(DataProvider):
+
     def get_taskname(self):
         return self._dbase.query_taskname(self._taskid)
 
@@ -67,6 +69,7 @@ class CommonData(DataProvider):
 
 
 class ScenarioData(DataProvider):
+
     def __init__(self, taskid, dbase, scenario):
         print "ScenarioData in"
         DataProvider.__init__(self, taskid, dbase)
@@ -96,13 +99,15 @@ class ScenarioData(DataProvider):
         return query
 
     def is_provider_start(self, case, provider):
-        count = self._dbase.query_case_provider_count(self._taskid, case, provider)
+        count = self._dbase.query_case_provider_count(
+            self._taskid, case, provider)
         if count:
             return True
         return False
 
     def is_type_provider_start(self, case, provider, ptype):
-        count = self._dbase.query_case_type_provider_count(self._taskid, case, provider, ptype)
+        count = self._dbase.query_case_type_provider_count(
+            self._taskid, case, provider, ptype)
         if count:
             return True
         return False
@@ -133,7 +138,12 @@ class ScenarioData(DataProvider):
         test_type = "frameloss"
         return self.get_summary_tabledata(case, provider, test_type)
 
-    def get_summary_tabledata(self, case, provider, test_type, table_type='pdf'):
+    def get_summary_tabledata(
+            self,
+            case,
+            provider,
+            test_type,
+            table_type='pdf'):
         table_head = []
         table_body = []
         type_title = {
@@ -142,41 +152,77 @@ class ScenarioData(DataProvider):
         }
         tools = self.get_test_tools(case)
         if "spirent" in tools:
-            table_body = self._dbase.query_summary_table(self._taskid, case, provider, test_type)
+            table_body = self._dbase.query_summary_table(
+                self._taskid, case, provider, test_type)
             if 'pdf' == table_type:
-                table_head = [
-                    ["FrameSize (byte)", test_type, "", "", "", "Latency(uSec)", "", ""],
-                    ["", "    Mpps    ", "   " + type_title[test_type] + " (%)   ", "CPU Used (%)", " Mpps/Ghz ",
-                     " Min ", " Max ", " Avg "]
-                ]
+                table_head = [["FrameSize (byte)",
+                               test_type,
+                               "",
+                               "",
+                               "",
+                               "Latency(uSec)",
+                               "",
+                               ""],
+                              ["",
+                               "    Mpps    ",
+                               "   " + type_title[test_type] + " (%)   ",
+                               "CPU Used (%)",
+                               " Mpps/Ghz ",
+                               " Min ",
+                               " Max ",
+                               " Avg "]]
             else:
-                table_head = [
-                    ["FrameSize (byte)", "    Mpps    ", "   " + type_title[test_type] + " (%)   ", "CPU Used (%)",
-                     " Mpps/Ghz ", "MinLatency(uSec)", "MaxLatency(uSec)", "AvgLatency(uSec)"],
-                ]
+                table_head = [["FrameSize (byte)",
+                               "    Mpps    ",
+                               "   " + type_title[test_type] + " (%)   ",
+                               "CPU Used (%)",
+                               " Mpps/Ghz ",
+                               "MinLatency(uSec)",
+                               "MaxLatency(uSec)",
+                               "AvgLatency(uSec)"],
+                              ]
         else:
-            table_body = self._dbase.query_summary_simpletable(self._taskid, case, provider, test_type)
+            table_body = self._dbase.query_summary_simpletable(
+                self._taskid, case, provider, test_type)
             if 'pdf' == table_type:
-                table_head = [
-                    ["FrameSize (byte)", test_type, "", "", "", "Latency(uSec)"],
-                    ["", "    Mpps    ", "   " + type_title[test_type] + " (%)", "CPU Used (%)", " Mpps/Ghz ",
-                     "  Avg  "]
-                ]
+                table_head = [["FrameSize (byte)",
+                               test_type,
+                               "",
+                               "",
+                               "",
+                               "Latency(uSec)"],
+                              ["",
+                               "    Mpps    ",
+                               "   " + type_title[test_type] + " (%)",
+                               "CPU Used (%)",
+                               " Mpps/Ghz ",
+                               "  Avg  "]]
             else:
-                table_head = [
-                    ["FrameSize (byte)", "    Mpps    ", "   " + type_title[test_type] + " (%)   ", "CPU Used (%)",
-                     " Mpps/Ghz ", "AvgLatency(uSec)"],
-                ]
+                table_head = [["FrameSize (byte)",
+                               "    Mpps    ",
+                               "   " + type_title[test_type] + " (%)   ",
+                               "CPU Used (%)",
+                               " Mpps/Ghz ",
+                               "AvgLatency(uSec)"],
+                              ]
         return table_head + table_body
 
     def get_ratedata(self, testid, test_type):
-        table_head = [
-            ["FrameSize (bytes)", "Bandwidth(Mpps)", "Load (%)", "CPU Usage(%)", "Mpps/Ghz", "AvgLatency(uSec)"],
-        ]
+        table_head = [["FrameSize (bytes)",
+                       "Bandwidth(Mpps)",
+                       "Load (%)",
+                       "CPU Usage(%)",
+                       "Mpps/Ghz",
+                       "AvgLatency(uSec)"],
+                      ]
         query = self._dbase.query_testdata(testid, test_type)
         table_body = []
         for item in query:
-            table_body.append([item.AvgFrameSize, item.Bandwidth, item.OfferedLoad, item.CPU, item.MppspGhz,
+            table_body.append([item.AvgFrameSize,
+                               item.Bandwidth,
+                               item.OfferedLoad,
+                               item.CPU,
+                               item.MppspGhz,
                                item.AverageLatency])
         result = []
         if table_body:
@@ -203,20 +249,29 @@ class ScenarioData(DataProvider):
         for provider in cst.PROVIDERS:
             if self.is_provider_start(case, provider):
                 if item == 'Percent':
-                    query = self._dbase.query_load(self._taskid, case, provider, test_type)
+                    query = self._dbase.query_load(
+                        self._taskid, case, provider, test_type)
                 elif item == 'Mpps':
-                    query = self._dbase.query_bandwidth(self._taskid, case, provider, test_type)
+                    query = self._dbase.query_bandwidth(
+                        self._taskid, case, provider, test_type)
                 else:
-                    query = self._dbase.query_avglatency(self._taskid, case, provider, test_type)
+                    query = self._dbase.query_avglatency(
+                        self._taskid, case, provider, test_type)
                 query = map(lambda x: list(x), zip(*query))
                 if query:
-                    table_head = [[type_dict["FrameSize"]] + map(lambda x: "  %4d  " % (x), query[0])]
+                    table_head = [[type_dict["FrameSize"]] +
+                                  map(lambda x: "  %4d  " % (x), query[0])]
                     if item == "Avg":
-                        data = map(lambda x: item_dict[item] + "%.1f" % x + item_dict[item], query[1])
+                        data = map(
+                            lambda x: item_dict[item] + "%.1f" %
+                            x + item_dict[item], query[1])
                     else:
-                        data = map(lambda x: item_dict[item] + "%.2f" % x + item_dict[item], query[1])
+                        data = map(
+                            lambda x: item_dict[item] + "%.2f" %
+                            x + item_dict[item], query[1])
                     if item == "Mpps":
-                        line_table = map(lambda x: "%.2f" % (line_speed * 1000 / (8 * (x + 20))), query[0])
+                        line_table = map(lambda x: "%.2f" % (
+                            line_speed * 1000 / (8 * (x + 20))), query[0])
                     table.append([type_dict[provider]] + data)
         if table:
             if item == "Mpps":
@@ -260,7 +315,8 @@ class ScenarioData(DataProvider):
         result = []
         if table_data:
             ytitle = "Average Latency (uSec)"
-            category_names = map(lambda x: "FS:%4d" % int(float(x)) + "LOAD:50", table_data[0][1:])
+            category_names = map(lambda x: "FS:%4d" %
+                                 int(float(x)) + "LOAD:50", table_data[0][1:])
             bar_ = map(lambda x: x[0], table_data[1:])
             data = map(lambda x: x[1:], table_data[1:])
             result = [ytitle, category_names, bar_, data]
@@ -268,10 +324,12 @@ class ScenarioData(DataProvider):
 
     def get_bardata(self, case, provider, test_type):
         if test_type == "latency":
-            query = self._dbase.query_avglatency(self._taskid, case, provider, test_type)
+            query = self._dbase.query_avglatency(
+                self._taskid, case, provider, test_type)
             item = "Avg"
         else:
-            query = self._dbase.query_load(self._taskid, case, provider, test_type)
+            query = self._dbase.query_load(
+                self._taskid, case, provider, test_type)
             item = "Percent"
 
         title_dict = {
@@ -290,7 +348,9 @@ class ScenarioData(DataProvider):
         query = map(lambda x: list(x), zip(*query))
         result = []
         if query:
-            category_names = map(lambda x: "FS:%4d" % x + name_dict[item], query[0])
+            category_names = map(
+                lambda x: "FS:%4d" %
+                x + name_dict[item], query[0])
             data = query[1:]
             bar_ = [color_dict[item]]
             result = [ytitle, category_names, bar_, data]
@@ -298,6 +358,7 @@ class ScenarioData(DataProvider):
 
 
 class TaskData(object):
+
     def __init__(self, taskid, dbase):
         self.__common = CommonData(taskid, dbase)
         scenario_list = self.__common.get_scenariolist()
@@ -312,6 +373,7 @@ class TaskData(object):
 
 
 class HistoryData(DataProvider):
+
     def get_data(self, task_list, case, provider, ttype, item):
         """
         @provider  in ["fastlink", "rdp", "l2switch", ""]
@@ -324,17 +386,18 @@ class HistoryData(DataProvider):
         sizes = []
         for taskid in task_list:
             if item == 'ratep':
-                query = self._dbase.query_bandwidth(taskid, case, provider, ttype)
+                query = self._dbase.query_bandwidth(
+                    taskid, case, provider, ttype)
             else:
-                query = self._dbase.query_avglatency(taskid, case, provider, ttype)
+                query = self._dbase.query_avglatency(
+                    taskid, case, provider, ttype)
 
             if query:
                 data = {}
                 for size, value in query:
                     data[size] = value
                 sizes.extend(data.keys())
-                sizes = {}.fromkeys(sizes).keys()
-                sizes.sort()
+                sizes = sorted({}.fromkeys(sizes).keys())
                 datas.append({taskid: data})
 
         result = []
@@ -367,7 +430,10 @@ class HistoryData(DataProvider):
         return task_list
 
     def get_history_info(self, case):
-        provider_dict = {"fastlink": "Fast Link ", "l2switch": "L2Switch ", "rdp": "Kernel RDP "}
+        provider_dict = {
+            "fastlink": "Fast Link ",
+            "l2switch": "L2Switch ",
+            "rdp": "Kernel RDP "}
         ttype_dict = {
             "throughput": "Throughput Testing ",
             "frameloss": "Frame Loss Testing ",
@@ -390,7 +456,8 @@ class HistoryData(DataProvider):
                 item = "ratep"
 
             for provider in cst.PROVIDERS:
-                table_data = self.get_data(task_list, case, provider, ttype, item)
+                table_data = self.get_data(
+                    task_list, case, provider, ttype, item)
                 if table_data:
                     data = {
                         "title": provider_dict[provider] + items_dict[item],

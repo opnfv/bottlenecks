@@ -15,6 +15,7 @@ LOG = logging.getLogger(__name__)
 
 
 class IntentParser(object):
+
     def __init__(self, cfg_file):
         self.cfg_file = cfg_file
         with file(cfg_file) as fp:
@@ -59,7 +60,9 @@ class IntentParser(object):
                 for tap_cfg in vm_cfg['taps']:
                     br_type_set.add(tap_cfg["br_type"])
             if len(br_type_set) > 1:
-                raise Exception("specified more than one type of vswitchfor host:%s" % host_cfg['ip'])
+                raise Exception(
+                    "specified more than one type of vswitchfor host:%s" %
+                    host_cfg['ip'])
             if len(br_type_set) > 0:
                 br_type = br_type_set.pop()
                 host_cfg['br_type'] = br_type

@@ -16,6 +16,7 @@ LOG = logging.getLogger(__name__)
 
 
 class spirentSTC(object):
+
     def __init__(self):
         super(spirentSTC, self).__init__()
         self.runmodel = None
@@ -25,7 +26,7 @@ class spirentSTC(object):
         :param str    conner: the spirent tester, the agent id of spirent vm
         :param list   measurand: the tested host's agent id
         :param str    model: the model used of the tested host
-        
+
         """
         mgr = stevedore.driver.DriverManager(namespace="spirent.model.plugins",
                                              name=model,
@@ -41,7 +42,7 @@ class spirentSTC(object):
 
 
 def run(config):
-    # test option parser 
+    # test option parser
     if not os.path.exists(config['configfile']):
         LOG.error('The config file %s does exist.', config.get("configfile"))
         return False
@@ -54,7 +55,7 @@ def run(config):
         LOG.error("[ERROR]Check parameter invalid.")
         return False
 
-    # check logical parameter in the 
+    # check logical parameter in the
     flag = runmodel.check_logic_invalid
     if not flag:
         LOG.error("[ERROR]Check logic parameter with host invalid.")
@@ -86,7 +87,8 @@ def run(config):
             LOG.error("[ERROR]Restructure the test data failed.")
         perfdata = getResult(result_dict)
         columndata = getResultColumn(result_dict)
-        column_array, data_array = analysis_instance.analyseResult(suite, columndata, perfdata)
+        column_array, data_array = analysis_instance.analyseResult(
+            suite, columndata, perfdata)
         temp = {'columns': column_array, 'data': data_array}
         result[suite] = temp
     return result

@@ -31,7 +31,8 @@ def dict2object(dic):
         module_name = dic.pop('__module__')
         module = __import__(module_name)
         class_ = getattr(module, class_name)
-        args = dict((key.encode('ascii'), value) for key, value in dic.items())  # get args
+        args = dict((key.encode('ascii'), value)
+                    for key, value in dic.items())  # get args
         inst = class_(**args)  # create new instance
     else:
         inst = dic
@@ -52,6 +53,7 @@ def filter_comments(filename, flags="//"):
 
 
 class BaseSettings(object):
+
     def _load(self, fullname):
         data = filter_comments(fullname)
         LOG.debug(fullname)
@@ -68,7 +70,11 @@ class BaseSettings(object):
                 for litem in ldata:
                     if rdata:
                         for ritem in rdata:
-                            if isinstance(litem, dict) or isinstance(litem, list):
+                            if isinstance(
+                                    litem,
+                                    dict) or isinstance(
+                                    litem,
+                                    list):
                                 tmp = self._sub(litem, ritem)
                             else:
                                 tmp = ritem
@@ -104,15 +110,22 @@ class BaseSettings(object):
         if os.path.exists(filename):
             os.remove(filename)
         with open(filename, 'w') as ofile:
-            content = json.dumps(data, sort_keys=True, indent=4, separators=(',', ':'))
+            content = json.dumps(
+                data,
+                sort_keys=True,
+                indent=4,
+                separators=(
+                    ',',
+                    ':'))
             ofile.write(content)
 
 
 class DefaultSettings(BaseSettings):
+
     def __init__(self, path):
         self._default = os.path.join(path, 'default')
         self._user = os.path.join(path, 'user')
-    
+
     def load(self, filename):
         dfile = os.path.join(self._default, filename)
         if os.path.exists(dfile):
@@ -137,6 +150,7 @@ class DefaultSettings(BaseSettings):
 
 
 class SingleSettings(BaseSettings):
+
     def __init__(self, path):
         self._path = path
 
@@ -161,6 +175,7 @@ SETTINGS = [SETS_SINGLE, SETS_DEFAULT]
 
 
 class Settings(object):
+
     def __init__(self, path, filename, mode=SETS_SINGLE):
         if mode not in SETTINGS:
             raise Exception("error Settings mode : %s" % (mode))
@@ -257,23 +272,65 @@ class Settings(object):
             for item in items:
                 item = item.encode()
                 func_name = "set_%s" % item
-                setattr(self, func_name, self._setting_file(func_name, self._mset, self._fset, item))
+                setattr(
+                    self,
+                    func_name,
+                    self._setting_file(
+                        func_name,
+                        self._mset,
+                        self._fset,
+                        item))
                 func_name = "mset_%s" % item
-                setattr(self, func_name, self._setting_memory(func_name, self._mset, item))
+                setattr(
+                    self,
+                    func_name,
+                    self._setting_memory(
+                        func_name,
+                        self._mset,
+                        item))
         elif isinstance(self._fset, list):
             func_name = "set"
-            setattr(self, func_name, self._setting_file(func_name, self._mset, self._fset, None))
+            setattr(
+                self,
+                func_name,
+                self._setting_file(
+                    func_name,
+                    self._mset,
+                    self._fset,
+                    None))
             func_name = "mset"
-            setattr(self, func_name, self._setting_memory(func_name, self._mset, None))
+            setattr(
+                self,
+                func_name,
+                self._setting_memory(
+                    func_name,
+                    self._mset,
+                    None))
             func_name = "add"
-            setattr(self, func_name, self._adding_file(func_name, self._mset, self._fset, None))
+            setattr(
+                self,
+                func_name,
+                self._adding_file(
+                    func_name,
+                    self._mset,
+                    self._fset,
+                    None))
             func_name = "madd"
-            setattr(self, func_name, self._adding_memory(func_name, self._mset, None))
+            setattr(
+                self,
+                func_name,
+                self._adding_memory(
+                    func_name,
+                    self._mset,
+                    None))
 
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf-settings.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf-settings.log",
+        clevel=logging.INFO)
 
     path = '/etc/vstf'
     setting = DefaultSettings(path)

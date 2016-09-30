@@ -25,6 +25,7 @@ LOG = logging.getLogger(__name__)
 
 
 class ENV(object):
+
     def __init__(self):
         super(ENV, self).__init__()
         self.builder = builder.PluginManager()
@@ -45,6 +46,7 @@ class ENV(object):
 
 
 class Drivers(object):
+
     def __init__(self):
         super(Drivers, self).__init__()
         self.dr_mgr = DriverPluginManager()
@@ -69,6 +71,7 @@ class Drivers(object):
 
 
 class Cpu(object):
+
     def affctl_load(self, policy):
         return affctl.affctl_load(policy)
 
@@ -77,12 +80,13 @@ class Cpu(object):
 
 
 class Perf(object):
+
     def __init__(self):
         super(Perf, self).__init__()
         self._vnstat = vnstat.VnStat()
         self._vstfperf = vstfperf.Vstfperf()
         self._sar = sar.Sar()
-   
+
     def run_vnstat(self, device, namespace=None):
         return self._vnstat.run_vnstat(device, namespace)
 
@@ -92,7 +96,7 @@ class Perf(object):
     def perf_run(self, **kwargs):
         return self._vstfperf.run(**kwargs)
 
-    def run_cpuwatch(self, interval = 2):
+    def run_cpuwatch(self, interval=2):
         return self._sar.start(interval)
 
     def kill_cpuwatch(self, pid):
@@ -106,6 +110,7 @@ class Perf(object):
 
 
 class EqualizerOps(GetPhyInfo, Optimize):
+
     def __init__(self):
         super(EqualizerOps, self).__init__()
 
@@ -115,19 +120,20 @@ class BaseAgent(coll.Collect,
                 Cpu,
                 Drivers,
                 DeviceManager,
-                commandline.CommandLine, 
+                commandline.CommandLine,
                 netns.NetnsManager,
                 SourceCodeManager
                 ):
+
     def __init__(self):
         super(BaseAgent, self).__init__()
 
 
 class softAgent(BaseAgent, Perf, EqualizerOps):
+
     def __init__(self):
         super(softAgent, self).__init__()
 
 
 if __name__ == '__main__':
     softAgent()
-

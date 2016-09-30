@@ -15,6 +15,7 @@ LOG = logging.getLogger(__name__)
 
 
 class ForwardingSettings(sets.Settings):
+
     def __init__(self, path="/etc/vstf/perf/",
                  filename="sw_perf.forwarding-settings",
                  mode=sets.SETS_SINGLE):

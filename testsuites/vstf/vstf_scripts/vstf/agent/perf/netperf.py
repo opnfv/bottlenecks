@@ -20,6 +20,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Netperf(object):
+
     def __init__(self):
         self._send_processes = []
         self._islat = False
@@ -48,7 +49,10 @@ class Netperf(object):
         LOG.info("cmd:%s", cmd)
 
         for _ in range(threads):
-            process = my_popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = my_popen(
+                cmd.split(),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE)
             self._send_processes.append(process)
         time.sleep(0.5)
         for process in self._send_processes:
@@ -119,7 +123,10 @@ class Netperf(object):
         cmd = self.format_receive_start(**kwargs)
         LOG.info("cmd:%s", cmd)
 
-        process = my_popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = my_popen(
+            cmd.split(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         time.sleep(0.5)
         ret = process.poll()
         if ret:
@@ -177,5 +184,8 @@ def unit_test():
 if __name__ == "__main__":
     from vstf.common.log import setup_logging
 
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-netperf.log", clevel=logging.DEBUG)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-netperf.log",
+        clevel=logging.DEBUG)
     unit_test()

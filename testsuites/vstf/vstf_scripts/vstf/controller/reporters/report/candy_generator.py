@@ -16,6 +16,7 @@ LOG = logging.getLogger(__name__)
 
 
 class CandyGenerator(object):
+
     def __init__(self, task):
         self._task = task
 
@@ -99,7 +100,8 @@ class CandyGenerator(object):
                     "data": scenario_data.get_latency_bardata(case)
                 }
                 table = scenario_data.get_latency_tabledata(case)
-            test_section = self.create_test(sectionid, params_info, table, draw)
+            test_section = self.create_test(
+                sectionid, params_info, table, draw)
             scenario_chapter[name] = test_section
 
         return scenario_chapter
@@ -125,7 +127,10 @@ class CandyGenerator(object):
 
 def main():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-candy.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-candy.log",
+        clevel=logging.INFO)
 
     dbase = DbManage()
     taskid = dbase.get_last_taskid()
@@ -135,4 +140,3 @@ def main():
     creator.create("Tn")
 if __name__ == '__main__':
     main()
-

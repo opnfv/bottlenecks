@@ -16,6 +16,7 @@ sys.path.append("..")
 import template
 import common
 
+
 def reset_common():
     common.LOG = None
     common.CONF_FILE = None
@@ -26,7 +27,9 @@ def reset_common():
     common.TEMPLATE_NAME = None
     common.TEMPLATE_EXTENSION = None
 
+
 class TestGeneratesTemplate(unittest.TestCase):
+
     def setUp(self):
         self.deployment_configuration = {
             'flavor': ['medium']
@@ -42,7 +45,8 @@ class TestGeneratesTemplate(unittest.TestCase):
     def test_generates_template_for_success(self, mock_template_dir,
                                             mock_log):
         tmp_generated_templates_dir = '/data/generated_templates/'
-        generated_templates_dir = "{}{}".format(os.getcwd(), tmp_generated_templates_dir)
+        generated_templates_dir = "{}{}".format(
+            os.getcwd(), tmp_generated_templates_dir)
         mock_template_dir.return_value = generated_templates_dir
         tmp_test_templates = '/data/test_templates/'
         test_templates = "{}{}".format(os.getcwd(), tmp_test_templates)
@@ -69,7 +73,8 @@ class TestGeneratesTemplate(unittest.TestCase):
     @mock.patch('common.get_template_dir')
     def test_get_all_heat_templates_for_success(self, template_dir):
         tmp_generated_templates = '/data/generated_templates/'
-        generated_templates = "{}{}".format(os.getcwd(), tmp_generated_templates)
+        generated_templates = "{}{}".format(
+            os.getcwd(), tmp_generated_templates)
         template_dir.return_value = generated_templates
         extension = '.yaml'
         expected = ['test_template_1.yaml']

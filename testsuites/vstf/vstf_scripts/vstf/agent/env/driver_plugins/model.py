@@ -22,16 +22,16 @@ class DriverPlugin:
     @abstractmethod
     def clean(self):
         """implement this clean function to clean environment before and after calling any other functions.
-        
+
         """
         pass
 
     @abstractmethod
     def load(self, drivers):
         """load driver modules.
-        
+
         :param list    drivers:list of modules to be inserted. for example:[ixgbe,vhost_net]
-        
+
         """
         pass
 

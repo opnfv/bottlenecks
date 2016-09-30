@@ -16,6 +16,7 @@ LOG = logging.getLogger(__name__)
 
 
 class CommandLine(object):
+
     def __init__(self):
         super(CommandLine, self).__init__()
         self.proc = None

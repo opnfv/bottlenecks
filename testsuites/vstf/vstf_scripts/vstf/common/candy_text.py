@@ -36,7 +36,7 @@ def dict2text(info):
 
 
 def text2dict(candy):
-    tmp = candy.replace("##","#").split("#")
+    tmp = candy.replace("##", "#").split("#")
     result = {
         "sn": int(tmp[0]),
         "node": tmp[1],
@@ -49,7 +49,7 @@ def text2dict(candy):
 
 
 def text2tuple(candy):
-    tmp = candy.replace("##","#").split("#")
+    tmp = candy.replace("##", "#").split("#")
 
     sn = int(tmp[0])
     node = tmp[1]

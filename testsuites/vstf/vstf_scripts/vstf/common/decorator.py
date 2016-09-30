@@ -17,7 +17,9 @@ def check(key, choices=[], defaults=_DEFAULTS):
                 if defaults != _DEFAULTS:
                     kwargs[key] = defaults
                 else:
-                    raise Exception("Error: '%s' is needed in %s" % (key, func))
+                    raise Exception(
+                        "Error: '%s' is needed in %s" %
+                        (key, func))
 
             if choices and kwargs[key] not in choices:
                 raise Exception("Error: %s :%s" % (key, kwargs[key]))
@@ -40,7 +42,9 @@ def dcheck(key, choices=[]):
                 values = None
             if isinstance(values, dict):
                 if key not in values:
-                    raise Exception("Error: '%s' is needed in %s" % (key, func))
+                    raise Exception(
+                        "Error: '%s' is needed in %s" %
+                        (key, func))
                 if choices and values[key] not in choices:
                     raise Exception("Error: %s :%s" % (key, values[key]))
             ret = func(*args)
@@ -84,7 +88,8 @@ def namespace():
             ret = func(*args, **kwargs)
             nspace = kwargs.get("namespace", None)
             if nspace:
-                ret = "ip netns exec %(namespace)s " % {"namespace": nspace} + ret
+                ret = "ip netns exec %(namespace)s " % {
+                    "namespace": nspace} + ret
             return ret
 
         return __deco

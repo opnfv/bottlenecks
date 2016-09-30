@@ -18,6 +18,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Pktgen(object):
+
     def __init__(self):
         utils.modprobe_pktgen()
         self._send_processes = []
@@ -33,7 +34,11 @@ class Pktgen(object):
 
     def _start(self):
         cmd = 'echo start > /proc/net/pktgen/pgctrl'
-        process = my_popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = my_popen(
+            cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         LOG.info('running pid:%s', process.pid)
         time.sleep(0.5)
         ret = process.poll()
@@ -42,7 +47,8 @@ class Pktgen(object):
             self._send_processes.append(process)
             error_str = "start pktgen send success"
         else:
-            error_str = "start pktgen send failed, stdout:%s,stderr:%s" % (process.stdout.read(), process.stderr.read())
+            error_str = "start pktgen send failed, stdout:%s,stderr:%s" % (
+                process.stdout.read(), process.stderr.read())
             LOG.info(error_str)
         return ret, error_str
 
@@ -149,5 +155,8 @@ def unit_test():
 if __name__ == "__main__":
     from vstf.common.log import setup_logging
 
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-pktgen.log", clevel=logging.DEBUG)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-pktgen.log",
+        clevel=logging.DEBUG)
     unit_test()

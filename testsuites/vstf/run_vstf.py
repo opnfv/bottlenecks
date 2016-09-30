@@ -24,9 +24,11 @@ from novaclient.client import Client as NovaClient
 # parser for configuration files in each test case
 # ------------------------------------------------------
 parser = argparse.ArgumentParser()
-parser.add_argument("-c", "--conf",
-                    help="configuration files for the testcase, in yaml format",
-                    default="/home/opnfv/bottlenecks/testsuites/vstf/testcase_cfg/vstf_Tu1.yaml")
+parser.add_argument(
+    "-c",
+    "--conf",
+    help="configuration files for the testcase, in yaml format",
+    default="/home/opnfv/bottlenecks/testsuites/vstf/testcase_cfg/vstf_Tu1.yaml")
 args = parser.parse_args()
 
 #--------------------------------------------------
@@ -37,30 +39,39 @@ logger = logging.getLogger(__name__)
 
 def _get_keystone_client():
     keystone_client = KeystoneClient(
-                auth_url=os.environ.get('OS_AUTH_URL'),
-                username=os.environ.get('OS_USERNAME'),
-                password=os.environ.get('OS_PASSWORD'),
-                tenant_name=os.environ.get('OS_TENANT_NAME'),
-                cacert=os.environ.get('OS_CACERT'))
+        auth_url=os.environ.get('OS_AUTH_URL'),
+        username=os.environ.get('OS_USERNAME'),
+        password=os.environ.get('OS_PASSWORD'),
+        tenant_name=os.environ.get('OS_TENANT_NAME'),
+        cacert=os.environ.get('OS_CACERT'))
     return keystone_client
+
 
 def _get_heat_client():
     keystone = _get_keystone_client()
-    heat_endpoint = keystone.service_catalog.url_for(service_type='orchestration')
-    heat_client = HeatClient('1', endpoint=heat_endpoint, token=keystone.auth_token)
+    heat_endpoint = keystone.service_catalog.url_for(
+        service_type='orchestration')
+    heat_client = HeatClient(
+        '1',
+        endpoint=heat_endpoint,
+        token=keystone.auth_token)
     return heat_client
+
 
 def _get_glance_client():
     keystone = _get_keystone_client()
-    glance_endpoint = keystone.service_catalog.url_for(service_type='image', endpoint_type='publicURL')
+    glance_endpoint = keystone.service_catalog.url_for(
+        service_type='image', endpoint_type='publicURL')
     return GlanceClient(glance_endpoint, token=keystone.auth_token)
+
 
 def _get_nova_client():
     nova_client = NovaClient("2", os.environ.get('OS_USERNAME'),
-                                  os.environ.get('OS_PASSWORD'),
-                                  os.environ.get('OS_TENANT_NAME'),
-                                  os.environ.get('OS_AUTH_URL'))
+                             os.environ.get('OS_PASSWORD'),
+                             os.environ.get('OS_TENANT_NAME'),
+                             os.environ.get('OS_AUTH_URL'))
     return nova_client
+
 
 def _download_url(src_url, dest_dir):
     ''' Download a file to a destination path given a URL'''
@@ -75,21 +86,26 @@ def _download_url(src_url, dest_dir):
         shutil.copyfileobj(response, f)
     return dest
 
-def vstf_stack_satisfy(name="bottlenecks_vstf_stack", status="CREATE_COMPLETE"):
+
+def vstf_stack_satisfy(
+        name="bottlenecks_vstf_stack",
+        status="CREATE_COMPLETE"):
     heat = _get_heat_client()
     for stack in heat.stacks.list():
-        if status == None and stack.stack_name == name:
+        if status is None and stack.stack_name == name:
             # Found target stack
             print "Found stack, name=" + str(stack.stack_name)
             return True
-        elif stack.stack_name == name and stack.stack_status==status:
+        elif stack.stack_name == name and stack.stack_status == status:
             print "Found stack, name=" + str(stack.stack_name) + ", status=" + str(stack.stack_status)
             return True
     return False
 
+
 def vstf_env_prepare(template=None):
     print "========== Prepare vstf environment =========="
     logger.info("env preparation for testcase.")
+
 
 def vstf_env_cleanup():
     print "========== Cleanup vstf environment =========="
@@ -118,25 +134,31 @@ def vstf_env_cleanup():
             heat.stacks.delete(stack.id)
 
     timeInProgress = 0
-    while vstf_stack_satisfy(name="bottlenecks_vstf_stack", status=None) and timeInProgress < 60:
+    while vstf_stack_satisfy(
+            name="bottlenecks_vstf_stack",
+            status=None) and timeInProgress < 60:
         time.sleep(5)
         timeInProgress = timeInProgress + 5
 
-    if vstf_stack_satisfy(name="bottlenecks_vstf_stack", status=None) == True:
+    if vstf_stack_satisfy(name="bottlenecks_vstf_stack", status=None):
         print "Failed to clean the stack"
         return False
     else:
         return True
 
+
 def vstf_create_images(imagefile=None, image_name="bottlenecks_vstf_image"):
     print "========== Create vstf image in OS =========="
 
-    if imagefile == None:
-       print "imagefile not set/found"
-       return False
+    if imagefile is None:
+        print "imagefile not set/found"
+        return False
 
     glance = _get_glance_client()
-    image = glance.images.create(name=image_name, disk_format="qcow2", container_format="bare")
+    image = glance.images.create(
+        name=image_name,
+        disk_format="qcow2",
+        container_format="bare")
     with open(imagefile) as fimage:
         glance.images.upload(image.id, fimage)
 
@@ -148,8 +170,9 @@ def vstf_create_images(imagefile=None, image_name="bottlenecks_vstf_image"):
         timeInQueue = timeInQueue + 1
         img_status = glance.images.get(image.id).status
 
-    print "After %d seconds, the image's status is [%s]" %(timeInQueue, img_status)
+    print "After %d seconds, the image's status is [%s]" % (timeInQueue, img_status)
     return True if img_status == "active" else False
+
 
 def vstf_create_keypairs(key_path, name="bottlenecks_vstf_keypair"):
     print "========== Add vstf keypairs in OS =========="
@@ -157,40 +180,54 @@ def vstf_create_keypairs(key_path, name="bottlenecks_vstf_keypair"):
     with open(key_path) as pkey:
         nova.keypairs.create(name=name, public_key=pkey.read())
 
-def vstf_create_flavors(name="bottlenecks_vstf_flavor", ram=4096, vcpus=2, disk=10):
+
+def vstf_create_flavors(
+        name="bottlenecks_vstf_flavor",
+        ram=4096,
+        vcpus=2,
+        disk=10):
     print "========== Create vstf flavors in OS =========="
     nova = _get_nova_client()
     nova.flavors.create(name=name, ram=ram, vcpus=vcpus, disk=disk)
 
-def vstf_create_instances(template_file, vstf_parameters=None, stack_name="bottlenecks_vstf_stack"):
+
+def vstf_create_instances(
+        template_file,
+        vstf_parameters=None,
+        stack_name="bottlenecks_vstf_stack"):
     print "========== Create vstf instances =========="
     heat = _get_heat_client()
 
     with open(template_file) as template:
-        stack = heat.stacks.create(stack_name=stack_name, template=template.read(), parameters=vstf_parameters)
+        stack = heat.stacks.create(
+            stack_name=stack_name,
+            template=template.read(),
+            parameters=vstf_parameters)
 
     stack_id = stack['stack']['id']
     stack_status = heat.stacks.get(stack_id).stack_status
 
     print "Created stack, id=" + str(stack_id) + ", status=" + str(stack_status)
 
-    timeInProgress= 0
+    timeInProgress = 0
     while stack_status == "CREATE_IN_PROGRESS" and timeInProgress < 150:
-        print "  stack's status: %s, after %d seconds" %(stack_status, timeInProgress)
+        print "  stack's status: %s, after %d seconds" % (stack_status, timeInProgress)
         time.sleep(5)
         timeInProgress = timeInProgress + 5
         stack_status = heat.stacks.get(stack_id).stack_status
 
-    print "After %d seconds, the stack's status is [%s]" %(timeInProgress, stack_status)
+    print "After %d seconds, the stack's status is [%s]" % (timeInProgress, stack_status)
     return True if stack_status == "CREATE_COMPLETE" else False
+
 
 def get_instances(nova_client):
     try:
         instances = nova_client.servers.list(search_opts={'all_tenants': 1})
         return instances
-    except Exception, e:
+    except Exception as e:
         print "Error [get_instances(nova_client)]:", e
         return None
+
 
 def vstf_run(launch_file=None, test_file=None):
     print "================run vstf==============="
@@ -204,12 +241,12 @@ def vstf_run(launch_file=None, test_file=None):
     subprocess.call("nova list", shell=True)
     time.sleep(100)
     instances = get_instances(nova)
-    if instances == None:
+    if instances is None:
         print "Found *None* instances, exit vstf_run()!"
         return False
-    if launch_file == None or test_file == None:
-         print "Error, vstf launch/test file not given"
-         return False
+    if launch_file is None or test_file is None:
+        print "Error, vstf launch/test file not given"
+        return False
     cmd = "bash " + launch_file
     subprocess.call(cmd, shell=True)
     time.sleep(50)
@@ -217,66 +254,80 @@ def vstf_run(launch_file=None, test_file=None):
     subprocess.call(cmd, shell=True)
     time.sleep(20)
 
+
 def main():
 
-    Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"      # same in Dockerfile, docker directory
-    Heat_template = Bottlenecks_repo_dir + "/testsuites/vstf/testcase_cfg/vstf_heat_template.yaml"
+    # same in Dockerfile, docker directory
+    Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"
+    Heat_template = Bottlenecks_repo_dir + \
+        "/testsuites/vstf/testcase_cfg/vstf_heat_template.yaml"
     manager_image_url = 'http://artifacts.opnfv.org/bottlenecks/vstf-manager-new.img'
     agent_image_url = 'http://artifacts.opnfv.org/bottlenecks/vstf-agent-new.img'
 
-    #vstf_env_prepare(testcase_cfg)
+    # vstf_env_prepare(testcase_cfg)
     vstf_env_cleanup()
 
     dest_dir = "/tmp"
     manager_file = _download_url(manager_image_url, dest_dir)
-    if manager_file == None:
-       print "error with downloading image(s)"
-       exit(-1)
+    if manager_file is None:
+        print "error with downloading image(s)"
+        exit(-1)
     agent_file = _download_url(agent_image_url, dest_dir)
-    if agent_file == None:
-       print "error with downloading image(s)"
-       exit(-1)
+    if agent_file is None:
+        print "error with downloading image(s)"
+        exit(-1)
 
-    #TO DO:the parameters are all used defaults here, it should be changed depends on what it is really named
-    parameters={'key_name': 'bottlenecks_vstf_keypair',
-                'flavor': 'bottlenecks_vstf_flavor',
-                'public_net': os.environ.get('EXTERNAL_NET')}
+    # TO DO:the parameters are all used defaults here, it should be changed
+    # depends on what it is really named
+    parameters = {'key_name': 'bottlenecks_vstf_keypair',
+                  'flavor': 'bottlenecks_vstf_flavor',
+                  'public_net': os.environ.get('EXTERNAL_NET')}
 
     print "Heat_template_file: " + Heat_template
     print "parameters:\n" + str(parameters)
 
     if not (args.conf):
-       logger.error("Configuration files are not set for testcase")
-       exit(-1)
+        logger.error("Configuration files are not set for testcase")
+        exit(-1)
     else:
-       testcase_cfg = args.conf
+        testcase_cfg = args.conf
 
     manager_image_created = False
     tester_image_created = False
     target_image_created = False
     stack_created = False
 
-    manager_image_created = vstf_create_images(imagefile=manager_file, image_name="bottlenecks_vstf_manager")
-    tester_image_created = vstf_create_images(imagefile=agent_file, image_name="bottlenecks_vstf_tester")
-    target_image_created = vstf_create_images(imagefile=agent_file, image_name="bottlenecks_vstf_target")
-    keyPath = Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key.pub"
+    manager_image_created = vstf_create_images(
+        imagefile=manager_file,
+        image_name="bottlenecks_vstf_manager")
+    tester_image_created = vstf_create_images(
+        imagefile=agent_file, image_name="bottlenecks_vstf_tester")
+    target_image_created = vstf_create_images(
+        imagefile=agent_file, image_name="bottlenecks_vstf_target")
+    keyPath = Bottlenecks_repo_dir + \
+        "/utils/infra_setup/bottlenecks_key/bottlenecks_key.pub"
     vstf_create_keypairs(key_path=keyPath)
     vstf_create_flavors()
 
-    if manager_image_created == True and tester_image_created == True and target_image_created == True:
-        stack_created = vstf_create_instances(template_file=Heat_template, vstf_parameters=parameters, stack_name="bottlenecks_vstf_stack")
+    if manager_image_created and tester_image_created and target_image_created:
+        stack_created = vstf_create_instances(
+            template_file=Heat_template,
+            vstf_parameters=parameters,
+            stack_name="bottlenecks_vstf_stack")
     else:
         print "Cannot create instances, as Failed to create image(s)."
-        exit (-1)
+        exit(-1)
 
     print "Wait 300 seconds after stack creation..."
     time.sleep(300)
 
-    launchfile = Bottlenecks_repo_dir + "/utils/infra_setup/heat_template/vstf_heat_template/launch_vstf.sh"
-    testfile = Bottlenecks_repo_dir + "/utils/infra_setup/heat_template/vstf_heat_template/vstf_test.sh"
+    launchfile = Bottlenecks_repo_dir + \
+        "/utils/infra_setup/heat_template/vstf_heat_template/launch_vstf.sh"
+    testfile = Bottlenecks_repo_dir + \
+        "/utils/infra_setup/heat_template/vstf_heat_template/vstf_test.sh"
     vstf_run(launch_file=launchfile, test_file=testfile)
 
     vstf_env_cleanup()
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

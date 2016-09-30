@@ -30,6 +30,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Report(object):
+
     def __init__(self, dbase, rpath):
         """
 
@@ -47,7 +48,10 @@ class Report(object):
         creator = CandyGenerator(task)
         attach_list = []
         for scenario in scenario_list:
-            out_file = os.path.join(self._rpath, "vstf_report_%s_%s.pdf" % (scenario, time.strftime(cst.TIME_FORMAT3)))
+            out_file = os.path.join(
+                self._rpath, "vstf_report_%s_%s.pdf" %
+                (scenario, time.strftime(
+                    cst.TIME_FORMAT3)))
             LOG.info(out_file)
             creator.create(scenario)
             info = TemplateSettings()
@@ -90,7 +94,10 @@ class Report(object):
 
 def main():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-reporter.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-reporter.log",
+        clevel=logging.INFO)
 
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument('-rpath',

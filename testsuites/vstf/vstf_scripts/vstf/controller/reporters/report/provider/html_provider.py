@@ -15,6 +15,7 @@ from vstf.controller.settings.template_settings import TemplateSettings
 
 
 class HtmlProvider(object):
+
     def __init__(self, info, style):
         self._info = info
         self._style = style
@@ -32,7 +33,10 @@ class HtmlProvider(object):
 
 def main():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/html-provder.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/html-provder.log",
+        clevel=logging.INFO)
 
     html_settings = HtmlSettings()
     LOG.info(html_settings.settings)

@@ -40,17 +40,17 @@ stc_opts = [
 class Client(daemon.Daemon):
     """This is a consumer of vstf-agent which will create two channel to the
     rabbitmq-server, one for direct call, one for fan call.
-    
+
     agent start with a config file which record rabbitmq's ip, port and user passwd
     also each agent has its own id.
-    
+
     """
 
     def __init__(self, agent, config_file):
         """Record the config file, init the daemon.
-        
+
         :param str config_file: the config of a VSTF agent.
-        
+
         """
         super(Client, self).__init__('/tmp/esp_rpc_client.pid')
         self.config_file = config_file
@@ -61,7 +61,7 @@ class Client(daemon.Daemon):
 
     def init_config(self):
         """Use olso.config to analyse the config file
-        
+
         """
         parser = CfgParser(self.config_file)
         parser.register_my_opts(server_opts, "rabbit")
@@ -80,7 +80,7 @@ class Client(daemon.Daemon):
 
     def run(self):
         """Run the rabbitmq consumers as a daemon.
-        
+
         """
         signal.signal(signal.SIGTERM, self.process_exit)
         self.loop_thread()
@@ -90,7 +90,7 @@ class Client(daemon.Daemon):
         """This function try to stop the agent after running agent stop.
         When we call vstf-agent stop which will send a signal SIGTERM to agent
         When the agent catch the SIGTERM signal will call this function.
-        
+
         """
         LOG.info("daemon catch the signalterm, start to stop the process.")
         self.run_flag = False
@@ -104,7 +104,7 @@ class Client(daemon.Daemon):
     def stop_agent(self):
         """Notice that: this function just kill the agent by pid file, it has
         none vars of the agent.
-        
+
         """
         LOG.info("call daemon stop.")
         # kill the main thread
@@ -120,9 +120,11 @@ def main():
                         default="soft",
                         choices=["soft", "spirent"],
                         help="the agent type, as now, just soft and spirent")
-    parser.add_argument('--config_file', action='store',
-                        default="/etc/vstf/amqp/amqp.ini",
-                        help="some env_build params recorded in the config file")
+    parser.add_argument(
+        '--config_file',
+        action='store',
+        default="/etc/vstf/amqp/amqp.ini",
+        help="some env_build params recorded in the config file")
 
     args = parser.parse_args()
 

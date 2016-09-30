@@ -19,6 +19,7 @@ LOG = logging.getLogger(__name__)
 
 
 class SSHClientContext(paramiko.SSHClient):
+
     def __init__(self, ip, user, passwd, port=22):
         self.host = ip
         self.user = user
@@ -31,11 +32,20 @@ class SSHClientContext(paramiko.SSHClient):
         ret = stdout.channel.recv_exit_status()
         out = stdout.read().strip()
         err = stderr.read().strip()
-        LOG.info("in %s,%s,return:%s,output:%s:error:%s" % (self.host, cmd, ret, out, err))
+        LOG.info(
+            "in %s,%s,return:%s,output:%s:error:%s" %
+            (self.host, cmd, ret, out, err))
         return ret, out, err
 
     def connect(self):
-        super(SSHClientContext, self).connect(self.host, self.port, self.user, self.passwd, timeout=10)
+        super(
+            SSHClientContext,
+            self).connect(
+            self.host,
+            self.port,
+            self.user,
+            self.passwd,
+            timeout=10)
 
     def __enter__(self):
         self.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -48,6 +58,7 @@ class SSHClientContext(paramiko.SSHClient):
 
 
 class SFTPClientContext(object):
+
     def __init__(self, ip, user, passwd, port=22):
         self.host = ip
         self.passwd = passwd
@@ -97,7 +108,9 @@ def upload_dir(host, user, passwd, local_dir, remote_dir):
     remote_dir = os.path.join(remote_dir, os.path.basename(local_dir))
     ret, _, _ = run_cmd(host, user, passwd, "sudo rm -rf %s" % remote_dir)
     if ret != 0 and ret != 1:
-        LOG.error("somehow failed in rm -rf %s on host:%s,return:%s" % (remote_dir, host, ret))
+        LOG.error(
+            "somehow failed in rm -rf %s on host:%s,return:%s" %
+            (remote_dir, host, ret))
         exit(1)
     with SFTPClientContext(host, user, passwd) as sftp:
         sftp.connect()
@@ -117,7 +130,7 @@ def upload_dir(host, user, passwd, local_dir, remote_dir):
                 try:
                     sftp.mkdir(remote_path)
                     LOG.info("mkdir path %s" % remote_path)
-                except Exception, e:
+                except Exception as e:
                     raise
     return remote_dir
 
@@ -177,7 +190,9 @@ def download_dir(host, user, passwd, remote_path, local_path):
                 dest_path = local_path
             else:
                 raise Exception('path:%s is not exists' % dir_name)
-    LOG.info("download_dir from host:%s:%s to dest:%s" % (host, remote_path, dest_path))
+    LOG.info(
+        "download_dir from host:%s:%s to dest:%s" %
+        (host, remote_path, dest_path))
     transport = paramiko.Transport((host, 22))
     transport.connect(username=user, password=passwd)
     sftp = paramiko.SFTPClient.from_transport(transport)
@@ -189,7 +204,8 @@ def download_dir(host, user, passwd, remote_path, local_path):
             path = q.get()
             st = sftp.lstat(path).st_mode
             relative_path = path[len(remote_path):]
-            if relative_path.startswith('/'): relative_path = relative_path[1:]
+            if relative_path.startswith('/'):
+                relative_path = relative_path[1:]
             local = os.path.join(dest_path, relative_path)
             if os.path.exists(local):
                 shutil.rmtree(local)
@@ -206,7 +222,9 @@ def download_dir(host, user, passwd, remote_path, local_path):
                     sftp.get(fullpath, dest)
                     os.chmod(dest, st)
     else:
-        raise Exception('path:%s:%s not exists or is not a dir' % (host, remote_path))
+        raise Exception(
+            'path:%s:%s not exists or is not a dir' %
+            (host, remote_path))
     return dest_path
 
 
@@ -218,6 +236,7 @@ def run_cmd(host, user, passwd, cmd):
 
 
 class SshFileTransfer(object):
+
     def __init__(self, ip, user, passwd):
         self.ip, self.user, self.passwd = ip, user, passwd
 

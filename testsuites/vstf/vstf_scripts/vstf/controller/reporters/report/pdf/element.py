@@ -32,8 +32,16 @@ from vstf.controller.reporters.report.pdf.styles import *
 class eImage(Image):
     """ an image(digital picture)which contains the function of auto zoom picture """
 
-    def __init__(self, filename, width=None, height=None, kind='direct', mask="auto", lazy=1, hAlign='CENTRE',
-                 vAlign='BOTTOM'):
+    def __init__(
+            self,
+            filename,
+            width=None,
+            height=None,
+            kind='direct',
+            mask="auto",
+            lazy=1,
+            hAlign='CENTRE',
+            vAlign='BOTTOM'):
         Image.__init__(self, filename, None, None, kind, mask, lazy)
         print height, width
         print self.drawHeight, self.drawWidth
@@ -78,6 +86,7 @@ class eTable(object):
 
 
 class eCommonTable(eTable):
+
     def analysisData(self, data):
         self._style = [
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -89,6 +98,7 @@ class eCommonTable(eTable):
 
 
 class eConfigTable(eTable):
+
     def analysisData(self, data):
         self._style = [
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -113,6 +123,7 @@ class eConfigTable(eTable):
 
 
 class eSummaryTable(eTable):
+
     def analysisData(self, data):
         self._style = [
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -127,6 +138,7 @@ class eSummaryTable(eTable):
 
 
 class eGitInfoTable(eTable):
+
     def analysisData(self, data):
         self._style = [
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -141,6 +153,7 @@ class eGitInfoTable(eTable):
 
 
 class eScenarioTable(eTable):
+
     def analysisData(self, data):
         self._style = [
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -157,6 +170,7 @@ class eScenarioTable(eTable):
 
 
 class eOptionsTable(eTable):
+
     def analysisData(self, data):
         self._style = [
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -181,6 +195,7 @@ class eOptionsTable(eTable):
 
 
 class eProfileTable(eTable):
+
     def analysisData(self, data):
         self._style = [
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -194,6 +209,7 @@ class eProfileTable(eTable):
 
 
 class eDataTable(eTable):
+
     def analysisData(self, data):
         result = data
         self._style = [
@@ -229,6 +245,7 @@ class eDataTable(eTable):
 
 
 class eGraphicsTable(eTable):
+
     def analysisData(self, data):
         self._style = [
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -238,12 +255,14 @@ class eGraphicsTable(eTable):
 
 
 class noScaleXValueAxis(XValueAxis):
+
     def __init__(self):
         XValueAxis.__init__(self)
 
     def makeTickLabels(self):
         g = Group()
-        if not self.visibleLabels: return g
+        if not self.visibleLabels:
+            return g
 
         f = self._labelTextFormat  # perhaps someone already set it
         if f is None:
@@ -307,14 +326,17 @@ class noScaleXValueAxis(XValueAxis):
                             txt = f(t)
                     else:
                         raise ValueError('Invalid labelTextFormat %s' % f)
-                    if post: txt = post % txt
+                    if post:
+                        txt = post % txt
                     pos[d] = v
                     label.setOrigin(*pos)
                     label.setText(txt)
 
-                    # special property to ensure a label doesn't project beyond the bounds of an x-axis
+                    # special property to ensure a label doesn't project beyond
+                    # the bounds of an x-axis
                     if self.keepTickLabelsInside:
-                        if isinstance(self, XValueAxis):  # not done yet for y axes
+                        if isinstance(
+                                self, XValueAxis):  # not done yet for y axes
                             a_x = self._x
                             if not i:  # first one
                                 x0, y0, x1, y1 = label.getBounds()
@@ -324,7 +346,8 @@ class noScaleXValueAxis(XValueAxis):
                                 a_x1 = a_x + self._length
                                 x0, y0, x1, y1 = label.getBounds()
                                 if x1 > a_x1:
-                                    label = label.clone(dx=label.dx - x1 + a_x1)
+                                    label = label.clone(
+                                        dx=label.dx - x1 + a_x1)
                     g.add(label)
 
         return g
@@ -342,8 +365,10 @@ class noScaleXValueAxis(XValueAxis):
         The chart first configures the axis, then asks it to
         """
         assert self._configured, "Axis cannot scale numbers before it is configured"
-        if value is None: value = 0
-        # this could be made more efficient by moving the definition of org and sf into the configuration
+        if value is None:
+            value = 0
+        # this could be made more efficient by moving the definition of org and
+        # sf into the configuration
         org = (self._x, self._y)[self._dataIndex]
         sf = self._length / (len(self._tickValues) + 1)
         if self.reverseDirection:
@@ -353,6 +378,7 @@ class noScaleXValueAxis(XValueAxis):
 
 
 class noScaleLinePlot(LinePlot):
+
     def __init__(self):
         LinePlot.__init__(self)
         self.xValueAxis = noScaleXValueAxis()
@@ -373,7 +399,8 @@ class noScaleLinePlot(LinePlot):
             for colNo in range(len_row):
                 datum = self.data[rowNo][colNo]  # x, y value
                 x = self.x + self.width / (len_row + 1) * (colNo + 1)
-                self.xValueAxis.labels[colNo].x = self.x + self.width / (len_row + 1) * (colNo + 1)
+                self.xValueAxis.labels[colNo].x = self.x + \
+                    self.width / (len_row + 1) * (colNo + 1)
                 y = self.yValueAxis.scale(datum[1])
                 #               print self.width, " ", x
                 line.append((x, y))
@@ -383,6 +410,7 @@ class noScaleLinePlot(LinePlot):
 # def _innerDrawLabel(self, rowNo, colNo, x, y):
 #        return None
 class eLinePlot(object):
+
     def __init__(self, data, style):
         self._lpstyle = style
         self._linename = data[0]
@@ -485,9 +513,11 @@ class eLinePlot(object):
         for i in range(line_cnts):
             styleIndex = i % sytle_cnts
             lp.lines[i].strokeColor = self._lpstyle.linestyle[styleIndex][0]
-            lp.lines[i].symbol = makeMarker(self._lpstyle.linestyle[styleIndex][1])
+            lp.lines[i].symbol = makeMarker(
+                self._lpstyle.linestyle[styleIndex][1])
             lp.lines[i].strokeWidth = self._lpstyle.linestyle[styleIndex][2]
-            color_paris.append((self._lpstyle.linestyle[styleIndex][0], self._linename[i]))
+            color_paris.append(
+                (self._lpstyle.linestyle[styleIndex][0], self._linename[i]))
         #            lp.lineLabels[i].strokeColor = self._lpstyle.linestyle[styleIndex][0]
 
         lp.lineLabelFormat = self._lpstyle.format[0]
@@ -500,8 +530,6 @@ class eLinePlot(object):
         #       lp.xValueAxis.valueSteps = map(lambda x: str(x), xvalueSteps)
 
         lp.yValueAxis.valueMin, lp.yValueAxis.valueMax, lp.yValueAxis.valueSteps = self._yvalue
-
-
 
         #       lp.xValueAxis.forceZero = 0
         #       lp.xValueAxis.avoidBoundFrac = 1
@@ -540,6 +568,7 @@ class eLinePlot(object):
 
 
 class eHorizontalLineChart(object):
+
     def __init__(self, data, style):
         self._lcstyle = style
         if len(data) < 1:
@@ -630,9 +659,11 @@ class eHorizontalLineChart(object):
         for i in range(line_cnts):
             styleIndex = i % sytle_cnts
             lc.lines[i].strokeColor = self._lcstyle.linestyle[styleIndex][0]
-            lc.lines[i].symbol = makeMarker(self._lcstyle.linestyle[styleIndex][1])
+            lc.lines[i].symbol = makeMarker(
+                self._lcstyle.linestyle[styleIndex][1])
             lc.lines[i].strokeWidth = self._lcstyle.linestyle[styleIndex][2]
-            color_paris.append((self._lcstyle.linestyle[styleIndex][0], self._linename[i]))
+            color_paris.append(
+                (self._lcstyle.linestyle[styleIndex][0], self._linename[i]))
 
         lc.lineLabels.fontSize = self._lcstyle.labelsfont - 2
 
@@ -660,6 +691,7 @@ class eHorizontalLineChart(object):
 
 
 class eBarChartColumn(object):
+
     def __init__(self, data, style):
         self._bcstyle = style
         if len(data) < 4:
@@ -702,7 +734,10 @@ class eBarChartColumn(object):
         color_paris = []
         for i in range(bar_cnt):
             bc.bars[i].fillColor = self._bcstyle.pillarstyle[self._bar[i]][0]
-            color_paris.append((self._bcstyle.pillarstyle[self._bar[i]][0], self._bar[i]))
+            color_paris.append(
+                (self._bcstyle.pillarstyle[
+                    self._bar[i]][0],
+                    self._bar[i]))
 
         bc.fillColor = self._bcstyle.background
         bc.barLabels.fontName = 'Helvetica'
@@ -761,6 +796,7 @@ class eBarChartColumn(object):
 
 
 class eParagraph(object):
+
     def __init__(self, data, style):
         self._pstyle = style
         self._data = self.analysisData(data)

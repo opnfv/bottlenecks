@@ -15,6 +15,7 @@ from vstf.controller.env_build.cfg_intent_parse import IntentParser
 
 
 class Test(model.Test):
+
     def setUp(self):
         super(Test, self).setUp()
         self.dir = os.path.dirname(__file__)

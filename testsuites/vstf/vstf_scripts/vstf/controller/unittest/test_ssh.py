@@ -21,10 +21,8 @@ class Test(model.Test):
         self.user = self.source_repo["user"]
         self.passwd = self.source_repo["passwd"]
 
-
     def tearDown(self):
         super(Test, self).tearDown()
-
 
     def test_run_cmd(self):
         ssh.run_cmd(self.host, self.user, self.passwd, 'ls')
@@ -32,5 +30,5 @@ class Test(model.Test):
 
 if __name__ == "__main__":
     import logging
-    logging.basicConfig(level = logging.INFO)
+    logging.basicConfig(level=logging.INFO)
     unittest.main()

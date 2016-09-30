@@ -20,7 +20,9 @@ def execute(cmd=None, care_result=True):
     try:
         (status, ret) = commands.getstatusoutput(cmd)
         if care_result and 0 != status:
-            LOG.error('CMD<%(cmd)s> \nSTDOUT:\n%(ret)s.', {'cmd':cmd, 'ret':ret})
+            LOG.error(
+                'CMD<%(cmd)s> \nSTDOUT:\n%(ret)s.', {
+                    'cmd': cmd, 'ret': ret})
             return None
         else:
             return ret

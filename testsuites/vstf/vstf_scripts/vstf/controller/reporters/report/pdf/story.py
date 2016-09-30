@@ -21,6 +21,7 @@ from element import *
 
 
 class Story(object):
+
     def __init__(self):
         self._storylist = []
 
@@ -30,6 +31,7 @@ class Story(object):
 
 
 class StoryDecorator(Story):
+
     def __init__(self, story, data=None, style=None):
         self._story = story
         self._data = data
@@ -47,6 +49,7 @@ class StoryDecorator(Story):
 
 
 class ImageStory(StoryDecorator):
+
     def new_story(self):
         print "Image Story"
         for filename in self._data:
@@ -60,7 +63,12 @@ class ImageStory(StoryDecorator):
                 image_hAlign = style.image_hAlign
                 image_vAlign = style.image_vAlign
                 self._story.storylist.append(
-                    eImage(filename, image_width, image_height, hAlign=image_hAlign, vAlign=image_vAlign))
+                    eImage(
+                        filename,
+                        image_width,
+                        image_height,
+                        hAlign=image_hAlign,
+                        vAlign=image_vAlign))
             else:
                 style = is_default
                 image_height = style.image_height
@@ -69,22 +77,30 @@ class ImageStory(StoryDecorator):
                 image_vAlign = style.image_vAlign
                 #    self._story.storylist.append(eGraphicsTable([[' ' * 5, eImage(filename, image_width, image_height, hAlign=image_hAlign, vAlign=image_vAlign)]], ts_left).table)
                 self._story.storylist.append(
-                    eImage(filename, image_width, image_height, hAlign=image_hAlign, vAlign=image_vAlign))
+                    eImage(
+                        filename,
+                        image_width,
+                        image_height,
+                        hAlign=image_hAlign,
+                        vAlign=image_vAlign))
 
 
 class HeaderStory(StoryDecorator):
+
     def new_story(self):
         print "header story"
         self._story.storylist.append(PageBreak())
 
 
 class PageBreakStory(StoryDecorator):
+
     def new_story(self):
         print "PageBreak story"
         self._story.storylist.append(PageBreak())
 
 
 class TableOfContentsStory(StoryDecorator):
+
     def new_story(self):
         print "TableOfContents story"
         self._data = [" ", " ", "Table Of Contents", ""]
@@ -96,35 +112,43 @@ class TableOfContentsStory(StoryDecorator):
 
 
 class SpaceStory(StoryDecorator):
+
     def new_story(self):
         style = ps_space
         self._story.storylist.append(eParagraph([" ", " "], style).para)
 
 
 class TableStory(StoryDecorator):
+
     def new_story(self):
         print "table story"
         style = ts_default
         if self._style == 1:
             self._story.storylist.append(eDataTable(self._data, style).table)
-        elif self._style ==2:
+        elif self._style == 2:
             style = ts_left
             self._story.storylist.append(eCommonTable(self._data, style).table)
         elif self._style == 3:
             self._story.storylist.append(eConfigTable(self._data, style).table)
         elif self._style == 4:
-            self._story.storylist.append(eOptionsTable(self._data, style).table)
+            self._story.storylist.append(
+                eOptionsTable(self._data, style).table)
         elif self._style == 5:
-            self._story.storylist.append(eProfileTable(self._data, style).table)
+            self._story.storylist.append(
+                eProfileTable(self._data, style).table)
         elif self._style == 6:
-            self._story.storylist.append(eSummaryTable(self._data, style).table)
+            self._story.storylist.append(
+                eSummaryTable(self._data, style).table)
         elif self._style == 7:
-            self._story.storylist.append(eScenarioTable(self._data, style).table)
+            self._story.storylist.append(
+                eScenarioTable(self._data, style).table)
         elif self._style == 8:
-            self._story.storylist.append(eGitInfoTable(self._data, style).table)
+            self._story.storylist.append(
+                eGitInfoTable(self._data, style).table)
 
 
 class LinePlotStory(StoryDecorator):
+
     def new_story(self):
         print "LinePlot"
         style = lps_default
@@ -137,18 +161,21 @@ class LinePlotStory(StoryDecorator):
 
 
 class LineChartStory(StoryDecorator):
+
     def new_story(self):
         print "LineChartStory: "
         style = lcs_default
         if not self._data:
             print "data error "
             return
-        data = eGraphicsTable([[eHorizontalLineChart(self._data, style).draw]]).table
+        data = eGraphicsTable(
+            [[eHorizontalLineChart(self._data, style).draw]]).table
         if data:
             self._story.storylist.append(data)
 
 
 class BarChartStory(StoryDecorator):
+
     def new_story(self):
         print "BarChartStory: "
         style = bcs_default
@@ -156,12 +183,14 @@ class BarChartStory(StoryDecorator):
             print "data error "
             return
 
-        data = eGraphicsTable([[eBarChartColumn(self._data, style).draw]]).table
+        data = eGraphicsTable(
+            [[eBarChartColumn(self._data, style).draw]]).table
         if data:
             self._story.storylist.append(data)
 
 
 class ParagraphStory(StoryDecorator):
+
     def new_story(self):
         print "Paragraph Story"
         style = ps_body
@@ -174,6 +203,7 @@ class ParagraphStory(StoryDecorator):
 
 
 class TitleStory(StoryDecorator):
+
     def new_story(self):
         print "Paragraph Story"
         if self._style - 1 in range(9):

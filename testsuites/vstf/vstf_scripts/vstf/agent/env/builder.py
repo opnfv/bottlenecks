@@ -15,6 +15,7 @@ LOG = logging.getLogger(__name__)
 
 
 class PluginManager(object):
+
     def __init__(self):
         self.instance = None
         self.saved = {}

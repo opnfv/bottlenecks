@@ -52,7 +52,7 @@ class TblCaseInfo(Base):
                  ScenarioName, FigurePath, Direction, Directiontag,
                  Configure, Description, **kwargs):
         """
-        :param CaseID: 
+        :param CaseID:
         :param CaseTag: ??
         :param CaseName: name of case, like tester-vm
         :param ScenarioName: name of scenario, like Tn
@@ -135,7 +135,16 @@ class TblTestList(Base):
     Provider = Column(String(const.PROVIDER_LEN))
     Tools = Column(String(const.TOOLS_LEN))
 
-    def __init__(self, taskid, casetag, protocol, typ, switch, provider, tools, **kwargs):
+    def __init__(
+            self,
+            taskid,
+            casetag,
+            protocol,
+            typ,
+            switch,
+            provider,
+            tools,
+            **kwargs):
         """Table of test"""
         self.TaskID = taskid
         self.CaseTag = casetag

@@ -20,6 +20,7 @@ LOG = logging.getLogger(__name__)
 
 
 class PerfSettings(sets.Settings):
+
     def __init__(self, path="/etc/vstf/perf/",
                  filename="sw_perf.batch-settings",
                  mode=sets.SETS_SINGLE):
@@ -42,14 +43,23 @@ class PerfSettings(sets.Settings):
         if not scenario:
             LOG.warn("not support the case:%s", value["case"])
             return
-        self._adding_file("add", self._mset, self._fset, scenario, check=self._check_add)(value)
+        self._adding_file(
+            "add",
+            self._mset,
+            self._fset,
+            scenario,
+            check=self._check_add)(value)
 
     def madd_case(self, case):
         scenario = self.dbconn.query_scenario(case)
         if not scenario:
             LOG.warn("not support the case:%s", case)
             return
-        self._adding_memory("madd", self._mset, scenario, check=self._check_add)(case)
+        self._adding_memory(
+            "madd",
+            self._mset,
+            scenario,
+            check=self._check_add)(case)
 
     @deco.dcheck('sizes')
     @deco.dcheck("type", choices=cst.TTYPES)
@@ -74,7 +84,7 @@ class PerfSettings(sets.Settings):
         pprint.pprint(self.settings)
         print "+++++++++++++++++++++++++++++++++++"
         return True
-    
+
     @deco.vstf_input('sizes', types=list)
     @deco.vstf_input("type", types=str, choices=cst.TTYPES)
     @deco.vstf_input("profile", types=str, choices=cst.PROVIDERS)
@@ -98,7 +108,10 @@ def unit_test():
     perf_settings.sinput()
 
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-perf-settings.log", clevel=logging.DEBUG)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-perf-settings.log",
+        clevel=logging.DEBUG)
 
 
 if __name__ == '__main__':

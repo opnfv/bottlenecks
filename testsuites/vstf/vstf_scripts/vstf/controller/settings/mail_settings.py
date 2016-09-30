@@ -18,7 +18,12 @@ LOG = logging.getLogger(__name__)
 
 
 class MailSettings(sets.Settings):
-    def __init__(self, path="/etc/vstf", filename="reporters.mail.mail-settings", mode=sets.SETS_DEFAULT):
+
+    def __init__(
+            self,
+            path="/etc/vstf",
+            filename="reporters.mail.mail-settings",
+            mode=sets.SETS_DEFAULT):
         super(MailSettings, self).__init__(path, filename, mode)
 
     def _register_func(self):
@@ -30,11 +35,24 @@ class MailSettings(sets.Settings):
         for item in body:
             item = item.encode()
             func_name = "set_%s" % item
-            setattr(self, func_name, self._setting_file(func_name, self._mset['body'], self._fset['body'], item))
+            setattr(
+                self,
+                func_name,
+                self._setting_file(
+                    func_name,
+                    self._mset['body'],
+                    self._fset['body'],
+                    item))
         other = {"attach", "content", "subtype"}
         for item in other:
             func_name = "mset_%s" % item
-            setattr(self, func_name, self._setting_memory(func_name, self._mset['body'], item))
+            setattr(
+                self,
+                func_name,
+                self._setting_memory(
+                    func_name,
+                    self._mset['body'],
+                    item))
 
         LOG.debug(self.__dict__)
 
@@ -80,7 +98,10 @@ class MailSettings(sets.Settings):
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-mail-settings.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-mail-settings.log",
+        clevel=logging.INFO)
 
     mail_settings = MailSettings()
     mail_settings.sinput()

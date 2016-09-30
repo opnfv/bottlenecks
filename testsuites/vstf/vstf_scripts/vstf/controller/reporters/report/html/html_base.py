@@ -13,6 +13,7 @@ import vstf.common.pyhtml as pyhtm
 
 
 class HtmlBase(object):
+
     def __init__(self, provider):
         self._page = pyhtm.PyHtml('Html Text')
         self._provider = provider

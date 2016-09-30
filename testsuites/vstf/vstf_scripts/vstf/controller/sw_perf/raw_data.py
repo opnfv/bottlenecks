@@ -15,6 +15,7 @@ LOG = logging.getLogger(__name__)
 
 
 class RawDataProcess(object):
+
     def __init__(self):
         pass
 
@@ -24,7 +25,9 @@ class RawDataProcess(object):
         buf = ' '.join(buf)
         m = {}
         digits = re.compile(r"\d{1,}\.?\d*")
-        units = re.compile(r"(?:gib|mib|kib|kbit/s|gbit/s|mbit/s|p/s)", re.IGNORECASE | re.MULTILINE)
+        units = re.compile(
+            r"(?:gib|mib|kib|kbit/s|gbit/s|mbit/s|p/s)",
+            re.IGNORECASE | re.MULTILINE)
         units_arr = units.findall(buf)
         LOG.debug(units_arr)
         digits_arr = digits.findall(buf)
@@ -96,9 +99,9 @@ class RawDataProcess(object):
             m = self.process_vnstat(data)
         if tool == 'sar' and data_type == 'cpu':
             m = self.process_sar_cpu(data)
-            if raw.has_key('cpu_num'):
+            if 'cpu_num' in raw:
                 m['cpu_num'] = raw['cpu_num']
-            if raw.has_key('cpu_mhz'):
+            if 'cpu_mhz' in raw:
                 m['cpu_mhz'] = raw['cpu_mhz']
         if tool == 'qperf':
             m = self.process_qperf(data)
@@ -121,7 +124,10 @@ if __name__ == '__main__':
     print p.process_vnstat(data)
 
     cmd = "sar -u 2"
-    child = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    child = subprocess.Popen(
+        cmd.split(),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE)
     import time
     import os
     from signal import SIGINT

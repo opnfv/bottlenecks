@@ -13,6 +13,7 @@ import sys
 from rubbos_collector import RubbosCollector
 from uploader import Uploader
 
+
 def printUsage():
     print "Usage: python process_data.py required_params(**) optional_params([])"
     print "       ** -i|--input   input_data_dir"
@@ -21,11 +22,13 @@ def printUsage():
     print "       [] -o|--output  output_file"
     print "       [] -u|--upload  yes|no"
 
+
 def process(input_dir, suite_name):
     result = dict()
     if suite_name == "rubbos":
         result = RubbosCollector().collect_data(input_dir)
     return result
+
 
 def writeResult(output_file, result):
     f = open(output_file, "w")
@@ -34,41 +37,43 @@ def writeResult(output_file, result):
             f.write(str(elem) + "\n")
     f.close()
 
+
 def uploadResult(conf, suite_name, result):
     Uploader(conf).upload_result(suite_name, result)
+
 
 def main():
     if len(sys.argv) < 7 or len(sys.argv) % 2 == 0:
         printUsage()
-        exit (1)
+        exit(1)
     i = 1
     params = dict()
     while (i < len(sys.argv)):
-        if sys.argv[i]=="-i" or sys.argv[i]=="--input":
-            params["input"] = sys.argv[i+1]
-        if sys.argv[i]=="-s" or sys.argv[i]=="--suite":
-            params["suite"] = sys.argv[i+1]
-        if sys.argv[i]=="-c" or sys.argv[i]=="--conf":
-            params["conf"] = sys.argv[i+1]
-        if sys.argv[i]=="-o" or sys.argv[i]=="--output":
-            params["output"] = sys.argv[i+1]
-        if sys.argv[i]=="-u" or sys.argv[i]=="--upload":
-            params["upload"] = sys.argv[i+1]
-        i = i+2
-    if not(params.has_key("input") and params.has_key("suite") and params.has_key("conf")):
+        if sys.argv[i] == "-i" or sys.argv[i] == "--input":
+            params["input"] = sys.argv[i + 1]
+        if sys.argv[i] == "-s" or sys.argv[i] == "--suite":
+            params["suite"] = sys.argv[i + 1]
+        if sys.argv[i] == "-c" or sys.argv[i] == "--conf":
+            params["conf"] = sys.argv[i + 1]
+        if sys.argv[i] == "-o" or sys.argv[i] == "--output":
+            params["output"] = sys.argv[i + 1]
+        if sys.argv[i] == "-u" or sys.argv[i] == "--upload":
+            params["upload"] = sys.argv[i + 1]
+        i = i + 2
+    if not("input" in params and "suite" in params and "conf" in params):
         print "Lack some required parameters."
-        exit (1)
+        exit(1)
 
     result = process(params["input"], params["suite"])
     print "Results:"
     for elem in result:
         print elem
 
-    if params.has_key("output"):
-        writeResult(params["output"],result)
+    if "output" in params:
+        writeResult(params["output"], result)
 
-    if params.has_key("upload") and params["upload"].lower()=="yes":
+    if "upload" in params and params["upload"].lower() == "yes":
         uploadResult(params["conf"], params["suite"], result)
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()

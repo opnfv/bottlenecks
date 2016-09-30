@@ -32,14 +32,16 @@ class Mysalt(object):
             cmds.execute("grep '^pillar_roots' \
                     /etc/salt/master -A 2 | sed 1,2d | awk '{print $2}'") + '/')
         if self.pillar_path == "":
-            log.warning("pillar path not found, make sure the pillar_roots configed")
+            log.warning(
+                "pillar path not found, make sure the pillar_roots configed")
         else:
             os.system("mkdir -p " + self.pillar_path)
 
         self.state_path = str(cmds.execute("grep '^file_roots' \
             /etc/salt/master -A 2 | sed 1,2d | awk '{print $2}'") + '/')
         if self.state_path == "":
-            log.warning("state path not found, make sure the file_roots configed")
+            log.warning(
+                "state path not found, make sure the file_roots configed")
         else:
             os.system("mkdir -p " + self.state_path)
 
@@ -72,7 +74,8 @@ class Mysalt(object):
         elif flag == "state":
             dst = self.state_path
         else:
-            log.error("this file or dir not pillar or state, can not support now.")
+            log.error(
+                "this file or dir not pillar or state, can not support now.")
             return False
 
         if self.IS_FILE == self.__is_dir_or_file(target):
@@ -125,20 +128,27 @@ class Mysalt(object):
                     num_s += 1
                 else:
                     num_f += 1
-                    msg = msg + self.__luxuriant_line("Failed %d:\n" % num_f, "red")
+                    msg = msg + \
+                        self.__luxuriant_line("Failed %d:\n" % num_f, "red")
                     msg = msg + "\t" + key + '\n'
-                    msg = msg + self.__luxuriant_line("\t%s\n" % ret[host][key]['comment'], "red")
-                    if True == ret[host][key]['changes'].has_key('retcode'):
-                        msg = msg + "RETCODE: %s\n" % (ret[host][key]['changes']['retcode'])
-                    if True == ret[host][key]['changes'].has_key('stderr'):
-                        msg = msg + "STDERR: %s\n" % (ret[host][key]['changes']['stderr'])
-                    if True == ret[host][key]['changes'].has_key('stdout'):
-                        msg = msg + "STDOUT: %s\n" % (ret[host][key]['changes']['stdout'])
-            msg = msg + self.__luxuriant_line("total success: %d\n" % num_s, "green")
+                    msg = msg + \
+                        self.__luxuriant_line("\t%s\n" % ret[host][key]['comment'], "red")
+                    if True == ('retcode' in ret[host][key]['changes']):
+                        msg = msg + \
+                            "RETCODE: %s\n" % (ret[host][key]['changes']['retcode'])
+                    if True == ('stderr' in ret[host][key]['changes']):
+                        msg = msg + \
+                            "STDERR: %s\n" % (ret[host][key]['changes']['stderr'])
+                    if True == ('stdout' in ret[host][key]['changes']):
+                        msg = msg + \
+                            "STDOUT: %s\n" % (ret[host][key]['changes']['stdout'])
+            msg = msg + \
+                self.__luxuriant_line("total success: %d\n" % num_s, "green")
             msg = msg + self.__luxuriant_line("failed: %d\n" % num_f, "red")
         except Exception as e:
-            log.error("sorry, thy to check result happend error, <%(e)s>.\nret:%(ret)s",
-                      {'e': e, 'ret': ret})
+            log.error(
+                "sorry, thy to check result happend error, <%(e)s>.\nret:%(ret)s", {
+                    'e': e, 'ret': ret})
             return -1
         log.info(':\n' + msg)
         return num_f
@@ -147,7 +157,9 @@ class Mysalt(object):
         try:
             log.info("salt " + host + " state.sls " +
                      fstate + ' pillar=\'' + str(ext_pillar) + '\'')
-            ret = self.salt.cmd(host, 'state.sls', [fstate, 'pillar=' + str(ext_pillar)], 180, 'list')
+            ret = self.salt.cmd(
+                host, 'state.sls', [
+                    fstate, 'pillar=' + str(ext_pillar)], 180, 'list')
         except Exception as e:
             log.error("try to init host %(host)s happend error: <%(e)s>.",
                       {'host': host, 'e': e})
@@ -170,7 +182,7 @@ class Mysalt(object):
         return ret
 
     def copy_by_state(self, host, src, state_cmd, **kwargs):
-        '''the src must be a dir, and the state.sls 
+        '''the src must be a dir, and the state.sls
         must be the name of the dir name'''
 
         if not self.slave_exists(host):
@@ -184,10 +196,12 @@ class Mysalt(object):
 
     def get_master_ip(self, host=None):
         if not host:
-            ret = cmds.execute("grep '^interface:' /etc/salt/master | awk '{print $2}'").strip()
+            ret = cmds.execute(
+                "grep '^interface:' /etc/salt/master | awk '{print $2}'").strip()
             return ret
         try:
-            ret = self.salt.cmd(host, "grains.item", ["master"])[host]['master']
+            ret = self.salt.cmd(host, "grains.item", ["master"])[
+                host]['master']
         except Exception:
             log.error("salt happened error when get master ip")
             return ""

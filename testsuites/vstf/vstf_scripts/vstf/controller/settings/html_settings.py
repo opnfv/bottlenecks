@@ -15,13 +15,21 @@ LOG = logging.getLogger(__name__)
 
 
 class HtmlSettings(sets.Settings):
-    def __init__(self, path="/etc/vstf/", filename="reporters.html-settings", mode=sets.SETS_DEFAULT):
+
+    def __init__(
+            self,
+            path="/etc/vstf/",
+            filename="reporters.html-settings",
+            mode=sets.SETS_DEFAULT):
         super(HtmlSettings, self).__init__(path, filename, mode)
 
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/html-settings.log", clevel=logging.DEBUG)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/html-settings.log",
+        clevel=logging.DEBUG)
     html_settings = HtmlSettings()
     style = {
         'table': {
@@ -36,13 +44,13 @@ def unit_test():
                 'border': '1px solid green',
                 'padding': '8px',
                 'word-wrap': 'break-all'
-            },
+        },
         'th':
             {
                 'background-color': '#EAF2D3',
                 'border': '1px solid green',
                 'padding': '8px'
-            }
+        }
     }
 
     html_settings.set_style(style)

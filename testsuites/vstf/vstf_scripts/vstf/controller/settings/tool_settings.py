@@ -18,7 +18,12 @@ LOG = logging.getLogger(__name__)
 
 
 class ToolSettings(sets.Settings):
-    def __init__(self, path="/etc/vstf", filename="sw_perf.tool-settings", mode=sets.SETS_DEFAULT):
+
+    def __init__(
+            self,
+            path="/etc/vstf",
+            filename="sw_perf.tool-settings",
+            mode=sets.SETS_DEFAULT):
         super(ToolSettings, self).__init__(path, filename, mode)
 
     def _register_func(self):
@@ -29,8 +34,15 @@ class ToolSettings(sets.Settings):
         for item in body:
             item = item.encode()
             func_name = "set_%s" % (item)
-            setattr(self, func_name,
-                    self._setting_file(func_name, self._mset, self._fset, item, check=self._check_keys))
+            setattr(
+                self,
+                func_name,
+                self._setting_file(
+                    func_name,
+                    self._mset,
+                    self._fset,
+                    item,
+                    check=self._check_keys))
 
     def _check_keys(self, value):
         keys = ['threads', 'wait', 'time']
@@ -70,7 +82,10 @@ class ToolSettings(sets.Settings):
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/tool-settings.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/tool-settings.log",
+        clevel=logging.INFO)
     tool_settings = ToolSettings()
     value = {
         "time": 10,

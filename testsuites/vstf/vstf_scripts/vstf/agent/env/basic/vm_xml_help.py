@@ -38,7 +38,7 @@ xml_disk = '''
       <source file='IMAGE_PATH'/>
       <target dev='vda' bus='virtio'/>
     </disk>'''
-    
+
 xml_ctrl_br = '''
 <interface type='bridge'>
   <mac address='CTRL_MAC'/>
@@ -63,7 +63,7 @@ xml_br = '''
       <model type='virtio'/>
       <target dev='TAP_NAME'/>
     </interface>'''
-    
+
 xml_pci = '''
     <hostdev mode='subsystem' type='pci' managed='yes'>
       <driver name='kvm'/>
@@ -82,4 +82,3 @@ xml_tail = '''
     </graphics>
   </devices>
 </domain>'''
-
