@@ -22,6 +22,7 @@ LOG = logging.getLogger(__name__)
 
 
 class PdfCreator(object):
+
     def __init__(self, provider):
         self._provider = provider
         self._story = []
@@ -114,7 +115,10 @@ class PdfCreator(object):
 
 def main():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/pdf-creator.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/pdf-creator.log",
+        clevel=logging.INFO)
 
     out_file = "vstf_report.pdf"
 

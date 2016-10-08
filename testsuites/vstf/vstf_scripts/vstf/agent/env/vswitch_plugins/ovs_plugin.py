@@ -28,7 +28,8 @@ class OvsPlugin(model.VswitchPlugin):
         self.dirs = {'db': "/usr/local/etc/openvswitch"}
         self.cmds = []
         self.cmds.append("mkdir -p /usr/local/etc/openvswitch")
-        self.cmds.append("ovsdb-tool create /usr/local/etc/openvswitch/conf.db")
+        self.cmds.append(
+            "ovsdb-tool create /usr/local/etc/openvswitch/conf.db")
         self.cmds.append("ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock \
              --remote=db:Open_vSwitch,Open_vSwitch,manager_options \
              --private-key=db:Open_vSwitch,SSL,private_key \
@@ -81,8 +82,9 @@ class OvsPlugin(model.VswitchPlugin):
         name, uplinks = br_cfg['name'], br_cfg['uplinks']
 
         check_call("ovs-vsctl add-br %s" % (name), shell=True)
-        if br_cfg['vtep']: # vxlan supports
-            local_ip, remote_ip = br_cfg['vtep']['local_ip'], br_cfg['vtep']['remote_ip']
+        if br_cfg['vtep']:  # vxlan supports
+            local_ip, remote_ip = br_cfg['vtep'][
+                'local_ip'], br_cfg['vtep']['remote_ip']
             assert len(uplinks) == 1
             uplink = uplinks[0]
             device = get_eth_by_bdf(uplink['bdf'])
@@ -90,7 +92,9 @@ class OvsPlugin(model.VswitchPlugin):
             vtep = 'vx1'
             check_call("ifconfig %s %s up" % (device, local_ip), shell=True)
             check_call("ovs-vsctl add-port %s %s" % (name, vtep), shell=True)
-            check_call("ovs-vsctl set interface %s type=vxlan options:remote_ip=%s" % (vtep, remote_ip), shell=True)
+            check_call(
+                "ovs-vsctl set interface %s type=vxlan options:remote_ip=%s" %
+                (vtep, remote_ip), shell=True)
         for uplink in uplinks:
             device = get_eth_by_bdf(uplink['bdf'])
             vlan_mode = uplink['vlan_mode']
@@ -99,9 +103,13 @@ class OvsPlugin(model.VswitchPlugin):
             call("ethtool -A %s rx off tx off " % device, shell=True)
             check_call("ovs-vsctl add-port %s %s" % (name, device), shell=True)
             if vlan_mode == 'trunk':
-                check_call("ovs-vsctl set port %s trunks=%s" % (device, vlan_id), shell=True)
+                check_call(
+                    "ovs-vsctl set port %s trunks=%s" %
+                    (device, vlan_id), shell=True)
             elif vlan_mode == 'access':
-                check_call("ovs-vsctl set port %s tag=%s" % (device, vlan_id), shell=True)
+                check_call(
+                    "ovs-vsctl set port %s tag=%s" %
+                    (device, vlan_id), shell=True)
             else:
                 raise Exception("unreconized vlan_mode:%s" % vlan_mode)
         return True
@@ -118,7 +126,8 @@ class OvsPlugin(model.VswitchPlugin):
                         }
 
         """
-        port, vlan_mode, vlan = tap_cfg['tap_name'], tap_cfg['vlan_mode'], tap_cfg['vlan_id']
+        port, vlan_mode, vlan = tap_cfg['tap_name'], tap_cfg[
+            'vlan_mode'], tap_cfg['vlan_id']
         assert vlan_mode in ('access', 'vxlan')
         if int(vlan) > '4095':
             # vxlan setting
@@ -162,15 +171,21 @@ class OvsPlugin(model.VswitchPlugin):
         if vlan_mode == 'vxlan':
             raise Exception("don't support vxlan setting right now.")
         elif vlan_mode == 'trunk':
-            check_call("ovs-vsctl set port %s trunks=%s" % (port, vlan_id), shell=True)
+            check_call(
+                "ovs-vsctl set port %s trunks=%s" %
+                (port, vlan_id), shell=True)
         else:
-            check_call("ovs-vsctl set port %s tag=%s" % (port, vlan_id), shell=True)
+            check_call(
+                "ovs-vsctl set port %s tag=%s" %
+                (port, vlan_id), shell=True)
 
     def __fastlink(self, br, p1, p2):
         LOG.info("_fastlink(%s,%s,%s)", br, p1, p2)
         p1 = p1.replace(' ', '')
         p2 = p2.replace(' ', '')
-        bdfs = check_output("lspci |grep Eth | awk '{print $1}'", shell=True).splitlines()
+        bdfs = check_output(
+            "lspci |grep Eth | awk '{print $1}'",
+            shell=True).splitlines()
         if p1 in bdfs:
             p1 = get_eth_by_bdf(p1)
         if p2 in bdfs:
@@ -182,6 +197,10 @@ class OvsPlugin(model.VswitchPlugin):
             port_num, interface = s.replace('(', ' ').replace(')', ' ').split()
             ovs_port[interface] = port_num
         pn1, pn2 = ovs_port[p1], ovs_port[p2]
-        check_call("ovs-ofctl add-flow %s in_port=%s,priority=100,action=output:%s" % (br, pn1, pn2), shell=True)
-        check_call("ovs-ofctl add-flow %s in_port=%s,priority=100,action=output:%s" % (br, pn2, pn1), shell=True)
+        check_call(
+            "ovs-ofctl add-flow %s in_port=%s,priority=100,action=output:%s" %
+            (br, pn1, pn2), shell=True)
+        check_call(
+            "ovs-ofctl add-flow %s in_port=%s,priority=100,action=output:%s" %
+            (br, pn2, pn1), shell=True)
         return True

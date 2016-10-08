@@ -11,9 +11,11 @@ import stevedore
 
 
 class DriverPluginManager(object):
+
     def __init__(self):
         self.plugins = {}
-        self.mgr = stevedore.extension.ExtensionManager(namespace="drivers.plugins", invoke_on_load=True)
+        self.mgr = stevedore.extension.ExtensionManager(
+            namespace="drivers.plugins", invoke_on_load=True)
 
     def load(self, drivers):
         plugin = self.determine_driver_type(drivers)

@@ -40,6 +40,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Vstfperf(object):
+
     def __init__(self):
         for tool in cst.TOOLS:
             obj_name = 'vstf_' + tool
@@ -75,7 +76,10 @@ class Vstfperf(object):
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-vstfperf.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-vstfperf.log",
+        clevel=logging.INFO)
 
     perf = Vstfperf()
     start = {

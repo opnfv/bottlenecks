@@ -45,10 +45,11 @@ cmd = CommandLine()
 
 
 class OpsChains(object):
+
     def __init__(self, monitor, port):
         """The ops chains will setup the proxy to rabbitmq
         and setup a thread to watch the queues of rabbitmq
-        
+
         """
         LOG.info("VSTF Manager start to listen to %s", monitor)
         if not os.path.exists(cst.VSTFCPATH):
@@ -63,7 +64,8 @@ class OpsChains(object):
         if not target:
             respond = "the target is empty, not support now."
         else:
-            respond = self.chanl.call(self.chanl.make_msg("list_nic_devices"), target)
+            respond = self.chanl.call(
+                self.chanl.make_msg("list_nic_devices"), target)
         return respond
 
     def src_install(self, host, config_file):
@@ -118,8 +120,8 @@ class OpsChains(object):
         return Fabricant(host, self.chanl).affctl_list()
 
     def _create_task(self, scenario):
-        taskid = self.dbconn.create_task(str(uuid.uuid4()), time.strftime(cst.TIME_FORMAT),
-                                         desc=scenario + "Test")
+        taskid = self.dbconn.create_task(str(uuid.uuid4()), time.strftime(
+            cst.TIME_FORMAT), desc=scenario + "Test")
         LOG.info("new Task id:%s" % taskid)
         if -1 == taskid:
             raise Exception("DB create task failed.")
@@ -142,7 +144,8 @@ class OpsChains(object):
 
             LOG.info(nic_info)
 
-            os_info, cpu_info, mem_info, hw_info = self.collection.collect_host_info(host["agent"])
+            os_info, cpu_info, mem_info, hw_info = self.collection.collect_host_info(host[
+                                                                                     "agent"])
             LOG.info(os_info)
             LOG.info(cpu_info)
             LOG.info(mem_info)
@@ -165,11 +168,11 @@ class OpsChains(object):
         forward_settings = ForwardingSettings()
         head_d = {
             "ip": head,
-            "namespace":forward_settings.settings["head"]["namespace"]
+            "namespace": forward_settings.settings["head"]["namespace"]
         }
         tail_d = {
             "ip": tail,
-            "namespace":forward_settings.settings["tail"]["namespace"]
+            "namespace": forward_settings.settings["tail"]["namespace"]
         }
         LOG.info(head_d)
         LOG.info(tail_d)
@@ -184,10 +187,19 @@ class OpsChains(object):
         info_str = "do report over"
         return info_str
 
-    def run_perf_cmd(self, case, rpath='./', affctl=False, build_on=False, save_on=False, report_on=False,
-                     mail_on=False):
+    def run_perf_cmd(
+            self,
+            case,
+            rpath='./',
+            affctl=False,
+            build_on=False,
+            save_on=False,
+            report_on=False,
+            mail_on=False):
         LOG.info(case)
-        LOG.info("build_on:%s report_on:%s mail_on:%s" % (build_on, report_on, mail_on))
+        LOG.info(
+            "build_on:%s report_on:%s mail_on:%s" %
+            (build_on, report_on, mail_on))
         casetag = case['case']
         tool = case['tool']
         protocol = case['protocol']
@@ -216,7 +228,10 @@ class OpsChains(object):
         tool_settings = ToolSettings()
         tester_settings = TesterSettings()
         flow_producer = FlowsProducer(self.chanl, flows_settings)
-        provider = PerfProvider(flows_settings.settings, tool_settings.settings, tester_settings.settings)
+        provider = PerfProvider(
+            flows_settings.settings,
+            tool_settings.settings,
+            tester_settings.settings)
 
         perf = pf.Performance(self.chanl, provider)
         flow_producer.create(scenario, casetag)
@@ -225,20 +240,29 @@ class OpsChains(object):
         LOG.info(result)
         if save_on:
             taskid = self._create_task(scenario)
-            testid = self.dbconn.add_test_2task(taskid, casetag, protocol, ttype, switch, provider, tool)
+            testid = self.dbconn.add_test_2task(
+                taskid, casetag, protocol, ttype, switch, provider, tool)
             LOG.info(testid)
             self.dbconn.add_data_2test(testid, result)
             if report_on:
                 self.report(rpath, not mail_on, taskid)
         return result
 
-    def run_perf_file(self, rpath='./', affctl=False, report_on=True, mail_on=True):
+    def run_perf_file(
+            self,
+            rpath='./',
+            affctl=False,
+            report_on=True,
+            mail_on=True):
         perf_settings = PerfSettings()
         flows_settings = FlowsSettings()
         tool_settings = ToolSettings()
         tester_settings = TesterSettings()
         flow_producer = FlowsProducer(self.chanl, flows_settings)
-        provider = PerfProvider(flows_settings.settings, tool_settings.settings, tester_settings.settings)
+        provider = PerfProvider(
+            flows_settings.settings,
+            tool_settings.settings,
+            tester_settings.settings)
         perf = pf.Performance(self.chanl, provider)
         tests = perf_settings.settings
 
@@ -274,7 +298,8 @@ class OpsChains(object):
                 result = perf.run(tool, protocol, ttype, sizes, affctl)
                 LOG.info(result)
 
-                testid = self.dbconn.add_test_2task(taskid, casetag, protocol, ttype, switch, provider, tool)
+                testid = self.dbconn.add_test_2task(
+                    taskid, casetag, protocol, ttype, switch, provider, tool)
                 LOG.info(testid)
 
                 self.dbconn.add_data_2test(testid, result)
@@ -293,6 +318,7 @@ class OpsChains(object):
 
 
 class Manager(daemon.Daemon):
+
     def __init__(self):
         """
         The manager will create a socket for vstfadm.
@@ -356,13 +382,16 @@ class Manager(daemon.Daemon):
                     self.daemon_die()
                     raise e
                 except Exception as e:
-                    # here just the function failed no need exit, just return the msg
+                    # here just the function failed no need exit, just return
+                    # the msg
                     msg = "Run function failed. [ %s ]" % (e)
                     response = msg
                     LOG.error(msg)
                 try:
                     response = message.add_context(response, **context)
-                    LOG.debug("Manager send the response: <%(r)s", {'r': response})
+                    LOG.debug(
+                        "Manager send the response: <%(r)s", {
+                            'r': response})
                     message.send(conn.send, message.encode(response))
                 except Exception as e:
                     self.daemon_die()
@@ -374,7 +403,8 @@ class Manager(daemon.Daemon):
         """overwrite daemon.Daemon.daemon_die(self)"""
         LOG.info("manage catch the signal %s to exit." % signum)
         if self.conn:
-            # we can not close the conn direct, just tell manager to stop accept
+            # we can not close the conn direct, just tell manager to stop
+            # accept
             self.run_flag = False
 
         if self.ops:
@@ -418,8 +448,13 @@ def do_stop(args):
 
 def main():
     """this is for vstfctl"""
-    setup_logging(level=logging.INFO, log_file="/var/log/vstf/vstf-manager.log", clevel=logging.INFO)
-    parser = VstfParser(prog="vstf-manager", description="vstf manager command line")
+    setup_logging(
+        level=logging.INFO,
+        log_file="/var/log/vstf/vstf-manager.log",
+        clevel=logging.INFO)
+    parser = VstfParser(
+        prog="vstf-manager",
+        description="vstf manager command line")
     parser.set_subcommand_parser(target=sys.modules[__name__])
     args = parser.parse_args()
     args.func(args)

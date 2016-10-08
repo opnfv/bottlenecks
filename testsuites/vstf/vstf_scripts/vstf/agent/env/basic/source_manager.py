@@ -27,6 +27,7 @@ def my_chdir(file_path):
 
 
 class SourceCodeManager(object):
+
     def __init__(self):
         super(SourceCodeManager, self).__init__()
         self.base_path = '/opt/vstf/'

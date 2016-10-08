@@ -12,6 +12,7 @@ import vstf.common.constants as cst
 
 
 class Fabricant(object):
+
     def __init__(self, target, conn):
         self.conn = conn
         self.target = target
@@ -21,7 +22,12 @@ class Fabricant(object):
 
     @property
     def declare_commands(self):
-        driver = {"install_drivers", "clean_drivers", "autoneg_on", "autoneg_off", "autoneg_query"}
+        driver = {
+            "install_drivers",
+            "clean_drivers",
+            "autoneg_on",
+            "autoneg_off",
+            "autoneg_query"}
 
         builder = {"build_env", "clean_env"}
 
@@ -29,7 +35,10 @@ class Fabricant(object):
 
         perf = {"perf_run", "run_vnstat", "kill_vnstat", "force_clean"}
 
-        device_mgr = {"get_device_detail", "list_nic_devices", "get_device_verbose"}
+        device_mgr = {
+            "get_device_detail",
+            "list_nic_devices",
+            "get_device_verbose"}
 
         netns = {"clean_all_namespace", "config_dev", "recover_dev", "ping"}
 
@@ -37,11 +46,22 @@ class Fabricant(object):
 
         cmdline = {"execute"}
 
-        spirent = {"send_packet", "stop_flow", "mac_learning", "run_rfc2544suite", "run_rfc2544_throughput",
-                   "run_rfc2544_frameloss", "run_rfc2544_latency"}
+        spirent = {
+            "send_packet",
+            "stop_flow",
+            "mac_learning",
+            "run_rfc2544suite",
+            "run_rfc2544_throughput",
+            "run_rfc2544_frameloss",
+            "run_rfc2544_latency"}
 
-        equalizer = {"get_numa_core", "get_nic_numa", "get_nic_interrupt_proc", "get_vm_info", "bind_cpu",
-                     "catch_thread_info"}
+        equalizer = {
+            "get_numa_core",
+            "get_nic_numa",
+            "get_nic_interrupt_proc",
+            "get_vm_info",
+            "bind_cpu",
+            "catch_thread_info"}
 
         return driver | cpu | builder | perf | device_mgr | netns | cmdline | collect | spirent | equalizer
 

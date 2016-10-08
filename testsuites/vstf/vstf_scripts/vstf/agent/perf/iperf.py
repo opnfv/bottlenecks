@@ -21,6 +21,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Iperf(object):
+
     def __init__(self):
         self._send_processes = []
         self._receive_processes = []
@@ -40,7 +41,10 @@ class Iperf(object):
         cmd = self.format_send_start(**kwargs)
         LOG.debug("cmd:%s", cmd)
 
-        process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(
+            cmd.split(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         time.sleep(1)
         ret = process.poll()
         if ret is None:
@@ -90,7 +94,10 @@ class Iperf(object):
         cmd = self.format_receive_start(**kwargs)
         LOG.debug("cmd:%s", cmd)
 
-        process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(
+            cmd.split(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         time.sleep(1)
         ret = process.poll()
         if ret is None:
@@ -151,5 +158,8 @@ def unit_test():
 if __name__ == "__main__":
     from vstf.common.log import setup_logging
 
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf-iperf.log", clevel=logging.DEBUG)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf-iperf.log",
+        clevel=logging.DEBUG)
     unit_test()

@@ -70,6 +70,7 @@ def umount(path):
 
 
 class IPCommandHelper(object):
+
     def __init__(self):
         self.devices = []
         self.macs = []
@@ -80,7 +81,9 @@ class IPCommandHelper(object):
         self.mac_bdf_map = {}
         self.bdf_mac_map = {}
         buf = check_output("ip link", shell=True)
-        macs = re.compile("[A-F0-9]{2}(?::[A-F0-9]{2}){5}", re.IGNORECASE | re.MULTILINE)
+        macs = re.compile(
+            "[A-F0-9]{2}(?::[A-F0-9]{2}){5}",
+            re.IGNORECASE | re.MULTILINE)
         for mac in macs.findall(buf):
             if mac.lower() in ('00:00:00:00:00:00', 'ff:ff:ff:ff:ff:ff'):
                 continue
@@ -95,7 +98,10 @@ class IPCommandHelper(object):
             self.mac_device_map[mac] = device
         for device in self.devices:
             buf = check_output("ethtool -i %s" % device, shell=True)
-            bdfs = re.findall(r'^bus-info: \d{4}:(\d{2}:\d{2}\.\d*)$', buf, re.MULTILINE)
+            bdfs = re.findall(
+                r'^bus-info: \d{4}:(\d{2}:\d{2}\.\d*)$',
+                buf,
+                re.MULTILINE)
             if bdfs:
                 self.bdf_device_map[bdfs[0]] = device
                 self.device_bdf_map[device] = bdfs[0]

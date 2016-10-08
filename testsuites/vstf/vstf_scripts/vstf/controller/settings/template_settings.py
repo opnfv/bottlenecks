@@ -16,6 +16,7 @@ LOG = logging.getLogger(__name__)
 
 
 class TemplateSettings(sets.Settings):
+
     def __init__(self, path="/etc/vstf/reporter/",
                  filename="reporters.template-settings",
                  mode=sets.SETS_SINGLE):

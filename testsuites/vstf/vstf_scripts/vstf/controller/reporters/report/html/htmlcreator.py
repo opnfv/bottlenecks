@@ -20,6 +20,7 @@ LOG = logging.getLogger(__name__)
 
 
 class HtmlCreator(HtmlBase):
+
     def create_story(self):
         self.add_context()
 
@@ -70,7 +71,10 @@ class HtmlCreator(HtmlBase):
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/html-creator.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/html-creator.log",
+        clevel=logging.INFO)
 
     out_file = "vstf_report.html"
 

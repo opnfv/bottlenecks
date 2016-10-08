@@ -24,9 +24,11 @@ from novaclient.client import Client as NovaClient
 # parser for configuration files in each test case
 # ------------------------------------------------------
 parser = argparse.ArgumentParser()
-parser.add_argument("-c", "--conf",
-                    help="configuration files for the testcase, in yaml format",
-                    default="/home/opnfv/bottlenecks/testsuites/rubbos/testcase_cfg/rubbos_basic.yaml")
+parser.add_argument(
+    "-c",
+    "--conf",
+    help="configuration files for the testcase, in yaml format",
+    default="/home/opnfv/bottlenecks/testsuites/rubbos/testcase_cfg/rubbos_basic.yaml")
 args = parser.parse_args()
 
 #--------------------------------------------------
@@ -37,30 +39,39 @@ logger = logging.getLogger(__name__)
 
 def _get_keystone_client():
     keystone_client = KeystoneClient(
-                auth_url=os.environ.get('OS_AUTH_URL'),
-                username=os.environ.get('OS_USERNAME'),
-                password=os.environ.get('OS_PASSWORD'),
-                tenant_name=os.environ.get('OS_TENANT_NAME'),
-                cacert=os.environ.get('OS_CACERT'))
+        auth_url=os.environ.get('OS_AUTH_URL'),
+        username=os.environ.get('OS_USERNAME'),
+        password=os.environ.get('OS_PASSWORD'),
+        tenant_name=os.environ.get('OS_TENANT_NAME'),
+        cacert=os.environ.get('OS_CACERT'))
     return keystone_client
+
 
 def _get_heat_client():
     keystone = _get_keystone_client()
-    heat_endpoint = keystone.service_catalog.url_for(service_type='orchestration')
-    heat_client = HeatClient('1', endpoint=heat_endpoint, token=keystone.auth_token)
+    heat_endpoint = keystone.service_catalog.url_for(
+        service_type='orchestration')
+    heat_client = HeatClient(
+        '1',
+        endpoint=heat_endpoint,
+        token=keystone.auth_token)
     return heat_client
+
 
 def _get_glance_client():
     keystone = _get_keystone_client()
-    glance_endpoint = keystone.service_catalog.url_for(service_type='image', endpoint_type='publicURL')
+    glance_endpoint = keystone.service_catalog.url_for(
+        service_type='image', endpoint_type='publicURL')
     return GlanceClient(glance_endpoint, token=keystone.auth_token)
+
 
 def _get_nova_client():
     nova_client = NovaClient("2", os.environ.get('OS_USERNAME'),
-                                  os.environ.get('OS_PASSWORD'),
-                                  os.environ.get('OS_TENANT_NAME'),
-                                  os.environ.get('OS_AUTH_URL'))
+                             os.environ.get('OS_PASSWORD'),
+                             os.environ.get('OS_TENANT_NAME'),
+                             os.environ.get('OS_AUTH_URL'))
     return nova_client
+
 
 def _download_url(src_url, dest_dir):
     ''' Download a file to a destination path given a URL'''
@@ -76,21 +87,27 @@ def _download_url(src_url, dest_dir):
     return dest
 
 
-def rubbos_stack_satisfy(name="bottlenecks_rubbos_stack", status="CREATE_COMPLETE"):
+def rubbos_stack_satisfy(
+        name="bottlenecks_rubbos_stack",
+        status="CREATE_COMPLETE"):
     heat = _get_heat_client()
     for stack in heat.stacks.list():
-        if status == None and stack.stack_name == name:
+        if status is None and stack.stack_name == name:
             # Found target stack
             print "Found stack, name=" + str(stack.stack_name)
             return True
-        elif stack.stack_name == name and stack.stack_status==status:
+        elif stack.stack_name == name and stack.stack_status == status:
             print "Found stack, name=" + str(stack.stack_name) + ", status=" + str(stack.stack_status)
             return True
     return False
 
+
 def rubbos_env_prepare(template=None):
     print "========== Prepare rubbos environment =========="
-    logger.info("Generate heat template for the testcase based on template '%s'." % template)
+    logger.info(
+        "Generate heat template for the testcase based on template '%s'." %
+        template)
+
 
 def rubbos_env_cleanup():
     print "========== Cleanup rubbos environment =========="
@@ -119,25 +136,33 @@ def rubbos_env_cleanup():
             heat.stacks.delete(stack.id)
 
     timeInProgress = 0
-    while rubbos_stack_satisfy(name="bottlenecks_rubbos_stack", status=None) and timeInProgress < 60:
+    while rubbos_stack_satisfy(
+            name="bottlenecks_rubbos_stack",
+            status=None) and timeInProgress < 60:
         time.sleep(5)
         timeInProgress = timeInProgress + 5
 
-    if rubbos_stack_satisfy(name="bottlenecks_rubbos_stack", status=None) == True:
+    if rubbos_stack_satisfy(name="bottlenecks_rubbos_stack", status=None):
         print "Failed to clean the stack"
         return False
     else:
         return True
 
-def rubbos_create_images(imagefile=None, image_name="bottlenecks_rubbos_image"):
+
+def rubbos_create_images(
+        imagefile=None,
+        image_name="bottlenecks_rubbos_image"):
     print "========== Create rubbos image in OS =========="
 
-    if imagefile == None:
-       print "imagefile not set/found"
-       return False
+    if imagefile is None:
+        print "imagefile not set/found"
+        return False
 
     glance = _get_glance_client()
-    image = glance.images.create(name=image_name, disk_format="qcow2", container_format="bare")
+    image = glance.images.create(
+        name=image_name,
+        disk_format="qcow2",
+        container_format="bare")
     with open(imagefile) as fimage:
         glance.images.upload(image.id, fimage)
 
@@ -149,8 +174,9 @@ def rubbos_create_images(imagefile=None, image_name="bottlenecks_rubbos_image"):
         timeInQueue = timeInQueue + 1
         img_status = glance.images.get(image.id).status
 
-    print "After %d seconds, the image's status is [%s]" %(timeInQueue, img_status)
+    print "After %d seconds, the image's status is [%s]" % (timeInQueue, img_status)
     return True if img_status == "active" else False
+
 
 def rubbos_create_keypairs(key_path, name="bottlenecks_rubbos_keypair"):
     print "========== Add rubbos keypairs in OS =========="
@@ -158,40 +184,54 @@ def rubbos_create_keypairs(key_path, name="bottlenecks_rubbos_keypair"):
     with open(key_path) as pkey:
         nova.keypairs.create(name=name, public_key=pkey.read())
 
-def rubbos_create_flavors(name="bottlenecks_rubbos_flavor", ram=4096, vcpus=2, disk=10):
+
+def rubbos_create_flavors(
+        name="bottlenecks_rubbos_flavor",
+        ram=4096,
+        vcpus=2,
+        disk=10):
     print "========== Create rubbos flavors in OS =========="
     nova = _get_nova_client()
     nova.flavors.create(name=name, ram=ram, vcpus=vcpus, disk=disk)
 
-def rubbos_create_instances(template_file, rubbos_parameters=None, stack_name="bottlenecks_rubbos_stack"):
+
+def rubbos_create_instances(
+        template_file,
+        rubbos_parameters=None,
+        stack_name="bottlenecks_rubbos_stack"):
     print "========== Create rubbos instances =========="
     heat = _get_heat_client()
 
     with open(template_file) as template:
-        stack = heat.stacks.create(stack_name=stack_name, template=template.read(), parameters=rubbos_parameters)
+        stack = heat.stacks.create(
+            stack_name=stack_name,
+            template=template.read(),
+            parameters=rubbos_parameters)
 
     stack_id = stack['stack']['id']
     stack_status = heat.stacks.get(stack_id).stack_status
 
     print "Created stack, id=" + str(stack_id) + ", status=" + str(stack_status)
 
-    timeInProgress= 0
+    timeInProgress = 0
     while stack_status == "CREATE_IN_PROGRESS" and timeInProgress < 150:
-        print "  stack's status: %s, after %d seconds" %(stack_status, timeInProgress)
+        print "  stack's status: %s, after %d seconds" % (stack_status, timeInProgress)
         time.sleep(5)
         timeInProgress = timeInProgress + 5
         stack_status = heat.stacks.get(stack_id).stack_status
 
-    print "After %d seconds, the stack's status is [%s]" %(timeInProgress, stack_status)
+    print "After %d seconds, the stack's status is [%s]" % (timeInProgress, stack_status)
     return True if stack_status == "CREATE_COMPLETE" else False
+
 
 def get_instances(nova_client):
     try:
         instances = nova_client.servers.list(search_opts={'all_tenants': 1})
         return instances
-    except Exception, e:
+    except Exception as e:
         print "Error [get_instances(nova_client)]:", e
         return None
+
 
 def reboot_instances():
     print("========== reboot instances ==========")
@@ -205,12 +245,13 @@ def reboot_instances():
             instance.reboot()
     print("Finish reboot all rubbos servers.")
 
+
 def rubbos_run():
     print "========== run rubbos ==========="
 
     nova = _get_nova_client()
     instances = get_instances(nova)
-    if instances == None:
+    if instances is None:
         print "Found *None* instances, exit rubbos_run()!"
         return False
 
@@ -223,57 +264,83 @@ def rubbos_run():
     database_servers = ""
     for instance in instances:
         name = getattr(instance, 'name')
-        private_ip = [ x['addr'] for x in getattr(instance, 'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'fixed']
-        public_ip =  [ x['addr'] for x in getattr(instance, 'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'floating']
+        private_ip = [
+            x['addr'] for x in getattr(
+                instance,
+                'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'fixed']
+        public_ip = [
+            x['addr'] for x in getattr(
+                instance,
+                'addresses').itervalues().next() if x['OS-EXT-IPS:type'] == 'floating']
 
         if name.find("rubbos-control") >= 0:
             control_public_ip = public_ip[0]
-            control_server = str(name) + ':' + public_ip[0] + ':' + private_ip[0]
+            control_server = str(name) + ':' + \
+                public_ip[0] + ':' + private_ip[0]
         if name.find("rubbos-client") >= 0:
-            client_servers = client_servers + str(name)+':'+private_ip[0] + ","
+            client_servers = client_servers + \
+                str(name) + ':' + private_ip[0] + ","
         if name.find("rubbos-httpd") >= 0:
-            web_servers = web_servers + str(name)+':'+private_ip[0] + ","
+            web_servers = web_servers + str(name) + ':' + private_ip[0] + ","
         if name.find("rubbos-tomcat") >= 0:
             app_servers = app_servers + str(name) + ':' + private_ip[0] + ","
         if name.find("rubbos-cjdbc") >= 0:
             cjdbc_controller = str(name) + ':' + private_ip[0]
         if name.find("rubbos-mysql") >= 0:
-            database_servers = database_servers + str(name) + ':' + private_ip[0] + ","
+            database_servers = database_servers + \
+                str(name) + ':' + private_ip[0] + ","
 
-    client_servers = client_servers[0:len(client_servers)-1]
-    web_servers = web_servers[0:len(web_servers)-1]
-    app_servers = app_servers[0:len(app_servers)-1]
-    database_servers = database_servers[0:len(database_servers)-1]
+    client_servers = client_servers[0:len(client_servers) - 1]
+    web_servers = web_servers[0:len(web_servers) - 1]
+    app_servers = app_servers[0:len(app_servers) - 1]
+    database_servers = database_servers[0:len(database_servers) - 1]
     print "control_server:    %s" % control_server
     print "client_servers:    %s" % client_servers
     print "web_servers:       %s" % web_servers
     print "app_servers:       %s" % app_servers
     print "cjdbc_controller:  %s" % cjdbc_controller
     print "database_servers:  %s" % database_servers
-    with open(Bottlenecks_repo_dir+"/testsuites/rubbos/puppet_manifests/internal/rubbos.conf") as temp_f, open('rubbos.conf', 'w') as new_f:
+    with open(Bottlenecks_repo_dir + "/testsuites/rubbos/puppet_manifests/internal/rubbos.conf") as temp_f, open('rubbos.conf', 'w') as new_f:
         for line in temp_f.readlines():
-            if line.find("REPLACED_CONTROLLER") >= 0 :
-                new_f.write( line.replace("REPLACED_CONTROLLER", control_server) )
+            if line.find("REPLACED_CONTROLLER") >= 0:
+                new_f.write(
+                    line.replace(
+                        "REPLACED_CONTROLLER",
+                        control_server))
             elif line.find("REPLACED_CLIENT_SERVERS") >= 0:
-                new_f.write( line.replace("REPLACED_CLIENT_SERVERS", client_servers) )
+                new_f.write(
+                    line.replace(
+                        "REPLACED_CLIENT_SERVERS",
+                        client_servers))
             elif line.find("REPLACED_WEB_SERVERS") >= 0:
-                new_f.write( line.replace("REPLACED_WEB_SERVERS", web_servers) )
+                new_f.write(line.replace("REPLACED_WEB_SERVERS", web_servers))
             elif line.find("REPLACED_APP_SERVERS") >= 0:
-                new_f.write( line.replace("REPLACED_APP_SERVERS", app_servers) )
+                new_f.write(line.replace("REPLACED_APP_SERVERS", app_servers))
             elif line.find("REPLACED_CJDBC_CONTROLLER") >= 0:
-                new_f.write( line.replace("REPLACED_CJDBC_CONTROLLER", cjdbc_controller) )
+                new_f.write(
+                    line.replace(
+                        "REPLACED_CJDBC_CONTROLLER",
+                        cjdbc_controller))
             elif line.find("REPLACED_DB_SERVERS") >= 0:
-                new_f.write( line.replace("REPLACED_DB_SERVERS", database_servers) )
+                new_f.write(
+                    line.replace(
+                        "REPLACED_DB_SERVERS",
+                        database_servers))
             elif line.find("REPLACED_CLIENTS_PER_NODE") >= 0:
-                new_f.write( line.replace("REPLACED_CLIENTS_PER_NODE", "200 400 800 1600 3200") )
+                new_f.write(
+                    line.replace(
+                        "REPLACED_CLIENTS_PER_NODE",
+                        "200 400 800 1600 3200"))
             else:
                 new_f.write(line)
     if os.path.exists("rubbos.conf") == False:
         return False
 
-    cmd = "sudo chmod 0600 " + Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key"
+    cmd = "sudo chmod 0600 " + Bottlenecks_repo_dir + \
+        "/utils/infra_setup/bottlenecks_key/bottlenecks_key"
     subprocess.call(cmd, shell=True)
-    ssh_args = "-o StrictHostKeyChecking=no -o BatchMode=yes -i " + Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key "
+    ssh_args = "-o StrictHostKeyChecking=no -o BatchMode=yes -i " + \
+        Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key "
 
     print "############### Test #################"
     cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R ' + control_public_ip
@@ -292,19 +359,23 @@ def rubbos_run():
     subprocess.call("nova list", shell=True)
     print "############### Test #################"
 
-    cmd = "scp " + ssh_args + "rubbos.conf ubuntu@" + control_public_ip + ":/home/ubuntu/"
+    cmd = "scp " + ssh_args + "rubbos.conf ubuntu@" + \
+        control_public_ip + ":/home/ubuntu/"
     print "Exec shell: " + cmd
     subprocess.call(cmd, shell=True)
 
-    cmd = "scp " + ssh_args + Bottlenecks_repo_dir + "/testsuites/rubbos/puppet_manifests/internal/run_rubbos_internal.sh ubuntu@" + control_public_ip + ":/home/ubuntu/"
+    cmd = "scp " + ssh_args + Bottlenecks_repo_dir + \
+        "/testsuites/rubbos/puppet_manifests/internal/run_rubbos_internal.sh ubuntu@" + control_public_ip + ":/home/ubuntu/"
     print "Exec shell: " + cmd
     subprocess.call(cmd, shell=True)
 
     # call remote run_rubbos_internal.sh
-    cmd = "ssh " + ssh_args + " ubuntu@" + control_public_ip + ' "sudo /home/ubuntu/run_rubbos_internal.sh /home/ubuntu/rubbos.conf /home/ubuntu/btnks-results" '
+    cmd = "ssh " + ssh_args + " ubuntu@" + control_public_ip + \
+        ' "sudo /home/ubuntu/run_rubbos_internal.sh /home/ubuntu/rubbos.conf /home/ubuntu/btnks-results" '
     print "Exec shell: " + cmd
     subprocess.call(cmd, shell=True)
-    cmd = "scp " + ssh_args + " ubuntu@" + control_public_ip + ":/home/ubuntu/btnks-results/rubbos.out ./rubbos.out"
+    cmd = "scp " + ssh_args + " ubuntu@" + control_public_ip + \
+        ":/home/ubuntu/btnks-results/rubbos.out ./rubbos.out"
     print "Exec shell: " + cmd
     subprocess.call(cmd, shell=True)
     if os.path.exists("rubbos.out") == False:
@@ -318,36 +389,40 @@ def rubbos_run():
             print line
     return True
 
+
 def main():
     global Heat_template
     global Bottlenecks_repo_dir
     global image_url
-    Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"      # same in Dockerfile, docker directory
+    # same in Dockerfile, docker directory
+    Bottlenecks_repo_dir = "/home/opnfv/bottlenecks"
 
     image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/trusty-server-cloudimg-amd64-btnks.img'
     #image_url = 'http://artifacts.opnfv.org/bottlenecks/rubbos/bottlenecks-trusty-server.img'
 
     if not (args.conf):
-       logger.error("Configuration files are not set for testcase")
-       exit(-1)
+        logger.error("Configuration files are not set for testcase")
+        exit(-1)
     else:
-       Heat_template = args.conf
+        Heat_template = args.conf
 
-    master_user_data=""
-    agent_user_data=""
-    with open(Bottlenecks_repo_dir+"/utils/infra_setup/user_data/p-master-user-data") as f:
-        master_user_data=f.read()
-    master_user_data = master_user_data.replace('REPLACED_PUPPET_MASTER_SERVER','rubbos-control')
-    with open(Bottlenecks_repo_dir+"/utils/infra_setup/user_data/p-agent-user-data") as f:
-        agent_user_data=f.read()
-    agent_user_data = agent_user_data.replace('REPLACED_PUPPET_MASTER_SERVER','rubbos-control')
+    master_user_data = ""
+    agent_user_data = ""
+    with open(Bottlenecks_repo_dir + "/utils/infra_setup/user_data/p-master-user-data") as f:
+        master_user_data = f.read()
+    master_user_data = master_user_data.replace(
+        'REPLACED_PUPPET_MASTER_SERVER', 'rubbos-control')
+    with open(Bottlenecks_repo_dir + "/utils/infra_setup/user_data/p-agent-user-data") as f:
+        agent_user_data = f.read()
+    agent_user_data = agent_user_data.replace(
+        'REPLACED_PUPPET_MASTER_SERVER', 'rubbos-control')
 
-    parameters={'image': 'bottlenecks_rubbos_image',
-                'key_name': 'bottlenecks_rubbos_keypair',
-                'flavor': 'bottlenecks_rubbos_flavor',
-                'public_net': os.environ.get('EXTERNAL_NET'),
-                'master_user_data': master_user_data,
-                'agent_user_data': agent_user_data }
+    parameters = {'image': 'bottlenecks_rubbos_image',
+                  'key_name': 'bottlenecks_rubbos_keypair',
+                  'flavor': 'bottlenecks_rubbos_flavor',
+                  'public_net': os.environ.get('EXTERNAL_NET'),
+                  'master_user_data': master_user_data,
+                  'agent_user_data': agent_user_data}
 
     print "Heat_template_file: " + Heat_template
     print "parameters:\n" + str(parameters)
@@ -360,31 +435,35 @@ def main():
 
     dest_dir = "/tmp"
     image_file = _download_url(image_url, dest_dir)
-    if image_file == None:
-       print "error with downloading image(s)"
-       exit(-1)
+    if image_file is None:
+        print "error with downloading image(s)"
+        exit(-1)
 
     image_created = rubbos_create_images(imagefile=image_file)
-    keyPath = Bottlenecks_repo_dir + "/utils/infra_setup/bottlenecks_key/bottlenecks_key.pub"
+    keyPath = Bottlenecks_repo_dir + \
+        "/utils/infra_setup/bottlenecks_key/bottlenecks_key.pub"
     rubbos_create_keypairs(key_path=keyPath)
     rubbos_create_flavors()
 
-    if image_created == True:
-        stack_created = rubbos_create_instances(template_file=Heat_template, rubbos_parameters=parameters, stack_name="bottlenecks_rubbos_stack")
+    if image_created:
+        stack_created = rubbos_create_instances(
+            template_file=Heat_template,
+            rubbos_parameters=parameters,
+            stack_name="bottlenecks_rubbos_stack")
     else:
         print "Cannot create instances, as Failed to create image(s)."
-        exit (-1)
+        exit(-1)
 
     print "Wait 600 seconds after stack creation..."
     time.sleep(600)
 
-    #reboot_instances()
-    #time.sleep(180)
+    # reboot_instances()
+    # time.sleep(180)
 
     rubbos_run()
     time.sleep(30)
 
     rubbos_env_cleanup()
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

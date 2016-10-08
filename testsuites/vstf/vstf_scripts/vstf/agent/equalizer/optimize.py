@@ -15,17 +15,24 @@ import re
 # pdb.set_trace()
 
 class Optimize(object):
+
     def __init__(self):
         pass
 
     def bind_cpu(self, cpu_range, thread):
-        flag, num = commands.getstatusoutput('taskset -pc %s %s' % (cpu_range, thread))
+        flag, num = commands.getstatusoutput(
+            'taskset -pc %s %s' %
+            (cpu_range, thread))
         return flag
 
     def catch_thread_info(self):
-        thread_info = {'fwd_vhost': None, 'src_recv_irq': None, 'dst_send_irq': None}
+        thread_info = {
+            'fwd_vhost': None,
+            'src_recv_irq': None,
+            'dst_send_irq': None}
         # top -H get the usage info
-        flag, threads_usages = commands.getstatusoutput('top -bH -n1 -c -w 2000')
+        flag, threads_usages = commands.getstatusoutput(
+            'top -bH -n1 -c -w 2000')
         line_array = threads_usages.split('\n')
         # get highest vhost line
         for line in line_array:

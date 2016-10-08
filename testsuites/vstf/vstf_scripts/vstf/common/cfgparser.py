@@ -12,6 +12,7 @@ from oslo.config import cfg
 
 
 class CfgParser(object):
+
     def __init__(self, config_file):
         super(CfgParser, self).__init__()
         if os.path.isfile(config_file) is False:

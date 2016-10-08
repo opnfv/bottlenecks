@@ -24,7 +24,7 @@ class OriginDriverPlugin(model.DriverPlugin):
 
     def clean(self):
         """clean drivers list in self.origin_drivers.
-        
+
         """
         for mod in self.origin_drivers:
             check_and_rmmod(mod)
@@ -34,7 +34,7 @@ class OriginDriverPlugin(model.DriverPlugin):
 
     def load(self, drivers):
         """insmod drivers
-        
+
         :param list    drivers:list of drivers link ['ixgbe','vhost_net']
         """
         # load implicit 'tun' module dependency for vhost_net

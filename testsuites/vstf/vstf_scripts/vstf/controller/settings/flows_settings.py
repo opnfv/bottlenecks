@@ -15,6 +15,7 @@ LOG = logging.getLogger(__name__)
 
 
 class FlowsSettings(sets.Settings):
+
     def __init__(self, path="/etc/vstf/perf/",
                  filename="sw_perf.flownodes-settings",
                  mode=sets.SETS_SINGLE):
@@ -27,16 +28,44 @@ class FlowsSettings(sets.Settings):
         for actor in self._check_actors:
             actor = actor.encode()
             func_name = "add_%s" % actor
-            setattr(self, func_name, self._adding_file(func_name, self._mset, self._fset, actor, self._check_add))
+            setattr(
+                self,
+                func_name,
+                self._adding_file(
+                    func_name,
+                    self._mset,
+                    self._fset,
+                    actor,
+                    self._check_add))
             func_name = "madd_%s" % actor
-            setattr(self, func_name, self._adding_memory(func_name, self._mset, actor, self._check_add))
+            setattr(
+                self,
+                func_name,
+                self._adding_memory(
+                    func_name,
+                    self._mset,
+                    actor,
+                    self._check_add))
 
         for actor in self._nocheck_actors:
             actor = actor.encode()
             func_name = "add_%s" % actor
-            setattr(self, func_name, self._adding_file(func_name, self._mset, self._fset, actor))
+            setattr(
+                self,
+                func_name,
+                self._adding_file(
+                    func_name,
+                    self._mset,
+                    self._fset,
+                    actor))
             func_name = "madd_%s" % actor
-            setattr(self, func_name, self._adding_memory(func_name, self._mset, actor))
+            setattr(
+                self,
+                func_name,
+                self._adding_memory(
+                    func_name,
+                    self._mset,
+                    actor))
 
         LOG.debug(self.__dict__.keys())
 
@@ -70,7 +99,10 @@ class FlowsSettings(sets.Settings):
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-flows-settings.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-flows-settings.log",
+        clevel=logging.INFO)
 
     flows_settings = FlowsSettings()
     LOG.info(flows_settings.settings)
@@ -113,7 +145,7 @@ def unit_test():
 
     cpu = {
         "agent": "192.168.188.16",
-        "affctl":{
+        "affctl": {
             "policy": 2
         }
     }

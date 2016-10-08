@@ -27,7 +27,7 @@ LOG = logging.getLogger(__name__)
 
 
 class TestPerf(model.Test):
-    
+
     def setUp(self):
         LOG.info("start performance unit test.")
         super(TestPerf, self).setUp()
@@ -48,7 +48,10 @@ class TestPerf(model.Test):
         tool_settings = ToolSettings(path=self.base_path)
         tester_settings = TesterSettings(path=self.base_path)
         flow_producer = FlowsProducer(self.conn, flows_settings)
-        provider = PerfProvider(flows_settings.settings, tool_settings.settings, tester_settings.settings)
+        provider = PerfProvider(
+            flows_settings.settings,
+            tool_settings.settings,
+            tester_settings.settings)
         perf = pf.Performance(self.conn, provider)
         tests = perf_settings.settings
         for scenario, cases in tests.items():
@@ -120,5 +123,8 @@ class TestPerf(model.Test):
 
 
 if __name__ == "__main__":
-    setup_logging(level=logging.INFO, log_file="/var/log/vstf/vstf-unit-test.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.INFO,
+        log_file="/var/log/vstf/vstf-unit-test.log",
+        clevel=logging.INFO)
     unittest.main()

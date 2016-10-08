@@ -21,6 +21,7 @@ default_drivers = {
 
 
 class LspciHelper(object):
+
     def __init__(self):
         self.bdf_desc_map = {}
         self.bdf_device_map = {}
@@ -45,7 +46,8 @@ class LspciHelper(object):
         for bdf, desc in self.bdf_desc_map.items():
             device = get_device_name(bdf)
             if device is None:
-                LOG.info("cann't find device name for bdf:%s, no driver is available.", bdf)
+                LOG.info(
+                    "cann't find device name for bdf:%s, no driver is available.", bdf)
                 try:
                     self._load_driver(desc)
                 except:
@@ -66,13 +68,17 @@ class LspciHelper(object):
     def _get_ip_macs(self):
         for device, bdf in self.device_bdf_map.items():
             buf = check_output("ip addr show dev %s" % device, shell=True)
-            macs = re.compile("[A-F0-9]{2}(?::[A-F0-9]{2}){5}", re.IGNORECASE | re.MULTILINE)
+            macs = re.compile(
+                "[A-F0-9]{2}(?::[A-F0-9]{2}){5}",
+                re.IGNORECASE | re.MULTILINE)
             for mac in macs.findall(buf):
                 if mac.lower() in ('00:00:00:00:00:00', 'ff:ff:ff:ff:ff:ff'):
                     continue
                 else:
                     break
-            ips = re.compile(r"inet (\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3}/\d{1,2})", re.MULTILINE)
+            ips = re.compile(
+                r"inet (\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3}/\d{1,2})",
+                re.MULTILINE)
             ip = ips.findall(buf)
             if ip:
                 self.bdf_ip_map[bdf] = ip[0]
@@ -93,6 +99,7 @@ class LspciHelper(object):
 
 
 class DeviceManager(object):
+
     def __init__(self):
         super(DeviceManager, self).__init__()
         mgr = netns.NetnsManager()

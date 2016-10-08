@@ -7,7 +7,10 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-import sys, os, time, atexit
+import sys
+import os
+import time
+import atexit
 import logging
 from signal import SIGTERM
 
@@ -17,11 +20,16 @@ LOG = logging.getLogger(__name__)
 class Daemon(object):
     """
     A generic daemon class.
-    
+
     Usage: subclass the Daemon class and override the run() method
     """
 
-    def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+    def __init__(
+            self,
+            pidfile,
+            stdin='/dev/null',
+            stdout='/dev/null',
+            stderr='/dev/null'):
         super(Daemon, self).__init__()
         self.stdin = stdin
         self.stdout = stdout
@@ -30,7 +38,7 @@ class Daemon(object):
 
     def daemonize(self):
         """
-        do the UNIX double-fork magic, see Stevens' "Advanced 
+        do the UNIX double-fork magic, see Stevens' "Advanced
         Programming in the UNIX Environment" for details (ISBN 0201563177)
         http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
@@ -38,7 +46,7 @@ class Daemon(object):
             pid = os.fork()
             if pid > 0:
                 sys.exit(0)
-        except OSError, e:
+        except OSError as e:
             LOG.error("fork #1 failed: %(errno)s, %(strerror)s",
                       {'errno': e.errno, 'strerror': e.strerror})
             sys.exit(1)
@@ -54,7 +62,7 @@ class Daemon(object):
             if pid > 0:
                 # exit from second parent
                 sys.exit(0)
-        except OSError, e:
+        except OSError as e:
             LOG.error("fork #1 failed: %(errno)s, %(strerror)s",
                       {'errno': e.errno, 'strerror': e.strerror})
             sys.exit(1)
@@ -116,12 +124,12 @@ class Daemon(object):
             sys.stderr.write(message % self.pidfile)
             return  # not an error in a restart
 
-        # Try killing the daemon process    
+        # Try killing the daemon process
         try:
-            while 1:
+            while True:
                 os.kill(pid, SIGTERM)
                 time.sleep(0.1)
-        except OSError, err:
+        except OSError as err:
             err = str(err)
             if err.find("No such process") > 0:
                 if os.path.exists(self.pidfile):
@@ -139,16 +147,16 @@ class Daemon(object):
 
     def run(self):
         """
-        You should override this method when you subclass Daemon. 
+        You should override this method when you subclass Daemon.
         It will be called after the process has been
         daemonized by start() or restart().
-        
+
         """
         pass
 
     def daemon_die(self):
         """You should override this method when you shutdown daemon
         this func will be call by stop() before kill the process
-        
+
         """
         pass

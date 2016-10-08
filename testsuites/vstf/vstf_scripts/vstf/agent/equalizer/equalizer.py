@@ -24,6 +24,7 @@ def run_cmd(cmd, shell=True):
 
 
 class Resource(object):
+
     def __init__(self):
         super(Resource, self).__init__()
         self.sysfs = "/sys/devices/system/node"
@@ -35,16 +36,18 @@ class Resource(object):
             for process_index in xrange(0, len(bin(process_mapping)) - 2):
                 if process_mapping & 1 << process_index != 0:
                     core = self._get_core_id(node, process_index)
-                    if not self.mapping[node].has_key(core):
+                    if core not in self.mapping[node]:
                         self.mapping[node][core] = []
                     self.mapping[node][core].append(process_index)
 
     def _get_process_mapping(self, numa_node):
-        ret = run_cmd("cat " + self.sysfs + '/' + numa_node + '/cpumap').replace(',', '').lstrip('0')
+        ret = run_cmd("cat " + self.sysfs + '/' + numa_node +
+                      '/cpumap').replace(',', '').lstrip('0')
         return int(ret, 16)
 
     def _get_core_id(self, numa_node, process_index):
-        cmd = "cat " + self.sysfs + '/' + numa_node + '/cpu' + str(process_index) + '/topology/core_id'
+        cmd = "cat " + self.sysfs + '/' + numa_node + \
+            '/cpu' + str(process_index) + '/topology/core_id'
         return run_cmd(cmd).strip('\n')
 
     def _init_numa(self):
@@ -63,6 +66,7 @@ class Resource(object):
 
 
 class Equalizer(Resource):
+
     def __init__(self):
         super(Equalizer, self).__init__()
 

@@ -20,6 +20,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Plugin(EnvBuilderPlugin):
+
     def __init__(self):
         super(Plugin, self).__init__()
         self.vm_mgr = VMControlOperation()

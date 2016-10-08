@@ -21,6 +21,7 @@ PASSWD = None
 
 
 class Mail(object):
+
     def __init__(self, srv=SRV, user=USER, passwd=PASSWD):
         self.srv = srv
         self.user = USER
@@ -81,7 +82,10 @@ class Mail(object):
     def attach_files(self, files):
         for _file in files:
             part = MIMEApplication(open(_file, "rb").read())
-            part.add_header('Content-Disposition', 'attachment', filename=os.path.basename(_file))
+            part.add_header(
+                'Content-Disposition',
+                'attachment',
+                filename=os.path.basename(_file))
             self._msg.attach(part)
 
     def send(self):
@@ -114,11 +118,11 @@ if __name__ == "__main__":
         <head>
         <title>vstf</title>
         </head>
-        
+
         <body>
             hello vstf
         </body>
-        
+
         </html>
     """
     m.attach_text(context, m.HTML)

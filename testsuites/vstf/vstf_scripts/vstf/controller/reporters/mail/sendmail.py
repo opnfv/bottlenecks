@@ -15,6 +15,7 @@ LOG = logging.getLogger(__name__)
 
 
 class SendMail(object):
+
     def __init__(self, mail_info):
         self._mail_info = mail_info
 
@@ -32,7 +33,9 @@ class SendMail(object):
 
         if 'attach' in self._mail_info['body']:
             send.attach_files(self._mail_info['body']['attach'])
-        send.attach_text(self._mail_info['body']['content'], self._mail_info['body']['subtype'])
+        send.attach_text(
+            self._mail_info['body']['content'],
+            self._mail_info['body']['subtype'])
         send.attach_title(self._mail_info['body']['subject'])
         send.send()
 
@@ -50,11 +53,11 @@ def unit_test():
         <head>
         <title>vstf</title>
         </head>
-        
+
         <body>
             hello vstf
         </body>
-        
+
         </html>
     """
     mail_settings.set_subtype('html')

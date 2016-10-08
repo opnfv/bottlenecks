@@ -36,7 +36,8 @@ def make_msg(method, **kwargs):
     return {"method": method, "args": kwargs}
 
 
-@cliutil.arg("--host", dest="host", default="", action="store", help="list nic devices of specified host")
+@cliutil.arg("--host", dest="host", default="", action="store",
+             help="list nic devices of specified host")
 def do_list_devs(args):
     """List the host's all netdev."""
     ret = call(make_msg("list_devs", host=args.host))
@@ -51,19 +52,44 @@ def do_src_install(args):
     """work agent to pull source code and compile.
     use git as underlying mechanism, please make sure the host has access to git repo.
     """
-    ret = call(make_msg("src_install", host=args.host, config_file=args.config_file))
+    ret = call(
+        make_msg(
+            "src_install",
+            host=args.host,
+            config_file=args.config_file))
     print_stdout(ret)
 
 
-@cliutil.arg("--host", dest="host", action="store", default=None,
-             help="which host to build, must exists in your config file, use default[None] value to build all hosts.")
-@cliutil.arg("--model", dest="model", action="store", choices=('Tn', 'Ti', 'Tu', 'Tnv'),
-             help="which model to build, if specified, the according config file /etc/vstf/env/{model}.json must exist.")
-@cliutil.arg("--config_file", dest="config_file", action="store", default=None,
-             help="if specified, the config file will replace the default config file from /etc/vstf/env.")
+@cliutil.arg(
+    "--host",
+    dest="host",
+    action="store",
+    default=None,
+    help="which host to build, must exists in your config file, use default[None] value to build all hosts.")
+@cliutil.arg(
+    "--model",
+    dest="model",
+    action="store",
+    choices=(
+        'Tn',
+        'Ti',
+        'Tu',
+        'Tnv'),
+    help="which model to build, if specified, the according config file /etc/vstf/env/{model}.json must exist.")
+@cliutil.arg(
+    "--config_file",
+    dest="config_file",
+    action="store",
+    default=None,
+    help="if specified, the config file will replace the default config file from /etc/vstf/env.")
 def do_apply_model(args):
     """Apply model to the host."""
-    ret = call(make_msg("apply_model", host=args.host, model=args.model, config_file=args.config_file))
+    ret = call(
+        make_msg(
+            "apply_model",
+            host=args.host,
+            model=args.model,
+            config_file=args.config_file))
     print_stdout(ret)
 
 
@@ -73,7 +99,11 @@ def do_apply_model(args):
              help="configuration file for image creation.")
 def do_create_images(args):
     """create images on host, images are configed by configuration file."""
-    ret = call(make_msg("create_images", host=args.host, config_file=args.config_file))
+    ret = call(
+        make_msg(
+            "create_images",
+            host=args.host,
+            config_file=args.config_file))
     print_stdout(ret)
 
 
@@ -83,23 +113,49 @@ def do_create_images(args):
              help="configuration file for images.")
 def do_clean_images(args):
     """clean images on host, images are configed by configuration file."""
-    ret = call(make_msg("clean_images", host=args.host, config_file=args.config_file))
+    ret = call(
+        make_msg(
+            "clean_images",
+            host=args.host,
+            config_file=args.config_file))
     print_stdout(ret)
 
 
-@cliutil.arg("--host", dest="host", action="store", default=None,
-             help="which host to clean, must exists in your config file, use default[None] value to clean all hosts.")
-@cliutil.arg("--model", dest="model", action="store", choices=('Tn', 'Ti', 'Tu', 'Tnv'),
-             help="if specified, the according config file /etc/vstf/env/{model}.json must exist.")
-@cliutil.arg("--config_file", dest="config_file", action="store", default=None,
-             help="if specified, the config file will replace the default config file from /etc/vstf/env.")
+@cliutil.arg(
+    "--host",
+    dest="host",
+    action="store",
+    default=None,
+    help="which host to clean, must exists in your config file, use default[None] value to clean all hosts.")
+@cliutil.arg(
+    "--model",
+    dest="model",
+    action="store",
+    choices=(
+        'Tn',
+        'Ti',
+        'Tu',
+        'Tnv'),
+    help="if specified, the according config file /etc/vstf/env/{model}.json must exist.")
+@cliutil.arg(
+    "--config_file",
+    dest="config_file",
+    action="store",
+    default=None,
+    help="if specified, the config file will replace the default config file from /etc/vstf/env.")
 def do_disapply_model(args):
     """Apply model to the host."""
-    ret = call(make_msg("disapply_model", host=args.host, model=args.model, config_file=args.config_file))
+    ret = call(
+        make_msg(
+            "disapply_model",
+            host=args.host,
+            model=args.model,
+            config_file=args.config_file))
     print_stdout(ret)
 
 
-@cliutil.arg("--host", dest="host", action="store", help="collect host information about cpu/mem etc")
+@cliutil.arg("--host", dest="host", action="store",
+             help="collect host information about cpu/mem etc")
 def do_collect_host_info(args):
     """Show the host's CPU/MEN info"""
     ret = call(make_msg("collect_host_info", target=args.host))
@@ -113,12 +169,22 @@ def do_show_tasks(args):
     print_stdout(ret)
 
 
-@cliutil.arg("case", action="store", help="test case like Ti-1, Tn-1, Tnv-1, Tu-1, see case definition in documents")
+@cliutil.arg(
+    "case",
+    action="store",
+    help="test case like Ti-1, Tn-1, Tnv-1, Tu-1, see case definition in documents")
 @cliutil.arg("tool", action="store", choices=cst.TOOLS)
 @cliutil.arg("protocol", action="store", choices=cst.TPROTOCOLS)
 @cliutil.arg("type", action="store", choices=cst.TTYPES)
-@cliutil.arg("sizes", action="store", default="64", help='test size list "64 128"')
-@cliutil.arg("--affctl", action="store_true", help="when affctl is True, it will do affctl before testing")
+@cliutil.arg(
+    "sizes",
+    action="store",
+    default="64",
+    help='test size list "64 128"')
+@cliutil.arg(
+    "--affctl",
+    action="store_true",
+    help="when affctl is True, it will do affctl before testing")
 def do_perf_test(args):
     """Runs a quick single software performance test without envbuild and generating reports.
     Outputs the result to the stdout immediately."""
@@ -270,7 +336,10 @@ def main():
     args = parser.parse_args()
     if args.func is None:
         sys.exit(-1)
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-adm.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-adm.log",
+        clevel=logging.INFO)
     # connect to manage
     global CONN
     try:

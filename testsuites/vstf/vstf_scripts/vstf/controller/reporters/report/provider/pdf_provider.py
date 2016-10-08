@@ -15,6 +15,7 @@ from vstf.controller.settings.template_settings import TemplateSettings
 
 
 class PdfProvider(object):
+
     def __init__(self, info):
         self._info = info
 
@@ -37,7 +38,10 @@ class PdfProvider(object):
 
 def main():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/pdf-provider.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/pdf-provider.log",
+        clevel=logging.INFO)
 
     info = TemplateSettings()
     provider = PdfProvider(info.settings)

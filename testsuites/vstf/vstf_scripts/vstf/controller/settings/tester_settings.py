@@ -16,6 +16,7 @@ LOG = logging.getLogger(__name__)
 
 
 class TesterSettings(sets.Settings):
+
     def __init__(self, path="/etc/vstf/env/",
                  filename="tester.json",
                  mode=sets.SETS_SINGLE):

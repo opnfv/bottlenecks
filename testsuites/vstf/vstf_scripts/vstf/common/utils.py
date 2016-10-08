@@ -82,7 +82,7 @@ def my_mkdir(filepath):
     try:
         LOG.info("mkdir -p %s" % filepath)
         os.makedirs(filepath)
-    except OSError, e:
+    except OSError as e:
         if e.errno == 17:
             LOG.info("! %s already exists" % filepath)
         else:
@@ -107,7 +107,9 @@ def check_and_kill(process):
 
 
 def list_mods():
-    return check_output("lsmod | sed 1,1d | awk '{print $1}'", shell=True).split()
+    return check_output(
+        "lsmod | sed 1,1d | awk '{print $1}'",
+        shell=True).split()
 
 
 def check_and_rmmod(mod):
@@ -144,6 +146,7 @@ def randomMAC():
 
 
 class IPCommandHelper(object):
+
     def __init__(self, ns=None):
         self.devices = []
         self.macs = []
@@ -174,7 +177,10 @@ class IPCommandHelper(object):
             cmd = "ip netns exec %s " % ns + cmd
         for device in self.devices:
             buf = check_output(cmd % device, shell=True)
-            bdfs = re.findall(r'^bus-info: \d{4}:(\d{2}:\d{2}\.\d*)$', buf, re.MULTILINE)
+            bdfs = re.findall(
+                r'^bus-info: \d{4}:(\d{2}:\d{2}\.\d*)$',
+                buf,
+                re.MULTILINE)
             if bdfs:
                 self.bdf_device_map[bdfs[0]] = device
                 self.device_bdf_map[device] = bdfs[0]
@@ -188,7 +194,9 @@ class IPCommandHelper(object):
         if ns:
             cmd = "ip netns exec %s " % ns + cmd
         buf = check_output(cmd, shell=True)
-        macs = re.compile(r"[A-F0-9]{2}(?::[A-F0-9]{2}){5}", re.IGNORECASE | re.MULTILINE)
+        macs = re.compile(
+            r"[A-F0-9]{2}(?::[A-F0-9]{2}){5}",
+            re.IGNORECASE | re.MULTILINE)
         for mac in macs.findall(buf):
             if mac.lower() not in ('00:00:00:00:00:00', 'ff:ff:ff:ff:ff:ff'):
                 return mac

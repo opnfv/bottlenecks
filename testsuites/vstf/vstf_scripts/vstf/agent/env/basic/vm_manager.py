@@ -93,8 +93,14 @@ class VMControlOperation(object):
 
     @staticmethod
     def check_required_options(context):
-        for key in ('vm_name', 'vm_memory', 'vm_cpu', 'image_path', 'image_type', 'taps'):
-            if not context.has_key(key):
+        for key in (
+            'vm_name',
+            'vm_memory',
+            'vm_cpu',
+            'image_path',
+            'image_type',
+                'taps'):
+            if key not in context:
                 raise Exception("vm config error, must set %s option" % key)
 
     def set_vm_defaults(self, context):
@@ -117,14 +123,18 @@ class VMControlOperation(object):
             context.setdefault(k, v)
 
     def _shutdown_vm(self):
-        out = check_output("virsh list | sed 1,2d | awk '{print $2}'", shell=True)
+        out = check_output(
+            "virsh list | sed 1,2d | awk '{print $2}'",
+            shell=True)
         vm_set = set(out.split())
         for vm in vm_set:
             check_call("virsh shutdown %s" % vm, shell=True)
         timeout = 60
         # wait for gracefully shutdown
         while timeout > 0:
-            out = check_output("virsh list | sed 1,2d | awk '{print $2}'", shell=True)
+            out = check_output(
+                "virsh list | sed 1,2d | awk '{print $2}'",
+                shell=True)
             vm_set = set(out.split())
             if len(vm_set) == 0:
                 break
@@ -135,7 +145,9 @@ class VMControlOperation(object):
         for vm in vm_set:
             check_call("virsh destroy %s" % vm, shell=True)
         # undefine all
-        out = check_output("virsh list --all | sed 1,2d | awk '{print $2}'", shell=True)
+        out = check_output(
+            "virsh list --all | sed 1,2d | awk '{print $2}'",
+            shell=True)
         vm_set = set(out.split())
         for vm in vm_set:
             check_call("virsh undefine %s" % vm, shell=True)
@@ -177,7 +189,8 @@ class VMControlOperation(object):
         vm9pctrl = self.vm_9p_controllers[vm_name]
         ret = vm9pctrl.wait_up()
         if ret not in (True,):
-            raise Exception('vm running but stuck in boot process, please manully check.')
+            raise Exception(
+                'vm running but stuck in boot process, please manully check.')
         LOG.debug('waitVM %s up ok, ret:%s', vm_name, ret)
         return True
 
@@ -193,12 +206,14 @@ class VMControlOperation(object):
         # print self.vm_9p_controllers
         init_cfg = vm_cfg['init_config']
         if "ctrl_ip_setting" in init_cfg:
-            ret = vm9pctrl.config_ip(vm_cfg['ctrl_mac'], init_cfg['ctrl_ip_setting'])
-            assert ret == True
+            ret = vm9pctrl.config_ip(
+                vm_cfg['ctrl_mac'],
+                init_cfg['ctrl_ip_setting'])
+            assert ret
             LOG.info('initConfigVM config ip ok')
         if 'ctrl_gw' in init_cfg:
             ret = vm9pctrl.config_gw(init_cfg['ctrl_gw'])
-            assert ret == True
+            assert ret
             LOG.info('initConfigVM ctrl_gw ok')
         if "ctrl_ip_setting" in init_cfg and "amqp_server" in init_cfg:
             identity = init_cfg['ctrl_ip_setting'].split('/')[0]
@@ -209,7 +224,7 @@ class VMControlOperation(object):
             user = init_cfg['amqp_user']
             passwd = init_cfg['amqp_passwd']
             ret = vm9pctrl.config_amqp(identity, server, port, user, passwd)
-            assert ret == True
+            assert ret
             LOG.info('initConfigVM config_amqp ok')
         if 'tap_pktloop_config' in init_cfg:
             taps = vm_cfg['taps']
@@ -217,6 +232,6 @@ class VMControlOperation(object):
             for tap in taps:
                 macs.append(tap['tap_mac'])
             ret = vm9pctrl.set_pktloop_dpdk(macs)
-            assert ret == True
+            assert ret
             LOG.info('initConfigVM set_pktloop_dpdk ok')
         return True

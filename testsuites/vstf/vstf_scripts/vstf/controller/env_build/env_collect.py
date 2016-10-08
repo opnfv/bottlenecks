@@ -11,6 +11,7 @@ from vstf.rpc_frame_work import rpc_producer
 
 
 class EnvCollectApi(object):
+
     def __init__(self, rb_mq_server):
         """
         When use collect, a connection of rabbitmq is needed.

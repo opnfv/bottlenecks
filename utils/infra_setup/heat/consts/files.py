@@ -12,6 +12,7 @@
 # ------------------------------------------------------
 GENERAL = 'General'
 
+
 def get_sections():
     return [
         GENERAL,

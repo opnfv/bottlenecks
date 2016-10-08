@@ -26,6 +26,7 @@ def get_agent_dict(nodes):
 
 
 class PerfProvider(object):
+
     def __init__(self, flows_info, tool_info, tester_info):
         self._flows_info = flows_info
         self._tool_info = tool_info
@@ -33,7 +34,8 @@ class PerfProvider(object):
 
     def _islation(self):
         flows = self._flows_info["flows"]
-        if flows == 2 and self._flows_info["senders"][0]["agent"] == self._flows_info["senders"][1]["agent"]:
+        if flows == 2 and self._flows_info["senders"][0][
+                "agent"] == self._flows_info["senders"][1]["agent"]:
             return True
         return False
 
@@ -53,8 +55,10 @@ class PerfProvider(object):
                 }
             }
             for i in range(flows):
-                sender['params']['src'].append(self._flows_info["senders"][i]['dev'])
-                sender['params']['dst'].append(self._flows_info["receivers"][i]['dev'])
+                sender['params']['src'].append(
+                    self._flows_info["senders"][i]['dev'])
+                sender['params']['dst'].append(
+                    self._flows_info["receivers"][i]['dev'])
             result.append(sender)
         else:
             for i in range(flows):
@@ -63,12 +67,12 @@ class PerfProvider(object):
                     "params": {
                         "protocol": protocol,
                         "namespace": None if "netmap" == tool else self._flows_info["senders"][i]['dev']['namespace'],
-                        "src": [self._flows_info["senders"][i]['dev']],
-                        "dst": [self._flows_info["receivers"][i]['dev']],
+                        "src": [
+                            self._flows_info["senders"][i]['dev']],
+                        "dst": [
+                            self._flows_info["receivers"][i]['dev']],
                         "time": self._tool_info[tool]["time"],
-                        "threads": self._tool_info[tool]["threads"]
-                    }
-                }
+                        "threads": self._tool_info[tool]["threads"]}}
                 result.append(sender)
         return result
 
@@ -91,9 +95,8 @@ class PerfProvider(object):
                     "params": {
                         "namespace": None if "netmap" == tool else self._flows_info["receivers"][i]['dev']['namespace'],
                         "protocol": protocol,
-                        "dst": [self._flows_info["receivers"][i]['dev']]
-                    }
-                }
+                        "dst": [
+                            self._flows_info["receivers"][i]['dev']]}}
                 result.append(receiver)
         return result
 
@@ -104,9 +107,10 @@ class PerfProvider(object):
                 "agent": watcher["agent"],
                 "params": {
                     "iface": watcher['dev']["iface"],
-                    "namespace": None if tool in ["pktgen", "netmap"] else watcher['dev']["namespace"],
-                }
-            }
+                    "namespace": None if tool in [
+                        "pktgen",
+                        "netmap"] else watcher['dev']["namespace"],
+                }}
             result.append(node)
         return result
 
@@ -118,10 +122,12 @@ class PerfProvider(object):
                 "agent": watcher["agent"],
                 "params": {
                     "iface": watcher['dev']["iface"],
-                    "namespace": watcher['dev']["namespace"] if tool not in ["pktgen", "netmap"] else None,
-                    "ip": watcher['dev']["ip"] + '/24',
-                }
-            }
+                    "namespace": watcher['dev']["namespace"] if tool not in [
+                        "pktgen",
+                        "netmap"] else None,
+                    "ip": watcher['dev']["ip"] +
+                    '/24',
+                }}
             result.append(node)
         return result
 
@@ -176,7 +182,10 @@ class PerfProvider(object):
 
 def unit_test():
     from vstf.common.log import setup_logging
-    setup_logging(level=logging.DEBUG, log_file="/var/log/vstf/vstf-perf-provider.log", clevel=logging.INFO)
+    setup_logging(
+        level=logging.DEBUG,
+        log_file="/var/log/vstf/vstf-perf-provider.log",
+        clevel=logging.INFO)
 
     from vstf.controller.settings.flows_settings import FlowsSettings
     from vstf.controller.settings.tool_settings import ToolSettings
@@ -186,7 +195,10 @@ def unit_test():
     tool_settings = ToolSettings()
     tester_settings = TesterSettings()
 
-    provider = PerfProvider(flows_settings.settings, tool_settings.settings, tester_settings.settings)
+    provider = PerfProvider(
+        flows_settings.settings,
+        tool_settings.settings,
+        tester_settings.settings)
 
     tools = ['pktgen']
     protocols = ['udp_bw', 'udp_lat']

@@ -17,6 +17,7 @@ LOG = logging.getLogger(__name__)
 
 
 class EnvBuildApi(object):
+
     def __init__(self, conn, config_file):
         LOG.info("welcome to EnvBuilder")
         self.conn = conn
@@ -48,6 +49,7 @@ class EnvBuildApi(object):
 
 
 class TransmitterBuild(object):
+
     def __init__(self, conn, config_file):
         LOG.info("welcome to TransmitterBuild")
         self.conn = conn
@@ -72,7 +74,9 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--rpc_server', help='rabbitmq server for deliver messages.')
+    parser.add_argument(
+        '--rpc_server',
+        help='rabbitmq server for deliver messages.')
     parser.add_argument('--config', help='config file to parse')
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO)

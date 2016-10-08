@@ -31,11 +31,11 @@ class Collect(object):
         """the base _system info
         {'os info':{'_system':'ubuntu', 'kernel': '3.13.3'}}"""
         return {const.OS_INFO:
-            {
-                '_system': open('/etc/issue.net').readline().strip(),
-                'kernel': platform.uname()[2]
-            }
-        }
+                {
+                    '_system': open('/etc/issue.net').readline().strip(),
+                    'kernel': platform.uname()[2]
+                }
+                }
 
     def _memery(self):
         """ Return the information in /proc/meminfo
@@ -46,11 +46,11 @@ class Collect(object):
                 meminfo[line.split(':')[0]] = line.split(':')[1].strip()
 
         return {const.MEMORY_INFO:
-            {
-                "Mem Total": meminfo['MemTotal'],
-                "Mem Swap": meminfo['SwapTotal']
-            }
-        }
+                {
+                    "Mem Total": meminfo['MemTotal'],
+                    "Mem Swap": meminfo['SwapTotal']
+                }
+                }
 
     def _lscpu(self):
         ret = {}
@@ -68,18 +68,19 @@ class Collect(object):
                     ret.append(cpuinfo)
                     cpuinfo = OrderedDict()
                 elif len(line.split(':')) == 2:
-                    cpuinfo[line.split(':')[0].strip()] = line.split(':')[1].strip()
+                    cpuinfo[line.split(':')[0].strip()] = line.split(':')[
+                        1].strip()
                 else:
                     log.error("_cpu info unknow format <%(c)s>", {'c': line})
         return {const.CPU_INFO:
-            dict(
-                {
-                    "Model Name": ret[0]['model name'],
-                    "Address sizes": ret[0]['address sizes']
-                },
-                **(self._lscpu())
-            )
-        }
+                dict(
+                    {
+                        "Model Name": ret[0]['model name'],
+                        "Address sizes": ret[0]['address sizes']
+                    },
+                    **(self._lscpu())
+                )
+                }
 
     def _hw_sysinfo(self):
         cmdline = "dmidecode | grep  -A 2 'System Information' | grep -v 'System Information'"
@@ -90,14 +91,15 @@ class Collect(object):
             for tmp in output.strip().split('\n'):
                 if tmp is None or tmp is "":
                     continue
-                # split the items 
+                # split the items
                 tmp = tmp.split(":")
                 if len(tmp) >= 2:
                     # first item as key, and the other as value
                     result[tmp[0].strip("\t")] = ";".join(tmp[1:])
             return {const.HW_INFO: result}
         else:
-            return {const.HW_INFO: "get hw info failed. check the host by cmd: dmidecode"}
+            return {
+                const.HW_INFO: "get hw info failed. check the host by cmd: dmidecode"}
 
     def collect_host_info(self):
         return [self._system, self._cpu, self._memery(), self._hw_sysinfo()]

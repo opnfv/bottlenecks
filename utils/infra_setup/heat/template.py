@@ -15,6 +15,7 @@ import shutil
 import common
 import consts.parameters as parameters
 
+
 class TreeNode:
 
     def __init__(self):
@@ -79,6 +80,7 @@ class TreeNode:
         return leaves
 
 template_name = parameters.TEST_TEMPLATE_NAME
+
 
 def generates_templates(base_heat_template, deployment_configuration):
     # parameters loaded from file
@@ -148,7 +150,8 @@ def get_all_heat_templates(template_dir, template_extension):
     template_files = list()
     for dirname, dirnames, filenames in os.walk(template_dir):
         for filename in filenames:
-            if template_extension in filename and filename.endswith(template_extension) and template_name in filename:
+            if template_extension in filename and filename.endswith(
+                    template_extension) and template_name in filename:
                 template_files.append(filename)
     template_files.sort()
     return template_files

@@ -18,4 +18,3 @@ def affctl_load(policy):
 def affctl_list():
     cmd = "affctl list"
     return check_output(cmd, shell=True)
-

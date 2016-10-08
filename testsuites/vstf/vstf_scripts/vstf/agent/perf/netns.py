@@ -16,6 +16,7 @@ LOG = logging.getLogger(__name__)
 
 
 class Netns(object):
+
     def __init__(self):
         super(Netns, self).__init__()
         self.netns_add_str = "ip netns add %s"
@@ -74,13 +75,14 @@ class Netns(object):
 
 
 class NetnsManager(object):
+
     def __init__(self):
         super(NetnsManager, self).__init__()
         self._netns = Netns()
 
     def config_dev(self, netdev):
-        ns, device, ip = netdev["namespace"], netdev["iface"], netdev['ip_setting'] if "ip_setting" in netdev else \
-            netdev['ip']
+        ns, device, ip = netdev["namespace"], netdev["iface"], netdev[
+            'ip_setting'] if "ip_setting" in netdev else netdev['ip']
         self._netns.create_namespace(ns)
         self._netns.add_device(ns, device)
         self._netns.config_ip(ns, device, ip)

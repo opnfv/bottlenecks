@@ -12,6 +12,7 @@ from vstf.common.utils import check_call, get_eth_by_bdf, check_output
 
 
 class BridgePlugin(model.VswitchPlugin):
+
     def __init__(self):
         pass
 
@@ -19,7 +20,9 @@ class BridgePlugin(model.VswitchPlugin):
         """clean brs created before.
 
         """
-        out = check_output(r"brctl show | grep -v '^\s' | awk '{print $1}'|sed '1,1d'", shell=True)
+        out = check_output(
+            r"brctl show | grep -v '^\s' | awk '{print $1}'|sed '1,1d'",
+            shell=True)
         print out
         for br in out.split():
             if br != 'br0':

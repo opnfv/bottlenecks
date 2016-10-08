@@ -69,7 +69,9 @@ class VMConfigBy9pfs(object):
         return ret == constant.VM_CMD_EXCUTE_SUCCES_FLAG_CONTENT
 
     def _wait_command_done(self):
-        done = self._wait_flag_file_to_exist(constant.VM_CMD_DONE_FLAG_FILE, constant.VM_COMMON_CMD_EXCUTE_TIME_OUT)
+        done = self._wait_flag_file_to_exist(
+            constant.VM_CMD_DONE_FLAG_FILE,
+            constant.VM_COMMON_CMD_EXCUTE_TIME_OUT)
         if done:
             return self._get_cmd_return_code()
         else:
@@ -86,7 +88,8 @@ class VMConfigBy9pfs(object):
             raise Exception("9pfs command failure: timeout.")
 
     def wait_up(self):
-        return self._wait_flag_file_to_exist(constant.VM_UP_Flag_FILE, constant.VM_UP_TIME_OUT)
+        return self._wait_flag_file_to_exist(
+            constant.VM_UP_Flag_FILE, constant.VM_UP_TIME_OUT)
 
     def config_ip(self, mac, ip):
         cmd = 'config_ip %s %s' % (mac, ip)
@@ -118,7 +121,13 @@ class VMConfigBy9pfs(object):
         cmd = 'recover_nic_binding ' + mac_str
         return self._set_cmd(cmd)
 
-    def config_amqp(self, identity, server, port=5672, user="guest", passwd="guest"):
+    def config_amqp(
+            self,
+            identity,
+            server,
+            port=5672,
+            user="guest",
+            passwd="guest"):
         data = {
             'server': server,
             'port': port,
@@ -135,7 +144,7 @@ class VMConfigBy9pfs(object):
         id=%(id)s''' % data
         file_name = "amqp.ini"
         dedented_text = textwrap.dedent(content)
-        self._write(file_name, header+dedented_text)
+        self._write(file_name, header + dedented_text)
         cmd = 'config_amqp %s' % file_name
         return self._set_cmd(cmd)
 

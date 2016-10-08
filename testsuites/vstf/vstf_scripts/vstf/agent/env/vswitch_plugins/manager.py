@@ -11,9 +11,11 @@ import stevedore
 
 
 class VswitchPluginManager(object):
+
     def __init__(self):
         self.plugin = None
-        self.mgr = stevedore.extension.ExtensionManager(namespace="vswitch.plugins", invoke_on_load=True)
+        self.mgr = stevedore.extension.ExtensionManager(
+            namespace="vswitch.plugins", invoke_on_load=True)
 
     def clean(self):
         if self.plugin:
