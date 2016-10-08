@@ -1,0 +1,11 @@
+[config]
+test_ip: 192.168.23.2:8888
+throughput: 1000
+tool: netperf
+protocol: tcp
+test_time: 30
+pkt sizes: 8,16,32,64,128,256,512,1024,2048
+tx cache sizes: 2304,4608,9216,18432,32768,65536
+rx cache sizes: 1152
+cpu load: 0.9
+latency: 100000
