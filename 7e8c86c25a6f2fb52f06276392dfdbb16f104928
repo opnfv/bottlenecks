@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: qi liang <liangqi1@huawei.com>
+Submitted-by: qi liang <liangqi1@huawei.com>
+Submitted-at: Thu, 20 Oct 2016 15:51:44 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/23449
+Project: bottlenecks
+Branch: refs/heads/master
