@@ -149,6 +149,16 @@ done
 BASEDIR=`dirname $0`
 source ${BASEDIR}/common.sh
 
+Bottlenecks_key_dir="/home/opnfv/bottlenecks/utils/infra_setup"
+
+if [ ! -d $Bottlenecks_key_dir/bottlenecks_key ]; then
+    mkdir $Bottlenecks_key_dir/bottlenecks_key
+fi
+chmod 700 $Bottlenecks_key_dir/bottlenecks_key
+
+ssh-keygen -t rsa -f $Bottlenecks_key_dir/bottlenecks_key/bottlenecks_key -q -N ""
+chmod 600 $Bottlenecks_key_dir/bottlenecks_key/*
+
 #check the test suite name is correct
 if [ "${SUITE}" != "" ]; then
     suite_exec=(${SUITE//,/ })
