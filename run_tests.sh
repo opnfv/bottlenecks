@@ -28,6 +28,8 @@ report=true
 
 arr_test_suite=(rubbos vstf posca)
 
+Bottlenecks_key_dir="/home/opnfv/bottlenecks/utils/infra_setup"
+
 function check_testcase(){
 
     check_suite="$1"
@@ -76,6 +78,7 @@ function run_test(){
             else
                 error "no rubbos test suite file"
             fi
+
             for i in "${testcases[@]}"; do
                 #check if the testcase is legal or not
                 check_testcase -rubbos $i
@@ -93,6 +96,7 @@ function run_test(){
             else
                 error "no vstf test suite file "
             fi
+
             for i in "${testcases[@]}"; do
                 #check if the testcase is legal or not
                 check_testcase -vstf $i
@@ -110,6 +114,7 @@ function run_test(){
             else
                 error "no posca test suite file "
             fi
+
             for i in "${testcases[@]}"; do
                 #check if the testcase is legal or not
                 check_testcase -posca $i
@@ -148,6 +153,18 @@ done
 
 BASEDIR=`dirname $0`
 source ${BASEDIR}/common.sh
+
+#Add random key generation
+if [ ! -d $Bottlenecks_key_dir/bottlenecks_key ]; then
+    mkdir $Bottlenecks_key_dir/bottlenecks_key
+else
+    rm -rf $Bottlenecks_key_dir/bottlenecks_key
+    mkdir $Bottlenecks_key_dir/bottlenecks_key
+fi
+chmod 700 $Bottlenecks_key_dir/bottlenecks_key
+
+ssh-keygen -t rsa -f $Bottlenecks_key_dir/bottlenecks_key/bottlenecks_key -q -N ""
+chmod 600 $Bottlenecks_key_dir/bottlenecks_key/*
 
 #check the test suite name is correct
 if [ "${SUITE}" != "" ]; then
