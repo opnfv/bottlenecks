@@ -191,7 +191,7 @@ fetch_remote_resources() {
 direct_ssh() {
   echo "127.0.0.1 $(hostname)" >> /etc/hosts
   echo "write hosts file: 127.0.0.1 $(hostname)"
-  cp ${LOCAL_GIT_REPO}/bottlenecks/utils/infra_setup/bottlenecks_key/bottlenecks_key /home/ubuntu/.ssh/id_rsa
+  cp /home/ubuntu/bottlenecks_key /home/ubuntu/.ssh/id_rsa
   sudo chmod 0600 /home/ubuntu/.ssh/id_rsa
   echo 'StrictHostKeyChecking no' > /home/ubuntu/.ssh/config
   sudo chown -R ubuntu:ubuntu /home/ubuntu/.ssh

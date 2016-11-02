@@ -369,6 +369,11 @@ def rubbos_run():
     print "Exec shell: " + cmd
     subprocess.call(cmd, shell=True)
 
+    cmd = "scp " + ssh_args + Bottlenecks_repo_dir + \
+        "/utils/infra_setup/bottlenecks_key/bottlenecks_key ubuntu@" + control_public_ip + ":/home/ubuntu/"
+    print "Exec shell: " + cmd
+    subprocess.call(cmd, shell=True)
+
     # call remote run_rubbos_internal.sh
     cmd = "ssh " + ssh_args + " ubuntu@" + control_public_ip + \
         ' "sudo /home/ubuntu/run_rubbos_internal.sh /home/ubuntu/rubbos.conf /home/ubuntu/btnks-results" '
