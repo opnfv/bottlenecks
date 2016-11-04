@@ -214,7 +214,7 @@ def rubbos_create_instances(
     print "Created stack, id=" + str(stack_id) + ", status=" + str(stack_status)
 
     timeInProgress = 0
-    while stack_status == "CREATE_IN_PROGRESS" and timeInProgress < 150:
+    while stack_status == "CREATE_IN_PROGRESS" and timeInProgress < 3600:
         print "  stack's status: %s, after %d seconds" % (stack_status, timeInProgress)
         time.sleep(5)
         timeInProgress = timeInProgress + 5
@@ -458,9 +458,13 @@ def main():
     else:
         print "Cannot create instances, as Failed to create image(s)."
         exit(-1)
-
-    print "Wait 600 seconds after stack creation..."
-    time.sleep(600)
+    
+    if stack_created:
+        print "The rubbos_stack is created successfully. \
+        Now to run rubbos instances!"
+    else:
+        print "The rubbos_stack failed to be created. Exit the test!"
+        exit(-1)
 
     # reboot_instances()
     # time.sleep(180)
