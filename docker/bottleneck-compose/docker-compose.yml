@@ -1,0 +1,33 @@
+elasticsearch:
+  image: elasticsearch:2.4.0
+  command: elasticsearch -Des.network.host=0.0.0.0
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+
+kibana:
+  build: kibana/
+  volumes:
+    - ./kibana/config/:/opt/kibana/config/
+  ports:
+    - "5601:5601"
+  links:
+    - elasticsearch
+
+influxdb:
+  restart: always
+  image: tutum/influxdb
+  ports:
+    - "9086:8086"
+  environment:
+    PRE_CREATE_DB: "yardstick"
+
+yardstick:
+  restart: always
+  build: yardstick/
+  links:
+    - influxdb
+
+bottlenecks:
+  restart: always
+  build: bottlenecks/
