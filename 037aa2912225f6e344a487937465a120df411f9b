@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_34c8fa73",
+        "filename": "docker/bottleneck-compose/yardstick/conf/yardstick.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2016-11-24T08:49:30Z",
+      "side": 1,
+      "message": "The ip address should not be fixed. Please consider to get the IP address by detecting the target namespace.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "037aa2912225f6e344a487937465a120df411f9b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_94920e56",
+        "filename": "docker/bottleneck-compose/yardstick/conf/yardstick.conf",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2016-11-24T08:49:30Z",
+      "side": 1,
+      "message": "The username should not be fixed also. The will cause security problem",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "037aa2912225f6e344a487937465a120df411f9b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
