@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_ba404c57",
+        "filename": "pre_virt_env.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2016-11-29T09:06:11Z",
+      "side": 1,
+      "message": "hi,yang,where do you define this variable?",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "2fdb5178cd1371626bf19c051d41605c7daecc35",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
