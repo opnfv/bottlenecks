@@ -19,10 +19,11 @@ INTERPRETER = "/usr/bin/python"
 
 def posca_run(arg):
     print("========== run posca ==========")
-    if(arg == "factor_system_bandwidth"):
+    print(arg)
+    if(arg == "posca_factor_system_bandwidth"):
         print("========== run posca_system_bandwidth ===========")
         cmd = '/home/opnfv/bottlenecks/testsuites/posca/testcase_script/\
-                posca_factor_system_bandwidth.py'
+posca_factor_system_bandwidth.py'
         pargs = [INTERPRETER, cmd]
         sub_result = subprocess.Popen(pargs)
         sub_result.wait()
@@ -34,7 +35,7 @@ def posca_env_check():
 
 def main():
     # para_testname = sys.argv[0]
-    para_test_arg = sys.argv[1]
+    para_test_arg = sys.argv[2]
     posca_env_check()
     posca_run(para_test_arg)
     sys.exit(0)
