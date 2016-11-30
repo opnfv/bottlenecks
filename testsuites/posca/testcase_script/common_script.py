@@ -120,3 +120,12 @@ def posca_send_data(con_dic, test_config, file_config):
     data_reply.update(test_config)
     posca_output_result(file_config, data_reply)
     return data_reply
+
+
+def posca_create_incluxdb(con_dic):
+    base_url = "http://%s/yardstick/env/action" % (con_dic['test_ip'])
+    test_dict = {
+            "action":"createInfluxDBContainer",
+    }
+    reponse = requests.post(
+                        base_url, data=json.dumps(test_dict), headers=headers)
