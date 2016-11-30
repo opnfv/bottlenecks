@@ -15,6 +15,9 @@ LABEL image=opnfv/bottlenecks
 # GIT repo directory
 ENV REPOS_DIR /home/opnfv
 
+# CI docker image label
+ARG BRANCH=master
+
 # Bottlenecks repo
 ENV BOTTLENECKS_REPO_DIR ${REPOS_DIR}/bottlenecks
 ENV RELENG_REPO_DIR ${REPOS_DIR}/releng
