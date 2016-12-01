@@ -46,7 +46,7 @@ def posca_config_read(config_str, con_str, config):
     with IPDB() as ip:
         GATEWAY_IP = ip.routes['default'].gateway
     if str(con_dic["test_ip"]) is "":
-        con_dic["test_ip"] = GATEWAY_IP+":3333"
+        con_dic["test_ip"] = GATEWAY_IP+":8888"
         print("test_ip is null get local ip is %s" %(con_dic["test_ip"]))
     if con_dic["ES_ip"] is "":
         con_dic["ES_ip"] = GATEWAY_IP+":9200"
@@ -76,7 +76,7 @@ def posca_output_result(file_config, data_reply):
 
 
 def posca_get_reply(con_dic, task_id, time_test=1):
-    reply_url = "http://%s/yardstick/result/action?action=getResult&task_id=%s\
+    reply_url = "http://%s/yardstick/results?action=getResult&task_id=%s\
 &measurement=tc100" % (con_dic["test_ip"], task_id)
     time.sleep(float(con_dic["test_time"]))
     reply_response = requests.get(reply_url)
@@ -85,7 +85,7 @@ def posca_get_reply(con_dic, task_id, time_test=1):
     if reply_data["status"] == 1:
         return(reply_data["result"][0])
     if reply_data["status"] == 0:
-        if time_test == 3:
+        if time_test == 10:
             print("yardstick time out")
             sys.exit()
         posca_get_reply(con_dic, task_id, time_test=time_test+1)
@@ -93,8 +93,9 @@ def posca_get_reply(con_dic, task_id, time_test=1):
         print("yardstick error exit")
         sys.exit()
 
+
 def posca_send_data(con_dic, test_config, file_config):
-    base_url = "http://%s/yardstick/test/action" % (con_dic['test_ip'])
+    base_url = "http://%s/yardstick/testcases/release/action" % (con_dic['test_ip'])
     print(con_dic["test_ip"])
     test_dict = {
             "action":"runTestCase",
@@ -111,11 +112,11 @@ def posca_send_data(con_dic, test_config, file_config):
                  "testcase":"tc100"
             }
     }
-    # print(base_url)
     reponse = requests.post(
                         base_url, data=json.dumps(test_dict), headers=headers)
     ask_data = json.loads(reponse.text)
-    task_id = ask_data["task_id"]
+    task_id = ask_data["result"]
+    print(task_id)
     data_reply = posca_get_reply(con_dic, task_id)
     data_reply.update(test_config)
     posca_output_result(file_config, data_reply)
@@ -129,3 +130,4 @@ def posca_create_incluxdb(con_dic):
     }
     reponse = requests.post(
                         base_url, data=json.dumps(test_dict), headers=headers)
+
