@@ -77,7 +77,7 @@ def posca_output_result(file_config, data_reply):
 
 def posca_get_reply(con_dic, task_id, time_test=1):
     reply_url = "http://%s/yardstick/results?action=getResult&task_id=%s\
-&measurement=tc100" % (con_dic["test_ip"], task_id)
+&measurement=netperf_bottlenecks" % (con_dic["test_ip"], task_id)
     time.sleep(float(con_dic["test_time"]))
     reply_response = requests.get(reply_url)
     reply_data = json.loads(reply_response.text)
@@ -95,7 +95,7 @@ def posca_get_reply(con_dic, task_id, time_test=1):
 
 
 def posca_send_data(con_dic, test_config, file_config):
-    base_url = "http://%s/yardstick/testcases/release/action" % (con_dic['test_ip'])
+    base_url = "http://%s/yardstick/testcases/samples/action" % (con_dic['test_ip'])
     print(con_dic["test_ip"])
     test_dict = {
             "action":"runTestCase",
@@ -109,7 +109,7 @@ def posca_send_data(con_dic, test_config, file_config):
                         'target': 'node4.LF'
                         }
                  },
-                 "testcase":"tc100"
+                 "testcase":"netperf_bottlenecks"
             }
     }
     reponse = requests.post(

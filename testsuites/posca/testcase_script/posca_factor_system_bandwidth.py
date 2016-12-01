@@ -129,6 +129,7 @@ def main():
     config = ConfigParser.ConfigParser()
     con_dic = common_script.posca_config_read(testcase_cfg, con_str, config)
     common_script.posca_create_incluxdb(con_dic)
+    time.sleep(30)
     posca_env_check()
     posca_run(con_dic)
     endtime = datetime.datetime.now()
