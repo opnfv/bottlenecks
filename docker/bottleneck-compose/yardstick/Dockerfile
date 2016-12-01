@@ -1,4 +1,4 @@
-FROM opnfv/yardstick:stable
+FROM opnfv/yardstick:latest
 
 USER root
 

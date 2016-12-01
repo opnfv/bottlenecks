@@ -1,4 +1,4 @@
-FROM opnfv/bottlenecks:stable
+FROM opnfv/bottlenecks:latest
 
 USER root
 
