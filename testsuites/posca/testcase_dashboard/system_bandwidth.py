@@ -9,12 +9,19 @@
 ##############################################################################
 import ConfigParser
 from elasticsearch import Elasticsearch
+from pyroute2 import IPDB
 
 config = ConfigParser.ConfigParser()
-file_str = "testcase_cfg/posca_factor_system_bandwidth.yaml"
+file_str = "/home/opnfv/bottlenecks/testsuites/posca/testcase_cfg/posca_factor_system_bandwidth.yaml"
 with open(file_str, "rd") as cfgfile:
     config.readfp(cfgfile)
     ES_ip_a = config.get("config", "ES_ip")
+
+with IPDB() as ip:
+    GATEWAY_IP = ip.routes['default'].gateway
+    if ES_ip_a is "":
+        ES_ip_a = GATEWAY_IP+":9200"
+        print("ES_ip is null get local ip is %s" %(ES_ip_a))
 
 es_ip = ES_ip_a.split(':')
 es = Elasticsearch([{'host':es_ip[0]}])
