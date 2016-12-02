@@ -88,6 +88,8 @@ def posca_get_reply(con_dic, task_id, time_test=1):
         if time_test == 10:
             print("yardstick time out")
             sys.exit()
+        reply_result_data = posca_get_reply(con_dic, task_id, time_test=time_test+1)
+        return(reply_result_data)
         posca_get_reply(con_dic, task_id, time_test=time_test+1)
     if reply_data["status"] == 2:
         print("yardstick error exit")
