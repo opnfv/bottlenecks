@@ -9,12 +9,19 @@
 ##############################################################################
 import ConfigParser
 from elasticsearch import Elasticsearch
+from pyroute2 import IPDB
 
 config = ConfigParser.ConfigParser()
-file_str = "testcase_cfg/posca_factor_system_bandwidth.yaml"
+file_str = "/home/opnfv/bottlenecks/testsuites/posca/testcase_cfg/posca_factor_system_bandwidth.yaml"
 with open(file_str, "rd") as cfgfile:
     config.readfp(cfgfile)
     ES_ip_a = config.get("config", "ES_ip")
+
+with IPDB() as ip:
+    GATEWAY_IP = ip.routes['default'].gateway
+    if ES_ip_a is "":
+        ES_ip_a = GATEWAY_IP+":9200"
+        print("ES_ip is null get local ip is %s" %(ES_ip_a))
 
 es_ip = ES_ip_a.split(':')
 es = Elasticsearch([{'host':es_ip[0]}])
@@ -25,7 +32,10 @@ doc={
 }
 
 res = es.index(index=".kibana",doc_type="index-pattern",id="bottlenecks",body=doc)
-print(res['created'])
+if res['created']=="True":
+    print("bottlenecks index-pattern has created")
+else:
+    print("bottlenecks index-pattern has existed")
 
 doc={
     "buildNum": 10146,
@@ -39,7 +49,10 @@ doc={
     "version": 1,
 }
 res = es.index(index=".kibana",doc_type="search",id="system_bandwidth",body=doc)
-print(res['created'])
+if res['created']=="True":
+    print("system_bandwidth search has created")
+else:
+    print("system_bandwidth search has existed")
 
 doc = {
     "title": "system_bandwidth_line-date",
@@ -53,7 +66,10 @@ doc = {
 }
 res = es.index(
     index=".kibana", doc_type="visualization", id="system_bandwidth_line-date", body=doc)
-print(res['created'])
+if res['created']=="True":
+    print("system_bandwidth_line-date visualization has created")
+else:
+    print("system_bandwidth_line-date visualization has existed")
 
 doc = {
     "title": "system_bandwidth_line-char",
@@ -68,7 +84,10 @@ doc = {
 
 res = es.index(
     index=".kibana", doc_type="visualization", id="system_bandwidth_line-char", body=doc)
-print(res['created'])
+if res['created']=="True":
+    print("system_bandwidth_line-char visualization has created")
+else:
+    print("system_bandwidth_line-char visualization has existed")
 
 doc = {
     "title": "system_bandwidth_terms_data",
@@ -83,7 +102,10 @@ doc = {
 
 res = es.index(
     index=".kibana", doc_type="visualization", id="system_bandwidth_terms_data", body=doc)
-print(res['created'])
+if res['created']=="True":
+    print("system_bandwidth_terms_data visualization has created")
+else:
+    print("system_bandwidth_terms_data visualization has existed")
 
 doc = {
     "title": "system_bandwidth_dashboard",
@@ -100,4 +122,7 @@ doc = {
 
 res = es.index(
     index=".kibana", doc_type="dashboard", id="system_bandwidth_dashboard", body=doc)
-print(res['created'])
+if res['created']=="True":
+    print("system_bandwidth dashboard has created")
+else:
+    print("system_bandwidth dashboard has existed")

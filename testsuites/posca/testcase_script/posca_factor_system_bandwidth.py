@@ -136,7 +136,7 @@ def main():
         cmd = '/home/opnfv/bottlenecks/testsuites/posca/testcase_dashboard/\
 system_bandwidth.py'
         pargs = [INTERPRETER, cmd]
-        print("Begin to establish dashboard, False means already exist.\n")
+        print("\nBegin to establish dashboard.")
         sub_result = subprocess.Popen(pargs)
         sub_result.wait()
     print("System Bandwidth testing time : %s" %(endtime - starttime))
