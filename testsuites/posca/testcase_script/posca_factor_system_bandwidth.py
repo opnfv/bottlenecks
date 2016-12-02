@@ -48,7 +48,7 @@ def posca_env_check():
 
 def system_pkt_bandwidth(test_id, data, file_config, con_dic):
     date_id = test_id
-    print("package test is is begin from %d" % test_id)
+    print("test is is begin from %d" % test_id)
     cur_role_result = 1
     pre_role_result = 1
     pre_reply = {}
@@ -125,12 +125,11 @@ def main():
             'tx_pkt_sizes', 'rx_pkt_sizes', 'cpu_load',
             'latency', 'ES_ip', 'dashboard'
     ]
+    posca_env_check()
     starttime = datetime.datetime.now()
     config = ConfigParser.ConfigParser()
     con_dic = common_script.posca_config_read(testcase_cfg, con_str, config)
     common_script.posca_create_incluxdb(con_dic)
-    time.sleep(30)
-    posca_env_check()
     posca_run(con_dic)
     endtime = datetime.datetime.now()
     if con_dic["dashboard"] == "y":

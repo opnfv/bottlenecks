@@ -35,7 +35,7 @@ def posca_tran_data(ES_ip, file_name):
 def posca_config_read(config_str, con_str, config):
     print("========== posca system bandwidth config read ===========")
     con_dic = {}
-    print(config_str)
+    print("Configuration file is %s" %(config_str))
     idx = 0
     with open(config_str, "rd") as cfgfile:
         config.readfp(cfgfile)
@@ -81,7 +81,7 @@ def posca_get_reply(con_dic, task_id, time_test=1):
     time.sleep(float(con_dic["test_time"]))
     reply_response = requests.get(reply_url)
     reply_data = json.loads(reply_response.text)
-    print(reply_data)
+    print("return data is %s" %(reply_data))
     if reply_data["status"] == 1:
         return(reply_data["result"][0])
     if reply_data["status"] == 0:
@@ -98,7 +98,7 @@ def posca_get_reply(con_dic, task_id, time_test=1):
 
 def posca_send_data(con_dic, test_config, file_config):
     base_url = "http://%s/yardstick/testcases/samples/action" % (con_dic['test_ip'])
-    print(con_dic["test_ip"])
+    print("test ip addr is %s" %(base_url))
     test_dict = {
             "action":"runTestCase",
             "args":{
@@ -118,7 +118,7 @@ def posca_send_data(con_dic, test_config, file_config):
                         base_url, data=json.dumps(test_dict), headers=headers)
     ask_data = json.loads(reponse.text)
     task_id = ask_data["result"]
-    print(task_id)
+    print("yardstick task id is: %s" %(task_id))
     data_reply = posca_get_reply(con_dic, task_id)
     data_reply.update(test_config)
     posca_output_result(file_config, data_reply)
@@ -132,4 +132,7 @@ def posca_create_incluxdb(con_dic):
     }
     reponse = requests.post(
                         base_url, data=json.dumps(test_dict), headers=headers)
+    print("waiting for creating InfluxDB")
+    time.sleep(30)
+    print("Done, creating InflxDB Container")
 
