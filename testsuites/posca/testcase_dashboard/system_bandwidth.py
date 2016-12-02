@@ -42,7 +42,12 @@ doc={
     "defaultIndex": "bottlenecks"
 }
 res = es.index(index=".kibana",doc_type="config",id="4.6.1",body=doc)
-print(res['created'])
+
+if res['created']=="True":
+        print("bottlenecks config has created")
+else:
+        print("bottlenecks config has existed")
+
 doc={
 "title": "system_bandwidth",
     "description": "",
