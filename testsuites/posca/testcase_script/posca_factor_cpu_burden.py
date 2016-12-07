@@ -13,7 +13,9 @@ import argparse
 import time
 import logging
 import ConfigParser
-import json
+import common_script
+import datetime
+import subprocess
 
 # ------------------------------------------------------
 # parser for configuration files in each test case
@@ -22,17 +24,17 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--conf",
                     help="configuration files for the testcase,\
                         in yaml format",
-                    default="/home/opnfv/bottlenecks/testsuites/posca/\
-                        testcase_cfg/posca_factor_tx_pkt_size.yaml")
+                    default="/home/opnfv/bottlenecks/testsuites/posca\
+/testcase_cfg/posca_factor_system_bandwidth.yaml")
 args = parser.parse_args()
+headers = {"Content-Type": "application/json"}
+INTERPRETER = "/usr/bin/python"
+
+
 # --------------------------------------------------
 # logging configuration
 # --------------------------------------------------
 logger = logging.getLogger(__name__)
-cmd = "curl -i"
-order_arg = "-H \"Content-Type: application/json\" -X POST -d \'{\"cmd\": \
-            \"start\", \"opts\":{\"output-file\": \"/tem/yardstick.out\"}, \
-            \"args\": \"../samples/netperf.yaml\"}'"
 
 
 def posca_env_check():
@@ -41,80 +43,56 @@ def posca_env_check():
     if os.path.exists(filepath):
         return True
     else:
-        os.mkdirs(r'/home/opnfv/bottlenecks/testsuites/posca/test_result/')
+        os.mkdir(r'/home/opnfv/bottlenecks/testsuites/posca/test_result/')
 
 
-def posca_output_result(time_new, input_1, input_2, input_3,
-                        input_4, input_5, input_6):
-    save_dic = {}
-    save_dic['tx_pkt_size'] = input_1
-    save_dic['rx_cache_size'] = input_2
-    save_dic['tx_cache_size'] = input_3
-    save_dic['throughput '] = input_4
-    save_dic['latency'] = input_5
-    save_dic['cpu_load'] = input_6
-    with open("/home/opnfv/bottlenecks/testsuites/posca/test_result/\
-            factor_tx_cache_size_%s.json" % (time_new), "a") as f:
-        f.write(json.dumps(save_dic, f))
-        f.write("\n")
-
-
-def posca_config_read(config_str):
-    print("========== posca system bandwidth config read ===========")
-
-    con_dic = {}
-    config = ConfigParser.ConfigParser()
-    with open(config_str, "rd") as cfgfile:
-        config.readfp(cfgfile)
-        con_dic['test_ip'] = config.get("config", "test_ip")
-        con_dic['test_throughput'] = config.get("config", "throughput")
-        con_dic['test_tool'] = config.get("config", "tool")
-        con_dic['test_time'] = config.get("config", "test_time")
-        con_dic['test_protocol'] = config.get("config", "protocol")
-        con_dic['test_pkt_s'] = config.get("config", "pkt sizes")
-        con_dic['test_tx_cache_s'] = config.get("config", "tx cache sizes")
-        con_dic['test_rx_cache_s'] = config.get("config", "rx cache sizes")
-        con_dic['test_cpu_load'] = config.get("config", "cpu load")
-        con_dic['test_latency'] = config.get("config", "latency")
-        con_dic['test_rx_flavor'] = config.get("flavor_config", "rx_flavor")
-        con_dic['test_tx_flavor'] = config.get("flavor_config", "tx_flavor")
-    return con_dic
+def system_cpu_burden(test_id, data, file_config, con_dic):
+    date_id = test_id
+    print("test is is begin from %d" % test_id)
+    cur_role_result = 1
+    pre_role_result = 1
+    pre_reply = {}
+    data_return = {}
+    data_max = {}
+    data_return["throughput"] = 1
+    for test_x in data["tx_pkt_sizes"]:
+        data_max["throughput"] = 1
+        for test_y in data["rx_pkt_sizes"]:
+            test_config = {
+                        "tx_msg_size": float(test_x),
+                        "rx_msg_size": float(test_y),
+                    }
+            date_id = date_id + 1
+            file_config["test_id"] = date_id
+            data_reply = common_script.posca_send_data(
+                   con_dic, test_config, file_config)
+            bandwidth = data_reply["throughput"]
+            if (data_max["remote_cpu_util"] > con_dic["cpu_load"]):
+                return 1, data_reply
+            if (data_max["local_cpu_util"] > con_dic["cpu_load"]):
+                return 1, data_reply
+    print("cpu_burden don't find\n")
+    return 0, data_return
 
 
 def posca_run(con_dic):
     print("========== run posca system bandwidth ===========")
-
-    test_pkt_s_a = con_dic['test_pkt_s'].split(',')
-    test_rx_cache_s_e = con_dic['test_rx_cache_s'].split(',')
-    test_tx_cache_s_e = con_dic['test_tx_cache_s'].split(',')
+    test_con_id = 0
+    file_config = {}
+    data = {}
+    rx_pkt_s_a = con_dic['rx_pkt_sizes'].split(',')
+    tx_pkt_s_a = con_dic['tx_pkt_sizes'].split(',')
     time_new = time.strftime('%H_%M', time.localtime(time.time()))
+    file_config["file_path"] = "/home/opnfv/bottlenecks/testsuites/posca/\
+test_result/factor_system_system_bandwidth_%s.json" % (time_new)
+    file_config["test_type"] = "system_bandwidth_biggest"
+    data["rx_pkt_sizes"] = rx_pkt_s_a
+    data["tx_pkt_sizes"] = tx_pkt_s_a
+    print("######test package begin######")
+    date_return, pkt_reply = system_cpu_burden(
+            test_con_id, data, file_config, con_dic)
 
-    for test_pkt_s_e in test_pkt_s_a:
-        print("Package size %s") % (test_pkt_s_e)
-        order_excute = os.popen("%s %s http://%s/api/v3/yardstick/\
-                    tasks/task %s %s %s" % (cmd, order_arg, con_dic['test_ip'],
-                                            test_pkt_s_e, test_rx_cache_s_e,
-                                            test_tx_cache_s_e))
-        order_result = order_excute.read()
-        task_id = order_result.find("task_id")
-        time.sleep(con_dic['test_time'])
-        cmd_excute = os.popen("%s http://%s/api/v3/yardstick/testre\
-            sults?task_id=%s" % (cmd, con_dic['test_ip'], task_id))
-        test_result = cmd_excute.read()
-        bandwidth = test_result.find("bandwidth")
-        cpu_load = test_result.find("cpu_load")
-        latency = test_result.find("latency")
-        posca_output_result(time_new, test_pkt_s_e, con_dic['test_rx_cache_s'],
-                            con_dic['test_tx_cache_s'])
-        if (bandwidth < con_dic['test_throughput\
-             ']) and (latency < con_dic['test_latency']):
-            if cpu_load > con_dic['test_cpu_load']:
-                return True
-            else:
-                print("%s,%s,%s") % (bandwidth, latency, cpu_load)
-        else:
-            print("%s,%s,%s") % (bandwidth, latency, cpu_load)
-            return False
+    return True
 
 
 def main():
@@ -125,10 +103,26 @@ def main():
     else:
         testcase_cfg = args.conf
 
-    con_dic = posca_config_read(testcase_cfg)
+    con_str = [
+            'test_ip', 'tool', 'test_time', 'protocol',
+            'tx_pkt_sizes', 'rx_pkt_sizes', 'cpu_load',
+            'latency', 'ES_ip', 'dashboard'
+    ]
     posca_env_check()
+    starttime = datetime.datetime.now()
+    config = ConfigParser.ConfigParser()
+    con_dic = common_script.posca_config_read(testcase_cfg, con_str, config)
+    common_script.posca_create_incluxdb(con_dic)
     posca_run(con_dic)
-
+    endtime = datetime.datetime.now()
+    if con_dic["dashboard"] == "y":
+        cmd = '/home/opnfv/bottlenecks/testsuites/posca/testcase_dashboard/\
+system_bandwidth.py'
+        pargs = [INTERPRETER, cmd]
+        print("\nBegin to establish dashboard.")
+        sub_result = subprocess.Popen(pargs)
+        sub_result.wait()
+    print("System Bandwidth testing time : %s" %(endtime - starttime))
     time.sleep(5)
 
 if __name__ == '__main__':

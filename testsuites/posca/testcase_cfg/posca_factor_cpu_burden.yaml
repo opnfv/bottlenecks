@@ -1,14 +1,16 @@
 [config]
-test_ip: 192.168.23.2:8888
-throughput: 1000
+test_ip:
+dashboard: y
+ES_ip:
 tool: netperf
 protocol: tcp
-test_time: 30
-pkt sizes: 64,32,16,8
-tx cache sizes: 65536
-rx cache sizes: 87380
-cpu load: 0.9
-latency: 500000
+test_time: 60
+tx_pkt_sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072
+rx_pkt_sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072
+default_rx_pkt_sizes: 65536
+default_tx_pkt_sizes: 87380
+cpu_load: 90
+latency: 100000
 
 [flavor_config]
 rx_flavor: bottlenecks_system_bandwidth_rx,512,1,1
