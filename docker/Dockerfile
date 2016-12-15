@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
     python-dev \
     python-pip \
     python-setuptools && \
-    easy_install -U setuptools
+    easy_install -U setuptools==30.0.0
 
 RUN apt-get -y autoremove && \
     apt-get clean
