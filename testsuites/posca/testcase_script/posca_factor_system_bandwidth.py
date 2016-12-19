@@ -60,24 +60,24 @@ def system_pkt_bandwidth(test_id, data, file_config, con_dic):
         bandwidth_tmp = 1
         for test_y in data["rx_pkt_sizes"]:
             test_config = {
-                        "tx_msg_size": float(test_x),
-                        "rx_msg_size": float(test_y),
-                    }
+                "tx_msg_size": float(test_x),
+                "rx_msg_size": float(test_y),
+            }
             date_id = date_id + 1
             file_config["test_id"] = date_id
             data_reply = common_script.posca_send_data(
-                   con_dic, test_config, file_config)
+                con_dic, test_config, file_config)
             bandwidth = data_reply["throughput"]
             if (data_max["throughput"] < bandwidth):
                 data_max = data_reply
-            if (abs(bandwidth_tmp - bandwidth)/bandwidth_tmp < 0.025):
+            if (abs(bandwidth_tmp - bandwidth) / bandwidth_tmp < 0.025):
                 print(pre_reply)
                 break
             else:
                 pre_reply = data_reply
                 bandwidth_tmp = bandwidth
         cur_role_result = pre_reply["throughput"]
-        if (abs(pre_role_result - cur_role_result)/pre_role_result < 0.025):
+        if (abs(pre_role_result - cur_role_result) / pre_role_result < 0.025):
             print("date_id is %d,package return at line 111\n" % date_id)
             # return data_return
         if data_return["throughput"] < data_max["throughput"]:
@@ -107,8 +107,8 @@ test_result/factor_system_system_bandwidth_%s.json" % (time_new)
     print("######find system bandwidth######")
     print("rx_msg_size:%d  tx_msg_size:%d\n" %
           (pkt_reply["rx_msg_size"], pkt_reply["tx_msg_size"]))
-    date_tran = common_script.posca_tran_data(
-                            con_dic['ES_ip'], file_config["file_path"])
+    common_script.posca_tran_data(
+        con_dic['ES_ip'], file_config["file_path"])
     return True
 
 
@@ -121,9 +121,9 @@ def main():
         testcase_cfg = args.conf
 
     con_str = [
-            'test_ip', 'tool', 'test_time', 'protocol',
-            'tx_pkt_sizes', 'rx_pkt_sizes', 'cpu_load',
-            'latency', 'ES_ip', 'dashboard'
+        'test_ip', 'tool', 'test_time', 'protocol',
+        'tx_pkt_sizes', 'rx_pkt_sizes', 'cpu_load',
+        'latency', 'ES_ip', 'dashboard'
     ]
     posca_env_check()
     starttime = datetime.datetime.now()
@@ -139,9 +139,8 @@ system_bandwidth.py'
         print("\nBegin to establish dashboard.")
         sub_result = subprocess.Popen(pargs)
         sub_result.wait()
-    print("System Bandwidth testing time : %s" %(endtime - starttime))
+    print("System Bandwidth testing time : %s" % (endtime - starttime))
     time.sleep(5)
 
 if __name__ == '__main__':
     main()
-

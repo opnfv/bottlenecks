@@ -110,7 +110,7 @@ def posca_run(con_dic):
                                 bandwidth, latency, cpu_load)
             if (cpu_load < con_dic['test_cpu_load\
             ']) and (latency < con_dic['test_latency']):
-                if (abs(bandwidth_tmp-bandwidth)/bandwidth < 0.05):
+                if (abs(bandwidth_tmp - bandwidth) / bandwidth < 0.05):
                     return True
                 else:
                     print("%s,%s") % (bandwidth, test_tx_cache_s_e)

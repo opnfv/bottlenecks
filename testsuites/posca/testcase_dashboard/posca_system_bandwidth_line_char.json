@@ -1,0 +1,10 @@
+{
+    "title": "system_bandwidth_line-char",
+    "visState": "{\"title\":\"system_bandwidth_line-char\",\"type\":\"line\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"showCircles\":true,\"smoothLines\":false,\"interpolate\":\"linear\",\"scale\":\"linear\",\"drawLinesBetweenPoints\":true,\"radiusRatio\":9,\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"throughput\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"rx_msg_size\",\"size\":30,\"order\":\"asc\",\"orderBy\":\"_term\"}},{\"id\":\"3\",\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"tx_msg_size\",\"size\":30,\"order\":\"desc\",\"orderBy\":\"_term\"}}],\"listeners\":{}}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"bottlenecks\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+    }
+}

@@ -49,9 +49,6 @@ def posca_env_check():
 def system_cpu_burden(test_id, data, file_config, con_dic):
     date_id = test_id
     print("test is is begin from %d" % test_id)
-    cur_role_result = 1
-    pre_role_result = 1
-    pre_reply = {}
     data_return = {}
     data_max = {}
     data_return["throughput"] = 1
@@ -59,14 +56,13 @@ def system_cpu_burden(test_id, data, file_config, con_dic):
         data_max["throughput"] = 1
         for test_y in data["rx_pkt_sizes"]:
             test_config = {
-                        "tx_msg_size": float(test_x),
-                        "rx_msg_size": float(test_y),
-                    }
+                "tx_msg_size": float(test_x),
+                "rx_msg_size": float(test_y),
+            }
             date_id = date_id + 1
             file_config["test_id"] = date_id
             data_reply = common_script.posca_send_data(
-                   con_dic, test_config, file_config)
-            bandwidth = data_reply["throughput"]
+                con_dic, test_config, file_config)
             if (data_max["remote_cpu_util"] > con_dic["cpu_load"]):
                 return 1, data_reply
             if (data_max["local_cpu_util"] > con_dic["cpu_load"]):
@@ -90,7 +86,7 @@ test_result/factor_system_system_bandwidth_%s.json" % (time_new)
     data["tx_pkt_sizes"] = tx_pkt_s_a
     print("######test package begin######")
     date_return, pkt_reply = system_cpu_burden(
-            test_con_id, data, file_config, con_dic)
+        test_con_id, data, file_config, con_dic)
 
     return True
 
@@ -104,9 +100,9 @@ def main():
         testcase_cfg = args.conf
 
     con_str = [
-            'test_ip', 'tool', 'test_time', 'protocol',
-            'tx_pkt_sizes', 'rx_pkt_sizes', 'cpu_load',
-            'latency', 'ES_ip', 'dashboard'
+        'test_ip', 'tool', 'test_time', 'protocol',
+        'tx_pkt_sizes', 'rx_pkt_sizes', 'cpu_load',
+        'latency', 'ES_ip', 'dashboard'
     ]
     posca_env_check()
     starttime = datetime.datetime.now()
@@ -122,7 +118,7 @@ system_bandwidth.py'
         print("\nBegin to establish dashboard.")
         sub_result = subprocess.Popen(pargs)
         sub_result.wait()
-    print("System Bandwidth testing time : %s" %(endtime - starttime))
+    print("System Bandwidth testing time : %s" % (endtime - starttime))
     time.sleep(5)
 
 if __name__ == '__main__':

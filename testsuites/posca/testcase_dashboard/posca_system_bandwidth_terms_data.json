@@ -1,0 +1,10 @@
+{
+    "title": "system_bandwidth_terms_data",
+    "visState": "{\"title\":\"system_bandwidth_terms_data\",\"type\":\"table\",\"params\":{\"perPage\":80,\"showPartialRows\":false,\"showMeticsAtAllLevels\":false},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"throughput\"}},{\"id\":\"4\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"tx_msg_size\",\"size\":200,\"order\":\"asc\",\"orderBy\":\"_term\"}},{\"id\":\"5\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"rx_msg_size\",\"size\":200,\"order\":\"asc\",\"orderBy\":\"_term\"}},{\"id\":\"6\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"mean_latency\",\"size\":5,\"order\":\"asc\",\"orderBy\":\"_term\"}},{\"id\":\"7\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"local_cpu_util\",\"size\":20,\"order\":\"desc\",\"orderBy\":\"_term\"}},{\"id\":\"8\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"remote_cpu_util\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"_term\"}}],\"listeners\":{}}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"bottlenecks\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+    }
+}

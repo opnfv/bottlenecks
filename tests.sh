@@ -17,9 +17,9 @@ run_flake8() {
     echo "Running flake8 ... "
     logfile=test_results.log
     if [ $FILE_OPTION == "f" ]; then
-        flake8 ../bottlenecks > $logfile
+       sudo flake8 --append-config=flake8_cfg testsuites/posca/ > $logfile
     else
-        flake8 ../bottlenecks
+       sudo flake8 --append-config=flake8_cfg testsuites/posca/
     fi
 
     if [ $? -ne 0 ]; then
@@ -40,8 +40,6 @@ run_tests() {
 
 run_coverage() {
     echo "Running coverage ..."
-    #source tests/ci/cover.sh
-    #run_coverage_test
     #will add future
 }
 
