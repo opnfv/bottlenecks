@@ -1,0 +1,4 @@
+[flake8]
+format = pylint
+statistics = True
+count = True
