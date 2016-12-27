@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_a818d575",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-12-27T11:18:11Z",
+      "side": 1,
+      "message": "Maybe my expression is not explicit.\nI means:\n1) if non-block, you only run self._delete() and return;\n2) if block, you will run self._delete() many times and then run HeatStack.stacks.remove(self)\nSo, why the situation of non-block not run HeatStack.stacks.remove(self)\n---\nI don\u0027t understand the whole program flow very well, but i think these 2 code branches should running the same functions normally.",
+      "parentUuid": "5ac10518_8d2f2ba1",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 18
+      },
+      "revId": "b2d4bcca4aa5f62298a0dec93f788d804f232fd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_6d675f26",
         "filename": "utils/infra_setup/heat/template.py",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "After delete several times , it\u0027s necessary to delete this again, and i think your suggestion is very well. I will change it tomorrow. And thanks for you kindness, hope you have a good a good time at Xi\u0027an",
       "parentUuid": "5ac10518_6d675f26",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 114,
+        "endChar": 26
+      },
+      "revId": "b2d4bcca4aa5f62298a0dec93f788d804f232fd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_4827f1b6",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-12-27T11:18:11Z",
+      "side": 1,
+      "message": "Thank you for your wishes~",
+      "parentUuid": "5ac10518_cd0c5345",
       "range": {
         "startLine": 113,
         "startChar": 8,
