@@ -7,151 +7,193 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-"""to create heat templates from the base template
-"""
-import os
-import json
-import shutil
-import common
-import consts.parameters as parameters
+"""Heat template and stack management"""
+
+import time
+import sys
+import logging
+
+from heatclient import client as heatclient
+import common as op_utils
 
 
-class TreeNode:
+log = logging.getLogger(__name__)
 
+
+class HeatObject(object):
+    ''' base class for template and stack'''
     def __init__(self):
-        self.up = None
-        self.down = []
-        self.variable_name = ''
-        self.variable_value = 0
+        self._heat_client = None
+        self.uuid = None
 
-    def add_child(self, node):
-        node.up = self
-        self.down.append(node)
+    def _get_heat_client(self):
+        '''returns a heat client instance'''
 
-    def get_parent(self):
-        return self.up
+        if self._heat_client is None:
+            sess = op_utils.get_session()
+            heat_endpoint = op_utils.get_endpoint(service_type='orchestration')
+            self._heat_client = heatclient.Client(
+                op_utils.get_heat_api_version(),
+                endpoint=heat_endpoint, session=sess)
 
-    def get_children(self):
-        if len(self.down) == 0:
-            return []
-        return self.down
+        return self._heat_client
 
-    def get_variable_name(self):
-        return self.variable_name
+    def status(self):
+        '''returns stack state as a string'''
+        heat = self._get_heat_client()
+        stack = heat.stacks.get(self.uuid)
+        return getattr(stack, 'stack_status')
 
-    def get_variable_value(self):
-        return self.variable_value
 
-    def set_variable_name(self, name):
-        self.variable_name = name
+class HeatStack(HeatObject):
+    ''' Represents a Heat stack (deployed template) '''
+    stacks = []
 
-    def set_variable_value(self, value):
-        self.variable_value = value
-
-    def get_path(self):
-        ret_val = []
-        if not self.up:
-            ret_val.append(self)
-            return ret_val
-        for node in self.up.get_path():
-            ret_val.append(node)
-        ret_val.append(self)
-        return ret_val
-
-    def __str__(self):
-        return str(self.variable_name) + " --> " + str(self.variable_value)
-
-    def __repr__(self):
-        return str(self.variable_name) + " = " + str(self.variable_value)
+    def __init__(self, name):
+        super(HeatStack, self).__init__()
+        self.uuid = None
+        self.name = name
+        self.outputs = None
+        HeatStack.stacks.append(self)
 
     @staticmethod
-    def _get_leaves(node, leaves):
-        children = node.get_children()
-        if len(children) == 0:
-            leaves.append(node)
+    def stacks_exist():
+        '''check if any stack has been deployed'''
+        return len(HeatStack.stacks) > 0
+
+    def _delete(self):
+        '''deletes a stack from the target cloud using heat'''
+        if self.uuid is None:
             return
-        for child in children:
-            TreeNode._get_leaves(child, leaves)
+
+        log.info("Deleting stack '%s', uuid:%s", self.name, self.uuid)
+        heat = self._get_heat_client()
+        template = heat.stacks.get(self.uuid)
+        start_time = time.time()
+        template.delete()
+        status = self.status()
+
+        while status != u'DELETE_COMPLETE':
+            log.debug("stack state %s", status)
+            if status == u'DELETE_FAILED':
+                raise RuntimeError(
+                    heat.stacks.get(self.uuid).stack_status_reason)
+
+            time.sleep(2)
+            status = self.status()
+
+        end_time = time.time()
+        log.info("Deleted stack '%s' in %d secs", self.name,
+                 end_time - start_time)
+        self.uuid = None
+
+    def delete(self, block=True, retries=3):
+        '''deletes a stack in the target cloud using heat (with retry)
+        Sometimes delete fail with "InternalServerError" and the next attempt
+        succeeds. So it is worthwhile to test a couple of times.
+        '''
+        if self.uuid is None:
+            return
+
+        if not block:
+            try:
+                self._delete()
+            except RuntimeError as err:
+                log.warn(err.args)
+            HeatStack.stacks.remove(self)
+            return
+
+        i = 0
+        while i < retries:
+            try:
+                self._delete()
+                break
+            except RuntimeError as err:
+                log.warn(err.args)
+                time.sleep(2)
+            i += 1
+
+        if self.uuid is not None:
+           sys.exit("delete stack failed!!!")
+        else:
+           HeatStack.stacks.remove(self)
 
     @staticmethod
-    def get_leaves(node):
-        leaves = list()
-        TreeNode._get_leaves(node, leaves)
-        return leaves
+    def delete_all():
+        for stack in HeatStack.stacks[:]:
+            stack.delete()
 
-template_name = parameters.TEST_TEMPLATE_NAME
+    def update(self):
+        '''update a stack'''
+        pass
 
 
-def generates_templates(base_heat_template, deployment_configuration):
-    # parameters loaded from file
-    template_dir = common.get_template_dir()
-    template_extension = parameters.TEMPLATE_EXTENSION
-    template_base_name = base_heat_template
+class HeatTemplate(HeatObject):
+    '''Describes a Heat template and a method to deploy template to a stack'''
 
-    variables = deployment_configuration
+    def __init__(self, name, template_file=None, heat_parameters=None):
+        super(HeatTemplate, self).__init__()
+        self.name = name
+        self.state = "NOT_CREATED"
+        self.keystone_client = None
+        self.heat_client = None
+        self.heat_parameters = {}
 
-    # Delete the templates generated in previous running
-    common.LOG.info("Removing the heat templates already generated")
-    command = "rm {}{}_*".format(template_dir, template_name)
-    os.system(command)
+        # heat_parameters is passed to heat in stack create, empty dict when
+        # yardstick creates the template (no get_param in resources part)
+        if heat_parameters:
+            self.heat_parameters = heat_parameters
 
-    # Creation of the tree with all the new configurations
-    common.LOG.info("Creation of a tree with all new configurations")
-    tree = TreeNode()
-    for variable in variables:
-        leaves = TreeNode.get_leaves(tree)
-        common.LOG.debug("LEAVES: " + str(leaves))
-        common.LOG.debug("VALUES: " + str(variables[variable]))
-
-        for value in variables[variable]:
-            for leaf in leaves:
-                new_node = TreeNode()
-                new_node.set_variable_name(variable)
-                new_node.set_variable_value(value)
-                leaf.add_child(new_node)
-
-    common.LOG.debug("CONFIGURATION TREE: " + str(tree))
-
-    common.LOG.info("Heat Template and metadata file creation")
-    leaves = TreeNode.get_leaves(tree)
-    counter = 1
-    for leaf in leaves:
-        heat_template_vars = leaf.get_path()
-        if os.path.isabs(template_base_name):
-            base_template = template_base_name
+        if template_file:
+            with open(template_file) as template:
+                print "Parsing external template:", template_file
+                template_str = template.read()
+                self._template = template_str
+            self._parameters = heat_parameters
         else:
-            base_template = template_dir + template_base_name
-        new_template = template_dir + template_name
-        new_template += "_" + str(counter) + template_extension
-        shutil.copy(base_template, new_template)
+            sys.exit("\nno such template file.")
 
-        metadata = dict()
-        for var in heat_template_vars:
-            if var.get_variable_name():
-                common.replace_in_file(new_template, "#" +
-                                       var.get_variable_name(),
-                                       var.get_variable_value())
-                metadata[var.get_variable_name()] = var.get_variable_value()
+        # holds results of requested output after deployment
+        self.outputs = {}
 
-        # Save the metadata on a JSON file
-        with open(new_template + ".json", 'w') as outfile:
-            json.dump(metadata, outfile)
+        log.debug("template object '%s' created", name)
 
-        common.LOG.debug("Heat Templates and Metadata file " + str(counter) +
-                         " created")
-        counter += 1
+    def create(self, block=True):
+        '''creates a template in the target cloud using heat
+        returns a dict with the requested output values from the template'''
+        log.info("Creating stack '%s'", self.name)
 
-    # Creation of the template files
-    common.LOG.info(str(counter - 1) + " Heat Templates and Metadata files "
-                                       "created")
+        # create stack early to support cleanup, e.g. ctrl-c while waiting
+        stack = HeatStack(self.name)
 
+        heat = self._get_heat_client()
+        end_time = start_time = time.time()
+        print(self._template)
+        stack.uuid = self.uuid = heat.stacks.create(
+            stack_name=self.name, template=self._template,
+            parameters=self.heat_parameters)['stack']['id']
 
-def get_all_heat_templates(template_dir, template_extension):
-    template_files = list()
-    for dirname, dirnames, filenames in os.walk(template_dir):
-        for filename in filenames:
-            if template_extension in filename and filename.endswith(
-                    template_extension) and template_name in filename:
-                template_files.append(filename)
-    template_files.sort()
-    return template_files
+        status = self.status()
+
+        if block:
+            while status != u'CREATE_COMPLETE':
+                log.debug("stack state %s", status)
+                if status == u'CREATE_FAILED':
+                    raise RuntimeError(getattr(heat.stacks.get(self.uuid),
+                                               'stack_status_reason'))
+
+                time.sleep(2)
+                status = self.status()
+
+            end_time = time.time()
+            outputs = getattr(heat.stacks.get(self.uuid), 'outputs')
+
+        for output in outputs:
+            self.outputs[output["output_key"].encode("ascii")] = \
+                output["output_value"].encode("ascii")
+
+        log.info("Created stack '%s' in %d secs",
+                 self.name, end_time - start_time)
+
+        stack.outputs = self.outputs
+        return stack

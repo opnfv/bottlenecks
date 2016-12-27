@@ -7,82 +7,68 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-from heatclient import client as heat_client
-from keystoneclient.v2_0 import client as keystone_client
-from heatclient.common import template_utils
+import time
+import common as op_utils
+from glanceclient.client import Client as GlanceClient
+from novaclient.client import Client as NovaClient
 
-import heat.common as common
+
+def _get_glance_client():
+    sess = op_utils.get_session()
+    return GlanceClient(
+        op_utils.get_glance_api_version(),
+        session=sess)
 
 
-class HeatManager:
+def _get_nova_client():
+    sess = op_utils.get_session()
 
-    def __init__(self, credentials):
-        self.user = credentials['user']
-        self.password = credentials['password']
-        self.controller_ip = credentials['controller_ip']
-        self.heat_url = credentials['heat_url']
-        self.auth_uri = credentials['auth_uri']
-        self.project_id = credentials['project']
-        self.heat = None
+    return NovaClient(
+        op_utils.get_nova_api_version(),
+        session=sess)
 
-    def heat_init(self):
-        keystone = keystone_client.Client(username=self.user,
-                                          password=self.password,
-                                          tenant_name=self.project_id,
-                                          auth_url=self.auth_uri)
-        auth_token = keystone.auth_token
-        self.heat_url = keystone.service_catalog.url_for(
-            service_type='orchestration')
-        self.heat = heat_client.Client('1', endpoint=self.heat_url,
-                                       token=auth_token)
 
-    def stacks_list(self, name=None):
-        for stack in self.heat.stacks.list():
-            if (name and stack.stack_name == name) or not name:
-                common.LOG.info("stack name " + stack.stack_name)
-                common.LOG.info("stack status " + stack.stack_status)
+def stack_create_images(
+        imagefile=None,
+        image_name="bottlenecks_image"):
+    print "========== Create image in OS =========="
 
-    def stack_generate(self, template_file, stack_name, parameters):
-        self.heat_init()
-        self.stacks_list()
-        tpl_files, template = template_utils.get_template_contents(
-            template_file)
-
-        fields = {
-            'template': template,
-            'files': dict(list(tpl_files.items()))
-        }
-        self.heat.stacks.create(stack_name=stack_name, files=fields['files'],
-                                template=template, parameters=parameters)
-        self.stacks_list(stack_name)
-
-    def stack_is_deployed(self, stack_name):
-        self.heat_init()
-        if stack_name in self.heat.stacks.list():
-            return True
+    if imagefile is None:
+        print "imagefile not set/found"
         return False
 
-    def stack_check_status(self, stack_name):
-        for stack in self.heat.stacks.list():
-            if stack.stack_name == stack_name:
-                return stack.stack_status
-        return 'NOT_FOUND'
+    glance = _get_glance_client()
+    image = glance.images.create(
+        name=image_name,
+        disk_format="qcow2",
+        container_format="bare")
+    with open(imagefile) as fimage:
+        glance.images.upload(image.id, fimage)
 
-    def heat_validate_template(self, heat_template_file):
-        self.heat_init()
-        if not self.heat.stacks.validate(template=open(heat_template_file,
-                                                       'r').read()):
-            raise ValueError('The provided heat template "' +
-                             heat_template_file +
-                             '" is in the wrong format')
+    timeInQueue = 0
+    img_status = image.status
+    while img_status == "queued" and timeInQueue < 30:
+        print "  image's status: " + img_status
+        time.sleep(1)
+        timeInQueue = timeInQueue + 1
+        img_status = glance.images.get(image.id).status
 
-    def stack_delete(self, stack_name):
-        self.heat_init()
-        try:
-            for stack in self.heat.stacks.list():
-                if stack.stack_name == stack_name:
-                    self.heat.stacks.delete(stack.id)
-                    return True
-        except:
-            pass
-        return False
+    print "After %d seconds,image status is [%s]" % (timeInQueue, img_status)
+    return True if img_status == "active" else False
+
+
+def stack_create_keypairs(key_path, name="bottlenecks_keypair"):
+    print "========== Add keypairs in OS =========="
+    nova = _get_nova_client()
+    with open(key_path) as pkey:
+        nova.keypairs.create(name=name, public_key=pkey.read())
+
+
+def stack_create_flavors(
+        name="bottlenecks_flavor",
+        ram=4096,
+        vcpus=2,
+        disk=10):
+    print "========== Create flavors in OS =========="
+    nova = _get_nova_client()
+    nova.flavors.create(name=name, ram=ram, vcpus=vcpus, disk=disk)
