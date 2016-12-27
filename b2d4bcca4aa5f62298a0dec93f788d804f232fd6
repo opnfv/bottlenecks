@@ -141,6 +141,23 @@
       "revId": "b2d4bcca4aa5f62298a0dec93f788d804f232fd6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e83c9dc1",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-12-27T11:51:21Z",
+      "side": 1,
+      "message": "if block\u003dfalse.\nhere may raise exception, because end_time is not initialized",
+      "revId": "b2d4bcca4aa5f62298a0dec93f788d804f232fd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
