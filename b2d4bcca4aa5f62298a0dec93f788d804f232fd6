@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_8d93abf9",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-12-27T09:31:31Z",
+      "side": 1,
+      "message": "why here not run below expression and return directly:\nHeatStack.stacks.remove(self)",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 18
+      },
+      "revId": "b2d4bcca4aa5f62298a0dec93f788d804f232fd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_6d675f26",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-12-27T09:31:31Z",
+      "side": 1,
+      "message": "the number of actual retry times more than your set retry.\nwhy here run delete() another more. Maybe you could set  retries\u003d4 not 3.\nAnd i think the expressions here maybe not necessary.",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 114,
+        "endChar": 26
+      },
+      "revId": "b2d4bcca4aa5f62298a0dec93f788d804f232fd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
