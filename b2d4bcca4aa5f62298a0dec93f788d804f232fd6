@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_8d2f2ba1",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2016-12-27T10:24:12Z",
+      "side": 1,
+      "message": "HeatStack.stacks.remove(self) \nthis expression means only delete from this set.\nand _delete this function could delete stack in openstack.\nso there is necessary to use _delete.",
+      "parentUuid": "5ac10518_8d93abf9",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 18
+      },
+      "revId": "b2d4bcca4aa5f62298a0dec93f788d804f232fd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_6d675f26",
         "filename": "utils/infra_setup/heat/template.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-27T09:31:31Z",
       "side": 1,
       "message": "the number of actual retry times more than your set retry.\nwhy here run delete() another more. Maybe you could set  retries\u003d4 not 3.\nAnd i think the expressions here maybe not necessary.",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 114,
+        "endChar": 26
+      },
+      "revId": "b2d4bcca4aa5f62298a0dec93f788d804f232fd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_cd0c5345",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2016-12-27T10:24:12Z",
+      "side": 1,
+      "message": "After delete several times , it\u0027s necessary to delete this again, and i think your suggestion is very well. I will change it tomorrow. And thanks for you kindness, hope you have a good a good time at Xi\u0027an",
+      "parentUuid": "5ac10518_6d675f26",
       "range": {
         "startLine": 113,
         "startChar": 8,
