@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_dcede6b8",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-12-28T12:19:26Z",
+      "side": 1,
+      "message": "According to the program flow:\nIf run self._delete() has a RuntimeError, it couldn\u0027t run HeatStack.stacks.remove(self).\nIs above logic right? \n1) If it is wrong or not important, okay, please ignore all my said.\n2) If it is right, see below:\n----\nwhile i \u003c retries:\n            try:\n                self._delete()\n                break\n            except RuntimeError as err:\n                log.warn(err.args)\n                time.sleep(2)\n            i +\u003d 1\nHeatStack.stacks.remove(self)\n--\nthe logic of above expression is wrong.\nThe reason is:\n(1) if retries \u003d 3; and it has several RuntimeError.\n(2) after 6 seconds  \n   run the self._delete() failed 3 times.\n(3) and then it will run HeatStack.stacks.remove(self),\n   but actually, self._delete() function deleted nothing, and we couldn\u0027t run HeatStack.stacks.remove(self) at this situation.\n---\nSo, there are update 2 place:\n(1)while i \u003c retries - 1:\n(2)the last line: self._delete()\nthe reason is: \nA) if try self._delete() \"retries - 1\" failed and have some RuntimeError.\nB) it will run self._delete() last time and do not catch RuntimeError.\nC) if the step B) have some RuntimeError, it won\u0027t run HeatStack.stacks.remove(self) and throw RuntimeError.\nD) otherwise, it will run self._delete() success, then run HeatStack.stacks.remove(self).",
+      "parentUuid": "5ac10518_5cb496d0",
+      "revId": "3f590a2278d268121a5dabe0b8c82fa463aaa703",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_9c8c3e37",
         "filename": "utils/infra_setup/heat/template.py",
         "patchSetId": 5
