@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_bcfc9a3f",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-12-29T01:50:21Z",
+      "side": 1,
+      "message": "Good job!\nIt\u0027s your idea in the original version , not mine:\n-----\n# if still not deleted try once more and let it fail everything\n        if self.uuid is not None:\n            self._delete()\n-----\nsorry to misunderstand it at the first time. \n-----\nBesides\n1)Maybe the Ninety-ninth lines expression need updated also.\n(if self._delete throw RuntimeError, should we handle it?)\n2)here are right, but i think it\u0027s not a good habit that exit program everywhere, Maybe the bottleneck project need only one entry to exit this program no matter the result is success or failure or have some exceptions.",
+      "parentUuid": "5ac10518_9cf2fe6d",
+      "revId": "3f590a2278d268121a5dabe0b8c82fa463aaa703",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_9c8c3e37",
         "filename": "utils/infra_setup/heat/template.py",
         "patchSetId": 5
