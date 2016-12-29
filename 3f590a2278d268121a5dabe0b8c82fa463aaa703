@@ -208,6 +208,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_3cb74a88",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2016-12-29T02:23:42Z",
+      "side": 1,
+      "message": "Yeah, i have done those changes.\nAnd the stack can\u0027t delete is not an error, but a warning.\nso it\u0027s better to except this.\nThank you.",
+      "parentUuid": "5ac10518_bcfc9a3f",
+      "revId": "3f590a2278d268121a5dabe0b8c82fa463aaa703",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_9c8c3e37",
         "filename": "utils/infra_setup/heat/template.py",
         "patchSetId": 5
