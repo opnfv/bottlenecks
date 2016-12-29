@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_9cf2fe6d",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2016-12-29T01:11:56Z",
+      "side": 1,
+      "message": "Ok, i know your meaning now.\nYou mean if we try three times and all the expression have thought the error :RuntimeError.\nNow,\ni add the following code.\n\nwhile i \u003c retries:\n            try:\n                self._delete()\n                break\n            except RuntimeError as err:\n                log.warn(err.args)\n                time.sleep(2)\n            i +\u003d 1\n\nif self.uuid is not None:\n           sys.exit(\"delete stack failed!!!\")\nelse:\n           HeatStack.stacks.remove(self)\n\nthis code could help us achieve this problem.\n\nThank you for your kindness.\n\nDoes this code have some error?\n\nThank you.",
+      "parentUuid": "5ac10518_dcede6b8",
+      "revId": "3f590a2278d268121a5dabe0b8c82fa463aaa703",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_9c8c3e37",
         "filename": "utils/infra_setup/heat/template.py",
         "patchSetId": 5
