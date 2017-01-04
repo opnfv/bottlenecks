@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_f07c8322",
+        "filename": "utils/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-04T02:54:17Z",
+      "side": 1,
+      "message": "Should it be 2017?",
+      "range": {
+        "startLine": 2,
+        "startChar": 16,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "53b9c2d42caa9ac16d888377b2ebe70beb33392b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_10782f2a",
+        "filename": "utils/infra_setup/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-04T02:54:17Z",
+      "side": 1,
+      "message": "Should it be 2017?",
+      "range": {
+        "startLine": 2,
+        "startChar": 16,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "53b9c2d42caa9ac16d888377b2ebe70beb33392b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
