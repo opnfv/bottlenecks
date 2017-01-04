@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_70897325",
+        "filename": "utils/infra_setup/heat/__init__.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-04T02:53:10Z",
+      "side": 1,
+      "message": "Should it be 2016?",
+      "range": {
+        "startLine": 2,
+        "startChar": 16,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "1be4c6552cb10afa7d31ab1445b64adc0c0d9213",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
