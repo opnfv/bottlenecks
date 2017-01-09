@@ -1,0 +1,2 @@
+common_config:
+  log_dir: '/tmp/bottlenecks_POSCA.log'
