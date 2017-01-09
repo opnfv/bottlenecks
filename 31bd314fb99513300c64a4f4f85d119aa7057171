@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_acb1bf90",
+        "filename": "utils/logger.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-09T08:26:34Z",
+      "side": 1,
+      "message": "Please clarify why we need to get the \u0027DEBUG\u0027system env",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 34
+      },
+      "revId": "31bd314fb99513300c64a4f4f85d119aa7057171",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
