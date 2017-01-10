@@ -114,9 +114,9 @@ class HeatStack(HeatObject):
             i += 1
 
         if self.uuid is not None:
-           sys.exit("delete stack failed!!!")
+            sys.exit("delete stack failed!!!")
         else:
-           HeatStack.stacks.remove(self)
+            HeatStack.stacks.remove(self)
 
     @staticmethod
     def delete_all():
