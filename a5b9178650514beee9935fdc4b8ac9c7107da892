@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_322d2aff",
+        "filename": "utils/dashboard/rubbos_collector.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5441
+      },
+      "writtenOn": "2017-01-10T14:21:17Z",
+      "side": 1,
+      "message": "Maybe backslash is also not recommended for PEP8, you may use like this:\ncmd \u003d (\"grep -in \u0027remote client nodes\u0027 %s/index.html|awk\"\n       \" \u0027{print $5}\u0027|awk -F \u0027\u003c\u0027 \u0027{print $1}\u0027\" % dir_name)",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "a5b9178650514beee9935fdc4b8ac9c7107da892",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
