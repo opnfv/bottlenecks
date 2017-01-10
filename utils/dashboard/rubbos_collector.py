@@ -17,19 +17,27 @@ def exec_shell(cmd):
 
 
 def get_onetime_data(dir_name):
-    cmd = "grep -in 'remote client nodes' %s/index.html|awk '{print $5}'|awk -F '<' '{print $1}'" % dir_name
+    cmd = "grep -in 'remote client nodes' %s/index.html|awk \
+'{print $5}'|awk -F '<' '{print $1}'" % dir_name
     client_node_num = int(exec_shell(cmd))
-    cmd = "grep -n 'Number of clients' %s/index.html|awk '{print $5}'|awk -F '<' '{print $1}'" % dir_name
+    cmd = "grep -n 'Number of clients' %s/index.html|awk \
+'{print $5}'|awk -F '<' '{print $1}'" % dir_name
     each_client_num = int(exec_shell(cmd))
     total_client = (client_node_num + 1) * each_client_num
 
-    cmd = 'grep -n "throughput" %s/stat_client*.html |awk -F "<B>" \'{if (FNR%%2==0 && FNR%%4!=0) {printf "%%s\\n", $3}}\'|awk \'BEGIN{sum=0;}{sum=sum+$1;}END{print sum}\'' % dir_name
+    cmd = 'grep -n "throughput" %s/stat_client*.html |awk -F "<B>" \'{if \
+(FNR%%2==0 && FNR%%4!=0) {printf "%%s\\n", $3}}\'|awk \'BEGIN{sum=0;}\
+{sum=sum+$1;}END{print sum}\'' % dir_name
     throughput = int(exec_shell(cmd))
 
-    cmd = 'grep -n "Total" %s/stat_client*.html |awk -F "<B>" \'{if (FNR==4) {printf "%%s\\n", $4}}\'|awk -F "</B>" \'BEGIN{sum=0;}{sum=sum+$1;}END{print sum}\'' % dir_name
+    cmd = 'grep -n "Total" %s/stat_client*.html |awk -F "<B>" \'{if \
+(FNR==4) {printf "%%s\\n", $4}}\'|awk -F "</B>" \'BEGIN{sum=0;}{sum=sum+$1;}\
+END{print sum}\'' % dir_name
     request = int(exec_shell(cmd))
 
-    cmd = 'grep -n "Total" %s/stat_client*.html |awk -F "<B>" \'{if (FNR==4) {printf "%%s\\n", $5}}\'|awk -F "</B>" \'BEGIN{sum=0;}{sum=sum+$1;}END{print sum}\'' % dir_name
+    cmd = 'grep -n "Total" %s/stat_client*.html |awk -F "<B>" \'{if \
+(FNR==4) {printf "%%s\\n", $5}}\'|awk -F "</B>" \'BEGIN{sum=0;}{sum=sum+$1;}\
+END{print sum}\'' % dir_name
     error_request = int(exec_shell(cmd))
 
     return total_client, throughput, request, error_request
@@ -44,8 +52,8 @@ class RubbosCollector(object):
         cmd = 'ls -l %s |grep ^d|awk \'{print $9}\'' % data_home
         result = []
         for subdir in exec_shell(cmd).split('\n'):
-            total_client, throughput, request, error_request = get_onetime_data(
-                data_home + '/' + subdir)
+            total_client, throughput, request, error_request = \
+                get_onetime_data(data_home + '/' + subdir)
             result.append({'client': total_client,
                            'throughput': throughput,
                            'request': request,
