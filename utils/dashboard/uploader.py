@@ -51,7 +51,8 @@ class Uploader(object):
 
 def _test():
 
-    #data = '{"details": [{"client": 200, "throughput": 20}, {"client": 300, "throughput": 20}], "case_name": "rubbos"}'
+    # data = '{"details": [{"client": 200, "throughput": 20},
+    # {"client": 300, "throughput": 20}], "case_name": "rubbos"}'
     if len(sys.argv) < 2:
         print ("no argumens input!!")
         exit(1)
@@ -59,6 +60,7 @@ def _test():
     with open(sys.argv[1], 'r') as stream:
         data = json.load(stream)
         Uploader().upload_result(data)
+
 
 if __name__ == "__main__":
     _test()
