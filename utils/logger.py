@@ -19,15 +19,16 @@
 import logging
 import os
 
-# from bottlenecks_cfg import Bottlenecks_cfg as bn_cfg
+from utils.parser import Parser
 
 
 class Logger:
     def __init__(self, logger_name):
 
-        #if user set --debug as a cli parameter
-        #we will set this variable “Debug” to output debug info.
+        # if user set --debug as a cli parameter
+        # we will set this variable "Debug" to output debug info.
         DEBUG = os.getenv('DEBUG')
+        conf = Parser()
 
         self.logger = logging.getLogger(logger_name)
         self.logger.propagate = 0
@@ -47,10 +48,12 @@ class Logger:
             ch.setLevel(logging.INFO)
         self.logger.addHandler(ch)
 
-#        result_path = bn_cfg.['log_dir']
-#        if not os.path.exists(result_path):
-#            os.makedirs(result_path)
-        hdlr = logging.FileHandler('/tmp/bottlenecks.log')
+        result_path = conf.logdir
+        if not os.path.exists(result_path):
+            os.makedirs(result_path)
+        result_file = os.path.join(result_path, 'bottlenecks.log')
+        hdlr = logging.FileHandler(result_file)
+
         hdlr.setFormatter(formatter)
         hdlr.setLevel(logging.DEBUG)
         self.logger.addHandler(hdlr)
