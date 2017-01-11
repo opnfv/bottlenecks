@@ -11,6 +11,7 @@ import time
 import common as op_utils
 from glanceclient.client import Client as GlanceClient
 from novaclient.client import Client as NovaClient
+from neutronclient.v2_0.client import Client as NeutronClient
 
 
 def _get_glance_client():
@@ -26,6 +27,12 @@ def _get_nova_client():
     return NovaClient(
         op_utils.get_nova_api_version(),
         session=sess)
+
+
+def _get_neutron_client():
+    sess = op_utils.get_session()
+    neutron_client = NeutronClient(session=sess)
+    return neutron_client
 
 
 def stack_create_images(

@@ -7,7 +7,6 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-from logger import Logger
 import os
 import yaml
 
@@ -21,13 +20,19 @@ class Parser():
             self.root_dir,
             'config',
             'config.yaml')
+        self.fetch_os_file = os.path.join(
+            self.code_dir,
+            'infra_setup',
+            'fetch_os_creds.sh')
+
         with open(config_dir) as file:
-            log_info = yaml.load(file)
-            self.logdir = log_info['common_config']
-        self.LOG = Logger(__name__).getLogger()
+            config_info = yaml.load(file)
+            common_config = config_info['common_config']
+            self.logdir = common_config['log_dir']
+            self.OPENSTACK_RC_FILE = common_config['rc_dir']
+            self.config_dir_check(self.logdir)
 
     def config_read(self, testcase, story_name):
-        self.LOG.info("begin to parser config file!")
         testcase_parser = {}
         self.story_dir = os.path.join(
             self.test_dir,
@@ -35,7 +40,6 @@ class Parser():
             'testsuite_story',
             story_name)
         with open(self.story_dir) as file:
-            self.LOG.info('testsuite:' + testcase + 'story:' + story_name)
             story_parser = yaml.load(file)
         for case_name in story_parser['testcase']:
             testcase_dir = os.path.join(
@@ -44,10 +48,15 @@ class Parser():
                 'testcase_cfg',
                 case_name)
             with open(testcase_dir) as f:
-                self.LOG.info('story: %s, testcase: %s' % (story_name, case_name))
                 testcase_parser[case_name] = yaml.load(f)
 
         return testcase_parser
+
+    def config_dir_check(self, dirname):
+        if dirname is None:
+            dirname = '/tmp/'
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
 
     def config_parser(self, testcase_cfg, parameters):
         test_cfg = testcase_cfg['test_config']

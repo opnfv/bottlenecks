@@ -1,2 +1,3 @@
 common_config:
-  log_dir: '/tmp/bottlenecks_POSCA.log'
+  log_dir: '/tmp/'
+  rc_dir: '/tmp/admin_rc.sh'
