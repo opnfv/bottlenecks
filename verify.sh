@@ -15,11 +15,11 @@ getopts ":f" FILE_OPTION
 
 run_flake8() {
     echo "Running flake8 ... "
-    logfile=test_results.log
+    logfile=flake8_verify.log
     if [ $FILE_OPTION == "f" ]; then
-       sudo flake8 --append-config=flake8_cfg testsuites/posca/ > $logfile
+       flake8 --append-config=flake8_cfg testsuites/posca/ utils/ > $logfile
     else
-       sudo flake8 --append-config=flake8_cfg testsuites/posca/
+       flake8 --append-config=flake8_cfg testsuites/posca/ utils/
     fi
 
     if [ $? -ne 0 ]; then

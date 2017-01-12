@@ -2,3 +2,4 @@
 format = pylint
 statistics = True
 count = True
+show_source = True
