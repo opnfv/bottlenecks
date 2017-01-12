@@ -97,6 +97,7 @@ def get_heat_api_version():
         return api_version
     return DEFAULT_HEAT_API_VERSION
 
+
 def get_nova_api_version():
     api_version = os.getenv('OS_COMPUTE_API_VERSION')
     if api_version is not None:
