@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_3279a593",
+        "filename": "utils/tools/bottlenecks_image_modify",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-13T06:17:05Z",
+      "side": 1,
+      "message": "Would it be better written in set -ex?",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 6
+      },
+      "revId": "1cc92183dd302b5265af6079703cc116b767ba4b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_72472d4c",
+        "filename": "utils/tools/ubuntu-server-clouding-modify.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-13T06:17:05Z",
+      "side": 1,
+      "message": "Is this the password or just indicates the password is generated randomly?",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 16
+      },
+      "revId": "1cc92183dd302b5265af6079703cc116b767ba4b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_1276e9a4",
+        "filename": "utils/tools/ubuntu-server-clouding-modify.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-13T06:17:05Z",
+      "side": 1,
+      "message": "It\u0027d be better to write these two lines continuously without a blank newline since they are logically connected.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "1cc92183dd302b5265af6079703cc116b767ba4b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
