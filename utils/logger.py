@@ -28,7 +28,6 @@ class Logger:
         # if user set --debug as a cli parameter
         # we will set this variable "Debug" to output debug info.
         DEBUG = os.getenv('DEBUG')
-        conf = Parser()
 
         self.logger = logging.getLogger(logger_name)
         self.logger.propagate = 0

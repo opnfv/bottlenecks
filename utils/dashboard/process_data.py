@@ -15,7 +15,7 @@ from uploader import Uploader
 
 def printUsage():
     print ("Usage: python process_data.py required_params(**)"
-          " optional_params([])")
+           " optional_params([])")
     print "       ** -i|--input   input_data_dir"
     print "       ** -s|--suite   suite_name"
     print "       ** -c|--conf    conf_file"

@@ -7,14 +7,14 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+import template
+import common
 import os
 import unittest
 import mock
 
 import sys
 sys.path.append("..")
-import template
-import common
 
 
 def reset_common():
