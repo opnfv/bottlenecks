@@ -131,7 +131,11 @@ class HeatStack(HeatObject):
 class HeatTemplate(HeatObject):
     '''Describes a Heat template and a method to deploy template to a stack'''
 
-    def __init__(self, name, template_file=None, heat_parameters=None):
+    def __init__(self,
+                 name,
+                 template_file=None,
+                 heat_parameters=None,
+                 heat_template=None):
         super(HeatTemplate, self).__init__()
         self.name = name
         self.state = "NOT_CREATED"
@@ -151,7 +155,7 @@ class HeatTemplate(HeatObject):
                 self._template = template_str
             self._parameters = heat_parameters
         else:
-            sys.exit("\nno such template file.")
+            self._template = heat_template
 
         # holds results of requested output after deployment
         self.outputs = {}
