@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_00f0c665",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-01-20T00:54:59Z",
+      "side": 1,
+      "message": "Maybe you could intialize self._parameters\u003dNone, as you initialize \n   self.keystone_client \u003d None\n   self.heat_client \u003d None\n   ... ...\nBut that\u0027s not important or necessary according to your explaination!",
+      "parentUuid": "5ac10518_fad1ab57",
+      "revId": "a4c6f8e8aa92df0e78e453c3761421ba8d3ecde1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_7ade1b6f",
         "filename": "utils/parser.py",
         "patchSetId": 1
