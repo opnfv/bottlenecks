@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_c3488389",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2017-01-24T08:59:50Z",
+      "side": 1,
+      "message": "we create two way to create stack\n1.use template file which is written by you, this may use parameters as parameter of your template file.\n2.use _template we parser from config file.",
+      "parentUuid": "5ac10518_236dc798",
+      "range": {
+        "startLine": 158,
+        "startChar": 12,
+        "endLine": 158,
+        "endChar": 42
+      },
+      "revId": "b5885b0e48429a8772edf0ef884595d7c3af4eed",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_43681387",
         "filename": "utils/parser.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-01-24T02:34:53Z",
       "side": 1,
       "message": "Where could we put together the full path?",
+      "range": {
+        "startLine": 114,
+        "startChar": 19,
+        "endLine": 114,
+        "endChar": 54
+      },
+      "revId": "b5885b0e48429a8772edf0ef884595d7c3af4eed",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_635f4f42",
+        "filename": "utils/parser.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2017-01-24T08:59:50Z",
+      "side": 1,
+      "message": "ok, it has been changed now.\nThanks.",
+      "parentUuid": "5ac10518_43681387",
       "range": {
         "startLine": 114,
         "startChar": 19,
