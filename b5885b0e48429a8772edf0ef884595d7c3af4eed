@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_236dc798",
+        "filename": "utils/infra_setup/heat/template.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-24T02:34:53Z",
+      "side": 1,
+      "message": "What happens when self._template \u003d None?",
+      "range": {
+        "startLine": 158,
+        "startChar": 12,
+        "endLine": 158,
+        "endChar": 42
+      },
+      "revId": "b5885b0e48429a8772edf0ef884595d7c3af4eed",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_43681387",
+        "filename": "utils/parser.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-01-24T02:34:53Z",
+      "side": 1,
+      "message": "Where could we put together the full path?",
+      "range": {
+        "startLine": 114,
+        "startChar": 19,
+        "endLine": 114,
+        "endChar": 54
+      },
+      "revId": "b5885b0e48429a8772edf0ef884595d7c3af4eed",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
