@@ -14,6 +14,7 @@ import yaml
 class Parser():
 
     bottlenecks_config = {}
+    bottlenecks_test = {}
 
     @classmethod
     def config_init(cls):
@@ -35,7 +36,7 @@ class Parser():
             cls.config_dir_check(cls.bottlenecks_config["log_dir"])
 
     @classmethod
-    def config_read(cls, testcase, story_name):
+    def story_read(cls, testcase, story_name):
         story_dir = os.path.join(
             cls.test_dir,
             testcase,
@@ -44,15 +45,23 @@ class Parser():
         with open(story_dir) as file:
             story_parser = yaml.load(file)
         for case_name in story_parser['testcase']:
-            testcase_dir = os.path.join(
-                cls.test_dir,
-                testcase,
-                'testcase_cfg',
-                case_name)
-            with open(testcase_dir) as f:
-                cls.bottlenecks_config[case_name] = yaml.load(f)
+            Parser.testcase_read(cls, testcase, case_name)
 
-        return cls.bottlenecks_config
+        return cls.bottlenecks_test
+
+    @classmethod
+    def testcase_read(cls, testcase, testcase_name):
+
+        testcase_dir = os.path.join(
+            cls.test_dir,
+            testcase,
+            'testcase_cfg',
+            testcase_name)
+        testcase_local = testcase_dir + ".yaml"
+        with open(testcase_local) as f:
+            cls.bottlenecks_test[testcase_name] = yaml.load(f)
+
+        return cls.bottlenecks_test
 
     @classmethod
     def config_dir_check(cls, dirname):
@@ -67,3 +76,4 @@ class Parser():
         stack_cfg = testcase_cfg['stack_config']
         # TO-DO add cli parameters to stack_config.
         return test_cfg, stack_cfg
+
