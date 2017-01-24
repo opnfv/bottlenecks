@@ -121,7 +121,7 @@ function run_test(){
                 #adjust config parameters
                 #run test case
                 file=${BASEDIR}/testsuites/posca/testcase_cfg/${i}.yaml
-                python /home/opnfv/bottlenecks/testsuites/posca/run_posca.py -c ${i}
+                python /home/opnfv/bottlenecks/testsuites/posca/run_posca.py
             done
         ;;
     esac
