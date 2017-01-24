@@ -8,37 +8,39 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-import sys
-import subprocess
+import importlib
+import utils.parser as conf_parser
+import utils.logger as log
 
-INTERPRETER = "/usr/bin/python"
+LOG = log.Logger(__name__).getLogger()
 # ------------------------------------------------------
 # run posca testcase
 # ------------------------------------------------------
 
 
-def posca_run(arg):
-    print("========== run posca ==========")
-    print(arg)
-    if(arg == "posca_factor_system_bandwidth"):
-        print("========== run posca_system_bandwidth ===========")
-        cmd = '/home/opnfv/bottlenecks/testsuites/posca/testcase_script/\
-posca_factor_system_bandwidth.py'
-        pargs = [INTERPRETER, cmd]
-        sub_result = subprocess.Popen(pargs)
-        sub_result.wait()
+def posca_testcase_run(testcase_script, test_config):
+
+    module_string = "testsuites.posca.testcase_script.%s" % (testcase_script)
+    module = importlib.import_module(module_string)
+    module.run(test_config)
 
 
-def posca_env_check():
-    print("========== posca env check ===========")
+def posca_run(test_level, test_name):
+    if test_level == "testcase":
+        config = conf_parser.Parser.testcase_read("posca", test_name)
+    elif test_level == "teststory":
+        config = conf_parser.Parser.story_read("posca", test_name)
+    for testcase in config:
+        print(config[testcase])
+        posca_testcase_run(testcase, config[testcase])
 
 
 def main():
-    # para_testname = sys.argv[0]
-    para_test_arg = sys.argv[2]
-    posca_env_check()
-    posca_run(para_test_arg)
-    sys.exit(0)
+    test_level = "testcase"
+    test_name = "posca_factor_system_bandwidth"
+    posca_run(test_level, test_name)
+
 
 if __name__ == '__main__':
     main()
+
