@@ -33,8 +33,8 @@ test_dict = {
 }
 
 
-def env_pre():
-    Runner.Create_Incluxdb()
+def env_pre(con_dic):
+    Runner.Create_Incluxdb(con_dic['runner_config'])
 
 
 def do_test(test_config, con_dic):
@@ -64,6 +64,7 @@ def run(con_dic):
     if con_dic["runner_config"]["yardstick_test_ip"] is None:
         con_dic["runner_config"]["yardstick_test_ip"] =\
             conf_parser.ip_parser("yardstick_test_ip")
+    env_pre(con_dic)
     for test_x in data["tx_pkt_sizes"]:
         data_max["throughput"] = 1
         bandwidth_tmp = 1
