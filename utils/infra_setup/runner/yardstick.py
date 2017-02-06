@@ -33,7 +33,7 @@ def Get_Reply(test_config, task_id, time_test=1):
     if reply_data["status"] == 1:
         return(reply_data["result"])
     if reply_data["status"] == 0:
-        if time_test == 10:
+        if time_test == 100:
             LOG.info("yardstick time out")
             sys.exit()
         time.sleep(10)
@@ -77,4 +77,3 @@ def find_condition(con_dic):
     requests.post(
         base_url, headers=headers)
     LOG.info("check for creating InfluxDB")
-

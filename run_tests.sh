@@ -71,7 +71,7 @@ function run_test(){
 
     case $test_suite in
         "rubbos")
-            info "Running rubbos test suite"
+            info "Running rubbos test suite\n"
             test_file="/home/opnfv/bottlenecks/testsuites/rubbos/testsuite_story/rubbos_story1"
             if [[ -f $test_file ]]; then
                 testcases=($(cat $test_file))
@@ -107,22 +107,15 @@ function run_test(){
             done
         ;;
         "posca")
+            info "Composing up dockers"
+            docker-compose -f /home/opnfv/bottlenecks/docker/bottleneck-compose/docker-compose.yml up -d
+            info "Pulling tutum/influxdb for yardstick"
+            docker pull tutum/influxdb:0.13
+            info "Copying testing scripts to docker"
+            docker cp /home/opnfv/bottlenecks/run_posca.sh bottleneckcompose_bottlenecks_1:/home/opnfv/bottlenecks
+            sleep 5
             info "Running posca test suite"
-            test_file="/home/opnfv/bottlenecks/testsuites/posca/testsuite_story/posca_factor_test"
-            if [[ -f $test_file ]]; then
-                testcases=($(cat $test_file))
-            else
-                error "no posca test suite file "
-            fi
-
-            for i in "${testcases[@]}"; do
-                #check if the testcase is legal or not
-                check_testcase -posca $i
-                #adjust config parameters
-                #run test case
-                file=${BASEDIR}/testsuites/posca/testcase_cfg/${i}.yaml
-                python /home/opnfv/bottlenecks/testsuites/posca/run_posca.py -c ${i}
-            done
+            docker exec bottleneckcompose_bottlenecks_1 bash /home/opnfv/bottlenecks/run_posca.sh
         ;;
     esac
 }
