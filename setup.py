@@ -7,38 +7,40 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-'''This file realize the function of how to setup bottlenecks to your environment
-This use setuptools tool to setup'''
+'''This file realize the function of how to setup bottlenecks
+to your environment. This use setuptools tool to setup'''
 
 from setuptools import setup, find_packages
 
 
 setup(
-        name="bottlenecks",
-        version="master",
-        py_modules=['bottlenecks_cli'],
-        packages=find_packages(),
-        include_package_data=True,
-        package_data={
-                    'utils': [
-                                    'utils/infra_setup/heat/*.py',
-                                    'utils/infra_setup/runner/*.py'
-                                ],
-                    'config': [
-                                    '*.yaml'
-                                ],
-                    'testsuites': [
-                                    'posca/testcase_cfg/*',
-                                    'posca/testcase_script/*',
-                                    'posca/testsuite_story/*',
-                                    'posca/testcase_dashboard/*'
-                                ],
-                },
-        url="https://www.opnfv.org",
-        install_requires=["click"],
-        entry_points={
-                    'console_scripts': [
-                                    'bottlenecks=cli.bottlenecks_cli:main'
-                                ],
-                },
+    name="bottlenecks",
+    version="master",
+    py_modules=['bottlenecks_cli'],
+    packages=find_packages(),
+    include_package_data=True,
+    package_data={
+        'utils': [
+            'utils/infra_setup/heat/*.py',
+            'utils/infra_setup/runner/*.py',
+            'utils/*.py'
+        ],
+        'config': [
+            '*.yaml'
+        ],
+        'testsuites': [
+            'posca/testcase_cfg/*',
+            'posca/testcase_script/*',
+            'posca/testsuite_story/*',
+            'posca/testcase_dashboard/*'
+        ],
+    },
+    url="https://www.opnfv.org",
+    install_requires=["click"],
+    entry_points={
+        'console_scripts': [
+            'bottlenecks=cli.bottlenecks_cli:main'
+        ],
+    },
 )
+
