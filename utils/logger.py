@@ -20,6 +20,7 @@ import logging
 import os
 
 from utils.parser import Parser as conf
+conf.config_init()
 
 
 class Logger:

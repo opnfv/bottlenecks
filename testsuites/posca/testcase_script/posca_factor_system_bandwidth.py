@@ -16,10 +16,11 @@ import os
 import time
 import utils.logger as log
 import utils.infra_setup.runner.yardstick as Runner
+from utils.parser import Parser as conf_parser
 # --------------------------------------------------
 # logging configuration
 # --------------------------------------------------
-LOG = log.Logger(__name__)
+LOG = log.Logger(__name__).getLogger()
 
 test_dict = {
     "action": "runTestCase",
@@ -41,7 +42,7 @@ def do_test(test_config, con_dic):
     Task_id = Runner.Send_Data(test_dict, con_dic['runner_config'])
     time.sleep(con_dic['test_config']['test_time'])
     Data_Reply = Runner.Get_Reply(con_dic['runner_config'], Task_id)
-    test_date = Data_Reply[con_dic['runner_config']['testcase']][0]
+    test_date = Data_Reply[con_dic['runner_config']['yardstick_testcase']][0]
     return test_date
 
 
@@ -60,6 +61,9 @@ def run(con_dic):
     data_return = {}
     data_max = {}
     data_return["throughput"] = 1
+    if con_dic["runner_config"]["yardstick_test_ip"] is None:
+        con_dic["runner_config"]["yardstick_test_ip"] =\
+            conf_parser.ip_parser("yardstick_test_ip")
     for test_x in data["tx_pkt_sizes"]:
         data_max["throughput"] = 1
         bandwidth_tmp = 1
@@ -88,12 +92,3 @@ def run(con_dic):
         pre_role_result = cur_role_result
     print("date_id is %d,id return success\n" % date_id)
     return data_return
-
-
-def main():
-    run(con_dic)
-
-
-if __name__ == '__main__':
-    main()
-
