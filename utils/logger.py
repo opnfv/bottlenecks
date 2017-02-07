@@ -19,7 +19,8 @@
 import logging
 import os
 
-from utils.parser import Parser as conf
+from utils.parser import Parser as conf_parser
+conf_parser.config_init()
 
 
 class Logger:
@@ -47,7 +48,7 @@ class Logger:
             ch.setLevel(logging.INFO)
         self.logger.addHandler(ch)
 
-        result_path = conf.bottlenecks_config["log_dir"]
+        result_path = conf_parser.bottlenecks_config["log_dir"]
         if not os.path.exists(result_path):
             os.makedirs(result_path)
         result_file = os.path.join(result_path, 'bottlenecks.log')

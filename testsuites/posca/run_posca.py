@@ -39,15 +39,9 @@ def posca_run(test_level, test_name):
     elif test_level == "teststory":
         config = conf_parser.Parser.story_read("posca", test_name)
     for testcase in config:
-        print(config[testcase])
+        LOG.info("Begin to run %s testcase in POSCA testsuite", testcase)
         posca_testcase_run(testcase, config[testcase])
-    if con_dic["dashboard"] == "y":
-        cmd = '/home/opnfv/bottlenecks/testsuites/posca/testcase_dashboard/\
-system_bandwidth.py'
-        pargs = [INTERPRETER, cmd]
-        LOG.info("\nBegin to establish dashboard.")
-        sub_result = subprocess.Popen(pargs)
-        sub_result.wait()
+        LOG.info("End of %s testcase in POSCA testsuite", testcase)
 
 
 def main():
@@ -58,4 +52,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

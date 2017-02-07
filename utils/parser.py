@@ -14,6 +14,7 @@ Second is reading config file.'''
 
 import os
 import yaml
+from pyroute2 import IPDB
 
 
 class Parser():
@@ -81,6 +82,16 @@ class Parser():
         stack_cfg = testcase_cfg['stack_config']
         # TO-DO add cli parameters to stack_config.
         return test_cfg, stack_cfg
+
+    @staticmethod
+    def ip_parser(ip_type):
+        with IPDB() as ip:
+            GATEWAY_IP = ip.routes['default'].gateway
+        if ip_type is "dashboard":
+            TEST_IP = GATEWAY_IP + ":9200"
+        elif ip_type is "yardstick_test_ip":
+            TEST_IP = GATEWAY_IP + ":8888"
+        return TEST_IP
 
 
 class HeatTemplate_Parser():
@@ -282,4 +293,3 @@ class HeatTemplate_Parser():
 
     def get_template_date(self):
         return self.heat_date
-
