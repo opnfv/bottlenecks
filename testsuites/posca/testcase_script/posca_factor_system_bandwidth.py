@@ -42,7 +42,11 @@ def do_test(test_config, con_dic):
     Task_id = Runner.Send_Data(test_dict, con_dic['runner_config'])
     time.sleep(con_dic['test_config']['test_time'])
     Data_Reply = Runner.Get_Reply(con_dic['runner_config'], Task_id)
-    test_date = Data_Reply[con_dic['runner_config']['yardstick_testcase']][0]
+    try:
+        test_date =\
+            Data_Reply[con_dic['runner_config']['yardstick_testcase']][0]
+    except IndexError:
+        test_date = do_test(test_config, con_dic)
     return test_date
 
 
