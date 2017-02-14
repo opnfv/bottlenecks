@@ -22,7 +22,7 @@ INTERPRETER = "/usr/bin/python"
 
 LOG = log.Logger(__name__).getLogger()
 # ------------------------------------------------------
-# run posca testcase
+# run testcase in posca
 # ------------------------------------------------------
 
 
@@ -40,6 +40,8 @@ def posca_run(test_level, test_name):
         config = conf_parser.Parser.story_read("posca", test_name)
     for testcase in config:
         LOG.info("Begin to run %s testcase in POSCA testsuite", testcase)
+        config[testcase]['out_file'] =\
+            conf_parser.Parser.testcase_out_dir(testcase)
         posca_testcase_run(testcase, config[testcase])
         LOG.info("End of %s testcase in POSCA testsuite", testcase)
 

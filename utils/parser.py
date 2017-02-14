@@ -14,6 +14,8 @@ Second is reading config file.'''
 
 import os
 import yaml
+import json
+import time
 from pyroute2 import IPDB
 
 
@@ -76,6 +78,13 @@ class Parser():
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
+    @classmethod
+    def testcase_out_dir(cls, testcase):
+        file_time = time.strftime('%H_%M', time.localtime(time.time()))
+        out_name = cls.bottlenecks_config["log_dir"] + testcase + file_time
+        outfile_name = out_name + ".out"
+        return outfile_name
+
     @staticmethod
     def config_parser(testcase_cfg, parameters):
         test_cfg = testcase_cfg['test_config']
@@ -92,6 +101,12 @@ class Parser():
         elif ip_type is "yardstick_test_ip":
             TEST_IP = GATEWAY_IP + ":8888"
         return TEST_IP
+
+    @staticmethod
+    def result_to_file(data, file_name):
+        with open(file_name, "a") as f:
+            f.write(json.dumps(data, f))
+            f.write("\n")
 
 
 class HeatTemplate_Parser():

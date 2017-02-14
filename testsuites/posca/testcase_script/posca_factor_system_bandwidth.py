@@ -17,6 +17,7 @@ import time
 import utils.logger as log
 import utils.infra_setup.runner.yardstick as Runner
 from utils.parser import Parser as conf_parser
+import testsuites.posca.testcase_dashboard.system_bandwidth as DashBoard
 # --------------------------------------------------
 # logging configuration
 # --------------------------------------------------
@@ -31,10 +32,21 @@ test_dict = {
         "testcase": "netperf_bottlenecks"
     }
 }
+testfile = os.path.basename(__file__)
+testcase, file_format = os.path.splitext(testfile)
 
 
 def env_pre(con_dic):
     Runner.Create_Incluxdb(con_dic['runner_config'])
+
+
+def config_to_result(test_config, test_result):
+    testdata = {}
+    test_result["throughput"] = float(test_result["throughput"])
+    test_result.update(test_config)
+    testdata["data_body"] = test_result
+    testdata["testcase"] = testcase
+    return testdata
 
 
 def do_test(test_config, con_dic):
@@ -47,7 +59,12 @@ def do_test(test_config, con_dic):
             Data_Reply[con_dic['runner_config']['yardstick_testcase']][0]
     except IndexError:
         test_date = do_test(test_config, con_dic)
-    return test_date
+
+    save_data = config_to_result(test_config, test_date)
+    if con_dic['runner_config']['dashboard'] == 'y':
+        DashBoard.dashboard_send_data(con_dic['runner_config'], save_data)
+
+    return save_data["data_body"]
 
 
 def run(con_dic):
@@ -58,17 +75,26 @@ def run(con_dic):
     data["tx_pkt_sizes"] = tx_pkt_a
     con_dic["result_file"] = os.path.dirname(
         os.path.abspath(__file__)) + "/test_case/result"
-    date_id = 0
     cur_role_result = 1
     pre_role_result = 1
     pre_reply = {}
     data_return = {}
     data_max = {}
     data_return["throughput"] = 1
+
     if con_dic["runner_config"]["yardstick_test_ip"] is None:
         con_dic["runner_config"]["yardstick_test_ip"] =\
             conf_parser.ip_parser("yardstick_test_ip")
+
     env_pre(con_dic)
+
+    if con_dic["runner_config"]["dashboard"] == 'y':
+        if con_dic["runner_config"]["dashboard_ip"] is None:
+            con_dic["runner_config"]["dashboard_ip"] =\
+                conf_parser.ip_parser("dashboard")
+        LOG.info("Create Dashboard data")
+        DashBoard.dashboard_system_bandwidth(con_dic["runner_config"])
+
     for test_x in data["tx_pkt_sizes"]:
         data_max["throughput"] = 1
         bandwidth_tmp = 1
@@ -78,22 +104,23 @@ def run(con_dic):
                 "rx_msg_size": float(test_y),
                 "test_time": con_dic['test_config']['test_time']
             }
-            date_id = date_id + 1
             data_reply = do_test(test_config, con_dic)
-            bandwidth = float(data_reply["throughput"])
+            conf_parser.result_to_file(data_reply, con_dic["out_file"])
+            bandwidth = data_reply["throughput"]
             if (data_max["throughput"] < bandwidth):
                 data_max = data_reply
             if (abs(bandwidth_tmp - bandwidth) / bandwidth_tmp < 0.025):
-                print(pre_reply)
+                LOG.info("this group of data has reached top output")
                 break
             else:
                 pre_reply = data_reply
                 bandwidth_tmp = bandwidth
         cur_role_result = float(pre_reply["throughput"])
         if (abs(pre_role_result - cur_role_result) / pre_role_result < 0.025):
-            print("date_id is %d,package return at line 111\n" % date_id)
+            LOG.info("The performance increases slowly")
         if data_return["throughput"] < data_max["throughput"]:
             data_return = data_max
         pre_role_result = cur_role_result
-    print("date_id is %d,id return success\n" % date_id)
+    LOG.info("Find bottlenecks of this config")
+    LOG.info("The max data is %d", data_return["throughput"])
     return data_return

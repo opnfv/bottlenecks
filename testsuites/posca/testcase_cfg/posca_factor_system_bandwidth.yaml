@@ -7,7 +7,7 @@ test_config:
   cpu_load: 0.9
   latency: 100000
 runner_config:
-  dashboard: y
+  dashboard: "y"
   dashboard_ip:
   stack_create: yardstick
   yardstick_test_ip:
