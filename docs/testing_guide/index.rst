@@ -2,12 +2,15 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Huawei Technologies Co.,Ltd and others.
 
-=========================
-Bottlenecks Release Notes
-=========================
+***************************
+Bottlenecks - Testing Guide
+***************************
 
 .. toctree::
    :maxdepth: 2
 
-   release-notes
-
+   ./overview.rst
+   ./posca_guide.rst
+   ./rubbos_guide.rst
+   ./vstf_guide.rst
+   ./dashboard_guide.rst
