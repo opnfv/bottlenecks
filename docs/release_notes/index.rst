@@ -2,11 +2,12 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Huawei Technologies Co.,Ltd and others.
 
-*****************************
-Bottlenecks - configureguide
-*****************************
+***************************
+Bottlenecks - Release Notes
+***************************
 
 .. toctree::
    :maxdepth: 2
 
-   ./README.rst
+   ./release_notes.rst
+   ./requirements_notes.rst
