@@ -2,10 +2,9 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Huawei Technologies Co.,Ltd and others.
 
-*************************
-Bottlenecks Test Report
-*************************
-
+**************
+Dashbard guide
+**************
 
 Scope
 =====
