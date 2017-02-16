@@ -25,3 +25,5 @@ Bottlenecks - user guide
    ./vstf/opnfv_bottlenecks_vstf_Tu1.rst
    ./vstf/opnfv_bottlenecks_vstf_Tu2.rst
    ./vstf/opnfv_bottlenecks_vstf_Tu3.rst
+   ./posca/posca_stress_ping.rst
+   ./posca/posca_stress_traffic.rst
