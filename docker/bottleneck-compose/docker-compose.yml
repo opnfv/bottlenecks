@@ -19,9 +19,20 @@ yardstick:
   image: opnfv/yardstick:latest
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
+    - /tmp/:/tmp/
   ports:
     - "8888:5000"
+  privileged: true
+  environment:
+    - INSTALLER_IP=192.168.200.2
+    - INSTALLER_TYPE=compass
 
 bottlenecks:
   restart: always
   build: bottlenecks/
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /tmp/:/tmp/
+  environment:
+    - INSTALLER_IP=192.168.200.2
+    - INSTALLER_TYPE=compass
