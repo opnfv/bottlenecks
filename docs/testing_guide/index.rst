@@ -2,13 +2,15 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Huawei Technologies Co.,Ltd and others.
 
-*************************************
-Bottlenecks - installation prodedure
-*************************************
+***************************
+Bottlenecks - Testing Guide
+***************************
 
 .. toctree::
    :maxdepth: 2
 
-   ./rubbos_installation.rst
-   ./vstf_installation.rst
-   ./bottlenecks_test_result.rst
+   ./overview.rst
+   ./posca_guide.rst
+   ./rubbos_guide.rst
+   ./vstf_guide.rst
+   ./dashboard_guide.rst
