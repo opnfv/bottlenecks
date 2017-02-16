@@ -16,6 +16,7 @@ and if you run "python run_posca", this will run testcase,
 posca_factor_system_bandwidth by default.'''
 
 import importlib
+import sys
 import utils.parser as conf_parser
 import utils.logger as log
 INTERPRETER = "/usr/bin/python"
@@ -47,8 +48,8 @@ def posca_run(test_level, test_name):
 
 
 def main():
-    test_level = "testcase"
-    test_name = "posca_factor_system_bandwidth"
+    test_level = sys.argv[1]
+    test_name = sys.argv[2]
     posca_run(test_level, test_name)
 
 
