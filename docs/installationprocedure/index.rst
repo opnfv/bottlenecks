@@ -12,3 +12,4 @@ Bottlenecks - installation prodedure
    ./rubbos_installation.rst
    ./vstf_installation.rst
    ./bottlenecks_test_result.rst
+   ./posca_installation.rst
