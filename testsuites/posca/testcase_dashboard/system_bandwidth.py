@@ -17,9 +17,11 @@ from utils.parser import Parser as conf_parser
 LOG = log.Logger(__name__).getLogger()
 config = ConfigParser.ConfigParser()
 es = Elasticsearch()
-dashboard_dir = os.path.join(conf_parser.test_dir,
-                             "posca",
-                             "testcase_dashboard")
+dashboard_path = os.path.join(conf_parser.test_dir,
+                              "posca",
+                              "testcase_dashboard")
+dashboard_dir = dashboard_path + "/"
+
 
 
 def dashboard_send_data(runner_config, test_data):

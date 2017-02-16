@@ -16,7 +16,7 @@ from setuptools import setup, find_packages
 setup(
     name="bottlenecks",
     version="master",
-    py_modules=['bottlenecks_cli'],
+    py_modules=['cli/bottlenecks_cli'],
     packages=find_packages(),
     include_package_data=True,
     package_data={
@@ -43,4 +43,3 @@ setup(
         ],
     },
 )
-
