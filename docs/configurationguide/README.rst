@@ -18,6 +18,10 @@ Colorado: rubbos is refactored by using puppet, which makes it quite flexible
 to configure with different number of load generator(Client), worker(tomcat).
 vstf is refactored by extracting the test case's configuration information.
 
+Danube: posca testsuite is introduced to implementing stress (factor), scenario and 
+tuning test in parametric manner. Two testcases are developed and integrated into
+community CI pipeline.
+
 ***********************************
 Test suite & Test case Description
 ***********************************
@@ -50,6 +54,11 @@ Test suite & Test case Description
 |        +-----------------------------+
 |        | vstf_Tu3                    |
 +--------+-----------------------------+
+|posca   | posca_stress_ping           |
+|        +-----------------------------+
+|        | posca_stress_traffic        |
+|        |(posca_factor_sys_bandwidth) |
++--------+-----------------------------+
 
 ***********************
 Integration Description
@@ -60,4 +69,6 @@ Integration Description
 | Brahmaputra |    Fuel              |
 +-------------+----------------------+
 | Colorado    |    Compass           |
++-------------+----------------------+
+| Danube      |    Compass           |
 +-------------+----------------------+

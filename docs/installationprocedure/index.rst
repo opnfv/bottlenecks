@@ -9,6 +9,8 @@ Bottlenecks - installation prodedure
 .. toctree::
    :maxdepth: 2
 
+   ./posca_installation.rst
    ./rubbos_installation.rst
    ./vstf_installation.rst
    ./bottlenecks_test_result.rst
+
