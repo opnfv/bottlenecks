@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_f57603d8",
+        "filename": "testsuites/posca/testcase_cfg/posca_stress_ping.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-02-16T07:34:31Z",
+      "side": 1,
+      "message": "Please remvoe the whitespace",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "4584e33a3ec4e442f4e85d2f310b40df6bf00028",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
