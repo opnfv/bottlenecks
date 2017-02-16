@@ -36,6 +36,7 @@ RUN apt-get update && apt-get install -y \
     python \
     python-dev \
     python-pip \
+    vim \
     python-setuptools && \
     easy_install -U setuptools==30.0.0
 
@@ -50,3 +51,4 @@ RUN git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO_DIR}
 
 RUN easy_install pytz
 RUN pip install -r ${REPOS_DIR}/bottlenecks/requirements.txt
+RUN pip install -U /home/opnfv/bottlenecks

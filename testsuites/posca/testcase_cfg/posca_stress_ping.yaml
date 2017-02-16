@@ -1,0 +1,22 @@
+# Sample stress task config file
+# Three scenarios run in parallel pinging one target vm.
+# Multiple context are used to specify the host and target VMs.
+
+load_manager:
+  scenarios:
+    tool: ping
+    test_times: 100
+    package_size: 
+    num_stack: 2, 5, 10
+    package_loss: 10%
+
+  contexts:
+    stack_create: yardstick
+    flavor: xxx
+    yardstick_test_ip:
+    yardstick_test_dir: "samples"
+    yardstick_testcase: "ping_bottlenecks"
+
+dashboard:
+  dashboard: y
+  dashboard_ip:
