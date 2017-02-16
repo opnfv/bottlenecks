@@ -2,9 +2,9 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Huawei Technologies Co.,Ltd and others.
 
-**************************************
-Bottlenecks Rubbos Installation Guide
-**************************************
+**********************
+Rubbos Testsuite Guide
+**********************
 
 
 Rubbos Introduction
