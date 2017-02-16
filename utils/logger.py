@@ -36,7 +36,7 @@ class Logger:
 
         ch = logging.StreamHandler()
         log_formatter = ('%(asctime)s '
-                         '%(name)s %(filename)s:%(lineno)d '
+                         '%(filename)s:%(lineno)d '
                          '%(levelname)s %(message)s')
 
         formatter = logging.Formatter(log_formatter)
