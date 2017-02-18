@@ -1,0 +1,11 @@
+{
+    "title": "posca_stress_ping_table",
+    "visState": "{\"title\":\"New Visualization\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showPartialRows\":false,\"showMeticsAtAllLevels\":false},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"duration_time\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"number_of_users\",\"size\":100,\"order\":\"asc\",\"orderBy\":\"1\"}},{\"id\":\"3\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"success_times\",\"size\":100,\"order\":\"asc\",\"orderBy\":\"1\"}},{\"id\":\"4\",\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"success_rate\",\"size\":100,\"order\":\"asc\",\"orderBy\":\"1\"}}],\"listeners\":{}}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "savedSearchId": "posca_stress_ping",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"filter\":[]}"
+    }
+}
