@@ -64,11 +64,28 @@ def Create_Incluxdb(con_dic):
     test_dict = {
         "action": "createInfluxDBContainer",
     }
-    requests.post(
+    responce = requests.post(
         base_url, data=json.dumps(test_dict), headers=headers)
+    ask_data = json.loads(responce.text)
+    task_id = ask_data["result"]["task_id"]
     LOG.info("waiting for creating InfluxDB")
     time.sleep(30)
-    LOG.info("Done, creating InflxDB Container")
+    return task_id
+
+
+def yardstick_env_prepare(con_dic):
+    base_url = ("http://%s/yardstick/env/action"
+                % (con_dic['yardstick_test_ip']))
+    test_dict = {
+        "action": "prepareYardstickEnv",
+    }
+    LOG.info("waiting for yardstick environment prepare")
+    reponse = requests.post(
+        base_url, data=json.dumps(test_dict), headers=headers)
+    ask_data = json.loads(reponse.text)
+    task_id = ask_data["result"]["task_id"]
+    LOG.info("Done, yardstick environment prepare complete!")
+    return task_id
 
 
 def find_condition(con_dic):
