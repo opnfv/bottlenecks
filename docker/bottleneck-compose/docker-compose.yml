@@ -16,7 +16,7 @@ kibana:
 
 yardstick:
   restart: always
-  image: opnfv/yardstick:latest
+  image: opnfv/yardstick:latest 
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /tmp/:/tmp/
