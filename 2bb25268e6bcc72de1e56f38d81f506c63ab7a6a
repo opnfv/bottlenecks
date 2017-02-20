@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_cbb8f32c",
+        "filename": "testsuites/posca/testcase_dashboard/posca_stress_ping.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-02-20T09:35:57Z",
+      "side": 1,
+      "message": "duplicated line here",
+      "range": {
+        "startLine": 79,
+        "startChar": 3,
+        "endLine": 79,
+        "endChar": 39
+      },
+      "revId": "2bb25268e6bcc72de1e56f38d81f506c63ab7a6a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
