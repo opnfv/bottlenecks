@@ -28,10 +28,10 @@ def _prepare_env_daemon():
 
     _source_file(rc_file)
 
-    _append_external_network(rc_file)
+    # _append_external_network(rc_file)
 
     # update the external_network
-    _source_file(rc_file)
+    # _source_file(rc_file)
 
 
 def _get_remote_rc_file(rc_file, installer_ip, installer_type):

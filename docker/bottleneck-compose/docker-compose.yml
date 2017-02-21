@@ -36,3 +36,4 @@ bottlenecks:
   environment:
     - INSTALLER_IP=192.168.200.2
     - INSTALLER_TYPE=compass
+    - DEBUG=true

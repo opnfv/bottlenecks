@@ -18,8 +18,9 @@ import os
 import multiprocessing
 import docker
 import datetime
-import utils.infra_setup.runner.yardstick as Runner
 from utils.parser import Parser as conf_parser
+import utils.env_prepare.quota_prepare as quota_prepare
+import utils.env_prepare.stack_prepare as stack_prepare
 import testsuites.posca.testcase_dashboard.posca_stress_ping as DashBoard
 # --------------------------------------------------
 # logging configuration
@@ -40,9 +41,12 @@ testcase, file_format = os.path.splitext(testfile)
 
 
 def env_pre(con_dic):
+    stack_prepare._prepare_env_daemon()
+    quota_prepare.quota_env_prepare()
     client = docker.from_env()
     con = client.containers.get('bottleneckcompose_yardstick_1')
     cmd = ('yardstick env prepare')
+    LOG.info("yardstick envrionment prepare!")
     stdout = con.exec_run(cmd)
     LOG.debug(stdout)
 
@@ -99,14 +103,16 @@ def run(test_config):
         LOG.info("Create Dashboard data")
         DashBoard.posca_stress_ping(test_config["dashboard"])
 
-    LOG.info("yardstick envrionment prepare!")
+    LOG.info("bottlenecks envrionment prepare!")
     env_pre(con_dic)
+    LOG.info("yardstick envrionment prepare done!")
 
     for value in test_num:
         result = []
         out_num = 0
         num = int(value)
         pool = multiprocessing.Pool(processes=num)
+        LOG.info("begin to run %s thread" % num)
 
         starttime = datetime.datetime.now()
         for i in range(0, int(num)):
