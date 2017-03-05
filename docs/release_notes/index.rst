@@ -2,6 +2,8 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Huawei Technologies Co.,Ltd and others.
 
+.. _Bottlenecks-ReleaseNotes:
+
 ***************************
 Bottlenecks - Release Notes
 ***************************
