@@ -7,7 +7,6 @@ Bottlenecks - Release Notes
 ***************************
 
 .. toctree::
-   :maxdepth: 2
+   :glob:
 
-   ./release_notes.rst
-   ./requirements_notes.rst
+   release-notes/*
