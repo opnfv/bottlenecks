@@ -23,6 +23,13 @@ This project forms a staging framework to find bottlenecks and to do analysis of
 The *Bottlenecks* framework is deployed in several  OPNFV community labs. It is
 installer, infrastructure and application independent.
 
+.. toctree::
+   :glob:
+
+   developer/index.rst
+   user/index.rst
+   *
+
 .. _Pharos: https://wiki.opnfv.org/pharos
 
 .. seealso:: Pharos_ for information on OPNFV community labs.
@@ -35,3 +42,5 @@ Contact Bottlenecks
 Feedback `Contact us`_
 
 .. _Contact us: opnfv-users@lists.opnfv.org
+
+
