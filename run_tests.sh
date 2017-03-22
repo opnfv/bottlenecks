@@ -18,11 +18,11 @@ where:
     -r|--report       push results to DB(true by default)
     -s|--suite        run specific test suite
       <test suite>    one of the following:
-                            rubbos, vstf
+                            rubbos, vstf, posca
 
 examples:
     $(basename "$0")
-    $(basename "$0") -s rubbos"
+    $(basename "$0") -s posca"
 
 report=true
 
@@ -30,40 +30,6 @@ arr_test_suite=(rubbos vstf posca)
 
 Bottlenecks_key_dir="/home/opnfv/bottlenecks/utils/infra_setup"
 
-function check_testcase(){
-
-    check_suite="$1"
-    case $check_suite in
-         "-rubbos")
-             SUITE_PREFIX=$SUITE_PREFIX_CONFIG/rubbos/testcase_cfg
-         ;;
-         "-vstf")
-             SUITE_PREFIX=$SUITE_PREFIX_CONFIG/vstf/testcase_cfg
-         ;;
-         "-posca")
-             SUITE_PREFIX=$SUITE_PREFIX_CONFIG/posca/testcase_cfg
-         ;;
-    esac
-
-    TEST_CASE=$2
-
-    #find all the test case yaml files first
-    find $SUITE_PREFIX -name "*yaml" > /tmp/all_testcases.yaml
-    all_testcases_insuite=`cat /tmp/all_testcases.yaml | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}'`
-    all_testcases=(${all_testcases_insuite})
-
-    if [ "${TEST_CASE}" != "" ]; then
-       testcase_exec=(${TEST_CASE// /})
-       for i in "${testcase_exec[@]}"; do
-           if [[ " ${all_testcases[*]} " != *" $i "* ]]; then
-               error "unknown test case: $i. available test cases are: ${all_test_cases[@]}"
-           fi
-       done
-       info "tests to execute: ${TEST_CASE}."
-    else
-       error "lack of testcase name"
-    fi
-}
 function run_test(){
 
     test_suite=$1
@@ -71,42 +37,20 @@ function run_test(){
 
     case $test_suite in
         "rubbos")
-            info "Running rubbos test suite\n"
-            test_file="/home/opnfv/bottlenecks/testsuites/rubbos/testsuite_story/rubbos_story1"
-            if [[ -f $test_file ]]; then
-                testcases=($(cat $test_file))
-            else
-                error "no rubbos test suite file"
-            fi
-
-            for i in "${testcases[@]}"; do
-                #check if the testcase is legal or not
-                check_testcase -rubbos $i
-                #adjust config parameters, different test suite has different methods, take rubbos as an example
-                #run test case, different test suite has different methods
-                file=${BASEDIR}/testsuites/rubbos/testcase_cfg/${i}.yaml
-                python /home/opnfv/bottlenecks/testsuites/rubbos/run_rubbos.py -c $file
-            done
+            info "After OPNFV Colorado release, Rubbos testsuite is not updating anymore.
+This entrance for running Rubbos within Bottlenecks is no longer supported.
+This testsuite is also not released with Bottlenecks since then.
+If you want to run Rubbos, please refer to earlier releases.\n"
         ;;
         "vstf")
-            info "Running vstf test suite"
-            test_file="/home/opnfv/bottlenecks/testsuites/vstf/testsuite_story/vstf_story1"
-            if [[ -f $test_file ]]; then
-                testcases=($(cat $test_file))
-            else
-                error "no vstf test suite file "
-            fi
-
-            for i in "${testcases[@]}"; do
-                #check if the testcase is legal or not
-                check_testcase -vstf $i
-                #adjust config parameters
-                #run test case
-                file=${BASEDIR}/testsuites/vstf/testcase_cfg/${i}.yaml
-                python /home/opnfv/bottlenecks/testsuites/vstf/run_vstf.py -c $file
-            done
+            info "After OPNFV Colorado release, VSTF testsuite is not updating anymore.
+This entrance for running VSTF within Bottlenecks is no longer supported.
+This testsuite is also not released with Bottlenecks since then.
+If you want to run VSTF, please refer to earlier releases.\n"
         ;;
         "posca")
+            POSCA_SCRIPT=/home/opnfv/bottlenecks/testsuites/posca
+            TEST_CASE=posca_factor_system_bandwidth
             info "Composing up dockers"
             docker-compose -f /home/opnfv/bottlenecks/docker/bottleneck-compose/docker-compose.yml up -d
             info "Pulling tutum/influxdb for yardstick"
@@ -114,8 +58,8 @@ function run_test(){
             info "Copying testing scripts to docker"
             docker cp /home/opnfv/bottlenecks/run_posca.sh bottleneckcompose_bottlenecks_1:/home/opnfv/bottlenecks
             sleep 5
-            info "Running posca test suite"
-            docker exec bottleneckcompose_bottlenecks_1 bash /home/opnfv/bottlenecks/run_posca.sh
+            info "Running posca test suite with default testcase posca_stress_traffic"
+            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SCRIPT}/run_posca.py testcase $TEST_CASE
         ;;
     esac
 }
