@@ -1,0 +1,10 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Ace Lee <liyin11@huawei.com>
+Code-Review+1: Sofia Wallin <sofia.wallin@ericsson.com>
+Code-Review+1: Morgan Richomme <morgan.richomme@orange.com>
+Code-Review+2: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-by: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-at: Thu, 23 Mar 2017 08:25:22 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/31359
+Project: bottlenecks
+Branch: refs/heads/master
