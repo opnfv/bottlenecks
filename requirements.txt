@@ -79,4 +79,4 @@ warlock==1.2.0
 wrapt==1.10.6
 pyroute2==0.4.10
 elasticsearch==5.0.1
-docker==1.12
+docker==2.1.0
