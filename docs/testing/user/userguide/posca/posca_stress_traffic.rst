@@ -32,18 +32,20 @@ Test Case
 
 Configration
 ===========
-test_config:
-  tool: netperf
-  protocol: tcp
-  test_time: 20
-  tx_pkt_sizes: 64, 256, 1024, 4096, 8192, 16384, 32768, 65536
-  rx_pkt_sizes: 64, 256, 1024, 4096, 8192, 16384, 32768, 65536
-  cpu_load: 0.9
-  latency: 100000
-runner_config:
-  dashboard: "y"
-  dashboard_ip:
-  stack_create: yardstick
-  yardstick_test_ip:
-  yardstick_test_dir: "samples"
-  yardstick_testcase: "netperf_bottlenecks"
+::
+
+    test_config:
+      tool: netperf
+      protocol: tcp
+      test_time: 20
+      tx_pkt_sizes: 64, 256, 1024, 4096, 8192, 16384, 32768, 65536
+      rx_pkt_sizes: 64, 256, 1024, 4096, 8192, 16384, 32768, 65536
+      cpu_load: 0.9
+      latency: 100000
+    runner_config:
+      dashboard: "y"
+      dashboard_ip:
+      stack_create: yardstick
+      yardstick_test_ip:
+      yardstick_test_dir: "samples"
+      yardstick_testcase: "netperf_bottlenecks"
