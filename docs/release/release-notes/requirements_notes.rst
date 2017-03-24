@@ -11,13 +11,14 @@ Bottlenecks Requirements Notes for OPNFV Danube Release
 Installer Requirements
 ======================
 
-* TODO
+In Danube, test cases are runned defaultly over compass4nfv deployment.
 
 =====================
 Hardware Requirements
 =====================
 
-* TODO
+No specific requirements for hardware, as long as there is external network connection.
+So that the dependent package could be downloaded.
 
 =====================
 Software Requirements
@@ -26,7 +27,12 @@ Software Requirements
 Operation System
 ----------------
 
-* TODO
+Ubuntu 14.04 is the default system. However, we do not do any linux core operation or call any system related api directly. The software could be runned in higher versions of Ubuntu with high probability. Thorough tests are not performed.
+
+Cloud OS
+--------
+
+Bottlenecks support OpenStack Newton with compatibility for both openstack V2/V3 API. That is, Bottlenecks could be runned over lower version of OpenStack.
 
 Depending Package
 -----------------
@@ -103,3 +109,4 @@ Depending Package
 - wrapt==1.10.6
 - pyroute2==0.4.10
 - elasticsearch==5.0.1
+- docker==2.0.2

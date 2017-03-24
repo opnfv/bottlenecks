@@ -11,6 +11,5 @@ Bottlenecks - Testing Guide
 
    ./overview.rst
    ./posca_guide.rst
-   ./rubbos_guide.rst
-   ./vstf_guide.rst
    ./dashboard_guide.rst
+
