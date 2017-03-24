@@ -11,6 +11,8 @@ Bottlenecks - User Guide
 .. toctree::
    :maxdepth: 2
 
+   ./posca/posca_stress_ping.rst
+   ./posca/posca_stress_traffic.rst
    ./rubbos/rubbos_basic.rst
    ./rubbos/rubbos_tc1101.rst
    ./rubbos/rubbos_tc1201.rst
@@ -25,5 +27,4 @@ Bottlenecks - User Guide
    ./vstf/vstf_Tu1.rst
    ./vstf/vstf_Tu2.rst
    ./vstf/vstf_Tu3.rst
-   ./posca/posca_stress_ping.rst
-   ./posca/posca_stress_traffic.rst
+
