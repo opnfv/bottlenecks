@@ -38,33 +38,27 @@ Version History
 | Sept 22nd, 2016|  1.0               | Bottlenecks Colorado release 1.0|
 |                |                    |                                 |
 +----------------+--------------------+---------------------------------+
-| Feb 17nd, 2016 |  1.1               | Bottlenecks Danube release 1.0  |
+| Feb 17nd, 2017 |  1.1               | Bottlenecks Danube release 1.0  |
 |                |                    |                                 |
 +----------------+--------------------+---------------------------------+
-
+| Mar 24nd, 2017 |  1.2               | Bottlenecks Danube release 1.0  |
+|                |                    |                                 |
++----------------+--------------------+---------------------------------+
 
 Summary
 =======
 
 * Documentation generated with Sphinx
 
-  * User guide
+  * Release
 
-  * Installation Procedure
+    * Release Notes
 
-  * Release Notes (this document)
+  * Testing
 
-  * Platform Overview
+    * User Guide
 
-  * Configuration Guide
-
-* Bottlenecks test suite
-
-  * Jenkins Jobs for OPNFV community labs
-
-* Bottlenecks framework
-
-* Bottlenecks test cases
+    * Development Guide
 
 The *Bottlenecks software* is developed in the OPNFV community, by the
 Bottlenecks_ team.
@@ -72,26 +66,26 @@ Bottlenecks_ team.
 Release Data
 ============
 
-Bramaputra Release Data
+Danube Release Data
 -----------------------
 
 +--------------------------------------+--------------------------------------+
 | **Project**                          | Bottlenecks                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | Bottlenecks/brahmaputra.1.0          |
+| **Repo/tag**                         | Bottlenecks/danube.1.0               |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Bottlenecks Docker image tag**     | brahmaputra.1.0                      |
+| **Bottlenecks Docker image tag**     | danube.1.0                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Brahmaputra base release             |
+| **Release designation**              | Danube 1.0                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | February 25 2016                     |
+| **Release date**                     | March 31 2017                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Brahmaputra base release             |
+| **Purpose of the delivery**          | Danube base release                  |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -108,7 +102,7 @@ Colorado Release Data
 | **Bottlenecks Docker image tag**     | colorado.1.0                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Colorado base release                |
+| **Release designation**              | Colorado 1.0                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Release date**                     | September 22 2016                    |
@@ -118,9 +112,29 @@ Colorado Release Data
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
-Colorado Release Data
+Bramaputra Release Data
 -----------------------
-* TODO
+
++--------------------------------------+--------------------------------------+
+| **Project**                          | Bottlenecks                          |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| **Repo/tag**                         | Bottlenecks/brahmaputra.1.0          |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| **Bottlenecks Docker image tag**     | brahmaputra.1.0                      |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| **Release designation**              | Brahmaputra 1.0                      |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| **Release date**                     | February 25 2016                     |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+| **Purpose of the delivery**          | Brahmaputra base release             |
+|                                      |                                      |
++--------------------------------------+--------------------------------------+
+
 
 Danube Deliverables
 ===================
@@ -138,11 +152,9 @@ Documentatiion Deliverables
 
 **Bottlenecks documentation <danube.1.0>**
 
-* Platformation Overview: http://artifacts.opnfv.org/bottlenecks/danube/1.0/docs/platformoverview/index.html
-* Configuration Guide: http://artifacts.opnfv.org/bottlenecks/danube/1.0/configurationguide/index.html
-* Installation Guide: http://artifacts.opnfv.org/bottlenecks/danube/docs/installationprocedure/index.html
-* http://artifacts.opnfv.org/bottlenecks/danube/1.0/releasenotes/index.html
-* User Guide: http://artifacts.opnfv.org/bottlenecks/danube/1.0/docs/userguide/index.html
+* Release Notes: TO-DO
+* User Guide: TO-DO
+* Development Guide: TO-DO
 
 Colorado Deliverables
 =====================
@@ -169,7 +181,8 @@ Documentatiion Deliverables
 Reason for Version
 ==================
 
-* In Danube, POSCA testsuite is introduced and two stress tests are implemented.
+* In Danube, POSCA testsuite is introduced and two stress tests are implemented. Rubbos and vstf are
+not supported in this release.
 * In Colorado, rubbos is refactored by using puppet, which makes it quite flexible to configure with different number of load generator(Client), worker(tomcat).
 * In Colorado, vstf is refactored by extracting the test case's configuration information.
 
@@ -187,6 +200,27 @@ Test results are available in:
 
  - jenkins logs on CI: https://build.opnfv.org/ci/view/bottlenecks/
 
+The test results are reported to MongoDB. An example is given below.
+
+::
+
+    {
+      "project_name": "bottlenecks",
+      "scenario": "os-odl_l2-nofeature-ha",
+      "stop_date": null,
+      "trust_indicator": null,
+      "case_name": "posca_stress_ping",
+      "build_tag": "bottlenecks-compass-posca_stress_ping-baremetal-daily-master",
+      "version": "master",
+      "pod_name": "huawei-pod2",
+      "criteria": "PASS",
+      "installer": "compass",
+      "_id": "58cf4d3e32c829000a1150a8",
+      "start_date": "2017-3-9 4:33:04",
+      "details": {}
+    }
+
+For more information, please refer to: https://wiki.opnfv.org/display/testing/Result+alignment+for+ELK+post-processing
 
 Open JIRA tickets
 =================
@@ -194,10 +228,12 @@ Open JIRA tickets
 +------------------+-----------------------------------------------+
 |   JIRA           |         Description                           |
 +==================+===============================================+
+| BOTTLENECK-103   | Refactoring the Bottlenecks tesing workflow   |
 +------------------+-----------------------------------------------+
+| BOTTLENECK-135   | Avoiding docker-compose building new image    |
+|                  | for Bottlenecks                               |
 +------------------+-----------------------------------------------+
-+------------------+-----------------------------------------------+
-+------------------+-----------------------------------------------+
+| BOTTLENECK-147   | Investigting why calling remote docker client |
 +------------------+-----------------------------------------------+
 
 
