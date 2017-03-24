@@ -25,7 +25,7 @@ vstf is refactored by extracting the test case's configuration information.
 
 Danube: posca testsuite is introduced to implementing stress (factor), scenario and
 tuning test in parametric manner. Two testcases are developed and integrated into
-community CI pipeline.
+community CI pipeline. Rubbos and VSTF are not supported any more.
 
 Integration Description
 =======================
@@ -41,6 +41,18 @@ Integration Description
 
 Test suite & Test case Description
 ==================================
+
++--------+-------------------------------+
+|posca   | posca_stress_ping             |
+|        +-------------------------------+
+|        | posca_stress_traffic          |
+|        |                               |
+|        | (posca_factor_sys_bandwidth)  |
++--------+-------------------------------+
+
+Deprecated Test suite & Test case
+---------------------------------
+
 +--------+-------------------------------+
 |Rubbos  | rubbos_basic                  |
 |        +-------------------------------+
@@ -69,12 +81,6 @@ Test suite & Test case Description
 |        | vstf_Tu2                      |
 |        +-------------------------------+
 |        | vstf_Tu3                      |
-+--------+-------------------------------+
-|posca   | posca_stress_ping             |
-|        +-------------------------------+
-|        | posca_stress_traffic          |
-|        |                               |
-|        | (posca_factor_sys_bandwidth)  |
 +--------+-------------------------------+
 
 Installation of Testsuites

@@ -32,21 +32,23 @@ Test Case
 
 Configuration
 ============
-load_manager:
-  scenarios:
-    tool: ping
-    test_times: 100
-    package_size:
-    num_stack: 2, 5, 10
-    package_loss: 10%
+::
 
-  contexts:
-    stack_create: yardstick
-    flavor:
-    yardstick_test_ip:
-    yardstick_test_dir: "samples"
-    yardstick_testcase: "ping_bottlenecks"
+    load_manager:
+      scenarios:
+        tool: ping
+        test_times: 100
+        package_size:
+        num_stack: 2, 5, 10
+        package_loss: 10%
 
-dashboard:
-  dashboard: "y"
-  dashboard_ip:
+      contexts:
+        stack_create: yardstick
+        flavor:
+        yardstick_test_ip:
+        yardstick_test_dir: "samples"
+        yardstick_testcase: "ping_bottlenecks"
+
+    dashboard:
+      dashboard: "y"
+      dashboard_ip:
