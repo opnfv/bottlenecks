@@ -15,15 +15,13 @@ from setuptools import setup, find_packages
 
 setup(
     name="bottlenecks",
-    version="master",
+    version="0.1",
     py_modules=['cli/bottlenecks_cli'],
     packages=find_packages(),
     include_package_data=True,
     package_data={
         'utils': [
-            'utils/infra_setup/heat/*.py',
-            'utils/infra_setup/runner/*.py',
-            'utils/*.py'
+            '*.py'
         ],
         'config': [
             '*.yaml'
