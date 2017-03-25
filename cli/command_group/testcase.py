@@ -22,5 +22,4 @@ class Testcase(object):
         self.test_case_list = []
 
     def run(self, testname, noclean=False):
-        if testname == 'posca':
-            os.system('bash /home/opnfv/bottlenecks/run_tests.sh -s posca')
+    	os.system('bash /home/opnfv/bottlenecks/run_tests.sh '+testname)

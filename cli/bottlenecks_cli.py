@@ -26,7 +26,9 @@ def main(ctx):
     """
     pass
 
+
 _testcase = Testcase()
+
 
 @main.group()
 @click.pass_context
@@ -34,10 +36,30 @@ def testcase(ctx):
     """testcase cli group for bottlenecks project"""
     pass
 
+
 @testcase.command('run', help="To execute a test case.")
 @click.argument('testname', type=click.STRING, required=True)
 @click.option('-n', '--noclean', is_flag=True, default=False,
               help='Openstack resources created by the test'
               'will not be cleaned after the testcase execution.')
 def testcase_run(testname, noclean):
-    _testcase.run(testname, noclean)
+    _testcase.run('-c ' + testname, noclean)
+
+
+_teststory = Testcase()
+
+
+@main.group()
+@click.pass_context
+def teststory(ctx):
+    """teststory cli group for bottlenecks project"""
+    pass
+
+
+@teststory.command('run', help="To execute a test story.")
+@click.argument('testname', type=click.STRING, required=True)
+@click.option('-n', '--noclean', is_flag=True, default=False,
+              help='Openstack resources created by the test'
+              'will not be cleaned after the teststory execution.')
+def teststory_run(testname, noclean):
+    _testcase.run('-s ' + testname, noclean)
