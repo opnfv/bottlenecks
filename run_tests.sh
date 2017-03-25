@@ -11,55 +11,75 @@
 usage="Script to run the tests in bottlenecks auto.
 
 usage:
-    bash $(basename "$0") [-h|--help] [-s <test suite>]
+    bash $(basename "$0") [-h|--help] [-s <test suite>] [-c <test case>]
 
 where:
     -h|--help         show the help text
     -r|--report       push results to DB(true by default)
-    -s|--suite        run specific test suite
-      <test suite>    one of the following:
-                            rubbos, vstf, posca
+    -s|--teststory    run specific test story
+      <test story>        one of the following:
+                              (rubbos, vstf, posca_factor_test)
+                      user can also define their own test story and pass as var to this file,
+                      please refer to testsuites/posca/testsuite_story/ for details
+    -c|--testcase     run specific test case
+      <test case>         one of the following:
+                              (posca_factor_system_bandwidth, posca_factor_ping)
 
 examples:
     $(basename "$0")
-    $(basename "$0") -s posca"
+    $(basename "$0") -s posca_factor_test"
+
+Bottlenecks_key_dir="/home/opnfv/bottlenecks/utils/infra_setup"
+POSCA_SCRIPT="/home/opnfv/bottlenecks/testsuites/posca"
+SUITE_PREFIX="/home/opnfv/bottlenecks/testsuites/posca/testcase_cfg"
 
 report=true
 
-arr_test_suite=(rubbos vstf posca)
+#TO-DO add auto-find for test story as for test case
+all_test_story=(rubbos vstf posca_factor_test)
 
-Bottlenecks_key_dir="/home/opnfv/bottlenecks/utils/infra_setup"
+find $SUITE_PREFIX -name "*yaml" > /tmp/all_testcases.yaml
+all_testcases_posca=`cat /tmp/all_testcases.yaml | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}'`
+all_test_case=(${all_testcases_posca})
 
 function run_test(){
 
-    test_suite=$1
-    echo "Running test suite $test_suite"
+    test_exec=$1
 
-    case $test_suite in
+    case $test_exec in
         "rubbos")
             info "After OPNFV Colorado release, Rubbos testsuite is not updating anymore.
-This entrance for running Rubbos within Bottlenecks is no longer supported.
-This testsuite is also not in the release plan with Bottlenecks since then.
-If you want to run Rubbos, please refer to earlier releases.\n"
+                  This entrance for running Rubbos within Bottlenecks is no longer supported.
+                  This testsuite is also not in the release plan with Bottlenecks since then.
+                  If you want to run Rubbos, please refer to earlier releases."
         ;;
         "vstf")
             info "After OPNFV Colorado release, VSTF testsuite is not updating anymore.
-This entrance for running VSTF within Bottlenecks is no longer supported.
-This testsuite is also not in the release plan with Bottlenecks since then.
-If you want to run VSTF, please refer to earlier releases.\n"
+                  This entrance for running VSTF within Bottlenecks is no longer supported.
+                  This testsuite is also not in the release plan with Bottlenecks since then.
+                  If you want to run VSTF, please refer to earlier releases."
         ;;
-        "posca")
-            POSCA_SCRIPT=/home/opnfv/bottlenecks/testsuites/posca
-            TEST_CASE=posca_factor_system_bandwidth
+        "posca_factor_ping")
             info "Composing up dockers"
             docker-compose -f /home/opnfv/bottlenecks/docker/bottleneck-compose/docker-compose.yml up -d
             info "Pulling tutum/influxdb for yardstick"
             docker pull tutum/influxdb:0.13
-            info "Copying testing scripts to docker"
-            docker cp /home/opnfv/bottlenecks/run_posca.sh bottleneckcompose_bottlenecks_1:/home/opnfv/bottlenecks
+#            info "Copying testing scripts to docker"
+#            docker cp /home/opnfv/bottlenecks/run_posca.sh bottleneckcompose_bottlenecks_1:/home/opnfv/bottlenecks
             sleep 5
-            info "Running posca test suite with default testcase posca_stress_traffic"
-            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SCRIPT}/run_posca.py testcase $TEST_CASE
+            info "Running posca test story: $test_exec"
+            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SCRIPT}/run_posca.py teststory $test_exec
+        ;;
+        *)
+            info "Composing up dockers"
+            docker-compose -f /home/opnfv/bottlenecks/docker/bottleneck-compose/docker-compose.yml up -d
+            info "Pulling tutum/influxdb for yardstick"
+            docker pull tutum/influxdb:0.13
+#            info "Copying testing scripts to docker"
+#            docker cp /home/opnfv/bottlenecks/run_posca.sh bottleneckcompose_bottlenecks_1:/home/opnfv/bottlenecks
+            sleep 5
+            info "Running posca test story: $test_exec"
+            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SCRIPT}/run_posca.py $test_level $test_exec
         ;;
     esac
 }
@@ -76,8 +96,12 @@ while [[ $# > 0 ]]
         -r|--report)
             report="-r"
         ;;
-        -s|--suite)
-            SUITE="$2"
+        -s|--teststory)
+            teststory="$2"
+            shift
+        ;;
+        -c|--testcase)
+            testcase="$2"
             shift
         ;;
         *)
@@ -104,23 +128,38 @@ ssh-keygen -t rsa -f $Bottlenecks_key_dir/bottlenecks_key/bottlenecks_key -q -N 
 chmod 600 $Bottlenecks_key_dir/bottlenecks_key/*
 
 #check the test suite name is correct
-if [ "${SUITE}" != "" ]; then
-    suite_exec=(${SUITE//,/ })
-    for i in "${suite_exec[@]}"; do
-        if [[ " ${arr_test_suite[*]} " != *" $i "* ]]; then
-            error "unkown test suite: $i"
+if [ "${teststory}" != "" ]; then
+    teststory_exec=(${teststory//,/ })
+    for i in "${teststory_exec[@]}"; do
+        if [[ " ${all_test_story[*]} " != *" $i "* ]]; then
+            error "Unkown test story: $i"
         fi
     done
-    info "Tests to execute: ${SUITE}"
 fi
 
-# Source credentials
-info "Sourcing Credentials openstack.creds to run the tests.."
-source /home/opnfv/bottlenecks/config/openstack.creds
+#check the test case name is correct
+if [ "${testcase}" != "" ]; then
+    testcase_exec=(${testcase//,/ })
+    for i in "${testcase_exec[@]}"; do
+        if [[ " ${all_test_case[*]} " != *" $i "* ]]; then
+            error "Unkown test case: $i"
+        fi
+    done
+fi
 
 #run tests
-if [ "${SUITE}" != "" ]; then
-    for i in "${suite_exec[@]}"; do
+if [ "${teststory}" != "" ]; then
+    test_level="teststory"
+    for i in "${teststory_exec[@]}"; do
+        info "Start to run test story $i"
+        run_test $i
+    done
+fi
+
+if [ "${testcase}" != "" ]; then
+    test_level="testcase"
+    for i in "${testcase_exec[@]}"; do
+        info "Start to run test case $i"
         run_test $i
     done
 fi

@@ -52,7 +52,7 @@ class Parser():
             story_name)
         with open(story_dir) as file:
             story_parser = yaml.load(file)
-        for case_name in story_parser['testcase']:
+        for case_name in story_parser[testcase]:
             Parser.testcase_read(cls, testcase, case_name)
 
         return cls.bottlenecks_test
