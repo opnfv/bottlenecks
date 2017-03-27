@@ -136,6 +136,15 @@ if [ "${testcase}" != "" ]; then
     done
 fi
 
+#clean up correlated docker images
+bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
+bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
+bash ${BASEDIR}/docker/docker_cleanup.sh -d kibana --debug
+bash ${BASEDIR}/docker/docker_cleanup.sh -d elasticsearch --debug
+bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
+
+exit 0
+
 #run tests
 if [ "${teststory}" != "" ]; then
     test_level="teststory"
@@ -152,3 +161,6 @@ if [ "${testcase}" != "" ]; then
         run_test $i
     done
 fi
+
+# echo "Bottlenecks: cleaning up docker-compose images and dockers"
+# docker-compose -f $BASEDIR/docker/bottleneck-compose/docker-compose.yml down --rmi all
