@@ -46,9 +46,6 @@ def testcase_run(testname, noclean):
     _testcase.run('-c ' + testname, noclean)
 
 
-_teststory = Testcase()
-
-
 @main.group()
 @click.pass_context
 def teststory(ctx):

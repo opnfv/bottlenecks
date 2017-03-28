@@ -143,8 +143,6 @@ bash ${BASEDIR}/docker/docker_cleanup.sh -d kibana --debug
 bash ${BASEDIR}/docker/docker_cleanup.sh -d elasticsearch --debug
 bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
 
-exit 0
-
 #run tests
 if [ "${teststory}" != "" ]; then
     test_level="teststory"
