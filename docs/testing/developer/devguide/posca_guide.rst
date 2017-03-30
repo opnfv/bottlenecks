@@ -37,20 +37,73 @@ dependant on.
  c) Optimization test: test to tune the system parameter.
 
 Detailed workflow is illutrated below.
-* TODO Add image here
+
+* https://wiki.opnfv.org/display/bottlenecks
 
 Preinstall Packages
 ====================
-* TODO Description of dependent packages
+
+* Please refer to release notes.
 
 Run POSCA Locally
 =================
-* TO Description of POSCA testing steps
+
+POSCA testsuite is hight automated regarding test environment preparation, installing testing tools, excuting tests and show the report/analysis. A few steps are needed to run it locally.
+
+It is presumed that a user is using Compass4nfv to deploy OPNFV Danube and the user login jumper server as root user.
+
+Downloading Bottlenecks Software
+--------------------------------
+
+.. code-block:: bash
+
+    git clone https://gerrit.opnfv.org/gerrit/bottlenecks
+
+Preparing Python Virtual Evnironment
+------------------------------------
+
+.. code-block:: bash
+
+    . pre_virt_env.sh
+
+Excuting Specified Testcase
+---------------------------
+
+Bottlencks provide a CLI interface to run the tests, which is the most convenient way since it is more close to our natural languge. An GUI interface with rest API will also be provided in later update.
+
+.. code-block:: bash
+
+    bottlenecks [testcase run <testcase>] [teststory run <teststory>]
+
+For the *testcase* command, testcase name should be the same as the name of the test case configuration file located in testsuites/posca/testcase_cfg.
+For the *teststory* command, a user could specified the test cases to be excuted by defined it in a teststory configuration file located in testsuites/posca/testsuite_story. There is also an example there named *posca_factor_test*.
+
+There are also other 2 ways to run test cases and test stories.
+The first one is using shell script.
+
+.. code-block:: bash
+
+    bash run_tests.sh [-h|--help] [-s <test suite>] [-c <test case>]
+
+The second is using python interpreter.
+
+.. code-block:: bash
+
+    python testsuites/posca/run_posca.py [testcase <testcase>] [teststory <teststory>]
+
+
+Cleaning Up Environment
+-----------------------
+
+.. code-block:: bash
+
+    . rm_virt_env.sh
+
 
 Run POSCA through Community CI
 ==============================
-* TODO Description of POSCA integrated into CI system
+* POSCA test cases are runned by OPNFV CI now. See https://build.opnfv.org for more information.
 
 Test Result Description
 =======================
-* TODO hwo to access the test result
+* Please refer to release notes and also https://wiki.opnfv.org/display/testing/Result+alignment+for+ELK+post-processing
