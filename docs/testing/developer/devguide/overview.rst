@@ -76,19 +76,3 @@ Test suite & Test case Description
 |        |                               |
 |        | (posca_factor_sys_bandwidth)  |
 +--------+-------------------------------+
-
-Installation of Testsuites
-==========================
-
-* TODO
-
-Setting Up Configrations
-========================
-
-* TODO
-
-Run Tests Brief
-===============
-
-* TODO
-* More will be shown in the platform overview

@@ -44,6 +44,9 @@ Version History
 | Mar 24nd, 2017 |  1.2               | Bottlenecks Danube release 1.0  |
 |                |                    |                                 |
 +----------------+--------------------+---------------------------------+
+| Mar 24nd, 2017 |  1.3               | Bottlenecks Danube release 1.0  |
+|                |                    |                                 |
++----------------+--------------------+---------------------------------+
 
 Summary
 =======
@@ -190,7 +193,13 @@ not supported in this release.
 Known restrictions/issues
 =========================
 
-* TODO
+* In Danube, Bottlenecks use Yardstick to do stress tests by iteratively calling yardstick running test cases and in the meantime increasing load. 
+
+  * Sometimes, Yardstick just waits for the test environment preparing. This cause troubles since it seams to get Yardstick into a loop to keep waiting. For OPNFV CI, this loop will be automatically stopped because of the default timeout setting. However, for local testing, user should stop this loop manually.
+
+  * Sometimes, Yardstick will return empty test results with test flag indicating test is excuted succefully. It maybe because of the environment issue or poor internet connection causing tools are not installed successfully.
+
+* Sometimes, a process will go to dormancy. In this case, if a tool is installed in the SUT and its process go dormancy, we try to call it twice. Normally, it will response.
 
 
 Test results
