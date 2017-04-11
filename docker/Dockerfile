@@ -50,5 +50,5 @@ RUN git clone -b $BRANCH https://gerrit.opnfv.org/gerrit/bottlenecks ${BOTTLENEC
 RUN git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO_DIR}
 
 RUN easy_install pytz
-RUN pip install -r ${REPOS_DIR}/bottlenecks/requirements.txt
+RUN pip install -r ${REPOS_DIR}/bottlenecks/requirements/requirements.txt
 RUN pip install -U /home/opnfv/bottlenecks
