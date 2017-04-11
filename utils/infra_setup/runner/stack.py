@@ -12,13 +12,20 @@ a template is use to create a stack in openstack.
 This file will be amended in the furture.'''
 
 import utils.infra_setup.heat.template as Heat
+import os
+import sys
+import utils.parser as Parser
+
 
 class stack_api():
 
-    def from_config_template(stack_info):
+    def __init__(self):
+        pass
+
+    def from_config_template(self, stack_info):
         stack_name = stack_info['name']
         ext_gw_net = os.environ.get("EXTERNAL_NETWORK")
-        heat_parser = HeatTemplate_Parser()
+        heat_parser = Parser.HeatTemplate_Parser()
         heat_parser.add_security_group(stack_name)
         heat_parser.add_keypair(stack_name)
         for network in stack_info['networks']:
@@ -58,4 +65,3 @@ class stack_api():
             if server.floating_ip:
                 server.public_ip = \
                     self.stack.outputs[server.floating_ip["stack_name"]]
-
