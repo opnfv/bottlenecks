@@ -14,14 +14,14 @@ Test Case
 |Bottlenecks POSCA Stress Test Ping                                           |
 |                                                                             |
 +--------------+--------------------------------------------------------------+
-|test case name| posca_stress_ping                                            |
+|test case name| posca_posca_ping                                             |
 |              |                                                              |
 +--------------+--------------------------------------------------------------+
-|description   | Stress test regarding perfomance life-cycle while using ping |
+|description   | Stress test regarding life-cycle while using ping            |
 |              | to validate the VM pairs constructions                       |
 +--------------+--------------------------------------------------------------+
 |configuration | config file:                                                 |
-|              |   /testsuite/posca/testcase_cfg/posca_stress_ping            |
+|              |   /testsuite/posca/testcase_cfg/posca_posca_ping.yaml        |
 |              |                                                              |
 |              | stack number: 5, 10, 20, 50 ...                              |
 |              |                                                              |
@@ -39,7 +39,7 @@ Configuration
         tool: ping
         test_times: 100
         package_size:
-        num_stack: 2, 5, 10
+        num_stack: 5, 10, 20
         package_loss: 10%
 
       contexts:
