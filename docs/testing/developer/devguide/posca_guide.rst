@@ -46,7 +46,8 @@ Preinstall Packages
 Run POSCA Locally
 =================
 
-POSCA testsuite is hight automated regarding test environment preparation, installing testing tools, excuting tests and show the report/analysis. A few steps are needed to run it locally.
+POSCA testsuite is highly automated regarding test environment preparation, installing testing tools, excuting tests and showing the report/analysis.
+A few steps are needed to run it locally.
 
 It is presumed that a user is using Compass4nfv to deploy OPNFV Danube and the user logins jumper server as root.
 
