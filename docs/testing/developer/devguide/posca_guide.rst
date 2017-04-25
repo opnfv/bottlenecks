@@ -41,12 +41,25 @@ Detailed workflow is illutrated below.
 Preinstall Packages
 ====================
 
-* Please refer to release notes.
+* Docker: https://docs.docker.com/engine/installation/
+    * For Ubuntu, please refer to https://docs.docker.com/engine/installation/linux/ubuntu/
+
+* Docker-Compose: https://docs.docker.com/compose/
+
+.. code-block:: bash
+
+    if [ -d usr/local/bin/docker-compose ]; then
+        rm -rf usr/local/bin/docker-compose
+    fi
+    curl -L https://github.com/docker/compose/releases/download/1.11.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+
 
 Run POSCA Locally
 =================
 
-POSCA testsuite is hight automated regarding test environment preparation, installing testing tools, excuting tests and show the report/analysis. A few steps are needed to run it locally.
+POSCA testsuite is highly automated regarding test environment preparation, installing testing tools, excuting tests and showing the report/analysis.
+A few steps are needed to run it locally.
 
 It is presumed that a user is using Compass4nfv to deploy OPNFV Danube and the user logins jumper server as root.
 
@@ -58,6 +71,7 @@ Downloading Bottlenecks Software
     mkdir /home/opnfv
     cd /home/opnfv
     git clone https://gerrit.opnfv.org/gerrit/bottlenecks
+    cd bottlenecks
 
 Preparing Python Virtual Evnironment
 ------------------------------------
@@ -75,7 +89,8 @@ Bottlencks provide a CLI interface to run the tests, which is one of the most co
 
     bottlenecks [testcase run <testcase>] [teststory run <teststory>]
 
-For the *testcase* command, testcase name should be the same as the name of the test case configuration file located in testsuites/posca/testcase_cfg.
+For the *testcase* command, testcase name should be as the same name of the test case configuration file located in testsuites/posca/testcase_cfg.
+For stress tests in Danube, *testcase* should be replaced by either *posca_factor_ping* or *posca_factor_system_bandwidth*.
 For the *teststory* command, a user could specified the test cases to be excuted by defined it in a teststory configuration file located in testsuites/posca/testsuite_story. There is also an example there named *posca_factor_test*.
 
 There are also other 2 ways to run test cases and test stories.
@@ -83,13 +98,17 @@ The first one is using shell script.
 
 .. code-block:: bash
 
-    bash run_tests.sh [-h|--help] [-s <test suite>] [-c <test case>]
+    bash run_tests.sh [-h|--help] [-s <testsuite>] [-c <testcase>]
 
 The second is using python interpreter.
 
 .. code-block:: bash
 
-    python testsuites/posca/run_posca.py [testcase <testcase>] [teststory <teststory>]
+    docker-compose -f docker/bottleneck-compose/docker-compose.yml up -d
+    docker pull tutum/influxdb:0.13
+    sleep 5
+    POSCA_SCRIPT="/home/opnfv/bottlenecks/testsuites/posca"
+    docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SCRIPT}/run_posca.py [testcase <testcase>] [teststory <teststory>]
 
 
 Cleaning Up Environment

@@ -70,9 +70,7 @@ Test suite & Test case Description
 |        +-------------------------------+
 |        | vstf_Tu3                      |
 +--------+-------------------------------+
-|posca   | posca_stress_ping             |
+|posca   | posca_factor_ping             |
 |        +-------------------------------+
-|        | posca_stress_traffic          |
-|        |                               |
-|        | (posca_factor_sys_bandwidth)  |
+|        | posca_factor_system_bandwidth |
 +--------+-------------------------------+
