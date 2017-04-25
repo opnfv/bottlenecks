@@ -47,6 +47,9 @@ Version History
 | Mar 24nd, 2017 |  1.3               | Bottlenecks Danube release 1.0  |
 |                |                    |                                 |
 +----------------+--------------------+---------------------------------+
+| Apr 25th, 2017 |  1.4               | Bottlenecks Danube release 2.0  |
+|                |                    |                                 |
++----------------+--------------------+---------------------------------+
 
 Summary
 =======
@@ -76,19 +79,23 @@ Danube Release Data
 | **Project**                          | Bottlenecks                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | Bottlenecks/danube.1.0               |
+| **Repo/tag**                         | * Bottlenecks/danube.1.0             |
+|                                      | * Bottlenecks/danube.2.0             |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Bottlenecks Docker image tag**     | danube.1.0                           |
+| **Bottlenecks Docker image tag**     | * danube.1.0                         |
+|                                      | * danube.2.0                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Danube 1.0                           |
+| **Release designation**              | * Danube 1.0                         |
+|                                      | * Danube 2.0                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | March 31 2017                        |
+| **Release date**                     | * March 31st 2017                    |
+|                                      | * May 1st 2017                       |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Danube base release                  |
+| **Purpose of the delivery**          | Danube stable release                |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -102,16 +109,16 @@ Colorado Release Data
 | **Repo/tag**                         | Bottlenecks/colorado.1.0             |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Bottlenecks Docker image tag**     | colorado.1.0                         |
+| **Bottlenecks Docker image tag**     | * colorado.1.0                       |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Colorado 1.0                         |
+| **Release designation**              | * Colorado 1.0                       |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | September 22 2016                    |
+| **Release date**                     | * September 22 2016                  |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Colorado base release                |
+| **Purpose of the delivery**          | Colorado stable release              |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -125,16 +132,16 @@ Bramaputra Release Data
 | **Repo/tag**                         | Bottlenecks/brahmaputra.1.0          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Bottlenecks Docker image tag**     | brahmaputra.1.0                      |
+| **Bottlenecks Docker image tag**     | * brahmaputra.1.0                    |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Brahmaputra 1.0                      |
+| **Release designation**              | * Brahmaputra 1.0                    |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | February 25 2016                     |
+| **Release date**                     | * February 25 2016                   |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Brahmaputra base release             |
+| **Purpose of the delivery**          | Brahmaputra stable release           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -155,9 +162,9 @@ Documentatiion Deliverables
 
 **Bottlenecks documentation <danube.1.0>**
 
-* Release Notes: TO-DO
-* User Guide: TO-DO
-* Development Guide: TO-DO
+* Release Notes: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/release/release-notes/release_notes.html
+* User Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/user/userguide/index.html
+* Development Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/developer/devguide/index.html
 
 Colorado Deliverables
 =====================
@@ -200,7 +207,7 @@ Known restrictions/issues
   For OPNFV CI, this loop will be automatically stopped because of the default timeout setting. However, for local testing, user should stop this loop manually.
 
   * Sometimes, Yardstick will return empty test results with test flag indicating test is excuted succefully.
-  It maybe because of the environment issue or poor internet connection causing tools are not installed successfully.
+  It maybe because of the environment issue or poor internet connection causing testing tools are not installed successfully.
 
 * Sometimes, a process will go to dormancy. In this case, if a tool is installed in the SUT and its process go dormancy, we try to call it twice. Normally, it will response.
 
@@ -261,5 +268,3 @@ Useful links
  - Bottlenecks CI dashboard: https://build.opnfv.org/ci/view/bottlenecks
 
  - Bottlenecks IRC chanel: #opnfv-bottlenecks
-
-
