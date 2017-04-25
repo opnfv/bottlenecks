@@ -47,6 +47,9 @@ Version History
 | Mar 24nd, 2017 |  1.3               | Bottlenecks Danube release 1.0  |
 |                |                    |                                 |
 +----------------+--------------------+---------------------------------+
+| Apr 25th, 2017 |  1.4               | Bottlenecks Danube release 2.0  |
+|                |                    |                                 |
++----------------+--------------------+---------------------------------+
 
 Summary
 =======
@@ -77,15 +80,19 @@ Danube Release Data
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Repo/tag**                         | Bottlenecks/danube.1.0               |
+|                                      | Bottlenecks/danube.2.0               |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Bottlenecks Docker image tag**     | danube.1.0                           |
+|                                      | danube.2.0                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Release designation**              | Danube 1.0                           |
+|                                      | Danube 2.0                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | March 31 2017                        |
+| **Release date**                     | March 31st 2017                      |
+|                                      | May 1st 2017                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Danube base release                  |
@@ -117,7 +124,7 @@ Colorado Release Data
 
 Bramaputra Release Data
 -----------------------
-
+  
 +--------------------------------------+--------------------------------------+
 | **Project**                          | Bottlenecks                          |
 |                                      |                                      |
@@ -155,9 +162,9 @@ Documentatiion Deliverables
 
 **Bottlenecks documentation <danube.1.0>**
 
-* Release Notes: TO-DO
-* User Guide: TO-DO
-* Development Guide: TO-DO
+* Release Notes: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/release/release-notes/release_notes.html
+* User Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/user/userguide/index.html
+* Development Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/developer/devguide/index.html
 
 Colorado Deliverables
 =====================
@@ -261,5 +268,3 @@ Useful links
  - Bottlenecks CI dashboard: https://build.opnfv.org/ci/view/bottlenecks
 
  - Bottlenecks IRC chanel: #opnfv-bottlenecks
-
-

@@ -9,19 +9,20 @@ POSCA Stress (Factor) Test of System bandwidth
 
 
 Test Case
-========
+=========
 +-----------------------------------------------------------------------------+
 |Bottlenecks POSCA Stress Test Traffic                                        |
 |                                                                             |
 +--------------+--------------------------------------------------------------+
-|test case name| posca_stress_ping                                            |
+|test case name| posca_factor_system_bandwith                                 |
 |              |                                                              |
 +--------------+--------------------------------------------------------------+
 |description   | Stress test regarding baseline of the system for a single    |
 |              | user, i.e., a VM pair while increasing the package size      |
 +--------------+--------------------------------------------------------------+
 |configuration | config file:                                                 |
-|              |   /testsuite/posca/testcase_cfg/posca_factor_system_bandwith |
+|              |   /testsuite/posca/testcase_cfg/                             |
+|              |                   posca_factor_system_bandwith.yaml          |
 |              |                                                              |
 |              | stack number: 1                                              |
 |              |                                                              |
