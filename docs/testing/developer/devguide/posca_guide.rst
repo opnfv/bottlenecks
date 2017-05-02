@@ -38,6 +38,7 @@ Detailed workflow is illutrated below.
 
 * https://wiki.opnfv.org/display/bottlenecks
 
+
 Preinstall Packages
 ====================
 
@@ -63,6 +64,7 @@ A few steps are needed to run it locally.
 
 It is presumed that a user is using Compass4nfv to deploy OPNFV Danube and the user logins jumper server as root.
 
+
 Downloading Bottlenecks Software
 --------------------------------
 
@@ -73,12 +75,14 @@ Downloading Bottlenecks Software
     git clone https://gerrit.opnfv.org/gerrit/bottlenecks
     cd bottlenecks
 
+
 Preparing Python Virtual Evnironment
 ------------------------------------
 
 .. code-block:: bash
 
     . pre_virt_env.sh
+
 
 Excuting Specified Testcase
 ---------------------------
@@ -111,12 +115,28 @@ The second is using python interpreter.
     docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SCRIPT}/run_posca.py [testcase <testcase>] [teststory <teststory>]
 
 
+Showing Report
+--------------
+
+Bottlenecks uses ELK to illustrate the testing results. 
+Asumming IP of the SUT (System Under Test) is denoted as ipaddr, 
+then the address of Kibana is http://[ipaddr]:5601. One can visit this address to see the illustrations.
+Address for elasticsearch is http://[ipaddr]:9200. One can use any Rest Tool to visit the testing data stored in elasticsearch.
+
 Cleaning Up Environment
 -----------------------
 
 .. code-block:: bash
 
     . rm_virt_env.sh
+
+
+If you want to clean the dockers that established during the test, you can excute the additional commands below.
+
+.. code-block:: bash
+    
+    docker-compose -f docker/bottleneck-compose/docker-compose.yml down -d
+    docker ps -a | grep 'influxdb' | awk '{print $1}' | xargs docker rm -f >/dev/stdout
 
 
 Run POSCA through Community CI
