@@ -8,14 +8,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-usage="Script to run the tests in bottlenecks auto.
+usage="Script to run the tests in Bottlenecks.
 
 usage:
-    bash $(basename "$0") [-h|--help] [-s <test suite>] [-c <test case>]
+    bash $(basename "$0") [-h|--help] [-s <test suite>] [-c <test case>] [--report] [--cleanup]
 
 where:
     -h|--help         show the help text
-    -r|--report       push results to DB(true by default)
     -s|--teststory    run specific test story
       <test story>        one of the following:
                               (rubbos, vstf, posca_factor_test)
@@ -24,24 +23,69 @@ where:
     -c|--testcase     run specific test case
       <test case>         one of the following:
                               (posca_factor_system_bandwidth, posca_factor_ping)
+    --cleanup         cleanup test dockers runing when test is done (false by default)
+    --report          push results to DB (false by default)
 
 examples:
     $(basename "$0")
     $(basename "$0") -s posca_factor_test"
 
+# Define global variables
 Bottlenecks_key_dir="/home/opnfv/bottlenecks/utils/infra_setup"
-POSCA_SCRIPT="/home/opnfv/bottlenecks/testsuites/posca"
-SUITE_PREFIX="/home/opnfv/bottlenecks/testsuites/posca/testcase_cfg"
+POSCA_SUITE="/home/opnfv/bottlenecks/testsuites/posca"
+POSCA_TESTCASE="/home/opnfv/bottlenecks/testsuites/posca/testcase_cfg"
+POSCA_TESTSTORY="/home/opnfv/bottlenecks/testsuites/posca/testsuite_story"
+BASEDIR=`dirname $0`
 
-report=true
+report=false
+cleanup=false
 
-#TO-DO add auto-find for test story as for test case
-all_test_story=(rubbos vstf posca_factor_test)
 
-find $SUITE_PREFIX -name "*yaml" > /tmp/all_testcases.yaml
-all_testcases_posca=`cat /tmp/all_testcases.yaml | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}'`
-all_test_case=(${all_testcases_posca})
+# Define alias for log printing
+info () {
+    logger -s -t "bottlenecks.info" "$*"
+}
 
+error () {
+    logger -s -t "bottlenecks.error" "$*"
+    exit 1
+}
+
+# Define check_test function for test case/story list check
+function check_test(){
+
+    TEST_LEVEL="$1"
+    TEST_NAME="$2"
+
+    if [[ "${TEST_LEVEL}" == "testcase" ]]; then
+        TEST_CONFIG="${POSCA_TESTCASE}"
+    else
+        if [[ "${TEST_LEVEL}" == "teststory" ]]; then
+            TEST_CONFIG="${POSCA_TESTSTORY}"
+        else
+            info "Invalid name for test level: testcase or teststory"
+        fi
+    fi
+
+    # Find all the test case yaml files first
+    find $TEST_CONFIG -name "*yaml" > /tmp/all_tests.yaml
+    all_tests_insuite=`cat /tmp/all_tests.yaml | awk -F '/' '{print $NF}' | awk -F '.' '{print $1}'`
+    all_tests=(${all_tests_insuite})
+
+    if [ "${TEST_NAME}" != "" ]; then
+       TEST_EXEC=(${TEST_NAME// /})
+       for i in "${TEST_EXEC[@]}"; do
+           if [[ " ${all_tests[*]} " != *" $i "* ]]; then
+               error "Unknown $TEST_LEVEL: $i. Available $TEST_LEVEL are: ${all_tests[@]}"
+           fi
+       done
+       info "Tests to execute: ${TEST_NAME}."
+    else
+       error "Lack of $TEST_LEVEL name"
+    fi
+}
+
+# Define run test function
 function run_test(){
 
     test_exec=$1
@@ -68,11 +112,12 @@ function run_test(){
 #            docker cp /home/opnfv/bottlenecks/run_posca.sh bottleneckcompose_bottlenecks_1:/home/opnfv/bottlenecks
             sleep 5
             info "Running posca test story: $test_exec"
-            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SCRIPT}/run_posca.py $test_level $test_exec
+            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SUITE}/run_posca.py $test_level $test_exec
         ;;
     esac
 }
 
+# Process input variables
 while [[ $# > 0 ]]
     do
     key="$1"
@@ -82,9 +127,6 @@ while [[ $# > 0 ]]
             exit 0
             shift
         ;;
-        -r|--report)
-            report="-r"
-        ;;
         -s|--teststory)
             teststory="$2"
             shift
@@ -93,6 +135,12 @@ while [[ $# > 0 ]]
             testcase="$2"
             shift
         ;;
+        --report)
+            report=true
+        ;;
+        --cleanup)
+            cleanup=true
+        ;;        
         *)
             echo "unkown option $1 $2"
             exit 1
@@ -101,64 +149,37 @@ while [[ $# > 0 ]]
      shift
 done
 
-BASEDIR=`dirname $0`
-source ${BASEDIR}/common.sh
+#Clean up related docker images
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d kibana --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d elasticsearch --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
 
-#Add random key generation
-if [ ! -d $Bottlenecks_key_dir/bottlenecks_key ]; then
-    mkdir $Bottlenecks_key_dir/bottlenecks_key
-else
-    rm -rf $Bottlenecks_key_dir/bottlenecks_key
-    mkdir $Bottlenecks_key_dir/bottlenecks_key
-fi
-chmod 700 $Bottlenecks_key_dir/bottlenecks_key
-
-ssh-keygen -t rsa -f $Bottlenecks_key_dir/bottlenecks_key/bottlenecks_key -q -N ""
-chmod 600 $Bottlenecks_key_dir/bottlenecks_key/*
-
-#check the test suite name is correct
-if [ "${teststory}" != "" ]; then
-    teststory_exec=(${teststory//,/ })
-    for i in "${teststory_exec[@]}"; do
-        if [[ " ${all_test_story[*]} " != *" $i "* ]]; then
-            error "Unkown test story: $i"
-        fi
-    done
-fi
-
-#check the test case name is correct
-if [ "${testcase}" != "" ]; then
-    testcase_exec=(${testcase//,/ })
-    for i in "${testcase_exec[@]}"; do
-        if [[ " ${all_test_case[*]} " != *" $i "* ]]; then
-            error "Unkown test case: $i"
-        fi
-    done
-fi
-
-#clean up correlated docker images
-bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d kibana --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d elasticsearch --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
-
-#run tests
+#Run tests
 if [ "${teststory}" != "" ]; then
     test_level="teststory"
+    teststory_exec=(${teststory//,/ })
+    check_test $test_level $teststory
     for i in "${teststory_exec[@]}"; do
         info "Start to run test story $i"
-        run_test $i
+        #run_test $i
     done
 fi
 
 if [ "${testcase}" != "" ]; then
     test_level="testcase"
+    testcase_exec=(${testcase//,/ })
+    check_test $test_level $testcase
     for i in "${testcase_exec[@]}"; do
         info "Start to run test case $i"
-        run_test $i
+        #run_test $i
     done
 fi
 
-# echo "Bottlenecks: cleaning up docker-compose images and dockers"
-# docker-compose -f $BASEDIR/docker/bottleneck-compose/docker-compose.yml down --rmi all
+# Clean up testing dockers
+if [[ ${cleanup} == true ]]; then
+    info "Cleaning up docker-compose images and dockers"
+    docker-compose -f $BASEDIR/docker/bottleneck-compose/docker-compose.yml down --rmi all
+    docker ps -a | grep 'influxdb' | awk '{print $1}' | xargs docker rm -f >/dev/stdout
+fi
