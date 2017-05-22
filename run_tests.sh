@@ -38,8 +38,8 @@ POSCA_TESTSTORY="/home/opnfv/bottlenecks/testsuites/posca/testsuite_story"
 BASEDIR=`dirname $0`
 
 report=false
+REPORT="False"
 cleanup=false
-
 
 # Define alias for log printing
 info () {
@@ -109,8 +109,9 @@ function run_test(){
             info "Pulling tutum/influxdb for yardstick"
             docker pull tutum/influxdb:0.13
             sleep 5
-            info "Running posca test story: $test_exec"
-            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SUITE}/run_posca.py $test_level $test_exec
+            info "Running posca $test_level: $test_exec"
+            #docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SUITE}/run_posca.py $test_level $test_exec $REPORT
+            python ${POSCA_SUITE}/run_posca.py $test_level $test_exec $REPORT
         ;;
     esac
 }
@@ -135,6 +136,7 @@ while [[ $# > 0 ]]
         ;;
         --report)
             report=true
+            REPORT="True"
         ;;
         --cleanup)
             cleanup=true
@@ -148,11 +150,11 @@ while [[ $# > 0 ]]
 done
 
 # Clean up related docker images
-bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d kibana --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d elasticsearch --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d kibana --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d elasticsearch --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
 
 # Run tests
 if [ "${teststory}" != "" ]; then
