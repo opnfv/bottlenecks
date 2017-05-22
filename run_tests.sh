@@ -37,7 +37,11 @@ POSCA_TESTCASE="/home/opnfv/bottlenecks/testsuites/posca/testcase_cfg"
 POSCA_TESTSTORY="/home/opnfv/bottlenecks/testsuites/posca/testsuite_story"
 BASEDIR=`dirname $0`
 
+DISPATCHER_HTTP_TARGET="http://testresults.opnfv.org/test/api/v1/results"
+REPORTING_TARGET="${DISPATCHER_HTTP_TARGET}"
+
 report=false
+REPORT="False"
 cleanup=false
 
 
@@ -109,10 +113,31 @@ function run_test(){
             info "Pulling tutum/influxdb for yardstick"
             docker pull tutum/influxdb:0.13
             sleep 5
-            info "Running posca test story: $test_exec"
-            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SUITE}/run_posca.py $test_level $test_exec
+            info "Running posca $test_level: $test_exec"
+            #docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SUITE}/run_posca.py $test_level $test_exec $REPORT
+            python ${POSCA_SUITE}/run_posca.py $test_level $test_exec $REPORT
         ;;
     esac
+}
+
+# Define reporting function that reports results to community MongoDB
+report(){
+
+    echo
+    echo "========== Reporting Status =========="
+    curl -i -H 'content-type: application/json' -X POST -d \
+        "{\"project_name\": \"bottlenekcs\",
+          \"case_name\": \"scenario_status\",
+          \"pod_name\":\"${NODE_NAME}\",
+          \"installer\":\"${INSTALLER_TYPE}\",
+          \"version\":\"$(basename ${BRANCH})\",
+          \"scenario\":\"${DEPLOY_SCENARIO}\",
+          \"description\": \"yardstick ci scenario status\",
+          \"criteria\":\"${1}\",
+          \"start_date\":\"${2}\",
+          \"stop_date\":\"${3}\",
+          \"details\":\"\"}" \
+          "${REPORTING_TARGET}"
 }
 
 # Process input variables
@@ -135,6 +160,7 @@ while [[ $# > 0 ]]
         ;;
         --report)
             report=true
+            REPORT="True"
         ;;
         --cleanup)
             cleanup=true
@@ -148,11 +174,11 @@ while [[ $# > 0 ]]
 done
 
 # Clean up related docker images
-bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d kibana --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d elasticsearch --debug
-bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d kibana --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d elasticsearch --debug
+#bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
 
 # Run tests
 if [ "${teststory}" != "" ]; then
