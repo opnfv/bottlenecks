@@ -49,7 +49,7 @@ class Parser():
             cls.test_dir,
             testcase,
             'testsuite_story',
-            story_name)
+            story_name + '.yaml')
         with open(story_dir) as file:
             story_parser = yaml.load(file)
         for case_name in story_parser['testcase']:
