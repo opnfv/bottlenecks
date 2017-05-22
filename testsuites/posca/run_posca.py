@@ -34,7 +34,11 @@ def posca_testcase_run(testcase_script, test_config):
     module.run(test_config)
 
 
-def posca_run(test_level, test_name):
+def report(details_doc):
+    pass
+
+
+def posca_run(test_level, test_name, report=False):
     if test_level == "testcase":
         config = conf_parser.Parser.testcase_read("posca", test_name)
     elif test_level == "teststory":
@@ -46,11 +50,25 @@ def posca_run(test_level, test_name):
         posca_testcase_run(testcase, config[testcase])
         LOG.info("End of %s testcase in POSCA testsuite", testcase)
 
+    if report is True:
+        details_doc = []
+        with open(config[testcase]['out_file']) as details_result:
+            lines = details_result.readlines()
+            for l in lines:
+                details_doc.append(l.replace('\n', ''))
+        report(details_doc)
+
 
 def main():
     test_level = sys.argv[1]
     test_name = sys.argv[2]
+    report = sys.argv[3]
     posca_run(test_level, test_name)
+
+    if report is True:
+        print ("report")
+    else:
+        print ("non-report")
 
 
 if __name__ == '__main__':
