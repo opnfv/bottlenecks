@@ -43,4 +43,4 @@ bottlenecks:
     - NODE_NAME=${NODE_NAME}
     - DEPLOY_SCENARIO=${DEPLOY_SCENARIO}
     - BUILD_TAG=${BUILD_TAG}
-    - BRANCH=$(basename ${BRANCH})
+    - BRANCH=${BRANCH}
