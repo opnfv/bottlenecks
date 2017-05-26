@@ -20,6 +20,7 @@ import sys
 import os
 
 from oslo_serialization import jsonutils
+import json
 import requests
 import datetime
 
@@ -50,8 +51,8 @@ def report(testcase, start_date, stop_date, criteria, details_doc):
         "installer": os.environ.get('INSTALLER_TYPE', 'unknown'),
         "version": os.environ.get('BRANCH', 'unknown'),
         "build_tag": os.environ.get('BUILD_TAG', 'unknown'),
-        "stop_date": stop_date,
-        "start_date": start_date,
+        "stop_date": str(stop_date),
+        "start_date": str(start_date),
         "criteria": criteria,
         "scenario": os.environ.get('DEPLOY_SCENARIO', 'unknown')
     }
@@ -94,11 +95,9 @@ def posca_run(test_level, test_name, REPORT="False"):
             details_doc = []
             if os.path.exists(config[testcase]['out_file']):
                 with open(config[testcase]['out_file']) as details_result:
-                    lines = details_result.readlines()
-                    if len(lines):
+                    details_doc =[json.loads(data) for data in details_result.readlines()] # noqa
+                    if len(details_doc):
                         criteria = "PASS"
-                        for l in lines:
-                            details_doc.append(l.replace('\n', ''))
             report(testcase, start_date, stop_date, criteria, details_doc)
 
 
