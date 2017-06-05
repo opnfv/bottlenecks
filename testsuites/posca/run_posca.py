@@ -63,15 +63,12 @@ def report(testcase, start_date, stop_date, criteria, details_doc):
 
     try:
         LOG.debug('Test result : %s', jsonutils.dump_as_bytes(results))
-        print ('Start posting test results to community MongoDB')
         res = requests.post(target,
                             data=jsonutils.dump_as_bytes(results),
                             headers=headers,
                             timeout=timeout)
         LOG.debug('Test result posting finished with status code'
                   ' %d.' % res.status_code)
-        print ('Test results posting finished with status code'
-               ' %d.' % res.status_code)
     except Exception as err:
         LOG.exception('Failed to record result data: %s', err)
 
