@@ -138,10 +138,37 @@ If you want to clean the dockers that established during the test, you can excut
     docker-compose -f docker/bottleneck-compose/docker-compose.yml down -d
     docker ps -a | grep 'influxdb' | awk '{print $1}' | xargs docker rm -f >/dev/stdout
 
+Or you can just run the following command
+
+.. code-block:: bash
+
+    bash run_tests.sh --cleanup
+
+Note that you can also add cleanup parameter when you run a test case. Then environment will be automatically cleaned up when
+completing the test.
 
 Run POSCA through Community CI
 ==============================
-* POSCA test cases are runned by OPNFV CI now. See https://build.opnfv.org for more information.
+POSCA test cases are runned by OPNFV CI now. See https://build.opnfv.org for details of the building jobs.
+Each building job is set up to execute a single test case. The test results/logs will be printed on the web page and
+reported automatically to community MongoDB. There are two ways to report the results.
+
+1. Report testing result by shell script
+
+.. code-block:: bash
+
+    bash run_tests.sh [-h|--help] [-s <testsuite>] [-c <testcase>] --report
+
+2. Report testing result by python interpreter
+
+.. code-block:: bash
+
+    docker-compose -f docker/bottleneck-compose/docker-compose.yml up -d
+    docker pull tutum/influxdb:0.13
+    sleep 5
+    REPORT="True"
+    POSCA_SCRIPT="/home/opnfv/bottlenecks/testsuites/posca"
+    docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SCRIPT}/run_posca.py [testcase <testcase>] [teststory <teststory>] REPORT
 
 Test Result Description
 =======================

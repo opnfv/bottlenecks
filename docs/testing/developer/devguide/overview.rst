@@ -20,7 +20,7 @@ Virtual switch test framework(VSTF) is also introduced,
 which is an test framework used for vswitch performance test.
 
 Colorado: rubbos is refactored by using puppet, which makes it quite flexible
-to configure with different number of load generator(Client), worker(tomcat).
+to configure with different number of load generator (Client), worker (tomcat).
 vstf is refactored by extracting the test case's configuration information.
 
 Danube: posca testsuite is introduced to implementing stress (factor), scenario and
@@ -30,7 +30,7 @@ community CI pipeline. Rubbos and VSTF are not supported any more.
 Integration Description
 =======================
 +-------------+----------------------+----------------------+
-| Release     | integrated installer | Supported Testsuite  |
+| Release     | Integrated Installer | Supported Testsuite  |
 +-------------+----------------------+----------------------+
 | Brahmaputra |    Fuel              | Rubbos, VSTF         |
 +-------------+----------------------+----------------------+
@@ -41,6 +41,10 @@ Integration Description
 
 Test suite & Test case Description
 ==================================
++--------+-------------------------------+
+|POSCA   | posca_factor_ping             |
+|        +-------------------------------+
+|        | posca_factor_system_bandwidth |
 +--------+-------------------------------+
 |Rubbos  | rubbos_basic                  |
 |        +-------------------------------+
@@ -69,8 +73,4 @@ Test suite & Test case Description
 |        | vstf_Tu2                      |
 |        +-------------------------------+
 |        | vstf_Tu3                      |
-+--------+-------------------------------+
-|posca   | posca_factor_ping             |
-|        +-------------------------------+
-|        | posca_factor_system_bandwidth |
 +--------+-------------------------------+
