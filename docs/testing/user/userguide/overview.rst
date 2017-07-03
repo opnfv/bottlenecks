@@ -6,10 +6,10 @@
 Project Testing Guide
 *********************
 
-For each *test suite*, you can either setup *test story* or *test case* to run
-certain test. *test story* could include several *test cases* as a set in one
-configuration file. You could then call the *test story* or *test case* by using
-Bottlencks CLI or Python build process.
+For each *testsuite*, you can either setup *teststory* or *testcase* to run
+certain test. *teststory* comprises several *testcases* as a set in one
+configuration file. You could call *teststory* or *testcase* by using
+Bottlencks user interfaces.
 Details will be shown in the following section.
 
 Brief Introdcution of the Test suites in Project Releases
