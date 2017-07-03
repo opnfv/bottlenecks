@@ -1,17 +1,16 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
+.. (c) Huawei Technologies Co.,Ltd and others.
 
-**************************
-Bottlenecks - User Guide
-**************************
-
-.. This index.rst file is used to structure and organise the content in these directories.
-.. The documentation toolchain will create web and pdf versions of the content of this file.
+***************************
+Bottlenecks - Testing Guide
+***************************
 
 .. toctree::
    :maxdepth: 1
 
-   ./posca/posca_stress_ping.rst
-   ./posca/posca_stress_traffic.rst
-   ./deprecated.rst
+   ./overview.rst
+   ./posca_guide.rst
+   ./dashboard_guide.rst
+   ./test_cases.rst
 
