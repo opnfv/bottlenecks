@@ -3,12 +3,12 @@
 .. (c) Huawei Technologies Co.,Ltd and others.
 
 *****************************
-Bottlenecks - Developer Guide
+Bottlenecks - Framework Guide
 *****************************
 
-.. toctree::
-   :maxdepth: 1
 
-  ./quick_start.rst
-  ./framework_guide.rst
-  ./package_guide.rst
+Introduction
+============
+
+This document will provide a comprehensive guilde on Bottlenecks testing 
+framework development.
