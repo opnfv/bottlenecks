@@ -2,15 +2,13 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Huawei Technologies Co.,Ltd and others.
 
-***************************
-Bottlenecks - Testing Guide
-***************************
+*****************************
+Bottlenecks - Developer Guide
+*****************************
 
 .. toctree::
    :maxdepth: 1
 
-   ./overview.rst
-   ./posca_guide.rst
-   ./dashboard_guide.rst
-   ./deprecated.rst
-
+  ./quick_guide.rst
+  ./framework_guide.rst
+  ./package__guide.rst
