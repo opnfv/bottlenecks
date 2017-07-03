@@ -196,7 +196,9 @@ Reason for Version
 
 * In Danube, POSCA testsuite is introduced and two stress tests are implemented. Rubbos and vstf are
 not supported in this release. Their documentations for former releases will only be kept this release.
+
 * In Colorado, rubbos is refactored by using puppet, which makes it quite flexible to configure with different number of load generator(Client), worker(tomcat).
+
 * In Colorado, vstf is refactored by extracting the test case's configuration information.
 
 
