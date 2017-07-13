@@ -17,6 +17,7 @@ import yaml
 import json
 import time
 from pyroute2 import IPDB
+import utils.infra_setup.runner.docker_usage as docker_usage
 
 
 class Parser():
@@ -41,6 +42,8 @@ class Parser():
             cls.bottlenecks_config["fetch_os"] = common_config["fetch_os_file"]
             cls.bottlenecks_config["log_dir"] = common_config['log_dir']
             cls.bottlenecks_config["rc_dir"] = common_config['rc_dir']
+            cls.bottlenecks_config["yardstick_rc_dir"] = \
+                common_config['yardstick_rc_dir']
             cls.config_dir_check(cls.bottlenecks_config["log_dir"])
 
     @classmethod
@@ -91,6 +94,15 @@ class Parser():
         stack_cfg = testcase_cfg['stack_config']
         # TO-DO add cli parameters to stack_config.
         return test_cfg, stack_cfg
+
+    @staticmethod
+    def convert_docker_env(config, ip_type):
+        if ip_type is "dashboard":
+            config["contexts"]["dashboard_ip"] = \
+                docker_usage.ELK_info["ip"] + ":9200"
+        elif ip_type is "yardstick":
+            config["contexts"]["yardstick_ip"] = \
+                docker_usage.yardstick_info["ip"] + ":8888"
 
     @staticmethod
     def ip_parser(ip_type):
