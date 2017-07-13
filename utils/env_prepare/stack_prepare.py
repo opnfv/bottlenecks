@@ -13,25 +13,41 @@ import errno
 from utils.logger import Logger
 from utils.parser import Parser as config
 import utils.infra_setup.heat.manager as utils
+import utils.infra_setup.runner.docker_env as docker_env
 
 LOG = Logger(__name__).getLogger()
 
 
-def _prepare_env_daemon():
-
-    installer_ip = os.environ.get('INSTALLER_IP', 'undefined')
-    installer_type = os.environ.get('INSTALLER_TYPE', 'undefined')
+def _prepare_env_daemon(test_yardstick):
 
     rc_file = config.bottlenecks_config["rc_dir"]
 
-    _get_remote_rc_file(rc_file, installer_ip, installer_type)
+    if not os.path.exists(rc_file):
+        installer_ip = os.environ.get('INSTALLER_IP', 'undefined')
+        installer_type = os.environ.get('INSTALLER_TYPE', 'undefined')
+        _get_remote_rc_file(rc_file, installer_ip, installer_type)
 
     _source_file(rc_file)
 
-    # _append_external_network(rc_file)
+    if not os.environ.get("EXTERNAL_NETWORK"):
+        _append_external_network(rc_file)
+    if test_yardstick:
+        cmd = "cp %s %s" % (rc_file,
+                            config.bottlenecks_config["yardstick_rc_dir"])
+        yardstick_contain = docker_env.yardstick_info["container"]
+        docker_env.docker_exec_cmd(yardstick_contain,
+                                   cmd)
 
     # update the external_network
-    # _source_file(rc_file)
+    _source_file(rc_file)
+
+
+def file_copy(src_file, dest_file):
+    src = file(src_file, "r+")
+    des = file(dest_file, "w+")
+    des.writelines(src.read())
+    src.close()
+    des.close()
 
 
 def _get_remote_rc_file(rc_file, installer_ip, installer_type):
