@@ -109,7 +109,7 @@ function run_test(){
             docker pull tutum/influxdb:0.13
             sleep 5
             info "Running posca $test_level: $test_exec"
-            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SUITE}/run_posca.py $test_level $test_exec $REPORT
+            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SUITE}/../run_testsuite.py $test_level $test_exec $REPORT
         ;;
     esac
 }
