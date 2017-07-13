@@ -14,9 +14,10 @@ At present, This file contain the following function:
 3.Remove a docker.'''
 
 import docker
+import socket
 
-yardstick_info = None
-ELK_info = None
+yardstick_info = {}
+ELK_info = {}
 
 
 def get_client():
@@ -35,20 +36,33 @@ def env_yardstick(docker_name):
     yardstick_info["name"] = docker_name
     try:
         env_docker = docker_find(docker_name)
-        yardstick_info["containner"] = env_docker
+        yardstick_info["container"] = env_docker
         yardstick_info["ip"] = get_docker_ip(docker_name)
         return env_docker
     except docker.errors.NotFound:
         pass
+    volume = get_self_volume()
     env_docker = client.containers.run(image="opnfv/yardstick:latest",
+                                       privileged=True,
+                                       tty=True,
+                                       detach=True,
+                                       ports={'5000': '8888'},
+                                       volumes=volume,
+                                       name=docker_name)
+    yardstick_info["container"] = env_docker
+    yardstick_info["ip"] = get_docker_ip(docker_name)
+    return env_docker
+
+
+def env_bottlenecks(docker_name):
+    client = get_client()
+    volume = get_self_volume()
+    env_docker = client.containers.run(image="opnfv/bottlenecks:latest",
                                        privileged=True,
                                        detach=True,
                                        ports={'8888': '5000'},
-                                       volumes={'/var/run/docker.sock':
-                                                '/var/run/docker.sock'},
+                                       volumes=volume,
                                        name=docker_name)
-    yardstick_info["containner"] = env_docker
-    yardstick_info["ip"] = get_docker_ip(docker_name)
     return env_docker
 
 
@@ -77,12 +91,22 @@ def env_elk(docker_name):
 def get_docker_ip(docker_name):
     env_docker = docker_find(docker_name)
     client = docker.APIClient(base_url='unix://var/run/docker.sock')
-    ip_address = client.inspect_container(env_docker.id)
+    ip_address = client.inspect_container(env_docker.id)["NetworkSettings"]["IPAddress"]
     return ip_address
 
 
 def docker_exec_cmd(docker, cmd):
-    return docker.exec_cmd(cmd)
+    return docker.exec_run(cmd)
+
+
+def get_self_volume():
+    self_volume = {}
+    hostname = socket.gethostname()
+    client = docker.APIClient(base_url='unix://var/run/docker.sock')
+    volume = client.inspect_container(hostname)["Mounts"]
+    for i in volume:
+        self_volume[i['Source']] = i['Destination']
+    return self_volume
 
 
 def remove_docker(docker_name):
