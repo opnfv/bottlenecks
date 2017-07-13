@@ -15,13 +15,15 @@ import utils.logger as log
 import uuid
 import json
 import os
+import time
 import multiprocessing
-import docker
 import datetime
 from utils.parser import Parser as conf_parser
 import utils.env_prepare.quota_prepare as quota_prepare
 import utils.env_prepare.stack_prepare as stack_prepare
+
 import testsuites.posca.testcase_dashboard.posca_stress_ping as DashBoard
+import utils.infra_setup.runner.docker_usage as docker_usage
 # --------------------------------------------------
 # logging configuration
 # --------------------------------------------------
@@ -40,34 +42,44 @@ testfile = os.path.basename(__file__)
 testcase, file_format = os.path.splitext(testfile)
 
 
-def env_pre(con_dic):
-    stack_prepare._prepare_env_daemon()
+def env_pre(test_config):
+    test_yardstick = False
+    if "yardstick" in test_config["contexts"].keys():
+        test_yardstick = True
+    stack_prepare._prepare_env_daemon(test_yardstick)
     quota_prepare.quota_env_prepare()
-    client = docker.from_env()
-    con = client.containers.get('bottleneckcompose_yardstick_1')
     cmd = ('yardstick env prepare')
     LOG.info("yardstick envrionment prepare!")
-    stdout = con.exec_run(cmd)
-    LOG.debug(stdout)
+    if(test_config["contexts"]['yardstick_envpre']):
+        yardstick_container = docker_usage.yardstick_info['container']
+        stdout = docker_usage.docker_exec_cmd(yardstick_container, cmd)
+        LOG.debug(stdout)
 
 
 def do_test(test_config, con_dic):
     out_file = ("/tmp/yardstick_" + str(uuid.uuid4()) + ".out")
-    client = docker.from_env()
-    con = client.containers.get('bottleneckcompose_yardstick_1')
+    yardstick_container = docker_usage.yardstick_info['container']
     cmd = ('yardstick task start /home/opnfv/repos/yardstick/'
            'samples/ping_bottlenecks.yaml --output-file ' + out_file)
-    stdout = con.exec_run(cmd)
-    LOG.debug(stdout)
-    with open(out_file) as f:
-        data = json.load(f)
-        if data["status"] == 1:
-            LOG.info("yardstick run success")
-            out_value = 1
-        else:
-            LOG.error("yardstick error exit")
-            out_value = 0
-    os.remove(out_file)
+    stdout = docker_usage.docker_exec_cmd(yardstick_container, cmd)
+    LOG.info(stdout)
+    out_value = 0
+    loop_walue = 0
+    while loop_walue < 150:
+        time.sleep(2)
+        with open(out_file) as f:
+            loop_walue = loop_walue + 1
+            data = json.load(f)
+            if data["status"] == 1:
+                if data["result"]["criteria"] == "PASS":
+                    LOG.info("yardstick run success")
+                    out_value = 1
+                else:
+                    LOG.error("task error exit")
+                    out_value = 0
+                break
+            elif data["status"] == 2:
+                LOG.error("yardstick error exit")
     return out_value
 
 
@@ -92,19 +104,19 @@ def func_run(condic):
 def run(test_config):
     con_dic = test_config["load_manager"]
     test_num = con_dic['scenarios']['num_stack'].split(',')
-    if con_dic["contexts"]["yardstick_test_ip"] is None:
-        con_dic["contexts"]["yardstick_test_ip"] =\
+    if test_config["contexts"]["yardstick_ip"] is None:
+        con_dic["contexts"]["yardstick_ip"] =\
             conf_parser.ip_parser("yardstick_test_ip")
 
-    if test_config["dashboard"]["dashboard"] == 'y':
-        if test_config["dashboard"]["dashboard_ip"] is None:
-            test_config["dashboard"]["dashboard_ip"] =\
+    if "dashboard" in test_config["contexts"].keys():
+        if test_config["contexts"]["dashboard_ip"] is None:
+            test_config["contexts"]["dashboard_ip"] =\
                 conf_parser.ip_parser("dashboard")
         LOG.info("Create Dashboard data")
-        DashBoard.posca_stress_ping(test_config["dashboard"])
+        DashBoard.posca_stress_ping(test_config["contexts"])
 
     LOG.info("bottlenecks envrionment prepare!")
-    env_pre(con_dic)
+    env_pre(test_config)
     LOG.info("yardstick envrionment prepare done!")
 
     for value in test_num:
@@ -127,8 +139,8 @@ def run(test_config):
         during_date = (endtime - starttime).seconds
 
         data_reply = config_to_result(num, out_num, during_date)
-        if test_config['dashboard']['dashboard'] == 'y':
-            DashBoard.dashboard_send_data(test_config['dashboard'], data_reply)
+        if "dashboard" in test_config["contexts"].keys():
+            DashBoard.dashboard_send_data(test_config['contexts'], data_reply)
         conf_parser.result_to_file(data_reply, test_config["out_file"])
 
         if out_num < num:
