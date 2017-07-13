@@ -19,13 +19,13 @@ load_manager:
     num_stack: 5, 10, 20
     package_loss: 10%
 
-  contexts:
+  runners:
     stack_create: yardstick
     flavor:
-    yardstick_test_ip:
     yardstick_test_dir: "samples"
     yardstick_testcase: "ping_bottlenecks"
 
-dashboard:
-  dashboard: "y"
-  dashboard_ip:
+contexts:
+  dashboard: "Bottlenecks-ELK"
+  yardstick: "Bottlenecks-Yardstick"
+  yardstick_envpre: True
