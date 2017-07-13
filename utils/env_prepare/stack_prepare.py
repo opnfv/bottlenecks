@@ -24,14 +24,25 @@ def _prepare_env_daemon():
 
     rc_file = config.bottlenecks_config["rc_dir"]
 
-    _get_remote_rc_file(rc_file, installer_ip, installer_type)
+    if not os.path.exists(rc_file):
+        _get_remote_rc_file(rc_file, installer_ip, installer_type)
 
     _source_file(rc_file)
+
+    file_copy(rc_file, config.bottlenecks_config["yardstick_rc_dir"])
 
     # _append_external_network(rc_file)
 
     # update the external_network
     # _source_file(rc_file)
+
+
+def file_copy(src_file, dest_file):
+    src = file(src_file, "r+")
+    des = file(dest_file, "w+")
+    des.writelines(src.read())
+    src.close()
+    des.close()
 
 
 def _get_remote_rc_file(rc_file, installer_ip, installer_type):
