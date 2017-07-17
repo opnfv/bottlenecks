@@ -77,6 +77,7 @@ def report(testcase, start_date, stop_date, criteria, details_doc):
 
 
 def docker_env_prepare(config):
+    LOG.info("Begin to prepare docker environment")
     if 'contexts' in config.keys() and config["contexts"] is not None:
         context_config = config["contexts"]
         if 'yardstick' in context_config.keys() and \
@@ -89,6 +90,7 @@ def docker_env_prepare(config):
             conf_parser.Parser.convert_docker_env(config, "dashboard")
             LOG.debug('Waiting for ELK init')
             time.sleep(15)
+    LOG.info("Docker environment have prepared")
     return
 
 
