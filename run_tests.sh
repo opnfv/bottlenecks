@@ -103,13 +103,8 @@ function run_test(){
                   If you want to run VSTF, please refer to earlier releases."
         ;;
         *)
-            info "Composing up dockers"
-            docker-compose -f /home/opnfv/bottlenecks/docker/bottleneck-compose/docker-compose.yml up -d
-            info "Pulling tutum/influxdb for yardstick"
-            docker pull tutum/influxdb:0.13
-            sleep 5
             info "Running posca $test_level: $test_exec"
-            docker exec bottleneckcompose_bottlenecks_1 python ${POSCA_SUITE}/../run_testsuite.py $test_level $test_exec $REPORT
+            python ${POSCA_SUITE}/../run_testsuite.py $test_level $test_exec $REPORT
         ;;
     esac
 }

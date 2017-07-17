@@ -67,8 +67,8 @@ def do_test(test_config, con_dic):
     loop_walue = 0
     while loop_walue < 150:
         time.sleep(2)
+        loop_walue = loop_walue + 1
         with open(out_file) as f:
-            loop_walue = loop_walue + 1
             data = json.load(f)
             if data["status"] == 1:
                 if data["result"]["criteria"] == "PASS":

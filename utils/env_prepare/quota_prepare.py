@@ -48,7 +48,7 @@ def quota_env_prepare():
 
     result = commands.getstatusoutput(cmd)
     if result[0] == 0:
-        LOG.info(result[1])
+        LOG.info("Get %s project id is %s" % (tenant_name, result[1]))
     else:
         LOG.error("can't get openstack project id")
         return 1
