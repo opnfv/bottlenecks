@@ -32,9 +32,20 @@ def _prepare_env_daemon(test_yardstick):
     if not os.environ.get("EXTERNAL_NETWORK"):
         _append_external_network(rc_file)
     if test_yardstick:
+        yardstick_contain = docker_env.yardstick_info["container"]
         cmd = "cp %s %s" % (rc_file,
                             config.bottlenecks_config["yardstick_rc_dir"])
-        yardstick_contain = docker_env.yardstick_info["container"]
+        docker_env.docker_exec_cmd(yardstick_contain,
+                                   cmd)
+        cmd = "sed "
+        file_orig = ("/home/opnfv/repos/yardstick/etc"
+                     "/yardstick/yardstick.conf.sample")
+        file_after = "/etc/yardstick/yardstick.conf"
+        cmd = "cp %s %s" % (file_orig,
+                            file_after)
+        docker_env.docker_exec_cmd(yardstick_contain,
+                                   cmd)
+        cmd = "sed -i ‘12s/http/file/g’ /etc/yardstick/yardstick.conf"
         docker_env.docker_exec_cmd(yardstick_contain,
                                    cmd)
 
