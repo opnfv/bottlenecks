@@ -15,9 +15,11 @@ import utils.logger as log
 import uuid
 import json
 import os
+import sys
 import time
-import multiprocessing
+import threading
 import datetime
+import Queue
 from utils.parser import Parser as conf_parser
 import utils.env_prepare.quota_prepare as quota_prepare
 import utils.env_prepare.stack_prepare as stack_prepare
@@ -41,6 +43,8 @@ test_dict = {
 testfile = os.path.basename(__file__)
 testcase, file_format = os.path.splitext(testfile)
 
+q = Queue.Queue()
+
 
 def env_pre(test_config):
     test_yardstick = False
@@ -56,7 +60,8 @@ def env_pre(test_config):
         LOG.debug(stdout)
 
 
-def do_test(test_config, con_dic):
+def do_test():
+    func_name = sys._getframe().f_code.co_name
     out_file = ("/tmp/yardstick_" + str(uuid.uuid4()) + ".out")
     yardstick_container = docker_env.yardstick_info['container']
     cmd = ('yardstick task start /home/opnfv/repos/yardstick/'
@@ -80,6 +85,7 @@ def do_test(test_config, con_dic):
                 break
             elif data["status"] == 2:
                 LOG.error("yardstick error exit")
+    q.put((out_value, func_name))
     return out_value
 
 
@@ -96,8 +102,7 @@ def config_to_result(num, out_num, during_date):
 
 
 def func_run(condic):
-    test_config = {}
-    test_date = do_test(test_config, condic)
+    test_date = do_test()
     return test_date
 
 
@@ -123,16 +128,22 @@ def run(test_config):
         result = []
         out_num = 0
         num = int(value)
-        pool = multiprocessing.Pool(processes=num)
+        # pool = multiprocessing.Pool(processes=num)
+        threadings = []
         LOG.info("begin to run %s thread" % num)
 
         starttime = datetime.datetime.now()
-        for i in range(0, int(num)):
-            result.append(pool.apply_async(func_run, (con_dic, )))
-        pool.close()
-        pool.join()
-        for res in result:
-            out_num = out_num + float(res.get())
+
+        for i in xrange(0, num):
+            temp_thread = threading.Thread(target=func_run, args=(str(i),))
+            threadings.append(temp_thread)
+            temp_thread.start()
+        for one_thread in threadings:
+            one_thread.join()
+        while not q.empty():
+            result.append(q.get())
+        for item in result:
+            out_num = out_num + float(item[0])
 
         endtime = datetime.datetime.now()
         LOG.info("%s thread success %d times" % (num, out_num))
