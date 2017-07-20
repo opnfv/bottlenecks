@@ -44,7 +44,7 @@ def _prepare_env_daemon(test_yardstick):
                             file_after)
         docker_env.docker_exec_cmd(yardstick_contain,
                                    cmd)
-        cmd = "sed -i ‘12s/http/file/g’ /etc/yardstick/yardstick.conf"
+        cmd = "sed -i '12s/http/file/g' /etc/yardstick/yardstick.conf"
         docker_env.docker_exec_cmd(yardstick_contain,
                                    cmd)
 
