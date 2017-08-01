@@ -16,8 +16,9 @@ load_manager:
     tool: ping
     test_times: 100
     package_size:
-    num_stack: 5, 10, 20
-    package_loss: 10%
+    num_stack: 20, 20
+    threshhold: 20
+    package_loss: 0%
 
   runners:
     stack_create: yardstick
