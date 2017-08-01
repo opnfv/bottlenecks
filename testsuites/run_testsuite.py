@@ -61,7 +61,9 @@ def report(testcase, start_date, stop_date, criteria, details_doc):
     }
     results['details'] = {"test_results": details_doc}
 
-    target = "http://testresults.opnfv.org/test/api/v1/results"
+    target = os.environ.get(
+        'REPORTING_DB',
+        'http://testresults.opnfv.org/test/api/v1/results')
     timeout = 5
 
     try:
