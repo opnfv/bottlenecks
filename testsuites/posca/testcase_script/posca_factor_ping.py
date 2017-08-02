@@ -70,21 +70,19 @@ def do_test():
     LOG.info(stdout)
     out_value = 0
     loop_walue = 0
-    while loop_walue < 150:
+    while loop_walue < 60:
         time.sleep(2)
         loop_walue = loop_walue + 1
         with open(out_file) as f:
             data = json.load(f)
             if data["status"] == 1:
-                if data["result"]["criteria"] == "PASS":
-                    LOG.info("yardstick run success")
-                    out_value = 1
-                else:
-                    LOG.error("task error exit")
-                    out_value = 0
+                LOG.info("yardstick run success")
+                out_value = 1
                 break
             elif data["status"] == 2:
                 LOG.error("yardstick error exit")
+                out_value = 0
+                break
     q.put((out_value, func_name))
     return out_value
 
