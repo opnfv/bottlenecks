@@ -89,13 +89,14 @@ def do_test():
     return out_value
 
 
-def config_to_result(num, out_num, during_date):
+def config_to_result(num, out_num, during_date, result):
     testdata = {}
     test_result = {}
-    test_result["number_of_users"] = float(num)
+    test_result["number_of_stacks"] = float(num)
     test_result["success_times"] = out_num
     test_result["success_rate"] = out_num / num
     test_result["duration_time"] = during_date
+    test_result["result"] = result
     testdata["data_body"] = test_result
     testdata["testcase"] = testcase
     return testdata
@@ -149,15 +150,18 @@ def run(test_config):
         LOG.info("%s thread success %d times" % (num, out_num))
         during_date = (endtime - starttime).seconds
 
-        data_reply = config_to_result(num, out_num, during_date)
+        if out_num >= con_dic["scenarios"]['threshhold']:
+            criteria_result = "PASS"
+        else:
+            criteria_result = "FAIL"
+
+        data_reply = config_to_result(num, out_num, during_date,
+                                      criteria_result)
         if "dashboard" in test_config["contexts"].keys():
             DashBoard.dashboard_send_data(test_config['contexts'], data_reply)
         conf_parser.result_to_file(data_reply, test_config["out_file"])
 
-        if out_num < num:
-            success_rate = ('%d/%d' % (out_num, num))
-            LOG.error('error thread: %d '
-                      'the successful rate is %s'
-                      % (num - out_num, success_rate))
+        if criteria_result is "FAIL":
             break
     LOG.info('END POSCA stress ping test')
+    return criteria_result

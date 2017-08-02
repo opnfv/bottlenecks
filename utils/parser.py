@@ -83,8 +83,14 @@ class Parser():
 
     @classmethod
     def testcase_out_dir(cls, testcase):
-        file_time = time.strftime('%H_%M', time.localtime(time.time()))
-        out_name = cls.bottlenecks_config["log_dir"] + testcase + file_time
+        suffix_name = os.getenv("SUFFIX_STRING")
+        if suffix_name is None:
+            file_suffix = time.strftime('%H_%M', time.localtime(time.time()))
+        else:
+            file_suffix = suffix_name
+        suffix_name = str(suffix_name)
+        suffix_name = "_" + suffix_name
+        out_name = cls.bottlenecks_config["log_dir"] + testcase + file_suffix
         outfile_name = out_name + ".out"
         return outfile_name
 
