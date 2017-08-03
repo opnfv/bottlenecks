@@ -60,12 +60,11 @@ def report(testcase, start_date, stop_date, criteria, details_doc):
         "scenario": os.environ.get('DEPLOY_SCENARIO', 'unknown')
     }
     results['details'] = {"test_results": details_doc}
-
     target = os.environ.get(
-        'REPORTING_DB',
+        'BOTTLENECKS_DB_TARGET',
         'http://testresults.opnfv.org/test/api/v1/results')
+    print ('Address of the target DB is: %s.' % target)
     timeout = 5
-
     try:
         LOG.debug('Test result : %s', jsonutils.dump_as_bytes(results))
         res = requests.post(target,
@@ -113,6 +112,7 @@ def testsuite_run(test_level, test_name, REPORT="False"):
         LOG.info("End of %s testcase in POSCA testsuite", testcase)
         criteria = "FAIL"
         if REPORT == "True":
+            print ('Testing results are about to be sent to the target DB.')
             details_doc = []
             if os.path.exists(config[testcase]['out_file']):
                 with open(config[testcase]['out_file']) as details_result:
@@ -120,6 +120,8 @@ def testsuite_run(test_level, test_name, REPORT="False"):
                     if len(details_doc):
                         criteria = "PASS"
             report(testcase, start_date, stop_date, criteria, details_doc)
+        else:
+            print ('Testing results have not been sent to the target DB.')
 
 
 def main():
