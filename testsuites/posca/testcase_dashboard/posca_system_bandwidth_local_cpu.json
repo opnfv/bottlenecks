@@ -1,0 +1,11 @@
+{
+        "title": "posca_system_bandwidth_local_cpu",
+        "visState": "{\"title\":\"New Visualization\",\"type\":\"line\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"showCircles\":true,\"smoothLines\":false,\"interpolate\":\"linear\",\"scale\":\"linear\",\"drawLinesBetweenPoints\":true,\"radiusRatio\":9,\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"type\":\"sum\",\"schema\":\"metric\",\"params\":{\"field\":\"local_cpu_util\"}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"rx_msg_size\",\"size\":100,\"order\":\"asc\",\"orderBy\":\"_term\"}},{\"id\":\"3\",\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"tx_msg_size\",\"size\":100,\"order\":\"asc\",\"orderBy\":\"_term\"}}],\"listeners\":{}}",
+        "uiStateJSON": "{}",
+        "description": "",
+        "savedSearchId": "system_bandwidth",
+        "version": 1,
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": "{\"filter\":[]}"
+        }
+}
