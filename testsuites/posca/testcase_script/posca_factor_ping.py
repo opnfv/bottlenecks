@@ -53,7 +53,7 @@ def env_pre(test_config):
     stack_prepare._prepare_env_daemon(test_yardstick)
     quota_prepare.quota_env_prepare()
     cmd = ('yardstick env prepare')
-    LOG.info("yardstick envrionment prepare!")
+    LOG.info("yardstick environment prepare!")
     if(test_config["contexts"]['yardstick_envpre']):
         yardstick_container = docker_env.yardstick_info['container']
         stdout = docker_env.docker_exec_cmd(yardstick_container, cmd)
@@ -69,10 +69,10 @@ def do_test():
     stdout = docker_env.docker_exec_cmd(yardstick_container, cmd)
     LOG.info(stdout)
     out_value = 0
-    loop_walue = 0
-    while loop_walue < 60:
+    loop_value = 0
+    while loop_value < 60:
         time.sleep(2)
-        loop_walue = loop_walue + 1
+        loop_value = loop_value + 1
         with open(out_file) as f:
             data = json.load(f)
             if data["status"] == 1:
@@ -119,9 +119,8 @@ def run(test_config):
         LOG.info("Create Dashboard data")
         DashBoard.posca_stress_ping(test_config["contexts"])
 
-    LOG.info("bottlenecks envrionment prepare!")
     env_pre(test_config)
-    LOG.info("yardstick envrionment prepare done!")
+    LOG.info("yardstick environment prepare done!")
 
     for value in test_num:
         result = []
