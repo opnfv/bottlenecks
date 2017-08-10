@@ -1,0 +1,29 @@
+##############################################################################
+# Copyright (c) 2017 HUAWEI TECHNOLOGIES CO.,LTD and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+test_config:
+  scale_up_values:
+    cpus_min: 8
+    cpus_max: 80
+    cpus_incr: 2
+    mem_min: 8
+    mem_max: 128
+    mem_incr: 2
+    mem_unit: 1024
+    # optionally allow for static list of CPU, MEM values
+#  scale_up_values_list:
+#    - [8, 8192]
+#    - [10, 10240]
+runner_config:
+  dashboard: "y"
+  dashboard_ip:
+  stack_create: yardstick
+  yardstick_test_ip:
+  yardstick_test_dir: "samples/vnf_samples/nsut/acl"
+  yardstick_testcase: "tc_heat_rfc2544_ipv4_1rule_1flow_64B_packetsize_scale_up.yaml"
