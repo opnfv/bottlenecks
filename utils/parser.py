@@ -42,6 +42,7 @@ class Parser():
             cls.bottlenecks_config["fetch_os"] = common_config["fetch_os_file"]
             cls.bottlenecks_config["log_dir"] = common_config['log_dir']
             cls.bottlenecks_config["rc_dir"] = common_config['rc_dir']
+            cls.bottlenecks_config["pod_info"] = common_config['pod_info']
             cls.bottlenecks_config["yardstick_rc_dir"] = \
                 common_config['yardstick_rc_dir']
             cls.config_dir_check(cls.bottlenecks_config["log_dir"])

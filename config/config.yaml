@@ -10,6 +10,7 @@
 common_config:
   log_dir: '/tmp/'
   rc_dir: '/tmp/admin_rc.sh'
+  pod_info: '/tmp/pod.yaml'
   yardstick_rc_dir: '/etc/yardstick/openstack.creds'
   releng_dir: '/home/opnfv/releng'
   fetch_os_file: 'utils/fetch_os_creds.sh'

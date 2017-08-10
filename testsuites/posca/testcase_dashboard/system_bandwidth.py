@@ -76,7 +76,6 @@ def dashboard_system_bandwidth(runner_config):
         LOG.info("system_bandwidth search has existed")
 
     # Create testing data in line graph
-    # Create testing data in line graph
     with open(dashboard_dir + 'posca_system_bandwidth_line_data.json')\
             as line_data:
         doc = json.load(line_data)
@@ -103,6 +102,20 @@ def dashboard_system_bandwidth(runner_config):
         LOG.info("system_bandwidth_line-char visualization has created")
     else:
         LOG.info("system_bandwidth_line-char visualization has existed")
+
+    # Create local cpu results in line chart
+    with open(dashboard_dir + 'posca_system_bandwidth_local_cpu.json')\
+            as line_cpu:
+        doc = json.load(line_cpu)
+    res = es.index(
+        index=".kibana",
+        doc_type="visualization",
+        id="system_bandwidth_local_cpu",
+        body=doc)
+    if res['created'] == "True":
+        LOG.info("system_bandwidth_local_cpu visualization has created")
+    else:
+        LOG.info("system_bandwidth_local_cpu visualization has existed")
 
     # Create monitoring data in table
     with open(dashboard_dir + 'posca_system_bandwidth_terms_data.json')\
