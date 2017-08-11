@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-by: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-at: Fri, 11 Aug 2017 01:43:22 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/39093
+Project: bottlenecks
+Branch: refs/heads/stable/danube
