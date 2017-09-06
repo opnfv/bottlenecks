@@ -27,7 +27,6 @@ where:
     --report          push results to DB (false by default)
 
 examples:
-    $(basename "$0")
     $(basename "$0") -s posca_factor_test"
 
 # Define global variables
@@ -42,11 +41,11 @@ cleanup=false
 
 # Define alias for log printing
 info () {
-    logger -s -t "bottlenecks.info" "$*"
+    logger -s -t "BOTTLENECKS INFO" "$*"
 }
 
 error () {
-    logger -s -t "bottlenecks.error" "$*"
+    logger -s -t "BOTTLENECKS ERROR" "$*"
     exit 1
 }
 
