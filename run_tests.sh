@@ -42,11 +42,11 @@ cleanup=false
 
 # Define alias for log printing
 info () {
-    logger -s -t "bottlenecks.info" "$*"
+    logger -s -t "BOTTLENECKS INFO" "$*"
 }
 
 error () {
-    logger -s -t "bottlenecks.error" "$*"
+    logger -s -t "BOTTLENECKS ERROR" "$*"
     exit 1
 }
 
