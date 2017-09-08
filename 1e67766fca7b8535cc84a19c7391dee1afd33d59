@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Rutuja Surve <rutuja.r.surve@gmail.com>
+Code-Review+1: Amit Kumar Jaiswal <amitkumarj441@gmail.com>
+Code-Review+2: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-by: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-at: Fri, 08 Sep 2017 08:00:30 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/41167
+Project: bottlenecks
+Branch: refs/heads/master
