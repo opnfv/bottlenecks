@@ -3,7 +3,7 @@
 .. (c) Huawei Technologies Co.,Ltd and others.
 
 ***************************
-Bottlenecks - Testing Guide
+Bottlenecks User Guide
 ***************************
 
 .. toctree::
