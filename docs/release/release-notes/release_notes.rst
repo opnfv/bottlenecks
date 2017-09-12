@@ -31,28 +31,31 @@ Apache License, Version 2.0.
 Version History
 ===============
 
-+----------------+--------------------+---------------------------------+
-| *Date*         | *Version*          | *Comment*                       |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Sept 22nd, 2016|  1.0               | Bottlenecks Colorado release 1.0|
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Feb 17nd, 2017 |  1.1               | Bottlenecks Danube release 1.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Mar 24nd, 2017 |  1.2               | Bottlenecks Danube release 1.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Mar 24nd, 2017 |  1.3               | Bottlenecks Danube release 1.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Apr 25th, 2017 |  1.4               | Bottlenecks Danube release 2.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Jun 19th, 2017 |  1.5               | Bottlenecks Danube release 3.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
++----------------+--------------------+-----------------------------------+
+| *Date*         | *Version*          | *Comment*                         |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Sept 22nd, 2016|  1.0               | Bottlenecks Colorado release 1.0  |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Feb 17nd, 2017 |  1.1               | Bottlenecks Danube release 1.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Mar 24nd, 2017 |  1.2               | Bottlenecks Danube release 1.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Mar 24nd, 2017 |  1.3               | Bottlenecks Danube release 1.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Apr 25th, 2017 |  1.4               | Bottlenecks Danube release 2.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Jun 19th, 2017 |  1.5               | Bottlenecks Danube release 3.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Sept 15th, 2017|  1.6               | Bottlenecks Euphrates release 5.0 |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
 
 Summary
 =======
@@ -67,13 +70,40 @@ Summary
 
     * User Guide
 
-    * Development Guide
+    * Developer Guide
 
 The *Bottlenecks software* is developed in the OPNFV community, by the
 Bottlenecks_ team.
 
 Release Data
 ============
+
+Euphrates Release Data
+-----------------------
+
++--------------------------------------+--------------------------------+
+| **Project**                          | Bottlenecks                    |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Repo/tag**                         | * Bottlenecks/5.0.0            |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Bottlenecks Docker image tag**     | * 5.0.0                        |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release designation**              | * 5.0.0                        |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release date**                     | * Sept 15th 2017               |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Purpose of the delivery**          | Euphrates stable release       |
+|                                      |                                |
++--------------------------------------+--------------------------------+
 
 Danube Release Data
 -----------------------
@@ -155,63 +185,59 @@ Danube Deliverables
 Software Deliverables
 ---------------------
 
-**Bottlenecks source code <danube>**
+**Bottlenecks source code**
 
 * https://gerrit.opnfv.org/gerrit/gitweb?p=bottlenecks.git;a=summary
 
 
 Documentatiion Deliverables
 ---------------------------
+
+**Bottlenecks documentation <euphrates>**
+
+* Release Notes: http://docs.opnfv.org/en/stable-euphrates/submodules/bottlenecks/docs/release/release-notes/release_notes.html
+* User Guide: http://docs.opnfv.org/en/stable-euphrates/submodules/bottlenecks/docs/testing/user/userguide/index.html
+* Developer Guide: http://docs.opnfv.org/en/stable-euphrates/submodules/bottlenecks/docs/testing/developer/devguide/index.html
 
 **Bottlenecks documentation <danube>**
 
 * Release Notes: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/release/release-notes/release_notes.html
 * User Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/user/userguide/index.html
-* Development Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/developer/devguide/index.html
-
-Colorado Deliverables
-=====================
-
-Software Deliverables
----------------------
-
-**Bottlenecks source code <colorado.1.0>**
-
-* https://gerrit.opnfv.org/gerrit/gitweb?p=bottlenecks.git;a=summary
-
-
-Documentatiion Deliverables
----------------------------
+* Developer Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/developer/devguide/index.html
 
 **Bottlenecks documentation <colorado.1.0>**
 
-* Platformation Overview: http://artifacts.opnfv.org/bottlenecks/colorado/1.0/docs/platformoverview/index.html
+* Platform Overview: http://artifacts.opnfv.org/bottlenecks/colorado/1.0/docs/platformoverview/index.html
 * Configuration Guide: http://artifacts.opnfv.org/bottlenecks/colorado/1.0/configurationguide/index.html
 * Installation Guide: http://artifacts.opnfv.org/bottlenecks/colorado/docs/installationprocedure/index.html
 * http://artifacts.opnfv.org/bottlenecks/colorado/1.0/releasenotes/index.html
 * User Guide: http://artifacts.opnfv.org/bottlenecks/colorado/1.0/docs/userguide/index.html
 
-Reason for Version
-==================
+Reason for Euphrates
+====================
 
-* In Danube, POSCA testsuite is introduced and two stress tests are implemented. Rubbos and vstf are not supported in this release. Their documentations for former releases will only be kept this release.
-* In Colorado, rubbos is refactored by using puppet, which makes it quite flexible to configure with different number of load generator(Client), worker(tomcat).
-* In Colorado, vstf is refactored by extracting the test case's configuration information.
+* Introduction of a simple monitoring module, i.e., Prometheus+Collectd+Node+Grafana to monitor the system behavior when executing stress tests.
+* Support VNF scale up/out tests to verify NFVI capability to adapt the resource consuming.
+* Extend Life-cycle test to data-plane to validate the system capability to handle concurrent networks usage.
+* Testing framework is revised to support installer-agnostic testing.
+These enhancements and test cases help the end users to gain more comprehensive understanding of the SUT.
+Graphic reports of the system behavior additional to test cases are provided to indicate the confidence level of SUT.
+Installer-agnostic testing framework allow end user to do stress testing adaptively over either Open Source or commercial deployments.
 
 
 Known restrictions/issues
 =========================
 
-* In Danube, Bottlenecks use Yardstick to do stress tests by iteratively calling yardstick running test cases and in the meantime increasing load.
+* Bottlenecks uses Yardstick to do stress tests by iteratively calling yardstick running test cases and in the meantime increasing load.
 
   * Sometimes, Yardstick just waits for the test environment preparing.
   This cause troubles since it seams to get Yardstick into a loop to keep waiting.
   For OPNFV CI, this loop will be automatically stopped because of the default timeout setting. However, for local testing, user should stop this loop manually.
 
   * Sometimes, Yardstick will return empty test results with test flag indicating test is excuted succefully.
-  It maybe because of the environment issue or poor internet connection causing testing tools are not installed successfully.
+  It maybe due to the environment issue or poor internet connection causing testing tools are not installed successfully.
 
-* Sometimes, a process will go to dormancy. In this case, if a tool is installed in the SUT and its process go dormancy, we try to call it twice. Normally, it will response.
+* Sometimes, a process will go to sleep state. In this case when a running tool go to sleep state, we try to call it twice. Normally, it will response.
 
 
 Test results
@@ -251,9 +277,13 @@ Open JIRA tickets
 +------------------+----------------------------------------------------+
 |   JIRA           |         Description                                |
 +==================+====================================================+
-| BOTTLENECK-103   | Refactoring the Bottlenecks tesing workflow        |
-+------------------+----------------------------------------------------+
 | BOTTLENECK-147   | Investigting why calling remote docker client      |
++------------------+----------------------------------------------------+
+| BOTTLENECK-207   | Yardstick loop when executing test cases           |
++------------------+----------------------------------------------------+
+| BOTTLENECK-208   | Yardstick empty results when executing test cases  |
++------------------+----------------------------------------------------+
+| BOTTLENECK-209   | Sleep process when executing test cases            |
 +------------------+----------------------------------------------------+
 
 
