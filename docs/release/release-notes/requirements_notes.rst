@@ -3,15 +3,16 @@
 .. (c) Huawei Technologies Co.,Ltd and others.
 
 
-*******************************************************
-Bottlenecks Requirements Notes for OPNFV Danube Release
-*******************************************************
+**********************************************************
+Bottlenecks Requirements Notes for OPNFV Euphrates Release
+**********************************************************
 
 ======================
 Installer Requirements
 ======================
 
-In Danube, test cases are runned defaultly over compass4nfv deployment.
+Bottlenecks Euphrates release is installer-agnostic which means that the test cases could be executed over different deployments.
+However, the pod description file and openstack rc file are required to automatically get the SUT informations.
 
 =====================
 Hardware Requirements
@@ -32,7 +33,7 @@ Ubuntu 14.04 is the default system. However, we do not do any linux core operati
 Cloud OS
 --------
 
-Bottlenecks support OpenStack Newton with compatibility for both openstack V2/V3 API. That is, Bottlenecks could be runned over lower version of OpenStack.
+Bottlenecks supports OpenStack with compatibility for both OpenStack Keystone V2/V3 API. That is, Bottlenecks could be run over previous versions of OpenStack.
 
 Depending Package
 -----------------
