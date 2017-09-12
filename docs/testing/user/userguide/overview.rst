@@ -27,6 +27,16 @@ Danube: posca testsuite is introduced to implementing stress (factor), scenario 
 tuning test in parametric manner. Two testcases are developed and integrated into
 community CI pipeline. Rubbos and VSTF are not supported any more.
 
+Euphrates: Bottlenecks introduces its monitoring module, i.e., Prometheus+Collectd+Node+Grafana
+to monitor the system behavior when executing stress tests.
+VNF scale up/out tests is also introduced to verify NFVI capability to adapt the resource consuming.
+Life-cycle test is extended to data-plane to validte the system capability to handle
+concurrent network usage. Testing framework is also revised to support installer-agnostic testing.
+These enhancements and test cases help the end users to gain more comprehensive understanding
+of the SUT. Graphic reports of the system behavior additional to test cases are provided to
+indicate the confidence level of SUT. Install-agnostic testing framework allow end user to do
+stress testing adaptively over either open source or commercial deployments.
+
 Integration Description
 =======================
 +-------------+----------------------+----------------------+
@@ -38,6 +48,8 @@ Integration Description
 +-------------+----------------------+----------------------+
 | Danube      |    Compass           | POSCA                |
 +-------------+----------------------+----------------------+
+| Euphrates   |    N/A               | POSCA                |
++-------------+----------------------+----------------------+
 
 Test suite & Test case Description
 ==================================
@@ -45,6 +57,12 @@ Test suite & Test case Description
 |POSCA   | posca_factor_ping             |
 |        +-------------------------------+
 |        | posca_factor_system_bandwidth |
+|        +-------------------------------+
+|        | posca_facotor_througputs      |
+|        +-------------------------------+
+|        | posca_feature_scaleup         |
+|        +-------------------------------+
+|        | posca_facotor_scaleout        |
 +--------+-------------------------------+
 |Rubbos  | rubbos_basic                  |
 |        +-------------------------------+
