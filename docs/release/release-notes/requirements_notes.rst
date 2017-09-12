@@ -11,7 +11,8 @@ Bottlenecks Requirements Notes for OPNFV Danube Release
 Installer Requirements
 ======================
 
-In Danube, test cases are runned defaultly over compass4nfv deployment.
+Bottlenecks Euphrates release are installer-agnostic which means that the test cases could be executed over different deployments.
+However, the pod description file and openstack rc file are required for automated loading the SUT informations.
 
 =====================
 Hardware Requirements
@@ -32,7 +33,7 @@ Ubuntu 14.04 is the default system. However, we do not do any linux core operati
 Cloud OS
 --------
 
-Bottlenecks support OpenStack Newton with compatibility for both openstack V2/V3 API. That is, Bottlenecks could be runned over lower version of OpenStack.
+Bottlenecks support OpenStack with compatibility for both openstack V2/V3 API. That is, Bottlenecks could be runned over lower version of OpenStack.
 
 Depending Package
 -----------------
