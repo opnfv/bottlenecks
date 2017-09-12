@@ -31,28 +31,31 @@ Apache License, Version 2.0.
 Version History
 ===============
 
-+----------------+--------------------+---------------------------------+
-| *Date*         | *Version*          | *Comment*                       |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Sept 22nd, 2016|  1.0               | Bottlenecks Colorado release 1.0|
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Feb 17nd, 2017 |  1.1               | Bottlenecks Danube release 1.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Mar 24nd, 2017 |  1.2               | Bottlenecks Danube release 1.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Mar 24nd, 2017 |  1.3               | Bottlenecks Danube release 1.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Apr 25th, 2017 |  1.4               | Bottlenecks Danube release 2.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
-| Jun 19th, 2017 |  1.5               | Bottlenecks Danube release 3.0  |
-|                |                    |                                 |
-+----------------+--------------------+---------------------------------+
++----------------+--------------------+-----------------------------------+
+| *Date*         | *Version*          | *Comment*                         |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Sept 22nd, 2016|  1.0               | Bottlenecks Colorado release 1.0  |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Feb 17nd, 2017 |  1.1               | Bottlenecks Danube release 1.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Mar 24nd, 2017 |  1.2               | Bottlenecks Danube release 1.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Mar 24nd, 2017 |  1.3               | Bottlenecks Danube release 1.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Apr 25th, 2017 |  1.4               | Bottlenecks Danube release 2.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Jun 19th, 2017 |  1.5               | Bottlenecks Danube release 3.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| Sept 15th, 2017|  1.6               | Bottlenecks Euphrates release 1.0 |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
 
 Summary
 =======
@@ -74,6 +77,33 @@ Bottlenecks_ team.
 
 Release Data
 ============
+
+Euphrates Release Data
+-----------------------
+
++--------------------------------------+--------------------------------+
+| **Project**                          | Bottlenecks                    |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Repo/tag**                         | * Bottlenecks/euphrates.1.0    |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Bottlenecks Docker image tag**     | * euphrates.1.0                |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release designation**              | * euphrates 1.0                |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release date**                     | * Sept 15th 2017               |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Purpose of the delivery**          | Euphrates stable release       |
+|                                      |                                |
++--------------------------------------+--------------------------------+
 
 Danube Release Data
 -----------------------
@@ -155,33 +185,25 @@ Danube Deliverables
 Software Deliverables
 ---------------------
 
-**Bottlenecks source code <danube>**
+**Bottlenecks source code**
 
 * https://gerrit.opnfv.org/gerrit/gitweb?p=bottlenecks.git;a=summary
 
 
 Documentatiion Deliverables
 ---------------------------
+
+**Bottlenecks documentation <euphrates>**
+
+* Release Notes: http://docs.opnfv.org/en/stable-euphrates/submodules/bottlenecks/docs/release/release-notes/release_notes.html
+* User Guide: http://docs.opnfv.org/en/stable-euphrates/submodules/bottlenecks/docs/testing/user/userguide/index.html
+* Development Guide: http://docs.opnfv.org/en/stable-euphrates/submodules/bottlenecks/docs/testing/developer/devguide/index.html
 
 **Bottlenecks documentation <danube>**
 
 * Release Notes: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/release/release-notes/release_notes.html
 * User Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/user/userguide/index.html
 * Development Guide: http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/developer/devguide/index.html
-
-Colorado Deliverables
-=====================
-
-Software Deliverables
----------------------
-
-**Bottlenecks source code <colorado.1.0>**
-
-* https://gerrit.opnfv.org/gerrit/gitweb?p=bottlenecks.git;a=summary
-
-
-Documentatiion Deliverables
----------------------------
 
 **Bottlenecks documentation <colorado.1.0>**
 
@@ -194,6 +216,7 @@ Documentatiion Deliverables
 Reason for Version
 ==================
 
+* In Euphrates, Bottlenecks introduces its monitoring module, i.e., Prometheus+Collectd+Node+Grafana to monitor the system behavior when executing stress tests. VNF scale up/out tsts is also introduced to verify NFVI capability to adapt the resource consuming. Life-cycle test is extended to data-plane to validte the system capability to handle cocurrent network usage. Testing framework is also revised to support installer-agnostic testing. These enhancements and test cases help the end users to gain more comprehensive understanding of the SUT. Graphic reports of the system behavior additional to test cases are provided to indicate the confidence level of SUT. Install-agnostic testing framework allow end user to do stress testing adaptively over either open source or commercial deployments.
 * In Danube, POSCA testsuite is introduced and two stress tests are implemented. Rubbos and vstf are not supported in this release. Their documentations for former releases will only be kept this release.
 * In Colorado, rubbos is refactored by using puppet, which makes it quite flexible to configure with different number of load generator(Client), worker(tomcat).
 * In Colorado, vstf is refactored by extracting the test case's configuration information.
@@ -251,8 +274,6 @@ Open JIRA tickets
 +------------------+----------------------------------------------------+
 |   JIRA           |         Description                                |
 +==================+====================================================+
-| BOTTLENECK-103   | Refactoring the Bottlenecks tesing workflow        |
-+------------------+----------------------------------------------------+
 | BOTTLENECK-147   | Investigting why calling remote docker client      |
 +------------------+----------------------------------------------------+
 
