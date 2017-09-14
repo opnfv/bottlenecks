@@ -103,7 +103,12 @@ function run_test(){
         ;;
         *)
             info "Running posca $test_level: $test_exec"
-            python ${POSCA_SUITE}/../run_testsuite.py $test_level $test_exec $REPORT
+            opts="--privileged=true -id"
+            docker_volume="-v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp"
+            docker run $opts --name bottlenecks-load-master $docker_volume opnfv/bottlenecks:latest /bin/bash
+            sleep 5
+            POSCA_SCRIPT="/home/opnfv/bottlenecks/testsuites/posca"
+            docker exec bottlenecks-load-master python ${POSCA_SCRIPT}/../run_testsuite.py ${test_level} ${test_exec} ${REPORT}
         ;;
     esac
 }
@@ -171,7 +176,7 @@ fi
 # Clean up testing dockers
 if [[ ${cleanup} == true ]]; then
     info "Cleaning up docker-compose images and dockers"
-    docker-compose -f $BASEDIR/docker/bottleneck-compose/docker-compose.yml down --rmi all
     bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
     bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
+    bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
 fi
