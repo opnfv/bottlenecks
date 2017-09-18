@@ -2,6 +2,97 @@
   "comments": [
     {
       "key": {
+        "uuid": "da33351e_1d566606",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "should it not be aligned with release naming\nEuphrates 5.0.0\n\nor at least 2.0 to distinguish intermediate and major versions (Danube1.0, 2.0) / Euphrates",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_dd76bea3",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "Notes or Note",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_bd7bfa8a",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "If we agree on alignment\nmaybe better to write Developer Guide rather than Development Guide",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3dc36a8a",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "I would keep only statements for Euphrates here\notherwise duplication with overview of the Testing (User) Guide",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_9d60b6d0",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 220,
+        "startChar": 83,
+        "endLine": 220,
+        "endChar": 85
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_66c3a457",
         "filename": "docs/release/release-notes/release_notes.rst",
         "patchSetId": 8
@@ -25,6 +116,29 @@
     },
     {
       "key": {
+        "uuid": "da33351e_fda8e2dc",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "networks?",
+      "range": {
+        "startLine": 222,
+        "startChar": 54,
+        "endLine": 222,
+        "endChar": 61
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_c6a390b0",
         "filename": "docs/release/release-notes/release_notes.rst",
         "patchSetId": 8
@@ -41,6 +155,671 @@
         "startChar": 54,
         "endLine": 225,
         "endChar": 70
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_5db10e46",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "Open Source",
+      "range": {
+        "startLine": 226,
+        "startChar": 44,
+        "endLine": 226,
+        "endChar": 55
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3daecae6",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "and ease the integration with several load generators(Client) and worker(Tomcat).",
+      "range": {
+        "startLine": 228,
+        "startChar": 83,
+        "endLine": 228,
+        "endChar": 120
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_5d98eebf",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "Suggestion\nInstead of In Colorado, ...\nColorado: refactoring of vstf....\n\nA table with the different improvements from one version to another would be probably clearer",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3d952a87",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_9d8ef677",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "to automatically get the SUT informations.",
+      "range": {
+        "startLine": 15,
+        "startChar": 69,
+        "endLine": 15,
+        "endChar": 111
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_5ddf4e69",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "OpenStack Keystone v2/v3 API",
+      "range": {
+        "startLine": 36,
+        "startChar": 58,
+        "endLine": 36,
+        "endChar": 77
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_bdd77a4a",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "previous",
+      "range": {
+        "startLine": 36,
+        "startChar": 121,
+        "endLine": 36,
+        "endChar": 126
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_7de21230",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "run",
+      "range": {
+        "startLine": 36,
+        "startChar": 109,
+        "endLine": 36,
+        "endChar": 115
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_ddd23e5b",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "versions",
+      "range": {
+        "startLine": 36,
+        "startChar": 127,
+        "endLine": 36,
+        "endChar": 134
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_fdf622f8",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "supports",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_1dc946ac",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "if naming alignment\n\u003d\u003e \n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nUser Guide\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_fdcd82b8",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "makes sense here\nbut then maybe duplication with release note (should focus on Euphrates and not speak of previous versions)",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_9dbc3608",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "implement",
+      "range": {
+        "startLine": 26,
+        "startChar": 41,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_7db97214",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 32,
+        "startChar": 23,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_dd399ea5",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "validate",
+      "range": {
+        "startLine": 33,
+        "startChar": 45,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_bd3e5a8a",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "Open Source",
+      "range": {
+        "startLine": 38,
+        "startChar": 38,
+        "endLine": 38,
+        "endChar": 49
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_1d402606",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "N/A or any?",
+      "range": {
+        "startLine": 51,
+        "startChar": 18,
+        "endLine": 51,
+        "endChar": 22
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_5d4d8e3d",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "a bit misleading as it is indicated that it is not supported since Danube. Maybe indicate an associate version?",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3d4a4a26",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "test suite",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_5d746e67",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "break at 60 for the review in gerrit at least...",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_9d5396e1",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "test suite",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 15
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_fd5bc2f3",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "The test environment preparation, the installation of the testing tools, the execution of the tests and the reporting/analyisis are now highly automated",
+      "range": {
+        "startLine": 62,
+        "startChar": 36,
+        "endLine": 62,
+        "endChar": 149
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_dd07dec8",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "could be executed",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_bd0c9aee",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "Edit admin_rc.sh and add the following line:",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_fd12a207",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "use",
+      "range": {
+        "startLine": 97,
+        "startChar": 93,
+        "endLine": 97,
+        "endChar": 97
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_5dfbcec0",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "- missing",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3df88ac2",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "Bottlenecks",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_9d01d6b1",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "specify",
+      "range": {
+        "startLine": 115,
+        "startChar": 42,
+        "endLine": 115,
+        "endChar": 51
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_bd33faa9",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "can",
+      "range": {
+        "startLine": 115,
+        "startChar": 36,
+        "endLine": 115,
+        "endChar": 41
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_7dfe92af",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "defining",
+      "range": {
+        "startLine": 115,
+        "startChar": 84,
+        "endLine": 115,
+        "endChar": 91
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_1d25c65b",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-18T13:08:30Z",
+      "side": 1,
+      "message": "executed",
+      "range": {
+        "startLine": 115,
+        "startChar": 73,
+        "endLine": 115,
+        "endChar": 80
       },
       "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
