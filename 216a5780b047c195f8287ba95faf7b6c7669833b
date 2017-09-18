@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_66c3a457",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 4469
+      },
+      "writtenOn": "2017-09-18T05:42:43Z",
+      "side": 1,
+      "message": "validate",
+      "range": {
+        "startLine": 222,
+        "startChar": 3,
+        "endLine": 222,
+        "endChar": 10
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_c6a390b0",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 4469
+      },
+      "writtenOn": "2017-09-18T05:42:43Z",
+      "side": 1,
+      "message": "`Installer-agnostic` for consistency with L223",
+      "range": {
+        "startLine": 225,
+        "startChar": 54,
+        "endLine": 225,
+        "endChar": 70
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
