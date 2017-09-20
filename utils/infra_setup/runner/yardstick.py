@@ -24,6 +24,18 @@ headers = {"Content-Type": "application/json"}
 LOG = logger.Logger(__name__).getLogger()
 
 
+def yardstick_command_parser(debug, cidr, outfile, parameter):
+    cmd = "yardstick"
+    if debug:
+        cmd += " -d"
+    cmd += " task start "
+    cmd += str(cidr)
+    cmd += " --output-file " + outfile
+    if parameter is not None:
+        cmd += " --task-args " + '"' + str(parameter) + '"'
+    return cmd
+
+
 def Get_Reply(test_config, task_id, time_test=1):
     reply_url = ("http://%s/yardstick/results?task_id=%s"
                  % (test_config['yardstick_test_ip'], task_id))
