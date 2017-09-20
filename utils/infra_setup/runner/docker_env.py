@@ -46,8 +46,7 @@ def env_yardstick(docker_name):
     yardstick_tag = os.getenv("Yardstick_TAG")
     if yardstick_tag is None:
         yardstick_tag = "danube.3.1"
-    env_docker = client.containers.run(image="opnfv/yardstick:%s"
-                                             % yardstick_tag,
+    env_docker = client.containers.run(image="yardstick_pmd",
                                        privileged=True,
                                        tty=True,
                                        detach=True,
