@@ -1,0 +1,39 @@
+##############################################################################
+# Copyright (c) 2017 HUAWEI TECHNOLOGIES CO.,LTD and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+load_manager:
+  scenarios:
+    tool: testpmd
+    # The number of seconds to run when doing binary search for a throughput test..
+    search_interval: 20
+    # info that the cpus and memes have the same number of data.
+    cpus: 6,8,10
+    mems: 8,10,12
+    # this is pktsize of Moongen to generate
+    # pkt_size: 64,128,256,1024,1518
+    pkt_size: 64
+    # this is multiqueue of Monngen to generate
+    multistream: 1, 1000
+
+  runners:
+    stack_create: yardstick
+    Debug: False
+    yardstick_test_dir: "samples"
+    yardstick_testcase: "netperf_bottlenecks"
+
+  runner_exta:
+    # info this section is for yardstick do some exta env prepare.
+    installation_method: yardstick
+    installation_type: testpmd
+
+contexts:
+  # info that dashboard if have data, we will create the data dashboard.
+  dashboard: "Bottlenecks-ELK"
+  yardstick: "Bottlenecks_yardstick"
+  yardstick_envpre: Flase
