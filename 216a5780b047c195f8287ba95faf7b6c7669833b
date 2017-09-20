@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_c21b7271",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_1d566606",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_dd76bea3",
         "filename": "docs/release/release-notes/release_notes.rst",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "Notes or Note",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_a218ee75",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "I thinks it is notes...",
+      "parentUuid": "da33351e_dd76bea3",
       "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_0229da89",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_bd7bfa8a",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_3dc36a8a",
         "filename": "docs/release/release-notes/release_notes.rst",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_e22dd696",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_3dc36a8a",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_9d60b6d0",
         "filename": "docs/release/release-notes/release_notes.rst",
         "patchSetId": 8
@@ -81,6 +153,30 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "are",
+      "range": {
+        "startLine": 220,
+        "startChar": 83,
+        "endLine": 220,
+        "endChar": 85
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_421f625b",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_9d60b6d0",
       "range": {
         "startLine": 220,
         "startChar": 83,
@@ -139,6 +235,54 @@
     },
     {
       "key": {
+        "uuid": "da33351e_2224dead",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_fda8e2dc",
+      "range": {
+        "startLine": 222,
+        "startChar": 54,
+        "endLine": 222,
+        "endChar": 61
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_823ccac9",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_66c3a457",
+      "range": {
+        "startLine": 222,
+        "startChar": 3,
+        "endLine": 222,
+        "endChar": 10
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_c6a390b0",
         "filename": "docs/release/release-notes/release_notes.rst",
         "patchSetId": 8
@@ -150,6 +294,30 @@
       "writtenOn": "2017-09-18T05:42:43Z",
       "side": 1,
       "message": "`Installer-agnostic` for consistency with L223",
+      "range": {
+        "startLine": 225,
+        "startChar": 54,
+        "endLine": 225,
+        "endChar": 70
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_6239c6d6",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_c6a390b0",
       "range": {
         "startLine": 225,
         "startChar": 54,
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_c23252f1",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_5db10e46",
+      "range": {
+        "startLine": 226,
+        "startChar": 44,
+        "endLine": 226,
+        "endChar": 55
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_3daecae6",
         "filename": "docs/release/release-notes/release_notes.rst",
         "patchSetId": 8
@@ -196,6 +388,30 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "and ease the integration with several load generators(Client) and worker(Tomcat).",
+      "range": {
+        "startLine": 228,
+        "startChar": 83,
+        "endLine": 228,
+        "endChar": 120
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_a22f4e87",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Has removed descriptions for Colorado.",
+      "parentUuid": "da33351e_3daecae6",
       "range": {
         "startLine": 228,
         "startChar": 83,
@@ -248,6 +464,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_0250ba09",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_3d952a87",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_9d8ef677",
         "filename": "docs/release/release-notes/requirements_notes.rst",
         "patchSetId": 8
@@ -259,6 +499,30 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "to automatically get the SUT informations.",
+      "range": {
+        "startLine": 15,
+        "startChar": 69,
+        "endLine": 15,
+        "endChar": 111
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_e254b600",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_9d8ef677",
       "range": {
         "startLine": 15,
         "startChar": 69,
@@ -380,6 +644,120 @@
     },
     {
       "key": {
+        "uuid": "da33351e_c249b261",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_fdf622f8",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_82432a41",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_bdd77a4a",
+      "range": {
+        "startLine": 36,
+        "startChar": 121,
+        "endLine": 36,
+        "endChar": 126
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_42564207",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_5ddf4e69",
+      "range": {
+        "startLine": 36,
+        "startChar": 58,
+        "endLine": 36,
+        "endChar": 77
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_225b3e2f",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_7de21230",
+      "range": {
+        "startLine": 36,
+        "startChar": 109,
+        "endLine": 36,
+        "endChar": 115
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_6240a634",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_ddd23e5b",
+      "range": {
+        "startLine": 36,
+        "startChar": 127,
+        "endLine": 36,
+        "endChar": 134
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_1dc946ac",
         "filename": "docs/testing/user/userguide/overview.rst",
         "patchSetId": 8
@@ -391,6 +769,24 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "if naming alignment\n\u003d\u003e \n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nUser Guide\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_a2462e4d",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_1dc946ac",
       "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -414,6 +810,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_02771aa1",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_fdcd82b8",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_9dbc3608",
         "filename": "docs/testing/user/userguide/overview.rst",
         "patchSetId": 8
@@ -425,6 +839,30 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "implement",
+      "range": {
+        "startLine": 26,
+        "startChar": 41,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_e27b168a",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_9dbc3608",
       "range": {
         "startLine": 26,
         "startChar": 41,
@@ -460,6 +898,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_426da2cb",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_7db97214",
+      "range": {
+        "startLine": 32,
+        "startChar": 23,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_dd399ea5",
         "filename": "docs/testing/user/userguide/overview.rst",
         "patchSetId": 8
@@ -471,6 +933,30 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "validate",
+      "range": {
+        "startLine": 33,
+        "startChar": 45,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_826a0ab1",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_dd399ea5",
       "range": {
         "startLine": 33,
         "startChar": 45,
@@ -506,6 +992,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_a25d8e17",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_5f53bd6a",
+      "range": {
+        "startLine": 36,
+        "startChar": 51,
+        "endLine": 36,
+        "endChar": 61
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_9f49c5b9",
         "filename": "docs/testing/user/userguide/overview.rst",
         "patchSetId": 8
@@ -517,6 +1027,30 @@
       "writtenOn": "2017-09-20T07:48:36Z",
       "side": 1,
       "message": "Installer-agnostic?",
+      "range": {
+        "startLine": 37,
+        "startChar": 38,
+        "endLine": 37,
+        "endChar": 54
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_029efab8",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_9f49c5b9",
       "range": {
         "startLine": 37,
         "startChar": 38,
@@ -552,6 +1086,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_e2a2f6fb",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_bd3e5a8a",
+      "range": {
+        "startLine": 38,
+        "startChar": 38,
+        "endLine": 38,
+        "endChar": 49
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_1d402606",
         "filename": "docs/testing/user/userguide/overview.rst",
         "patchSetId": 8
@@ -563,6 +1121,30 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "N/A or any?",
+      "range": {
+        "startLine": 51,
+        "startChar": 18,
+        "endLine": 51,
+        "endChar": 22
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_42a48207",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_1d402606",
       "range": {
         "startLine": 51,
         "startChar": 18,
@@ -592,6 +1174,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_22a97edf",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_5d4d8e3d",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_3d4a4a26",
         "filename": "docs/testing/user/userguide/posca_guide.rst",
         "patchSetId": 8
@@ -615,6 +1215,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_62aee6e7",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_3d4a4a26",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_5d746e67",
         "filename": "docs/testing/user/userguide/posca_guide.rst",
         "patchSetId": 8
@@ -626,6 +1250,24 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "break at 60 for the review in gerrit at least...",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_c2b7f238",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_5d746e67",
       "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -678,6 +1320,54 @@
     },
     {
       "key": {
+        "uuid": "da33351e_02855a59",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_fd5bc2f3",
+      "range": {
+        "startLine": 62,
+        "startChar": 36,
+        "endLine": 62,
+        "endChar": 149
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_a2b46e35",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_9d5396e1",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 15
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_dd07dec8",
         "filename": "docs/testing/user/userguide/posca_guide.rst",
         "patchSetId": 8
@@ -695,6 +1385,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_e2895676",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_dd07dec8",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_bd0c9aee",
         "filename": "docs/testing/user/userguide/posca_guide.rst",
         "patchSetId": 8
@@ -706,6 +1414,30 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "Edit admin_rc.sh and add the following line:",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_427be27a",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_bd0c9aee",
       "range": {
         "startLine": 91,
         "startChar": 0,
@@ -741,6 +1473,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_22805e45",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_fd12a207",
+      "range": {
+        "startLine": 97,
+        "startChar": 93,
+        "endLine": 97,
+        "endChar": 97
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_5dfbcec0",
         "filename": "docs/testing/user/userguide/posca_guide.rst",
         "patchSetId": 8
@@ -758,6 +1514,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_e2f03600",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_5dfbcec0",
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_3df88ac2",
         "filename": "docs/testing/user/userguide/posca_guide.rst",
         "patchSetId": 8
@@ -769,6 +1543,30 @@
       "writtenOn": "2017-09-18T13:08:30Z",
       "side": 1,
       "message": "Bottlenecks",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_82984ac1",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_3df88ac2",
       "range": {
         "startLine": 107,
         "startChar": 0,
@@ -866,6 +1664,102 @@
         "startChar": 73,
         "endLine": 115,
         "endChar": 80
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_02ec3a29",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_bd33faa9",
+      "range": {
+        "startLine": 115,
+        "startChar": 36,
+        "endLine": 115,
+        "endChar": 41
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_62954686",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_1d25c65b",
+      "range": {
+        "startLine": 115,
+        "startChar": 73,
+        "endLine": 115,
+        "endChar": 80
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_a28bce66",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_9d01d6b1",
+      "range": {
+        "startLine": 115,
+        "startChar": 42,
+        "endLine": 115,
+        "endChar": 51
+      },
+      "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_c28ed278",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-09-20T08:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_7dfe92af",
+      "range": {
+        "startLine": 115,
+        "startChar": 84,
+        "endLine": 115,
+        "endChar": 91
       },
       "revId": "216a5780b047c195f8287ba95faf7b6c7669833b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
