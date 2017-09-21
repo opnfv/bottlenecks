@@ -42,7 +42,8 @@ sudo docker run --name bottlenecks-prometheus \
   -v ${MONITOR_CONFIG}/prometheus.yaml:/etc/prometheus/prometheus.yml \
   prom/prometheus
 
-$ Grafana
+# Grafana
 sudo  docker run --name bottlenecks-grafana \
   -d -p 3000:3000 \
+  -v ${GRAFANA}/config/grafana.ini:/etc/grafana/grafana.ini \
   grafana/grafana
