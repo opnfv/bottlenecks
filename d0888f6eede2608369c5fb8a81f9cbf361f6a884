@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_b36042d0",
+        "filename": "monitor/automated-dashboard-datasource.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5437
+      },
+      "writtenOn": "2017-09-21T01:49:01Z",
+      "side": 1,
+      "message": "can we use logger.info?",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "d0888f6eede2608369c5fb8a81f9cbf361f6a884",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_935d3e18",
+        "filename": "monitor/automated-dashboard-datasource.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5437
+      },
+      "writtenOn": "2017-09-21T01:49:01Z",
+      "side": 1,
+      "message": "can we use format?",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 42,
+        "endChar": 40
+      },
+      "revId": "d0888f6eede2608369c5fb8a81f9cbf361f6a884",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_536736e9",
+        "filename": "monitor/automated-dashboard-datasource.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5437
+      },
+      "writtenOn": "2017-09-21T01:49:01Z",
+      "side": 1,
+      "message": "What\u0027s the p1p3 mean?",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 40
+      },
+      "revId": "d0888f6eede2608369c5fb8a81f9cbf361f6a884",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
