@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_9c742669",
+        "filename": "monitor/automated_dashboard_datasource.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5437
+      },
+      "writtenOn": "2017-09-25T00:56:11Z",
+      "side": 1,
+      "message": "I mean can you find a way to get this ip automatically?",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 40
+      },
+      "revId": "f2ca2ae06031402d9ef26ad64da491ae4e5ef01d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
