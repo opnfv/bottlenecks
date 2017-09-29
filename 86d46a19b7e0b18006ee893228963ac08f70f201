@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_40be1f66",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-29T07:29:24Z",
+      "side": 1,
+      "message": "I would have used bullets for new features - looks clearer for me\n\n\n* introduction of monitoring module based on Prometheus/Collectd/Node/grafana to ...\n\n* Support for VNF scale up/out to verify ....\n\n* Data plane extension for life-cycle tests to validate ...\n\n* framework refactoring to be more installer agnostic",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_0091b7f0",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-29T07:29:24Z",
+      "side": 1,
+      "message": "it may be due to an environnement issue ..",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_80b4a782",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-29T07:29:24Z",
+      "side": 1,
+      "message": "dormancy sounds a bit weird, no?\n\nfor known restrictions, it may make sense to create and associate JIRAs",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_c0b18f90",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-29T07:29:24Z",
+      "side": 1,
+      "message": "line too long",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_206afbed",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-29T07:29:24Z",
+      "side": 1,
+      "message": "to be aligned with other test projects I would recommend to modify a little bit the title (not in this page)\n\nhttp://docs.opnfv.org/en/latest/testing/testing-user.html\n\nBottlenecks - Testing Guide \u003d\u003e Bottlenecks User Guide\npointing to this part\n\nand creating an Installation Guide for all the installation/Configuration part\n\n\nas you want\n\nYardstick has also 1 guide called Testing guide...",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_007ff7ab",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2017-09-29T07:29:24Z",
+      "side": 1,
+      "message": "duplication with release note, see my comments in release note section",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
