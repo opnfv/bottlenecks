@@ -107,6 +107,10 @@ def testsuite_run(test_level, test_name, REPORT="False"):
             conf_parser.Parser.testcase_out_dir(testcase)
         start_date = datetime.datetime.now()
         docker_env_prepare(config[testcase])
+        try:
+            posca_testcase_run(tester_parser[0], testcase, config[testcase])
+        except Exception, e:
+            LOG.warning('e.message:\t', e.message)
         posca_testcase_run(tester_parser[0], testcase, config[testcase])
         stop_date = datetime.datetime.now()
         LOG.info("End of %s testcase in POSCA testsuite", testcase)
