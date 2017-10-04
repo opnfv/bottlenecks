@@ -101,6 +101,29 @@
       "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_49c11a53",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 7025
+      },
+      "writtenOn": "2017-10-04T12:19:49Z",
+      "side": 1,
+      "message": "if we execute the below command `bash /utils/env_prepare/config_prepare.sh -i compass`, then admin_rc.sh and pod.yml gets created automatically in /tmp folder along with this line `export OS_CACERT\u003d/tmp/os_cacert` added in admin_rc.sh file",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 35
+      },
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
