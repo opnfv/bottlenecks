@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_ff805f8d",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-10-09T09:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_40be1f66",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_0091b7f0",
         "filename": "docs/release/release-notes/release_notes.rst",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-29T07:29:24Z",
       "side": 1,
       "message": "it may be due to an environnement issue ..",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_df7d9bb3",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-10-09T09:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_0091b7f0",
       "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_5f498b8a",
+        "filename": "docs/release/release-notes/release_notes.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-10-09T09:23:19Z",
+      "side": 1,
+      "message": "Use sleep state instead and created the JIRAs",
+      "parentUuid": "da33351e_80b4a782",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_c0b18f90",
         "filename": "docs/release/release-notes/requirements_notes.rst",
         "patchSetId": 15
@@ -64,6 +118,24 @@
       "writtenOn": "2017-09-29T07:29:24Z",
       "side": 1,
       "message": "line too long",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1f68a3f4",
+        "filename": "docs/release/release-notes/requirements_notes.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-10-09T09:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_c0b18f90",
       "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_ffa97f25",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-10-09T09:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_206afbed",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_007ff7ab",
         "filename": "docs/testing/user/userguide/overview.rst",
         "patchSetId": 15
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_3f63e71b",
+        "filename": "docs/testing/user/userguide/overview.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-10-09T09:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_007ff7ab",
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_49c11a53",
         "filename": "docs/testing/user/userguide/posca_guide.rst",
         "patchSetId": 15
@@ -115,6 +223,30 @@
       "writtenOn": "2017-10-04T12:19:49Z",
       "side": 1,
       "message": "if we execute the below command `bash /utils/env_prepare/config_prepare.sh -i compass`, then admin_rc.sh and pod.yml gets created automatically in /tmp folder along with this line `export OS_CACERT\u003d/tmp/os_cacert` added in admin_rc.sh file",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 35
+      },
+      "revId": "86d46a19b7e0b18006ee893228963ac08f70f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_9f7313e7",
+        "filename": "docs/testing/user/userguide/posca_guide.rst",
+        "patchSetId": 15
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-10-09T09:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_49c11a53",
       "range": {
         "startLine": 98,
         "startChar": 0,
