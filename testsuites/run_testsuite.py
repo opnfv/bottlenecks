@@ -52,7 +52,7 @@ def report(testcase, start_date, stop_date, criteria, details_doc):
         "description": ("test results for " + testcase),
         "pod_name": os.environ.get('NODE_NAME', 'unknown'),
         "installer": os.environ.get('INSTALLER_TYPE', 'unknown'),
-        "version": os.environ.get('BRANCH', 'unknown'),
+        "version": os.path.basename(os.environ.get('BRANCH', 'unknown')),
         "build_tag": os.environ.get('BUILD_TAG', 'unknown'),
         "stop_date": str(stop_date),
         "start_date": str(start_date),
@@ -107,7 +107,10 @@ def testsuite_run(test_level, test_name, REPORT="False"):
             conf_parser.Parser.testcase_out_dir(testcase)
         start_date = datetime.datetime.now()
         docker_env_prepare(config[testcase])
-        posca_testcase_run(tester_parser[0], testcase, config[testcase])
+        try:
+            posca_testcase_run(tester_parser[0], testcase, config[testcase])
+        except Exception, e:
+            LOG.warning('e.message:\t', e.message)
         stop_date = datetime.datetime.now()
         LOG.info("End of %s testcase in POSCA testsuite", testcase)
         criteria = "FAIL"
