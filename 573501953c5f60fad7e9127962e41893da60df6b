@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_c53e6e29",
+        "filename": "run_tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-10-10T06:43:53Z",
+      "side": 1,
+      "message": "I think there should be \u0027Bottlenecks\u0027 instead of elk. I guess both dockers named Bottlenecks-ELK and Bottlenecks-Yardstick are not cleaned. In addition, I remembered the cleanup script is sensitive to Capitals.",
+      "range": {
+        "startLine": 182,
+        "startChar": 48,
+        "endLine": 182,
+        "endChar": 51
+      },
+      "revId": "573501953c5f60fad7e9127962e41893da60df6b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
