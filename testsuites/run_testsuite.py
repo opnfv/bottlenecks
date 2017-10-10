@@ -52,7 +52,7 @@ def report(testcase, start_date, stop_date, criteria, details_doc):
         "description": ("test results for " + testcase),
         "pod_name": os.environ.get('NODE_NAME', 'unknown'),
         "installer": os.environ.get('INSTALLER_TYPE', 'unknown'),
-        "version": os.environ.get('BRANCH', 'unknown'),
+        "version": os.path.basename(os.environ.get('BRANCH', 'unknown')),
         "build_tag": os.environ.get('BUILD_TAG', 'unknown'),
         "stop_date": str(stop_date),
         "start_date": str(start_date),
