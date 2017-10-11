@@ -79,10 +79,10 @@ def do_test(test_config, Use_Dashboard, context_conf):
         with open(out_file) as f:
             data = json.load(f)
             if data["status"] == 1:
-                LOG.info("yardstick run success")
+                LOG.info("Successfully run yardstick netperf_bottlenecks test!")
                 break
             elif data["status"] == 2:
-                LOG.error("yardstick error exit")
+                LOG.error("Failed to run yardstick netperf_bottlenecks test!")
                 exit()
 
     save_data = config_to_result(test_config, data['result'][1])
