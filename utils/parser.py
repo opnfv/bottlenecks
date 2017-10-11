@@ -127,6 +127,15 @@ class Parser():
             f.write(json.dumps(data, f))
             f.write("\n")
 
+    @staticmethod
+    def str_to_list(str_org):
+        try:
+            data = str_org.split(',')
+        except AttributeError:
+            data = []
+            data.append(str_org)
+        return data
+
 
 class HeatTemplate_Parser():
     """parser a Heat template and a method to deploy template to a stack"""

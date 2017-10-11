@@ -94,6 +94,7 @@ def do_test(test_config, Use_Dashboard, context_conf):
 
 def run(test_config):
     con_dic = test_config["load_manager"]
+    Use_Dashboard = False
     env_pre(None)
     if test_config["contexts"]["yardstick_ip"] is None:
         con_dic["contexts"]["yardstick_ip"] =\
