@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_3465c645",
+        "filename": "monitor/automated-dashboard-datasource.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5437
+      },
+      "writtenOn": "2017-10-11T09:11:03Z",
+      "side": 1,
+      "message": "will this code run inside grafana docker container?",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 55
+      },
+      "revId": "477dddb3d0c7f3afdce40037a8fe8ceffdda6495",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
