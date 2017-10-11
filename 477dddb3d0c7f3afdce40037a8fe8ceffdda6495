@@ -46,6 +46,30 @@
       "revId": "477dddb3d0c7f3afdce40037a8fe8ceffdda6495",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_94e8127e",
+        "filename": "monitor/automated-dashboard-datasource.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5437
+      },
+      "writtenOn": "2017-10-11T09:22:22Z",
+      "side": 1,
+      "message": "have you checked in centos, maybe it will not work in centos.",
+      "parentUuid": "9a3d3df0_b450b65f",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 55
+      },
+      "revId": "477dddb3d0c7f3afdce40037a8fe8ceffdda6495",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
