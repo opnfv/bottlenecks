@@ -107,7 +107,8 @@ def docker_exec_cmd(docker, cmd):
 
 def get_self_volume():
     self_volume = {}
-    hostname = socket.gethostname()
+    hostname = '11200302ce48'
+#    hostname = socket.gethostname()
     client = docker.APIClient(base_url='unix://var/run/docker.sock')
     volume = client.inspect_container(hostname)["Mounts"]
     for i in volume:
