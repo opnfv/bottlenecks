@@ -179,4 +179,5 @@ if [[ ${cleanup} == true ]]; then
     bash ${BASEDIR}/docker/docker_cleanup.sh -d influxdb --debug
     bash ${BASEDIR}/docker/docker_cleanup.sh -d bottlenecks --debug
     bash ${BASEDIR}/docker/docker_cleanup.sh -d yardstick --debug
+    bash ${BASEDIR}/docker/docker_cleanup.sh -d elk --debug
 fi
