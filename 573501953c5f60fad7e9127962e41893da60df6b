@@ -22,6 +22,30 @@
       "revId": "573501953c5f60fad7e9127962e41893da60df6b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_25175aa5",
+        "filename": "run_tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 7025
+      },
+      "writtenOn": "2017-10-13T08:07:08Z",
+      "side": 1,
+      "message": "Bottlenecks-Yardstick container gets cleaned as of now. I have tested this on my pod.\n\nsince in the docker_cleanup.sh script, we are using docker ps -a | grep \"name\" that we mention over here say elk, then it will print that particular contianer as the image name used consists of elk. if we mention ELK, then also it\u0027s fine as the container name is Bottlenecks-ELK. \n\nBut if we mention Bottlenecks, then it would delete all the two containers Bottlenecks-Yardstick and Bottlenecks-ELK.",
+      "parentUuid": "9a3d3df0_c53e6e29",
+      "range": {
+        "startLine": 182,
+        "startChar": 48,
+        "endLine": 182,
+        "endChar": 51
+      },
+      "revId": "573501953c5f60fad7e9127962e41893da60df6b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
