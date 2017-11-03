@@ -18,7 +18,7 @@ sudo docker run --name bottlenecks-node-exporter \
   -v "/sys:/host/sys:ro" \
   -v "/:/rootfs:ro" \
   --net="host" \
-  quay.io/prometheus/node-exporter \
+  quay.io/prometheus/node-exporter:v0.14.0 \
     -collector.procfs /host/proc \
     -collector.sysfs /host/sys \
     -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
@@ -40,9 +40,10 @@ sudo docker run --name bottlenecks-collectd-exporter \
 sudo docker run --name bottlenecks-prometheus \
   -d -p 9090:9090 \
   -v ${MONITOR_CONFIG}/prometheus.yaml:/etc/prometheus/prometheus.yml \
-  prom/prometheus
+  prom/prometheus:v1.7.1
 
-$ Grafana
+# Grafana
 sudo  docker run --name bottlenecks-grafana \
   -d -p 3000:3000 \
+  -v ${GRAFANA}/config/grafana.ini:/etc/grafana/grafana.ini \
   grafana/grafana
