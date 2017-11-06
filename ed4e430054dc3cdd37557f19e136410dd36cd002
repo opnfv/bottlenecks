@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_d73c24c2",
+        "filename": "monitor/automate_collectd_client.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-11-06T02:30:00Z",
+      "side": 1,
+      "message": "change the tabs into spaces",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 2
+      },
+      "revId": "ed4e430054dc3cdd37557f19e136410dd36cd002",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
