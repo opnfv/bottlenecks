@@ -22,6 +22,121 @@
       "revId": "ed4e430054dc3cdd37557f19e136410dd36cd002",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_bad225d0",
+        "filename": "monitor/install-collectd-client.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-11-07T05:21:39Z",
+      "side": 1,
+      "message": "I do not think /root directory is the proper space to hold collectd client config. You can choose /etc to include the config to avoid user writing issue (some user may not have the right to write files in /root directory)",
+      "range": {
+        "startLine": 1,
+        "startChar": 16,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "ed4e430054dc3cdd37557f19e136410dd36cd002",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_5a64b948",
+        "filename": "monitor/install-collectd-client.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-11-07T05:21:39Z",
+      "side": 1,
+      "message": "fr3nd/collectd:5.5.0-1",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 16
+      },
+      "revId": "ed4e430054dc3cdd37557f19e136410dd36cd002",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_9a5e4175",
+        "filename": "monitor/monitoring.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-11-07T05:21:39Z",
+      "side": 1,
+      "message": "fr3nd/collectd:5.5.0-1",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 16
+      },
+      "revId": "ed4e430054dc3cdd37557f19e136410dd36cd002",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_fa54ad55",
+        "filename": "monitor/monitoring.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-11-07T05:21:39Z",
+      "side": 1,
+      "message": "prom/collectd-exporter:0.3.1",
+      "range": {
+        "startLine": 36,
+        "startChar": 21,
+        "endLine": 36,
+        "endChar": 43
+      },
+      "revId": "ed4e430054dc3cdd37557f19e136410dd36cd002",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ba5b4586",
+        "filename": "monitor/monitoring.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2017-11-07T05:21:39Z",
+      "side": 1,
+      "message": "grafana/grafana:4.5.0",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 17
+      },
+      "revId": "ed4e430054dc3cdd37557f19e136410dd36cd002",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
