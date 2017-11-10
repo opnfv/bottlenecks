@@ -19,6 +19,8 @@ import socket
 
 yardstick_info = {}
 ELK_info = {}
+storperf_master_info = {}
+storperf_graphite_info = {}
 
 
 def get_client():
@@ -56,6 +58,67 @@ def env_yardstick(docker_name):
                                        name=docker_name)
     yardstick_info["container"] = env_docker
     yardstick_info["ip"] = get_docker_ip(docker_name)
+    return env_docker
+
+
+def env_storperf_master(docker_name):
+    client = get_client()
+    storperf_master_info["name"] = docker_name
+    try:
+        env_docker = docker_find(docker_name)
+        storperf_master_info["container"] = env_docker
+        storperf_master_info["ip"] = get_docker_ip(docker_name)
+        return env_docker
+    except docker.errors.NotFound:
+        pass
+    volume = get_self_volume()
+    storperf_tag = os.getenv("Storperf_TAG")
+    if storperf_tag is None:
+        storperf_tag = "latest"
+    links = [storperf_graphite_info["name"]]
+    env_docker = client.containers.run(image="opnfv/storperf-master:%s"
+                                             % storperf_tag,
+                                       privileged=True,
+                                       tty=True,
+                                       detach=True,
+                                       ports={'5000': '5555'},
+                                       links=links,
+                                       volumes=volume,
+                                       name=docker_name)
+    storperf_master_info["container"] = env_docker
+    storperf_master_info["ip"] = get_docker_ip(docker_name)
+    return env_docker
+
+
+def env_storperf_graphite(docker_name):
+    client = get_client()
+    storperf_graphite_info["name"] = docker_name
+    try:
+        env_docker = docker_find(docker_name)
+        storperf_graphite_info["container"] = env_docker
+        storperf_graphite_info["ip"] = get_docker_ip(docker_name)
+        return env_docker
+    except docker.errors.NotFound:
+        pass
+    volume = get_self_volume()
+    storperf_tag = os.getenv("Storperf_TAG")
+    if storperf_tag is None:
+        storperf_tag = "latest"
+    carbon_dir = os.getenv("CARBON_DIR")
+    if carbon_dir is None:
+        carbon_dir = "/home"
+    cdir_container = "/opt/graphite/storage/whisper"
+    env_docker = client.containers.run(image="opnfv/storperf-graphite:%s"
+                                             % storperf_tag,
+                                       privileged=True,
+                                       tty=True,
+                                       detach=True,
+                                       volumes=volume,
+                                       volumes={"%s:%s"
+                                                % carbon_dir, cdir_container},
+                                       name=docker_name)
+    storperf_graphite_info["container"] = env_docker
+    storperf_graphite_info["ip"] = get_docker_ip(docker_name)
     return env_docker
 
 
