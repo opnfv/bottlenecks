@@ -52,6 +52,28 @@ def _prepare_env_daemon(test_yardstick):
     _source_file(rc_file)
 
 
+def _prepare_storperf_env_daemon(test_storperf):
+
+    rc_file = config.bottlenecks_config["rc_dir"]
+
+    if not os.path.exists(rc_file):
+        installer_ip = os.environ.get('INSTALLER_IP', 'undefined')
+        installer_type = os.environ.get('INSTALLER_TYPE', 'undefined')
+        _get_remote_rc_file(rc_file, installer_ip, installer_type)
+
+    _source_file(rc_file)
+
+    if not os.environ.get("EXTERNAL_NETWORK"):
+        _append_external_network(rc_file)
+    if test_storperf:
+        storperf_contain = docker_env.storperf_info["container"]
+        cmd = "cp %s %s" % (rc_file,
+                            "/home/opnfv/storperf")
+        docker_env.docker_exec_cmd(storperf_contain,
+                                   cmd)
+    _source_file(rc_file)
+
+
 def file_copy(src_file, dest_file):
     src = file(src_file, "r+")
     des = file(dest_file, "w+")
