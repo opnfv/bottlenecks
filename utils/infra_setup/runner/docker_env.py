@@ -19,6 +19,7 @@ import socket
 
 yardstick_info = {}
 ELK_info = {}
+storperf_info = {}
 
 
 def get_client():
@@ -56,6 +57,30 @@ def env_yardstick(docker_name):
                                        name=docker_name)
     yardstick_info["container"] = env_docker
     yardstick_info["ip"] = get_docker_ip(docker_name)
+    return env_docker
+
+
+def env_storperf(docker_name):
+    client = get_client()
+    storperf_info["name"] = docker_name
+    try:
+        env_docker = docker_find(docker_name)
+        storperf_info["container"] = env_docker
+        storperf_info["ip"] = get_docker_ip(docker_name)
+        return env_docker
+    except docker.errors.NotFound:
+        pass
+    volume = get_self_volume()
+    env_docker = client.containers.run(image="opnfv/storperf:latest",
+                                       privileged=True,
+                                       tty=True,
+                                       detach=True,
+                                       ports={'5000': '5011',
+                                              '8000': '8011'},
+                                       volumes=volume,
+                                       name=docker_name)
+    storperf_info["container"] = env_docker
+    storperf_info["ip"] = get_docker_ip(docker_name)
     return env_docker
 
 
