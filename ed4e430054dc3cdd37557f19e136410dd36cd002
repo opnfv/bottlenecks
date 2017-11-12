@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_8bb715d8",
+        "filename": "monitor/install-collectd-client.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6989
+      },
+      "writtenOn": "2017-11-12T17:18:05Z",
+      "side": 1,
+      "message": "Okay, I\u0027ll configure this to /etc directory",
+      "parentUuid": "9a3d3df0_bad225d0",
+      "range": {
+        "startLine": 1,
+        "startChar": 16,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "ed4e430054dc3cdd37557f19e136410dd36cd002",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_5a64b948",
         "filename": "monitor/install-collectd-client.sh",
         "patchSetId": 2
