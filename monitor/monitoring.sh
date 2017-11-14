@@ -48,3 +48,23 @@ sudo  docker run --name bottlenecks-grafana \
   -v ${GRAFANA}/config/grafana.ini:/etc/grafana/grafana.ini \
   grafana/grafana:4.5.0
 
+# Cadvisor
+sudo docker run \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --volume=/dev/disk/:/dev/disk:ro \
+  --publish=8080:8080 \
+  --detach=true \
+  --name=cadvisor \
+  google/cadvisor:v0.25.0 \ -storage_driver=Prometheus
+
+# Automate Collectd Client
+python automate_collectd_client.py 
+
+# Automate Cadvisor Client
+python automate_cadvisor_client.py   
+
+# Automate Prometheus Datasource and Grafana Dashboard creation
+python automated-dashboard-datasource.py 
