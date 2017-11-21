@@ -63,7 +63,6 @@ def post(url, data):
 
 
 ip_address = socket.gethostbyname(socket.gethostname())
-_create_dashboard(ip_address, 3000, '/var/lib/grafana/' +
-                  'dashboards/' +
-                  'prometheus-system_rev1.json')
 _create_data_source(ip_address, 3000)
+_create_dashboard(ip_address, 3000, '/home/opnfv/bottlenecks/monitor/'+
+                  'prototype_prometheus_dashboard.json')
