@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_9c4a98aa",
+        "filename": "utils/infra_setup/runner/storperf_usage.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2034
+      },
+      "writtenOn": "2017-11-29T22:00:42Z",
+      "side": 1,
+      "message": "You should also consider adding the steady_state_samples.  This is by default 10, but it works in conjunction with the deadline.  For example, I might want a deadline of 60 (1 hour) which means I might want 50 minutes worth of steady state samples.",
+      "revId": "6c54bfe93954f067d91010bedba6b6ebab6e1f4b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_bc4f9cbc",
+        "filename": "utils/infra_setup/runner/storperf_usage.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 2034
+      },
+      "writtenOn": "2017-11-29T22:00:42Z",
+      "side": 1,
+      "message": "The sleep could match the deadline value, or you could poll the job status to see when it is complete.",
+      "revId": "6c54bfe93954f067d91010bedba6b6ebab6e1f4b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
