@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_72737d80",
+        "filename": "testsuites/posca/testcase_cfg/posca_factor_storage.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2034
+      },
+      "writtenOn": "2017-11-30T14:29:10Z",
+      "side": 1,
+      "message": "You should also check out adding steady_state_samples as about 10 less then the deadline.  With samples at 20, it will run for 20 minutes of steady state and abort at deadline of 30 minutes if it cannot find steady state.  By default samples is 10 minutes, so if that is good enough, you can continue to omit it.",
+      "revId": "6c7cd367db108bca0814006afc759e8bff4db041",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_125dd1e9",
+        "filename": "utils/infra_setup/runner/docker_env.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2034
+      },
+      "writtenOn": "2017-11-30T14:29:10Z",
+      "side": 1,
+      "message": "The storperf-master image cannot be run standalone.  It requires storperf-graphite in order to store its data.\n\nPlease see https://github.com/opnfv/storperf/blob/master/docker-compose/docker-compose.yaml for more info.",
+      "revId": "6c7cd367db108bca0814006afc759e8bff4db041",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
