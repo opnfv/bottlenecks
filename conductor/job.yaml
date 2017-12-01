@@ -1,0 +1,33 @@
+jobs:
+  -
+    name: GetTestcaseDescription
+    type: normal
+    input:
+      service: yardstick
+      testcase: opnfv_yardstick_tc043
+  -
+    name: demo_job
+    type: template
+    template:
+      name: bottleneck_demo2
+      description: bottleneck_demo
+      version: 1
+      tasks:
+        -
+          name: yardstick_run_task
+          taskReferenceName: task_job
+          inputParameters:
+            testcase: "${workflow.input.testcase}"
+          type: SIMPLE
+        -
+          name: yardstick_get_result
+          taskReferenceName: result_job
+          inputParameters:
+            task_id: "${task_job.output.result.task_id}"
+          type: SIMPLE
+      outputParameters:
+        status: "${task_job.output.status}"
+        result: "${result_job.output.result}"
+      schemaVersion: 2
+    input:
+      testcase: opnfv_yardstick_tc043
