@@ -11,6 +11,7 @@
 import click
 
 from command_group.testcase import Testcase
+from command_group.conductor import Conductor
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -28,6 +29,7 @@ def main(ctx):
 
 
 _testcase = Testcase()
+_conductor = Conductor()
 
 
 @main.group()
@@ -60,3 +62,16 @@ def teststory(ctx):
               'will not be cleaned after the teststory execution.')
 def teststory_run(testname, noclean):
     _testcase.run('-s ' + testname, noclean)
+
+
+@main.group()
+@click.pass_context
+def conductor(ctx):
+    """conductor cli group for bottlenecks project"""
+    pass
+
+
+@conductor.command('run', help="To execute a workflow.")
+@click.argument('path', type=click.STRING, required=True)
+def conductor_run(path):
+    _conductor.run(path)
