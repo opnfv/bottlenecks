@@ -45,13 +45,13 @@ def env_yardstick(docker_name):
     volume = get_self_volume()
     yardstick_tag = os.getenv("Yardstick_TAG")
     if yardstick_tag is None:
-        yardstick_tag = "danube.3.1"
+        yardstick_tag = "latest"
     env_docker = client.containers.run(image="opnfv/yardstick:%s"
                                              % yardstick_tag,
                                        privileged=True,
                                        tty=True,
                                        detach=True,
-                                       ports={'5000': '8888'},
+                                       # ports={'5000': '8888'},
                                        volumes=volume,
                                        name=docker_name)
     yardstick_info["container"] = env_docker
