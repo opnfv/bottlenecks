@@ -37,16 +37,6 @@ def _prepare_env_daemon(test_yardstick):
                             config.bottlenecks_config["yardstick_rc_dir"])
         docker_env.docker_exec_cmd(yardstick_contain,
                                    cmd)
-        file_orig = ("/home/opnfv/repos/yardstick/etc"
-                     "/yardstick/yardstick.conf.sample")
-        file_after = "/etc/yardstick/yardstick.conf"
-        cmd = "cp %s %s" % (file_orig,
-                            file_after)
-        docker_env.docker_exec_cmd(yardstick_contain,
-                                   cmd)
-        cmd = "sed -i '13s/http/file/g' /etc/yardstick/yardstick.conf"
-        docker_env.docker_exec_cmd(yardstick_contain,
-                                   cmd)
 
     # update the external_network
     _source_file(rc_file)
