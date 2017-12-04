@@ -7,12 +7,19 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-test_config:
-  num_vnfs: [1, 40]
-runner_config:
-  dashboard: "y"
-  dashboard_ip:
-  stack_create: yardstick
-  yardstick_test_ip:
-  yardstick_test_dir: "samples/vnf_samples/nsut/acl"
-  yardstick_testcase: "tc_heat_rfc2544_ipv4_1rule_1flow_64B_packetsize_scale_out.yaml"
+load_manager:
+  scenarios:
+    number_vnfs: 1, 2, 4
+    iterations: 10
+    interval: 35
+
+  runners:
+    stack_create: yardstick
+    flavor:
+    yardstick_test_dir: "samples/vnf_samples/nsut/acl"
+    yardstick_testcase: "tc_heat_rfc2544_ipv4_1rule_1flow_64B_trex_correlated_traffic_scale_out"
+
+contexts:
+  dashboard: "Bottlenecks-ELK"
+  yardstick: "Bottlenecks_yardstick"
+  yardstick_envpre: False
