@@ -102,7 +102,7 @@ environment, you could use the following command to get the required files.
 
 .. code-block:: bash
 
-    bash /utils/env_prepare/config_prepare.sh -i <installer> [--debug]
+    bash ./utils/env_prepare/config_prepare.sh -i <installer> [--debug]
 
 Note that if we execute the command above, then admin_rc.sh and pod.yml gets created automatically in /tmp folder along with the line `export OS_CACERT=/tmp/os_cacert` added in admin_rc.sh file.
 
