@@ -30,7 +30,7 @@ Scopes of the POSCA testsuite:
  b) Parameters choosing and Algorithms.
 
 Test stories of POSCA testsuite:
- a) Factor test (Stress test): base test cases that Feature test and Optimization will be dependant on.
+ a) Factor test (Stress test): base test cases that Feature test and Optimization will be dependant on or stress test to validate system.
  b) Feature test: test cases for features/scenarios.
  c) Optimization test: test to tune the system parameter.
 
@@ -44,6 +44,8 @@ Preinstall Packages
 
 * Docker: https://docs.docker.com/engine/installation/
     * For Ubuntu, please refer to https://docs.docker.com/engine/installation/linux/ubuntu/
+
+[Since Euphrates release, the docker-compose package is not required.]
 
 * Docker-Compose: https://docs.docker.com/compose/
 
@@ -97,8 +99,10 @@ Edit admin_rc.sh and add the following line
 
     export OS_CACERT=/tmp/os_cacert
 
-If you are using compass, fuel, apex or joid to deploy your openstack
-environment, you could use the following command to get the required files.
+If you have deployed your openstack environment by compass,
+you could use the following command to get the required files. For Fuel, Apex and JOID installer, we only provide limited support now
+for retrieving the configuration/description files. If you find that the following command can not do the magic, you should put the
+required files in /tmp manually.
 
 .. code-block:: bash
 
@@ -116,9 +120,9 @@ Executing Specified Testcase
 
     bottlenecks testcase|teststory run <testname>
 
-    For the *testcase* command, testname should be as the same name of the test case configuration file located in testsuites/posca/testcase_cfg.
-    For stress tests in Danube/Euphrates, *testcase* should be replaced by either *posca_factor_ping* or *posca_factor_system_bandwidth*.
-    For the *teststory* command, a user can specify the test cases to be executed by defining it in a teststory configuration file located in testsuites/posca/testsuite_story. There is also an example there named *posca_factor_test*.
+For the *testcase* command, testname should be as the same name of the test case configuration file located in testsuites/posca/testcase_cfg.
+For stress tests in Danube/Euphrates, *testcase* should be replaced by either *posca_factor_ping* or *posca_factor_system_bandwidth*.
+For the *teststory* command, a user can specify the test cases to be executed by defining it in a teststory configuration file located in testsuites/posca/testsuite_story. There is also an example there named *posca_factor_test*.
 
 2. There are also other 2 ways to run test cases and test stories.
 
