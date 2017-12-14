@@ -56,6 +56,9 @@ Version History
 | Sept 15th, 2017|  1.6               | Bottlenecks Euphrates release 5.0 |
 |                |                    |                                   |
 +----------------+--------------------+-----------------------------------+
+| Nov 15th, 2017 |  1.6.1             | Bottlenecks Euphrates release 5.1 |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
 
 Summary
 =======
@@ -80,6 +83,30 @@ Release Data
 
 Euphrates Release Data
 -----------------------
+
++--------------------------------------+--------------------------------+
+| **Project**                          | Bottlenecks                    |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Repo/tag**                         | * Bottlenecks/5.1.0            |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Bottlenecks Docker image tag**     | * 5.1.0                        |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release designation**              | * 5.1.0                        |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release date**                     | * Nov 15th 2017                |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Purpose of the delivery**          | Euphrates stable release       |
+|                                      |                                |
++--------------------------------------+--------------------------------+
 
 +--------------------------------------+--------------------------------+
 | **Project**                          | Bottlenecks                    |
@@ -238,7 +265,7 @@ Known restrictions/issues
   * Sometimes, Yardstick will return empty test results with test flag indicating test is excuted succefully.
   It maybe due to the environment issue or poor internet connection causing testing tools are not installed successfully.
 
-* Sometimes, a process will go to sleep state. In this case when a running tool go to sleep state, we try to call it twice. Normally, it will response.
+* Sometimes, a process will go to sleep state. In this case when a running tool go to sleep state, we try to call it twice. Normally, it will response. This applies to the traffic generator, i.e., netperf.
 
 
 Test results
