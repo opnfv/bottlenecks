@@ -1,0 +1,35 @@
+##############################################################################
+# Copyright (c) 2017 HUAWEI TECHNOLOGIES CO.,LTD and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+load_manager:
+  scenarios:
+    tool: https request
+    # info that the cpus and memes have the same number of data.
+    resources: 20
+    initial: 0
+    threshhold: 5
+    timeout: 30
+    SLA: 5
+
+
+  runners:
+    stack_create: yardstick
+    Debug: False
+    yardstick_test_dir: "samples"
+    yardstick_testcase: "bottlenecks_moon_tenants"
+
+  runner_exta:
+    # info this section is for yardstick do some exta env prepare.
+    installation_method: yardstick
+    installation_type: testpmd
+
+contexts:
+  # info that dashboard if have data, we will create the data dashboard.
+  dashboard: "Bottlenecks-ELK"
+  yardstick: "Bottlenecks-yardstick"
