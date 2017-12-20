@@ -22,7 +22,9 @@ neutron_quota = {"subnet": -1,
                  "subnetpool": -1,
                  "router": -1,
                  "port": -1,
-                 "security_group": -1}
+                 "security_group": -1,
+                 "security_group_rule": -1,
+                 "rbac_policy": -1}
 
 nova_quota = {"ram": -1,
               "cores": -1,
