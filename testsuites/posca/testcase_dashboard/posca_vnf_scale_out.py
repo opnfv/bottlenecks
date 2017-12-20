@@ -31,5 +31,5 @@ def dashboard_send_data(runner_config, test_data):
                        doc_type="vnf_scale_out",
                        body=i)
         if res['created'] == "False":
-            LOG.error("date send to kibana have errors ",
+            LOG.error("date send to kibana have errors %s",
                       test_data["data_body"])

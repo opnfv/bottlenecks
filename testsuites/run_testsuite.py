@@ -110,7 +110,7 @@ def testsuite_run(test_level, test_name, REPORT="False"):
         try:
             posca_testcase_run(tester_parser[0], testcase, config[testcase])
         except Exception, e:
-            LOG.warning('e.message:\t', e.message)
+            LOG.warning('e.message:\t%s', e.message)
         stop_date = datetime.datetime.now()
         LOG.info("End of %s testcase in POSCA testsuite", testcase)
         criteria = "FAIL"
