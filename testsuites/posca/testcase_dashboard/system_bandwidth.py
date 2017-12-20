@@ -31,7 +31,7 @@ def dashboard_send_data(runner_config, test_data):
                    doc_type=test_data["testcase"],
                    body=test_data["data_body"])
     if res['created'] == "False":
-        LOG.error("date send to kibana have errors ", test_data["data_body"])
+        LOG.error("date send to kibana have errors %s", test_data["data_body"])
 
 
 def dashboard_system_bandwidth(runner_config):
