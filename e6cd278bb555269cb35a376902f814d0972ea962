@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_e72de896",
+        "filename": "testsuites/posca/testcase_script/posca_factor_multistack_storage.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2017-12-21T06:40:53Z",
+      "side": 1,
+      "message": "Should get all the test data, and yardstick result of one test in fio test.",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 19
+      },
+      "revId": "e6cd278bb555269cb35a376902f814d0972ea962",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_471f745b",
+        "filename": "testsuites/posca/testcase_script/posca_factor_multistack_storage.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2017-12-21T06:40:53Z",
+      "side": 1,
+      "message": "not here to parser the result should also do that in every runner.",
+      "range": {
+        "startLine": 148,
+        "startChar": 7,
+        "endLine": 150,
+        "endChar": 71
+      },
+      "revId": "e6cd278bb555269cb35a376902f814d0972ea962",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
