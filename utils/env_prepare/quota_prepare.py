@@ -24,11 +24,7 @@ neutron_quota = {"subnet": -1,
                  "port": -1,
                  "security_group": -1,
                  "security_group_rule": -1,
-                 "rbac_policy": -1,
-                 "port_pair": -1,
-                 "port_chain": -1,
-                 "flow_classifier": -1,
-                 "port_pair_group": -1}
+                 "rbac_policy": -1}
 
 nova_quota = {"ram": -1,
               "cores": -1,
