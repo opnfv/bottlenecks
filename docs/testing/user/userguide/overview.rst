@@ -68,6 +68,12 @@ Test suite & Test case Description
 |        | posca_feature_vnf_scale_up          |
 |        +-------------------------------------+
 |        | posca_feature_vnf_scale_out         |
+|        +-------------------------------------+
+|        | posca_factor_storperf               |
+|        +-------------------------------------+
+|        | posca_factor_storage                |
+|        +-------------------------------------+
+|        | posca_factor_multistack_storage     |
 +--------+-------------------------------------+
 
 As for the abandoned test suite in the previous Bottlenecks releases, please
