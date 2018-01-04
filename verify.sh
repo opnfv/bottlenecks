@@ -14,7 +14,7 @@
 getopts ":f" FILE_OPTION
 
 run_flake8() {
-    echo "Running flake8 ... "
+    echo "Running flake8 for python style check... "
     logfile=flake8_verify.log
     if [ $FILE_OPTION == "f" ]; then
        flake8 --append-config=flake8_cfg testsuites/posca/ utils/ > $logfile
@@ -33,16 +33,13 @@ run_flake8() {
     fi
 }
 
-run_tests() {
-    echo "Running unittest ... "
-    #will add future
+run_nosetests() {
+    echo "Running unit and coverage test ... "
+    nosetests --with-coverage --cover-tests \
+        --cover-min-percentage 100 \
+        unit/
 }
 
-run_coverage() {
-    echo "Running coverage ..."
-    #will add future
-}
 
 run_flake8
-run_tests
-run_coverage
+run_nosetests
