@@ -11,25 +11,30 @@ load_manager:
   scenarios:
     tool: https request
     # info that the cpus and memes have the same number of data.
-    resources: 20
-    initial: 0
-    threshhold: 5
-    timeout: 30
+    pdp_name: pdp
+    policy_name: "MLS Policy example"
+    model_name: MLS
+    subject_number: 20
+    object_number: 20
+    timeout: 0.003
+    initial_tenants: 0
+    steps_tenants: 1
+    tolerate_time: 20
     SLA: 5
-
 
   runners:
     stack_create: yardstick
     Debug: False
     yardstick_test_dir: "samples"
-    yardstick_testcase: "bottlenecks_moon_tenants"
-
-  runner_exta:
-    # info this section is for yardstick do some exta env prepare.
-    installation_method: yardstick
-    installation_type: testpmd
+    yardstick_testcase: "moon_tenant"
 
 contexts:
   # info that dashboard if have data, we will create the data dashboard.
   dashboard: "Bottlenecks-ELK"
   yardstick: "Bottlenecks-yardstick"
+  moon_monitoring: True
+  moon_environment:
+    ip: "192.168.37.205"
+    user: "root"
+    password: "root"
+    consul_port: 30005

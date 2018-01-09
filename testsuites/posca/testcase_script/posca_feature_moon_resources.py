@@ -18,8 +18,9 @@ import uuid
 import json
 import utils.logger as log
 from utils.parser import Parser as conf_parser
-import utils.env_prepare.stack_prepare as stack_prepare
+import utils.env_prepare.moon_prepare as moon_env
 import utils.infra_setup.runner.docker_env as docker_env
+import testsuites.posca.testcase_dashboard.posca_feature_moon as DashBoard
 import utils.infra_setup.runner.yardstick as yardstick_task
 
 # --------------------------------------------------
@@ -29,35 +30,35 @@ LOG = log.Logger(__name__).getLogger()
 
 testfile = os.path.basename(__file__)
 testcase, file_format = os.path.splitext(testfile)
-# cidr = "/home/opnfv/repos/yardstick/samples/pvp_throughput_bottlenecks.yaml"
 runner_DEBUG = True
 
 
-def env_pre(con_dic):
-    LOG.info("yardstick environment prepare!")
-    stack_prepare._prepare_env_daemon(True)
+def env_pre(test_config):
+    if "moon_monitoring" in test_config["contexts"].keys():
+        if test_config["contexts"]['moon_envpre'] is True:
+            moon_environment = test_config["contexts"]['moon_environment']
+            moon_env.moon_envprepare(moon_environment)
+    LOG.info("moon environment prepare!")
 
 
 def config_to_result(test_config, test_result):
-    final_data = []
-    print(test_result)
+    final_data = {}
+    final_data["testcase"] = "posca_factor_moon_resources"
+    final_data["test_body"] = []
     out_data = test_result["result"]["testcases"]
-    test_data = out_data["pvp_throughput_bottlenecks"]["tc_data"]
+    test_data = out_data["moon_resource"]["tc_data"]
     for result in test_data:
         testdata = {}
-        testdata["vcpu"] = test_config["vcpu"]
-        testdata["memory"] = test_config["memory"]
-        testdata["nrFlows"] = result["data"]["nrFlows"]
-        testdata["packet_size"] = result["data"]["packet_size"]
-        testdata["throughput"] = result["data"]["throughput_rx_mbps"]
-        final_data.append(testdata)
+        testdata["tenant_number"] = int(test_config["tenant_number"])
+        testdata["max_user"] = result["data"]["max_user"]
+        final_data["test_body"].append(testdata)
     return final_data
 
 
 def testcase_parser(runner_conf, out_file="yardstick.out", **parameter_info):
     cidr = "/home/opnfv/repos/yardstick/" + \
-           runner_conf["yardstick_test_dir"] + \
-           runner_conf["yardstick_testcase"]
+           runner_conf["yardstick_test_dir"] + "/" + \
+           runner_conf["yardstick_testcase"] + ".yaml"
     cmd = yardstick_task.yardstick_command_parser(debug=runner_DEBUG,
                                                   cidr=cidr,
                                                   outfile=out_file,
@@ -84,24 +85,21 @@ def do_test(runner_conf, test_config, Use_Dashboard, context_conf):
             elif data["status"] == 2:
                 LOG.error("yardstick error exit")
                 exit()
-    # data = json.load(output)
 
     save_data = config_to_result(test_config, data)
     if Use_Dashboard is True:
         print("use dashboard")
-        # DashBoard.dashboard_send_data(context_conf, save_data)
-
-    # return save_data["data_body"]
+        DashBoard.dashboard_send_data(context_conf, save_data)
     return save_data
 
 
 def run(test_config):
     load_config = test_config["load_manager"]
     scenarios_conf = load_config["scenarios"]
-    runner_conf = test_config["runners"]
+    runner_conf = load_config["runners"]
+    contexts_conf = test_config["contexts"]
     Use_Dashboard = False
-
-    env_pre(None)
+    env_pre(test_config)
     if test_config["contexts"]["yardstick_ip"] is None:
         load_config["contexts"]["yardstick_ip"] =\
             conf_parser.ip_parser("yardstick_test_ip")
@@ -112,9 +110,14 @@ def run(test_config):
                 conf_parser.ip_parser("dashboard")
         LOG.info("Create Dashboard data")
         Use_Dashboard = True
-        # DashBoard.dashboard_system_bandwidth(test_config["contexts"])
+        DashBoard.posca_moon_init(test_config["contexts"])
 
     tenants_conf = conf_parser.str_to_list(scenarios_conf["tenants"])
+    subject_number = int(scenarios_conf["subject_number"])
+    object_number = int(scenarios_conf["object_number"])
+    timeout = scenarios_conf["timeout"]
+    consul_host = contexts_conf["moon_environment"]["ip"]
+    consul_port = contexts_conf["moon_environment"]["consul_port"]
 
     load_config["result_file"] = os.path.dirname(
         os.path.abspath(__file__)) + "/test_case/result"
@@ -122,7 +125,13 @@ def run(test_config):
     result = []
 
     for tenants in tenants_conf:
-        case_config = {"tenants": tenants}
+        print tenants
+        case_config = {"tenant_number": tenants,
+                       "subject_number": subject_number,
+                       "object_number": object_number,
+                       "timeout": timeout,
+                       "consul_host": consul_host,
+                       "consul_port": consul_port}
 
         data_reply = do_test(runner_conf, case_config,
                              Use_Dashboard, test_config["contexts"])

@@ -15,14 +15,15 @@ This test is using yardstick as a tool to begin test.'''
 import os
 import time
 import uuid
-import json
 import Queue
 import multiprocessing
 import utils.logger as log
 from utils.parser import Parser as conf_parser
-import utils.env_prepare.stack_prepare as stack_prepare
+import utils.env_prepare.moon_prepare as moon_env
 import utils.infra_setup.runner.docker_env as docker_env
+
 import utils.infra_setup.runner.yardstick as yardstick_task
+import testsuites.posca.testcase_dashboard.posca_feature_moon as DashBoard
 
 # --------------------------------------------------
 # logging configuration
@@ -31,36 +32,31 @@ LOG = log.Logger(__name__).getLogger()
 
 testfile = os.path.basename(__file__)
 testcase, file_format = os.path.splitext(testfile)
-# cidr = "/home/opnfv/repos/yardstick/samples/pvp_throughput_bottlenecks.yaml"
-runner_switch = True
 runner_DEBUG = True
+manager = multiprocessing.Manager()
+switch = manager.Value('tmp', 0)
 
 
-def env_pre(con_dic):
+def env_pre(test_config):
+    if "moon_monitoring" in test_config["contexts"].keys():
+        if test_config["contexts"]['moon_envpre'] is True:
+            moon_environment = test_config["contexts"]['moon_environment']
+            moon_env.moon_envprepare(moon_environment)
     LOG.info("yardstick environment prepare!")
-    stack_prepare._prepare_env_daemon(True)
 
 
-def config_to_result(test_config, test_result):
-    final_data = []
-    print(test_result)
-    out_data = test_result["result"]["testcases"]
-    test_data = out_data["pvp_throughput_bottlenecks"]["tc_data"]
-    for result in test_data:
-        testdata = {}
-        testdata["vcpu"] = test_config["vcpu"]
-        testdata["memory"] = test_config["memory"]
-        testdata["nrFlows"] = result["data"]["nrFlows"]
-        testdata["packet_size"] = result["data"]["packet_size"]
-        testdata["throughput"] = result["data"]["throughput_rx_mbps"]
-        final_data.append(testdata)
+def config_to_result(test_result):
+    final_data = {}
+    final_data["testcase"] = "posca_factor_moon_tenants"
+    final_data["test_body"] = []
+    final_data["test_body"].append(test_result)
     return final_data
 
 
 def testcase_parser(runner_conf, out_file="yardstick.out", **parameter_info):
     cidr = "/home/opnfv/repos/yardstick/" + \
-           runner_conf["yardstick_test_dir"] + \
-           runner_conf["yardstick_testcase"]
+           runner_conf["yardstick_test_dir"] + "/" + \
+           runner_conf["yardstick_testcase"] + ".yaml"
     cmd = yardstick_task.yardstick_command_parser(debug=runner_DEBUG,
                                                   cidr=cidr,
                                                   outfile=out_file,
@@ -75,36 +71,19 @@ def do_test(runner_conf, test_config, Use_Dashboard, context_conf):
     print(cmd)
     stdout = docker_env.docker_exec_cmd(yardstick_container, cmd)
     LOG.info(stdout)
-    loop_value = 0
-    while loop_value < 60:
-        time.sleep(2)
-        loop_value = loop_value + 1
-        with open(out_file) as f:
-            data = json.load(f)
-            if data["status"] == 1:
-                LOG.info("yardstick run success")
-                break
-            elif data["status"] == 2:
-                LOG.error("yardstick error exit")
-                exit()
-    # data = json.load(output)
-
-    save_data = config_to_result(test_config, data)
-    if Use_Dashboard is True:
-        print("use dashboard")
-        # DashBoard.dashboard_send_data(context_conf, save_data)
-
-    # return save_data["data_body"]
-    return save_data
+    switch.value += 1
+    save_date = []
+    return save_date
 
 
 def run(test_config):
     load_config = test_config["load_manager"]
     scenarios_conf = load_config["scenarios"]
-    runner_conf = test_config["runners"]
+    contexts_conf = test_config["contexts"]
+    runner_conf = load_config["runners"]
     Use_Dashboard = False
 
-    env_pre(None)
+    env_pre(test_config)
     if test_config["contexts"]["yardstick_ip"] is None:
         load_config["contexts"]["yardstick_ip"] =\
             conf_parser.ip_parser("yardstick_test_ip")
@@ -115,15 +94,22 @@ def run(test_config):
                 conf_parser.ip_parser("dashboard")
         LOG.info("Create Dashboard data")
         Use_Dashboard = True
-        # DashBoard.dashboard_system_bandwidth(test_config["contexts"])
+        DashBoard.posca_moon_init(test_config["contexts"])
 
-    resources = conf_parser.str_to_list(scenarios_conf["resources"])
-    initial = conf_parser.str_to_list(scenarios_conf["initial"])
-    threshhold = conf_parser.str_to_list(scenarios_conf["threshhold"])
-    timeout = conf_parser.str_to_list(scenarios_conf["timeout"])
-    SLA = conf_parser.str_to_list(scenarios_conf["SLA"])
-    case_config = {"SLA": SLA,
-                   "resources": resources}
+    subject_number = int(scenarios_conf["subject_number"])
+    object_number = int(scenarios_conf["object_number"])
+    timeout = scenarios_conf["timeout"]
+    consul_host = contexts_conf["moon_environment"]["ip"]
+    consul_port = contexts_conf["moon_environment"]["consul_port"]
+
+    initial = scenarios_conf["initial_tenants"]
+    threshhold = scenarios_conf["steps_tenants"]
+    tolerate_time = scenarios_conf["tolerate_time"]
+    case_config = {"subject_number": subject_number,
+                   "object_number": object_number,
+                   "timeout": timeout,
+                   "consul_host": consul_host,
+                   "consul_port": consul_port}
 
     process_queue = Queue.Queue()
 
@@ -136,8 +122,8 @@ def run(test_config):
         tenant_number = threshhold
     else:
         tenant_number = initial
-
-    while runner_switch is True:
+    while switch.value == 0:
+        LOG.info("Start %d process", tenant_number)
         for tenant in range(0, tenant_number):
             process = multiprocessing.Process(target=do_test,
                                               args=(runner_conf,
@@ -150,7 +136,7 @@ def run(test_config):
 
         result = result + tenant_number
         tenant_number = threshhold
-        time.sleep(timeout)
+        time.sleep(tolerate_time)
 
     while process_queue.qsize():
         process = process_queue.get()
@@ -161,6 +147,12 @@ def run(test_config):
     else:
         result = result - threshhold
 
+    testdate = {"tenant_max": result}
+    testresult = config_to_result(testdate)
     LOG.info("Finished bottlenecks testcase")
-    LOG.info("The result data is %s", result)
-    return result
+    LOG.info("The result data is %d", result)
+    if Use_Dashboard is True:
+        print "Use Dashboard"
+        DashBoard.dashboard_send_data(test_config["contexts"], testresult)
+
+    return testresult
