@@ -6,5 +6,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+# This file is for verify job excuted by OPNFV CI
 
 flake8==3.0.4
+coverage==4.4.2
