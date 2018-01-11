@@ -37,7 +37,18 @@ run_nosetests() {
     echo "Running unit and coverage test ... "
     nosetests --with-coverage --cover-tests \
         --cover-min-percentage 100 \
-        test/
+        test/__init__.py \
+        testsuites/posca/__init__.py testsuites/__init__.py \
+        testsuites/posca/testcase_cfg/__init__.py \
+        testsuites/posca/testcase_dashboard/__init__.py \
+        testsuites/posca/testcase_script/__init__.py \
+        utils/__init__.py \
+        utils/dashboard/__init__.py \
+        utils/env_prepare/__init__.py \
+        utils/infra_setup/__init__.py \
+        monitor/__init__.py \
+        monitor/config/__init__.py
+
 }
 
 
