@@ -14,7 +14,9 @@
 getopts ":f" FILE_OPTION
 
 run_flake8() {
-    echo "Running flake8 for python style check... "
+    echo "+++++++++++++++++++++++++++++++++++++++++"
+    echo "Running flake8 for python style check:   "
+    echo "-----------------------------------------"
     logfile=flake8_verify.log
     if [ $FILE_OPTION == "f" ]; then
        flake8 --append-config=flake8_cfg testsuites/posca/ utils/ > $logfile
@@ -29,15 +31,32 @@ run_flake8() {
         fi
         exit 1
     else
-        echo "OK"
+        echo "The patch has passed python style check  "
+        echo "+++++++++++++++++++END+++++++++++++++++++"
     fi
 }
 
+for((i=1;i<=2;i++));do echo -e "\n";done
+
 run_nosetests() {
-    echo "Running unit and coverage test ... "
+    echo "+++++++++++++++++++++++++++++++++++++++++"
+    echo "Running unit and coverage test:          "
+    echo "-----------------------------------------"
     nosetests --with-coverage --cover-tests \
         --cover-min-percentage 100 \
-        test/
+        test/__init__.py \
+        testsuites/posca/__init__.py testsuites/__init__.py \
+        testsuites/posca/testcase_cfg/__init__.py \
+        testsuites/posca/testcase_dashboard/__init__.py \
+        testsuites/posca/testcase_script/__init__.py \
+        utils/__init__.py \
+        utils/dashboard/__init__.py \
+        utils/env_prepare/__init__.py \
+        utils/infra_setup/__init__.py \
+        monitor/__init__.py \
+        monitor/config/__init__.py
+    echo "++++++++++++++++++END++++++++++++++++++++"
+
 }
 
 
