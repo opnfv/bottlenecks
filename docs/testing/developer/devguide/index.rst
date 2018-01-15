@@ -11,4 +11,5 @@ Bottlenecks Developer Guide
 
   ./quick_start.rst
   ./framework_guide.rst
+  ./unit_coverage_test.rst
   ./package_guide.rst
