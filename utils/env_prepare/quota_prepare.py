@@ -42,14 +42,37 @@ nova_quota = {"ram": -1,
               "injected_file_path_bytes": -1}
 
 
+def check_https_enabled():
+    LOG.debug("Check if https is enabled in OpenStack")
+    os_auth_url = os.getenv('OS_AUTH_URL')
+    if os_auth_url.startswith('https'):
+        LOG.debug("https is enabled")
+        return True
+    LOG.debug("https is not enabled")
+    return False
+
+
 def quota_env_prepare():
+    https_enabled = check_https_enabled()
+    insecure_option = ''
+    insecure = os.getenv('OS_INSECURE',)
+    if https_enabled:
+        LOG.info("https is enabled")
+        if insecure:
+            if insecure.lower() == "true":
+                insecure_option = ' --insecure '
+            else:
+                LOG.warn("Env variable OS_INSECURE is {}: if https + no "
+                         "credential used, it should be set as True."
+                         .format(insecure))
+
     tenant_name = os.getenv("OS_TENANT_NAME")
-    cmd = ("openstack project list | grep " +
+    cmd = ("openstack {} project list | grep ".format(insecure_option) +
            tenant_name +
            " | awk '{print $2}'")
 
     result = commands.getstatusoutput(cmd)
-    if result[0] == 0:
+    if result[0] == 0 and 'exception' not in result[1]:
         LOG.info("Get %s project id is %s" % (tenant_name, result[1]))
     else:
         LOG.error("can't get openstack project id")
