@@ -1,0 +1,36 @@
+{
+    "rows": [
+        {
+            "repeat": null,
+            "titleSize": "h6",
+            "repeatIteration": null,
+            "title": "Dashboard Row",
+            "height": 150,
+            "repeatRowId": null,
+            "panels": [
+                {
+                    "title": "Memory Usage per Container",
+                    "aliasColors": {},
+                    "id": 31,
+                    "cacheTimeout": null,
+                    "valueName": "current",
+                    "targets": [
+                        {
+                            "hide": false,
+                            "expr": "Pre-existing Query",
+                            "step": 1800,
+                            "legendFormat": "",
+                            "intervalFactor": 2,
+                            "refId": "A"
+                        }
+                    ]
+                },
+                {
+                    "content": "Sample Content"
+                }
+            ],
+            "showTitle": false,
+            "collapse": true
+        }
+    ]
+}
