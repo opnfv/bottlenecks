@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_ac1ed86d",
+        "filename": "monitor/automated-dashboard-datasource.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5439
+      },
+      "writtenOn": "2018-02-05T06:39:12Z",
+      "side": 1,
+      "message": "A small question, Do we need to set the hosts file in bottlenecks docker or in jumphost?",
+      "range": {
+        "startLine": 65,
+        "startChar": 19,
+        "endLine": 65,
+        "endChar": 55
+      },
+      "revId": "7ea3563cce979904e8918bd7aa611a26d6face42",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
