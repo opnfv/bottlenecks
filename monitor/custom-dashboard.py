@@ -1,53 +1,31 @@
+##############################################################################
+# Copyright (c) 2018 Huawei Tech and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
 import json
-from pprint import pprint
 
-
-with open('test-dash.json', 'r+') as f:
-    data = json.load(f)
-    x = data['rows'] #this is an array
-    for y in x:
-        #print y['title']
-        if y['title'] == "Dashboard Row":
-            pan = y['panels']
-            #for z in pan:
-            for i in range(len(pan)-1) :
-                z = pan[i]
-                print z['id']
-                if z['id'] == 31:
-                    print z['id']
-                    tar = z['targets']
-                    for a in tar:
-                        pprint(a['expr'])
-                        print a['expr']
-                        a['expr'] = "gfhgbj"
-                        f.seek(0)        # <--- should reset file position to the beginning.
-                        json.dump(data, f, indent=4)
-                        f.truncate()
-
-
-def main_f(filename, rowtitle, panelid, expr):
+def customize_query(filename, rowtitle, panelname, expr):
     with open(filename, 'r+') as f:
         data = json.load(f)
-        x = data['rows'] #this is an array
+        x = data['rows'] #this is an array of rows of the dashboard
         for y in x:
-        #print y['title']
             if y['title'] == rowtitle:
                 pan = y['panels']
-            #for z in pan:
                 for i in range(len(pan)-1) :
                     z = pan[i]
-                    print z['id']
-                    if z['id'] == panelid:
-                        print z['id']
+                    if z['title'] == panelname:
                         tar = z['targets']
                         for a in tar:
-                            pprint(a['expr'])
-                            print a['expr']
                             a['expr'] = expr
-                            f.seek(0)        # <--- should reset file position to the beginning.
+                            f.seek(0)       # <--- reset file position to start
                             json.dump(data, f, indent=4)
                             f.truncate()
 
-
-main_f("test-dash.json", "Dashboard Row", 31, "sdffdf")
+customize_query("/home/opnfv/bottlenecks/monitor/custom-query-dashboard.json",
+    "Dashboard Row", "Memory Usage per Container", "Sample Prometheus Query")
 
