@@ -60,11 +60,23 @@ sudo docker run \
   --name=cadvisor \
   google/cadvisor:v0.25.0 \ -storage_driver=Prometheus
 
+# Configure IP Address in barometer client configuration
+python client_ip_configure.py barometer_client.conf
+
+# Configure IP Address in barometer server configuration
+python server_ip_configure.py barometer-collectd.conf
+
 # Automate Collectd Client
 python automate_collectd_client.py
 
 # Automate Cadvisor Client
 python automate_cadvisor_client.py
+
+# Automate Barometer installation for jump server
+bash ./barometer-install-script.sh
+
+# Automate Barometer installation for compute/controller nodes
+python barometer_automated_client_install.py
 
 # Automate Prometheus Datasource and Grafana Dashboard creation
 python automated-dashboard-datasource.py
