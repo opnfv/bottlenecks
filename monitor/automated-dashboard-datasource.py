@@ -66,4 +66,5 @@ ip_address = socket.gethostbyname(socket.gethostname())
 _create_dashboard(ip_address, 3000, '/var/lib/grafana/' +
                   'dashboards/' +
                   'prometheus-system_rev1.json')
+_create_dashboard(ip_address, 3000, 'prototype_dashboard_collapsible.json')
 _create_data_source(ip_address, 3000)
