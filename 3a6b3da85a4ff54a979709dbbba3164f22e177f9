@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_2e2c45ab",
+        "filename": "monitor/barometer-collectd.conf",
+        "patchSetId": 4
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-02-22T03:26:39Z",
+      "side": 1,
+      "message": "There are lots of tabs in the conf files for barometer-collectd client and server. In addition, I guess you might need to remove all the unused commented lines since we have a sample collectd config already in the monitoring folder.",
+      "range": {
+        "startLine": 777,
+        "startChar": 0,
+        "endLine": 788,
+        "endChar": 9
+      },
+      "revId": "3a6b3da85a4ff54a979709dbbba3164f22e177f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_8e18f985",
+        "filename": "monitor/barometer_automated_client_install.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-02-22T03:26:39Z",
+      "side": 1,
+      "message": "white space here",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 20
+      },
+      "revId": "3a6b3da85a4ff54a979709dbbba3164f22e177f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_4e2f11a2",
+        "filename": "monitor/custom-query-dashboard.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-02-22T03:26:39Z",
+      "side": 1,
+      "message": "whitespaces should be removed from these lines",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "3a6b3da85a4ff54a979709dbbba3164f22e177f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
