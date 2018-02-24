@@ -83,7 +83,9 @@ def _source_file(rc_file):
     p = subprocess.Popen(". %s; env" % rc_file, stdout=subprocess.PIPE,
                          shell=True)
     output = p.communicate()[0]
-    env = dict((line.split('=', 1) for line in output.splitlines()))
+    output_lines = output.splitlines()
+    del output_lines[5]
+    env = dict((line.split('=', 1) for line in output_lines))
     os.environ.update(env)
     return env
 
