@@ -35,7 +35,7 @@ def _get_neutron_client():
     return neutron_client
 
 
-def stack_create_images(
+def create_images(
         imagefile=None,
         image_name="bottlenecks_image"):
     print "========== Create image in OS =========="
