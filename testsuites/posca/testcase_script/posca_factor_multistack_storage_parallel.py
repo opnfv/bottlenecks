@@ -50,10 +50,8 @@ def env_pre(test_config):
     stack_prepare._prepare_env_daemon(test_yardstick)
     quota_prepare.quota_env_prepare()
     if(test_config["contexts"]['yardstick_envpre']):
-        cmd = ('yardstick env prepare')
         LOG.info("yardstick environment prepare!")
-        yardstick_container = docker_env.yardstick_info['container']
-        stdout = docker_env.docker_exec_cmd(yardstick_container, cmd)
+        stdout = runner_yardstick.yardstick_image_prepare()
         LOG.debug(stdout)
 
 

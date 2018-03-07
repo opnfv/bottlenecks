@@ -23,6 +23,7 @@ import Queue
 from utils.parser import Parser as conf_parser
 import utils.env_prepare.quota_prepare as quota_prepare
 import utils.env_prepare.stack_prepare as stack_prepare
+import utils.infra_setup.runner.yardstick as runner_yardstick
 
 import testsuites.posca.testcase_dashboard.posca_stress_ping as DashBoard
 import utils.infra_setup.runner.docker_env as docker_env
@@ -52,11 +53,9 @@ def env_pre(test_config):
         test_yardstick = True
     stack_prepare._prepare_env_daemon(test_yardstick)
     quota_prepare.quota_env_prepare()
-    cmd = ('yardstick env prepare')
     LOG.info("yardstick environment prepare!")
     if(test_config["contexts"]['yardstick_envpre']):
-        yardstick_container = docker_env.yardstick_info['container']
-        stdout = docker_env.docker_exec_cmd(yardstick_container, cmd)
+        stdout = runner_yardstick.yardstick_image_prepare()
         LOG.debug(stdout)
 
 
