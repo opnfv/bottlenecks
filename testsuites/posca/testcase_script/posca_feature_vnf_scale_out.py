@@ -46,12 +46,9 @@ def env_pre(test_config):
     print(test_yardstick)
     stack_prepare._prepare_env_daemon(test_yardstick)
     quota_prepare.quota_env_prepare()
-    cmd = ('yardstick env prepare')
     LOG.info("yardstick environment prepare!")
-    print docker_env.yardstick_info['container']
     if(test_config["contexts"]['yardstick_envpre']):
-        yardstick_container = docker_env.yardstick_info['container']
-        stdout = docker_env.docker_exec_cmd(yardstick_container, cmd)
+        stdout = yardstick_task.yardstick_image_prepare()
         LOG.debug(stdout)
 
 
@@ -99,16 +96,11 @@ def do_test(test_config, Use_Dashboard, context_conf):
             elif data["status"] == 2:
                 LOG.error("yardstick error exit")
                 exit()
-    # data = json.load(output)
 
     save_data = config_to_result(test_config, data)
-    print("^^^^^^^^^^^^^^^^^^^^^^^^^")
-    print save_data
     if Use_Dashboard is True:
         print("use dashboard")
-        # DashBoard.dashboard_send_data(context_conf, save_data)
 
-    # return save_data["data_body"]
     return save_data
 
 

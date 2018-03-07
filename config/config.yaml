@@ -14,3 +14,6 @@ common_config:
   yardstick_rc_dir: '/etc/yardstick/openstack.creds'
   releng_dir: '/home/opnfv/releng'
   fetch_os_file: 'utils/fetch_os_creds.sh'
+  yardstick_image_dir: '/tmp/yardstick.img'
+  image_url: 'http://artifacts.opnfv.org/yardstick/image/yardstick-nsb-image.img'
+  yardstick_image_name: 'bottlenecks_yardstick'

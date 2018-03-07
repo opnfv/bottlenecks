@@ -14,6 +14,7 @@ from utils.logger import Logger
 from utils.parser import Parser as config
 import utils.infra_setup.heat.manager as utils
 import utils.infra_setup.runner.docker_env as docker_env
+import utils.infra_setup.heat.manager as client_manager
 
 LOG = Logger(__name__).getLogger()
 
@@ -35,16 +36,6 @@ def _prepare_env_daemon(test_yardstick):
         yardstick_contain = docker_env.yardstick_info["container"]
         cmd = "cp %s %s" % (rc_file,
                             config.bottlenecks_config["yardstick_rc_dir"])
-        docker_env.docker_exec_cmd(yardstick_contain,
-                                   cmd)
-        file_orig = ("/home/opnfv/repos/yardstick/etc"
-                     "/yardstick/yardstick.conf.sample")
-        file_after = "/etc/yardstick/yardstick.conf"
-        cmd = "cp %s %s" % (file_orig,
-                            file_after)
-        docker_env.docker_exec_cmd(yardstick_contain,
-                                   cmd)
-        cmd = "sed -i '12s/http/file/g' /etc/yardstick/yardstick.conf"
         docker_env.docker_exec_cmd(yardstick_contain,
                                    cmd)
 
@@ -104,3 +95,30 @@ def _append_external_network(rc_file):
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
+
+
+def prepare_image(image_name, image_dir):
+    glance_client = client_manager._get_glance_client()
+    if not os.path.isfile(image_dir):
+        LOG.error("Error: file %s does not exist.", image_dir)
+        return None
+    try:
+        images = glance_client.images.list()
+        image_id = next((i.id for i in images if i.name == image_name), None)
+        if image_id is not None:
+            LOG.info("Image %s already exists.", image_name)
+        else:
+            LOG.info("Creating image '%s' from '%s'...", image_name, image_dir)
+
+            image = glance_client.images.create(
+                name=image_name, visibility="public", disk_format="qcow2",
+                container_format="bare")
+            image_id = image.id
+            with open(image_dir) as image_data:
+                glance_client.images.upload(image_id, image_data)
+        return image_id
+    except Exception:  # pylint: disable=broad-except
+        LOG.error(
+            "Error [create_glance_image(glance_client, '%s', '%s')]",
+            image_name, image_dir)
+        return None
