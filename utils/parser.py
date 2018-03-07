@@ -45,6 +45,11 @@ class Parser():
             cls.bottlenecks_config["pod_info"] = common_config['pod_info']
             cls.bottlenecks_config["yardstick_rc_dir"] = \
                 common_config['yardstick_rc_dir']
+            cls.bottlenecks_config["yardstick_image_dir"] = \
+                common_config['yardstick_image_dir']
+            cls.bottlenecks_config["image_url"] = common_config['image_url']
+            cls.bottlenecks_config["yardstick_image_name"] = \
+                common_config['yardstick_image_name']
             cls.config_dir_check(cls.bottlenecks_config["log_dir"])
 
     @classmethod
