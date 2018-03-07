@@ -21,6 +21,7 @@ load_manager:
     volume_num: '1'
     num_jobs: '1'
     direct: '1'
+    volume_size: 50
 
   runners:
     stack_create: yardstick

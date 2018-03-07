@@ -15,13 +15,25 @@ At present, This file contain the following function:
 4.how the process of task.'''
 
 import sys
+import os
 import time
 import requests
 import json
+import urllib
 import utils.logger as logger
+from utils.parser import Parser as config
+import utils.env_prepare.stack_prepare as env
 
 headers = {"Content-Type": "application/json"}
 LOG = logger.Logger(__name__).getLogger()
+
+
+def yardstick_image_prepare():
+    if not os.path.exists(config.bottlenecks_config["yardstick_image_dir"]):
+        urllib.urlretrieve(config.bottlenecks_config["image_url"],
+                          config.bottlenecks_config["yardstick_image_dir"])
+    env.prepare_image(config.bottlenecks_config["yardstick_image_name"],
+                      config.bottlenecks_config["yardstick_image_dir"])
 
 
 def yardstick_command_parser(debug, cidr, outfile, parameter):
@@ -31,6 +43,9 @@ def yardstick_command_parser(debug, cidr, outfile, parameter):
     cmd += " task start "
     cmd += str(cidr)
     cmd += " --output-file " + outfile
+    image_name = config.bottlenecks_config["yardstick_image_name"]
+    parameter["image_name"] = image_name
+    print parameter
     if parameter is not None:
         cmd += " --task-args " + '"' + str(parameter) + '"'
     return cmd

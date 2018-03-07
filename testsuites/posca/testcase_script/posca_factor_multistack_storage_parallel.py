@@ -50,10 +50,8 @@ def env_pre(test_config):
     stack_prepare._prepare_env_daemon(test_yardstick)
     quota_prepare.quota_env_prepare()
     if(test_config["contexts"]['yardstick_envpre']):
-        cmd = ('yardstick env prepare')
         LOG.info("yardstick environment prepare!")
-        yardstick_container = docker_env.yardstick_info['container']
-        stdout = docker_env.docker_exec_cmd(yardstick_container, cmd)
+        stdout = yardstick_task.yardstick_image_prepare()
         LOG.debug(stdout)
 
 
@@ -78,11 +76,11 @@ def do_test(test_config):
         loop_value = loop_value + 1
         with open(out_file) as f:
             data = json.load(f)
-            if data["status"] == 1:
+            if data["result"]["criteria"] == "PASS":
                 LOG.info("yardstick run success")
                 LOG.info("%s" % data["result"]["testcases"])
                 break
-            elif data["status"] == 2:
+            else:
                 LOG.error("yardstick error exit")
                 break
 
@@ -140,6 +138,7 @@ def run(test_config):
     numjobs = scenarios_conf["num_jobs"]
     direct = scenarios_conf["direct"]
     volume_num = scenarios_conf["volume_num"]
+    volume_size = scenarios_conf["volume_size"]
 
     result = []
 
@@ -151,7 +150,8 @@ def run(test_config):
                        "size": size,
                        "rwmixwrite": rwmixwrite,
                        "numjobs": numjobs,
-                       "direct": direct}
+                       "direct": direct,
+                       "volume_size": int(volume_size)}
         data_reply = do_test(case_config)
         result.append(data_reply)
 

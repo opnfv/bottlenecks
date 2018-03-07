@@ -81,14 +81,10 @@ def do_test(test_config, Use_Dashboard, context_conf):
             elif data["status"] == 2:
                 LOG.error("yardstick error exit")
                 exit()
-    # data = json.load(output)
 
     save_data = config_to_result(test_config, data)
     if Use_Dashboard is True:
         print("use dashboard")
-        # DashBoard.dashboard_send_data(context_conf, save_data)
-
-    # return save_data["data_body"]
     return save_data
 
 
@@ -108,7 +104,6 @@ def run(test_config):
                 conf_parser.ip_parser("dashboard")
         LOG.info("Create Dashboard data")
         Use_Dashboard = True
-        # DashBoard.dashboard_system_bandwidth(test_config["contexts"])
 
     cpus = conf_parser.str_to_list(scenarios_conf["cpus"])
     mems = conf_parser.str_to_list(scenarios_conf["mems"])
