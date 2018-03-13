@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-by: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-at: Tue, 13 Mar 2018 15:16:58 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/53695
+Project: bottlenecks
+Branch: refs/heads/stable/euphrates
