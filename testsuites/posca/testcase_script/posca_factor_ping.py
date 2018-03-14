@@ -43,7 +43,7 @@ test_dict = {
 }
 testfile = os.path.basename(__file__)
 testcase, file_format = os.path.splitext(testfile)
-cidr = "/home/opnfv/repos/yardstick/samples/storage_bottlenecks.yaml"
+cidr = "/home/opnfv/repos/yardstick/samples/ping_bottlenecks.yaml"
 runner_DEBUG = True
 
 q = Queue.Queue()
