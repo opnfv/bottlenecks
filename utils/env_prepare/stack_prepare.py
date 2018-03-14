@@ -75,7 +75,13 @@ def _source_file(rc_file):
                          shell=True)
     output = p.communicate()[0]
     output_lines = output.splitlines()
-    env = dict((line.split('=', 1) for line in output_lines))
+    env = list()
+    for line in output_lines:
+        if '=' in line:
+            env.append(tuple(line.split('=', 1)))
+
+    env = dict(env)
+#    env = dict((line.split('=', 1) for line in output_lines))
     os.environ.update(env)
     return env
 
