@@ -36,6 +36,14 @@ LOG = log.Logger(__name__).getLogger()
 # ------------------------------------------------------
 
 
+def copy_hosts_file():
+    LOG.info("Begin copying hosts file to Bottlenecks-Yardstick")
+    os.system('cp /etc/hosts /tmp/hosts')
+    yardstick_docker = docker_env.docker_find('Bottlenecks-Yardstick')
+    docker_env.docker_exec_cmd(yardstick_docker, 'sudo cp -f /tmp/hosts /etc/hosts')
+    LOG.info("Done with copying hosts file to Bottlenecks-Yardstick")
+
+
 def posca_testcase_run(testsuite, testcase_script, test_config):
 
     module_string = "testsuites.%s.testcase_script.%s" % (testsuite,
@@ -132,6 +140,7 @@ def main():
     test_level = sys.argv[1]
     test_name = sys.argv[2]
     REPORT = sys.argv[3]
+    copy_hosts_file()
     testsuite_run(test_level, test_name, REPORT)
 
 
