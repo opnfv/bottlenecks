@@ -40,7 +40,8 @@ def copy_hosts_file():
     LOG.info("Begin copying hosts file to Bottlenecks-Yardstick")
     os.system('cp /etc/hosts /tmp/hosts')
     yardstick_docker = docker_env.docker_find('Bottlenecks-Yardstick')
-    docker_env.docker_exec_cmd(yardstick_docker, 'sudo cp -f /tmp/hosts /etc/hosts')
+    cp_cmd = 'sudo cp -f /tmp/hosts /etc/hosts'
+    docker_env.docker_exec_cmd(yardstick_docker, cp_cmd)
     LOG.info("Done with copying hosts file to Bottlenecks-Yardstick")
 
 
@@ -115,6 +116,7 @@ def testsuite_run(test_level, test_name, REPORT="False"):
             conf_parser.Parser.testcase_out_dir(testcase)
         start_date = datetime.datetime.now()
         docker_env_prepare(config[testcase])
+        copy_hosts_file()
         #try:
         #    posca_testcase_run(tester_parser[0], testcase, config[testcase])
         #except Exception, e:
@@ -140,7 +142,6 @@ def main():
     test_level = sys.argv[1]
     test_name = sys.argv[2]
     REPORT = sys.argv[3]
-    copy_hosts_file()
     testsuite_run(test_level, test_name, REPORT)
 
 
