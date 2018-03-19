@@ -59,6 +59,9 @@ Version History
 | Nov 15th, 2017 |  1.6.1             | Bottlenecks Euphrates release 5.1 |
 |                |                    |                                   |
 +----------------+--------------------+-----------------------------------+
+| Apr 10th, 2018 |  1.7               | Bottlenecks Fraser release 6.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
 
 Summary
 =======
@@ -80,6 +83,33 @@ Bottlenecks_ team.
 
 Release Data
 ============
+
+Fraser Release Data
+-----------------------
+
++--------------------------------------+--------------------------------+
+| **Project**                          | Bottlenecks                    |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Repo/tag**                         | * Bottlenecks/6.0.0            |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Bottlenecks Docker image tag**     | * 6.0.0                        |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release designation**              | * 6.0.0                        |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release date**                     | * Apr 10th 2018                |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Purpose of the delivery**          | Fraser stable release          |
+|                                      |                                |
++--------------------------------------+--------------------------------+
 
 Euphrates Release Data
 -----------------------
@@ -206,8 +236,8 @@ Bramaputra Release Data
 +--------------------------------------+--------------------------------+
 
 
-Danube Deliverables
-===================
+Release Deliverables
+====================
 
 Software Deliverables
 ---------------------
@@ -219,6 +249,12 @@ Software Deliverables
 
 Documentatiion Deliverables
 ---------------------------
+
+**Bottlenecks documentation <fraser>**
+
+* Release Notes: http://docs.opnfv.org/en/stable-fraser/submodules/bottlenecks/docs/release/release-notes/release_notes.html
+* User Guide: http://docs.opnfv.org/en/stable-fraser/submodules/bottlenecks/docs/testing/user/userguide/index.html
+* Developer Guide: http://docs.opnfv.org/en/stable-fraser/submodules/bottlenecks/docs/testing/developer/devguide/index.html
 
 **Bottlenecks documentation <euphrates>**
 
@@ -239,6 +275,16 @@ Documentatiion Deliverables
 * Installation Guide: http://artifacts.opnfv.org/bottlenecks/colorado/docs/installationprocedure/index.html
 * http://artifacts.opnfv.org/bottlenecks/colorado/1.0/releasenotes/index.html
 * User Guide: http://artifacts.opnfv.org/bottlenecks/colorado/1.0/docs/userguide/index.html
+
+Reason for Fraser
+=================
+
+* Introduction of data-plane soak tests aiming at benchmarking long duration stability of OPNFV platform
+* Introduction of security tests by cooperating with Moon project to validate the software security based authentication schemes
+* Introduction of multi-stack storage tests and Storperf storage test
+* Testing framework provides local supports for preparing images for openstack resulting in offline running supports for Bottlenecks
+
+These tests cases and refactoring further enhance the capability of Bottlenecks project and let it be adaptable to different usages.
 
 Reason for Euphrates
 ====================
