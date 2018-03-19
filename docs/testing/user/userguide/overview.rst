@@ -58,17 +58,23 @@ Integration Description
 
 Test suite & Test case Description
 ==================================
-+--------+-------------------------------------+
-|POSCA   | posca_factor_ping                   |
-|        +-------------------------------------+
-|        | posca_factor_system_bandwidth       |
-|        +-------------------------------------+
-|        | posca_facotor_soak_througputs       |
-|        +-------------------------------------+
-|        | posca_feature_vnf_scale_up          |
-|        +-------------------------------------+
-|        | posca_feature_vnf_scale_out         |
-+--------+-------------------------------------+
++--------+-------------------------------------------+
+|POSCA   | posca_factor_ping                         |
+|        +-------------------------------------------+
+|        | posca_factor_system_bandwidth             |
+|        +-------------------------------------------+
+|        | posca_facotor_soak_througputs             |
+|        +-------------------------------------------+
+|        | posca_feature_vnf_scale_up                |
+|        +-------------------------------------------+
+|        | posca_feature_vnf_scale_out               |
+|        +-------------------------------------------+
+|        | posca_factor_storperf                     |
+|        +-------------------------------------------+
+|        | posca_factor_multistack_storage_parallel  |
+|        +-------------------------------------------+
+|        | posca_factor_multistack_storage           |
++--------+-------------------------------------------+
 
 As for the abandoned test suite in the previous Bottlenecks releases, please
 refer to http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/user/userguide/deprecated.html.
