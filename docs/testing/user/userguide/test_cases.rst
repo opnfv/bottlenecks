@@ -11,3 +11,6 @@ Bottlenecks - Test Cases
 
   ./posca/posca_factor_system_bandwidth.rst
   ./posca/posca_factor_ping.rst
+  ./posca/posca_factor_storperf.rst
+  ./posca/posca_factor_multistack_storage.rst
+  ./posca/posca_factor_multistack_storage_parallel.rst
