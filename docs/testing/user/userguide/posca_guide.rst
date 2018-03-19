@@ -100,7 +100,7 @@ Edit admin_rc.sh and add the following line
     export OS_CACERT=/tmp/os_cacert
 
 If you have deployed your openstack environment by compass,
-you could use the following command to get the required files. For Fuel, Apex and JOID installer, we only provide limited support now
+you could use the following command to get the required files. As to Fuel, Apex and JOID installers, we only provide limited support now
 for retrieving the configuration/description files. If you find that the following command can not do the magic, you should put the
 required files in /tmp manually.
 
@@ -108,7 +108,7 @@ required files in /tmp manually.
 
     bash ./utils/env_prepare/config_prepare.sh -i <installer> [--debug]
 
-Note that if we execute the command above, then admin_rc.sh and pod.yml gets created automatically in /tmp folder along with the line `export OS_CACERT=/tmp/os_cacert` added in admin_rc.sh file.
+Note that if we execute the command above, then admin_rc.sh and pod.yml will be created automatically in /tmp folder along with the line `export OS_CACERT=/tmp/os_cacert` added in admin_rc.sh file.
 
 
 Executing Specified Testcase

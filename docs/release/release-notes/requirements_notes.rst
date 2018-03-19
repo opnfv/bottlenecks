@@ -11,9 +11,10 @@ Bottlenecks Requirements Notes for OPNFV Euphrates Release
 Installer Requirements
 ======================
 
-Bottlenecks Euphrates release is installer-agnostic which means that
+Bottlenecks releases after  Euphrates are installer-agnostic which means that
 the test cases could be executed over different deployments.
-However, the pod description file and openstack rc file
+However, the pod description file,
+openstack rc file and the admin credentials
 are required to automatically get the SUT informations.
 
 =====================
@@ -30,7 +31,7 @@ Software Requirements
 Operation System
 ----------------
 
-Ubuntu 14.04 is the default system. However, we do not do any linux core operation or call any system related api directly. The software could be runned in higher versions of Ubuntu with high probability. Thorough tests are not performed.
+Ubuntu 14.04 is the default system. However, we do not do any linux core operation or call any system related api directly. The software could be runned in higher versions of Ubuntu with high probability. 
 
 Cloud OS
 --------
