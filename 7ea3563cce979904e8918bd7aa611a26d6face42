@@ -22,6 +22,30 @@
       "revId": "7ea3563cce979904e8918bd7aa611a26d6face42",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_62928ba0",
+        "filename": "monitor/automated-dashboard-datasource.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 6989
+      },
+      "writtenOn": "2018-03-30T17:28:02Z",
+      "side": 1,
+      "message": "In jumphost. The monitoring script takes care of propagating the details to docker through the volume mapping of jump server directory to docker container directory",
+      "parentUuid": "9a3d3df0_ac1ed86d",
+      "range": {
+        "startLine": 65,
+        "startChar": 19,
+        "endLine": 65,
+        "endChar": 55
+      },
+      "revId": "7ea3563cce979904e8918bd7aa611a26d6face42",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
