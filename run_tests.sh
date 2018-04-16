@@ -17,12 +17,12 @@ where:
     -h|--help         show the help text
     -s|--teststory    run specific test story
       <test story>        one of the following:
-                              (rubbos, vstf, posca_factor_test)
+                              (posca_factor_test)
                       user can also define their own test story and pass as var to this file,
                       please refer to testsuites/posca/testsuite_story/ for details
     -c|--testcase     run specific test case
       <test case>         one of the following:
-                              (posca_factor_system_bandwidth, posca_factor_ping)
+                              (posca_factor_ping, posca_factor_soak_throughputs, ...)
     --cleanup         cleanup test dockers runing when test is done (false by default)
     --report          push results to DB (false by default)
 
