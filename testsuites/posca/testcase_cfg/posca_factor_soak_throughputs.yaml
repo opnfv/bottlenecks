@@ -15,9 +15,9 @@
 load_manager:
   scenarios:
     tool: netperf
-    test_duration_hours: 1
-    vim_pair_ttl: 300
-    vim_pair_lazy_cre_delay: 2
+    test_duration_hours: 0.01
+    vim_pair_ttl: 18
+    vim_pair_lazy_cre_delay: 18
     package_size:
     threshhold:
         package_loss: 0%
