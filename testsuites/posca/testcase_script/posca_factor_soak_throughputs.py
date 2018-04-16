@@ -30,15 +30,13 @@ import json
 import os
 import sys
 import time
-# import threading
-# import datetime
+import threading
+import datetime
 import Queue
-# from utils.parser import Parser as conf_parser
+from utils.parser import Parser as conf_parser
 import utils.env_prepare.quota_prepare as quota_prepare
 import utils.env_prepare.stack_prepare as stack_prepare
 import utils.infra_setup.runner.yardstick as runner_yardstick
-
-# import testsuites.posca.testcase_dashboard.posca_factor_throughputs as DashBoard # noqa
 import utils.infra_setup.runner.docker_env as docker_env
 
 # --------------------------------------------------
@@ -105,13 +103,16 @@ def do_test(con_dic):
     return out_value
 
 
-def config_to_result(num, out_num, during_date, result):
+def config_to_result(
+        test_duration, added_duration, vim_pair_ttl,
+        vim_pair_lazy_cre_delay,
+        vim_pair_num, vim_pair_success_num, result):
     testdata = {}
     test_result = {}
-    test_result["number_of_stacks"] = float(num)
-    test_result["success_times"] = out_num
-    test_result["success_rate"] = out_num / num
-    test_result["duration_time"] = during_date
+    test_result["test_duration"] = test_duration
+    test_result["sum_duration"] = added_duration
+    test_result["vim_pair_ttl"] = vim_pair_num
+    test_result["vim_pair_cre_interval"] = vim_pair_lazy_cre_delay
     test_result["result"] = result
     testdata["data_body"] = test_result
     testdata["testcase"] = testcase
@@ -129,4 +130,55 @@ def run(test_config):
     env_pre(test_config)
     LOG.info("yardstick environment prepare done!")
 
-    return func_run(con_dic)
+    test_duration = float(
+        con_dic["scenarios"]["test_duration_hours"]) * 3600
+    vim_pair_ttl = float(
+        con_dic["scenarios"]["vim_pair_ttl"])
+    vim_pair_lazy_cre_delay = float(
+        con_dic["scenarios"]["vim_pair_lazy_cre_delay"])
+    vim_pair_num = int(test_duration / vim_pair_ttl)
+
+    threadings = []
+    result = []
+    vim_pair_success_num = 0
+
+    start_time = datetime.datetime.now()
+
+    LOG.info("Data-path test duration are %i seconds", test_duration)
+    LOG.info("TTL of each VM pair are %i seconds", vim_pair_ttl)
+    LOG.info("Creation delay between VM pairs are %i seconds",
+             vim_pair_lazy_cre_delay)
+    LOG.info("Number of VM pairs to be created are %i", vim_pair_num)
+
+    for vim_pair_index in xrange(0, vim_pair_num - 2):
+        index_thread = threading.Thread(target=func_run,
+                                        args=(str(vim_pair_index),))
+        threadings.append(index_thread)
+        index_thread.start()
+        vim_pair_error = False
+        for wait_time in xrange(0, int(vim_pair_lazy_cre_delay) - 1):
+            time.sleep(1)
+            while not q.empty():
+                result.append(q.get())
+            if ('0', 'do_test') in result:
+                vim_pair_error = True
+                break
+        for item in result:
+            vim_pair_success_num += int(item[0])
+        if vim_pair_error:
+            break
+
+    end_time = datetime.datetime.now()
+    added_duration = (start_time - end_time).seconds
+    LOG.info("Number of success VM pairs/threads are %s: ",
+             vim_pair_success_num)
+
+    return_result = config_to_result(
+        test_duration, added_duration, vim_pair_ttl,
+        vim_pair_lazy_cre_delay,
+        vim_pair_num, vim_pair_success_num, result
+    )
+
+    conf_parser.result_to_file(return_result, test_config["out_file"])
+
+    return vim_pair_error
