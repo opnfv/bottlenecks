@@ -45,7 +45,7 @@ def yardstick_command_parser(debug, cidr, outfile, parameter):
     cmd += " --output-file " + outfile
     image_name = config.bottlenecks_config["yardstick_image_name"]
     parameter["image_name"] = image_name
-    print parameter
+    LOG.info(parameter)
     if parameter is not None:
         cmd += " --task-args " + '"' + str(parameter) + '"'
     return cmd
