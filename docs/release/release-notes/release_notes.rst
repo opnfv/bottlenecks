@@ -3,10 +3,9 @@
 .. (c) Huawei Technologies Co.,Ltd and others.
 
 
-==================================================
-Bottlenecks Release Notes for OPNFV Danube Release
-==================================================
-
+===============================
+OPNFV Bottlenecks Release Notes
+===============================
 .. _Bottlenecks: https://wiki.opnfv.org/display/bottlenecks
 
 
