@@ -17,7 +17,7 @@
                     "targets": [
                         {
                             "hide": false,
-                            "expr": "Pre-existing Query",
+                            "expr": "Sample Prometheus Query",
                             "step": 1800,
                             "legendFormat": "",
                             "intervalFactor": 2,
