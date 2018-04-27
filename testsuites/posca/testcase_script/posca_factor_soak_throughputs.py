@@ -162,7 +162,7 @@ def run(test_config):
         for wait_time in xrange(0, int(vim_pair_lazy_cre_delay)):
             time.sleep(1)
             while not q.empty():
-                result.append(q.get())
+                result.append(q.get()[1])
             for one_result in result:
                 if '0' == one_result[0]:
                     vim_pair_error = True
@@ -172,7 +172,7 @@ def run(test_config):
     for one_thread in threadings:
         one_thread.join()
     while not q.empty():
-            result.append(q.get())
+            result.append(q.get()[1])
     for item in result:
         vim_pair_success_num += int(item[0])
 
