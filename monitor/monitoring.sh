@@ -64,7 +64,7 @@ sudo docker run \
 python client_ip_configure.py barometer_client.conf
 
 # Configure IP Address in barometer server configuration
-python server_ip_configure.py barometer-collectd.conf
+python server_ip_configure.py barometer_collectd.conf
 
 # Automate Collectd Client
 python automate_collectd_client.py
@@ -73,10 +73,10 @@ python automate_collectd_client.py
 python automate_cadvisor_client.py
 
 # Automate Barometer installation for jump server
-bash ./barometer-install-script.sh
+bash ./barometer_install_script.sh
 
 # Automate Barometer installation for compute/controller nodes
 python barometer_automated_client_install.py
 
 # Automate Prometheus Datasource and Grafana Dashboard creation
-python automated-dashboard-datasource.py
+python automated_dashboard_datasource.py

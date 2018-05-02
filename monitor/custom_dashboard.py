@@ -9,14 +9,15 @@
 
 import json
 
+
 def customize_query(filename, rowtitle, panelname, expr):
     with open(filename, 'r+') as f:
         data = json.load(f)
-        x = data['rows'] #this is an array of the rows of the dashboard
+        x = data['rows']  # this is an array of the rows of the dashboard
         for y in x:
             if y['title'] == rowtitle:
                 pan = y['panels']
-                for i in range(len(pan)-1) :
+                for i in range(len(pan) - 1):
                     z = pan[i]
                     if z['title'] == panelname:
                         tar = z['targets']
@@ -26,6 +27,7 @@ def customize_query(filename, rowtitle, panelname, expr):
                             json.dump(data, f, indent=4)
                             f.truncate()
 
-customize_query("/home/opnfv/bottlenecks/monitor/custom-query-dashboard.json",
-    "Dashboard Row", "Memory Usage per Container", "Sample Prometheus Query")
 
+customize_query("/home/opnfv/bottlenecks/monitor/custom-query-dashboard.json",
+                "Dashboard Row", "Memory Usage per Container",
+                "Sample Prometheus Query")
