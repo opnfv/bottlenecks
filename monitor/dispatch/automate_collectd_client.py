@@ -12,7 +12,10 @@ import yaml
 import utils.infra_setup.passwordless_SSH.ssh as ssh
 
 logger = logging.getLogger(__name__)
-cadvisor_install_sh = "/home/opnfv/bottlenecks/monitor/cadvisor_install.sh"
+collectd_client_install_sh =\
+    "/home/opnfv/bottlenecks/monitor/dispatch/install_collectd_client.sh"
+collectd_client_install_conf =\
+    "/home/opnfv/bottlenecks/monitor/config/collectd_client.conf"
 
 with open('/tmp/pod.yaml') as f:
     dataMap = yaml.safe_load(f)
@@ -24,18 +27,24 @@ with open('/tmp/pod.yaml') as f:
                 pwd = str(y['password'])
                 ssh_d = ssh.SSH(user, host=ip, password=pwd)
                 status, stdout, stderr = ssh_d.execute(
-                    "cd /etc && mkdir cadvisor_config"
+                    "cd /etc && mkdir collectd_config"
                 )
                 if status:
-                    raise Exception("Command failed with non-zero status.")
+                    print Exception(
+                        "Command: \"mkdir collectd_config\" failed.")
                     logger.info(stdout.splitlines())
-                with open(cadvisor_install_sh) as stdin_file:
-                    ssh_d.run("cat > /etc/cadvisor_config/install.sh",
+                with open(collectd_client_install_sh) as stdin_file:
+                    ssh_d.run("cat > /etc/collectd_config/install.sh",
                               stdin=stdin_file)
+                with open(collectd_client_install_conf) as stdin_file:
+                    ssh_d.run(
+                        "cat > /etc/collectd_config/collectd_client.conf",
+                        stdin=stdin_file
+                    )
                 status, stdout, stderr = ssh_d.execute(
-                    "sudo apt-get install docker.io"
+                    "sudo apt-get install -y docker.io"
                 )
                 if status:
                     raise Exception("Command for installing docker failed.")
                     logger.info(stdout.splitlines())
-                ssh_d.run("cd /etc/cadvisor_config/ && bash ./install.sh")
+                ssh_d.run("cd /etc/collectd_config/ && bash ./install.sh")
