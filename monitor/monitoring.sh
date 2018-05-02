@@ -9,26 +9,31 @@
 ##############################################################################
 
 MONITOR_CONFIG="/home/opnfv/bottlenecks/monitor/config"
-GRAFANA="/home/opnfv/bottlenecks/monitor/grafana"
+DISPATCH="/home/opnfv/bottlenecks/monitor/dispatch"
 
-# Node-Exporter
-sudo docker run --name bottlenecks-node-exporter \
-  -d -p 9100:9100 \
-  -v "/proc:/host/proc:ro" \
-  -v "/sys:/host/sys:ro" \
-  -v "/:/rootfs:ro" \
-  --net="host" \
-  quay.io/prometheus/node-exporter:v0.14.0 \
-    -collector.procfs /host/proc \
-    -collector.sysfs /host/sys \
-    -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
 
-# Collectd
-sudo docker run --name bottlenecks-collectd -d \
-  --privileged \
-  -v ${MONITOR_CONFIG}:/etc/collectd:ro \
-  -v /proc:/mnt/proc:ro \
-  fr3nd/collectd:5.5.0-1
+# Install Grafana + Prometheus + Cadvisor + Barometer on the jumpserver
+
+# # Node-Exporter
+# sudo docker run --name bottlenecks-node-exporter \
+#   -d -p 9100:9100 \
+#   -v "/proc:/host/proc:ro" \
+#   -v "/sys:/host/sys:ro" \
+#   -v "/:/rootfs:ro" \
+#   --net="host" \
+#   quay.io/prometheus/node-exporter:v0.14.0 \
+#     -collector.procfs /host/proc \
+#     -collector.sysfs /host/sys \
+#     -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
+
+# # Collectd
+# # Configure IP Address in collectd server configuration
+# python ${DISPATCH}/server_ip_configure.py ${MONITOR_CONFIG}/collectd_server.conf
+# sudo docker run --name bottlenecks-collectd -d \
+#   --privileged \
+#   -v ${MONITOR_CONFIG}/collectd_server.conf:/etc/collectd/collectd.conf:ro \
+#   -v /proc:/mnt/proc:ro \
+#   fr3nd/collectd:5.5.0-1
 
 # Collectd-Exporter
 sudo docker run --name bottlenecks-collectd-exporter \
@@ -45,8 +50,10 @@ sudo docker run --name bottlenecks-prometheus \
 # Grafana
 sudo  docker run --name bottlenecks-grafana \
   -d -p 3000:3000 \
-  -v ${GRAFANA}/config/grafana.ini:/etc/grafana/grafana.ini \
+  -v ${MONITOR_CONFIG}/grafana.ini:/etc/grafana/grafana.ini \
   grafana/grafana:4.5.0
+# Automate Prometheus Datasource and Grafana Dashboard creation
+python dashboard/automated_dashboard_datasource.py
 
 # Cadvisor
 sudo docker run \
@@ -57,26 +64,34 @@ sudo docker run \
   --volume=/dev/disk/:/dev/disk:ro \
   --publish=8080:8080 \
   --detach=true \
-  --name=cadvisor \
-  google/cadvisor:v0.25.0 \ -storage_driver=Prometheus
+  --name=bottlenecks-cadvisor \
+  google/cadvisor:v0.25.0 \
+  -storage_driver=Prometheus
 
-# Configure IP Address in barometer client configuration
-python client_ip_configure.py barometer_client.conf
-
+# Barometer
 # Configure IP Address in barometer server configuration
-python server_ip_configure.py barometer_collectd.conf
+python ${DISPATCH}/server_ip_configure.py ${MONITOR_CONFIG}/barometer_server.conf
+# Install on jumpserver
+docker pull opnfv/barometer
+sudo docker run  --name bottlenecks-barometer -tid --net=host \
+  -v `pwd`/../src/collectd_sample_configs:/opt/collectd/etc/collectd.conf.d \
+  -v ${MONITOR_CONFIG}/barometer_server.conf:/src/barometer/src/collectd/collectd/src/collectd.conf \
+  -v ${MONITOR_CONFIG}/barometer_server.conf:/opt/collectd/etc/collectd.conf \
+  -v /var/run:/var/run \
+  -v /tmp:/tmp \
+  --privileged opnfv/barometer /run_collectd.sh
 
-# Automate Collectd Client
-python automate_collectd_client.py
+
+# Install clients for monitoring components on compute/control nodes
+# Configure IP Address in barometer client configuration
+python ${DISPATCH}/client_ip_configure.py ${MONITOR_CONFIG}/barometer_client.conf
+# Automate Barometer client installation
+python ${DISPATCH}/automate_barometer_client.py
+
+# # Configure IP Address in collectd client configuration
+# python ${DISPATCH}/client_ip_configure.py ${MONITOR_CONFIG}/collectd_client.conf
+# # Automate Collectd Client installation
+# python ${DISPATCH}/automate_collectd_client.py
 
 # Automate Cadvisor Client
-python automate_cadvisor_client.py
-
-# Automate Barometer installation for jump server
-bash ./barometer_install_script.sh
-
-# Automate Barometer installation for compute/controller nodes
-python barometer_automated_client_install.py
-
-# Automate Prometheus Datasource and Grafana Dashboard creation
-python automated_dashboard_datasource.py
+python ${DISPATCH}/automate_cadvisor_client.py

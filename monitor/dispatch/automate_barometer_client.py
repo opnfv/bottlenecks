@@ -34,7 +34,7 @@ with open('/tmp/pod.yaml') as f:
                     logger.info(stdout.splitlines())
                 with open(barometer_client_install_conf) as stdin_file:
                     ssh_d.run("cat > /etc/barometer_config/\
-                        barometer_client_collectd.conf",
+                        barometer_client.conf",
                               stdin=stdin_file)
                 with open(barometer_client_install_sh) as stdin_file:
                     ssh_d.run("cat > /etc/barometer_config/install.sh",
