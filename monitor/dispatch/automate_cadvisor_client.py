@@ -12,7 +12,8 @@ import yaml
 import utils.infra_setup.passwordless_SSH.ssh as ssh
 
 logger = logging.getLogger(__name__)
-cadvisor_install_sh = "/home/opnfv/bottlenecks/monitor/cadvisor_install.sh"
+cadvisor_client_install_sh =\
+    "/home/opnfv/bottlenecks/monitor/dispatch/install_cadvisor_client.sh"
 
 with open('/tmp/pod.yaml') as f:
     dataMap = yaml.safe_load(f)
@@ -29,7 +30,7 @@ with open('/tmp/pod.yaml') as f:
                 if status:
                     raise Exception("Command failed with non-zero status.")
                     logger.info(stdout.splitlines())
-                with open(cadvisor_install_sh) as stdin_file:
+                with open(cadvisor_client_install_sh) as stdin_file:
                     ssh_d.run("cat > /etc/cadvisor_config/install.sh",
                               stdin=stdin_file)
                 status, stdout, stderr = ssh_d.execute(
