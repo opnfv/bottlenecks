@@ -7,4 +7,5 @@ sudo docker run \
   --publish=8080:8080 \
   --detach=true \
   --name=cadvisor \
-  google/cadvisor:v0.25.0 \ -storage_driver=Prometheus
+  google/cadvisor:v0.25.0 \
+  -storage_driver=Prometheus
