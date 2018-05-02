@@ -1,4 +1,4 @@
-MONITOR_CONFIG="/etc/collectd-config"
+MONITOR_CONFIG="/etc/collectd_config"
 
 # Collectd
 sudo docker run --name bottlenecks-automated-collectd -d \
