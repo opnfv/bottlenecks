@@ -63,7 +63,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 1,
           "editable": true,
           "error": false,
@@ -143,7 +143,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "editable": true,
           "error": false,
           "format": "none",
@@ -222,7 +222,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -304,7 +304,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(245, 54, 54, 0.9)"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 0,
           "editable": true,
           "error": false,
@@ -378,7 +378,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -464,7 +464,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -600,7 +600,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -729,7 +729,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -856,7 +856,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -948,7 +948,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1057,7 +1057,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1144,7 +1144,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1236,7 +1236,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1336,7 +1336,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1440,7 +1440,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1549,7 +1549,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1649,7 +1649,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "automated-ds",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1853,7 +1853,7 @@
       {
         "allFormat": "glob",
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "automated-ds",
         "hide": 0,
         "includeAll": false,
         "label": "Host",
@@ -1875,7 +1875,7 @@
   "annotations": {
     "list": [
       {
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "automated-ds",
         "enable": false,
         "expr": "ALERTS{alias=\"$host\", alertstate=\"firing\"}",
         "iconColor": "rgb(252, 5, 0)",
@@ -1885,7 +1885,7 @@
         "titleFormat": "{{ alertname }}"
       },
       {
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "automated-ds",
         "enable": true,
         "expr": "ALERTS{alias=\"$host\",alertstate=\"pending\"}",
         "iconColor": "rgb(228, 242, 9)",

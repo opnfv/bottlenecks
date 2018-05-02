@@ -14,6 +14,7 @@ from oslo_serialization import jsonutils
 
 
 logger = logging.getLogger(__name__)
+MONITOR_DASHBOARD = "/home/opnfv/bottlenecks/monitor/dashboard/"
 
 
 def _create_dashboard(ip, port, path):
@@ -64,8 +65,7 @@ def post(url, data):
 
 ip_address = socket.gethostbyname(socket.gethostname())
 _create_data_source(ip_address, 3000)
-_create_dashboard(ip_address, 3000, '/var/lib/grafana/' +
-                  'dashboards/' +
-                  'prometheus_system_rev1.json')
+# _create_dashboard(ip_address, 3000,
+#                   MONITOR_DASHBOARD + 'prometheus_system_rev1.json')
 _create_dashboard(ip_address, 3000,
-                  'prototype_dashboard_collapsible.json')
+                  MONITOR_DASHBOARD + 'prototype_dashboard_collapsible.json')
