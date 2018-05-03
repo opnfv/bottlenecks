@@ -12,6 +12,7 @@
 # Run flake8, unit, coverage test
 
 getopts ":f" FILE_OPTION
+STYLE_CHECK_DIRS="testsuites/posca/ utils/ monitor/"
 
 run_flake8() {
     echo "========================================="
@@ -19,9 +20,9 @@ run_flake8() {
     echo "-----------------------------------------"
     logfile=flake8_verify.log
     if [ $FILE_OPTION == "f" ]; then
-       flake8 --append-config=flake8_cfg testsuites/posca/ utils/ > $logfile
+       flake8 --append-config=flake8_cfg ${STYLE_CHECK_DIRS} > $logfile
     else
-       flake8 --append-config=flake8_cfg testsuites/posca/ utils/
+       flake8 --append-config=flake8_cfg ${STYLE_CHECK_DIRS}
     fi
 
     if [ $? -ne 0 ]; then
@@ -53,7 +54,8 @@ run_nosetests() {
         utils/env_prepare/__init__.py \
         utils/infra_setup/__init__.py \
         monitor/__init__.py \
-        monitor/config/__init__.py
+        monitor/dashboard/__init__.py \
+        monitor/dispatch/__init__.py
     echo "===================END==================="
 
 }
