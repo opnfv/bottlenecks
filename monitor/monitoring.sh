@@ -15,16 +15,16 @@ DISPATCH="/home/opnfv/bottlenecks/monitor/dispatch"
 
 # INSTALL GRAFANA + PROMETHEUS + CADVISOR + BAROMETER on the JUMPERSERVER
 # # Node-Exporter
-# sudo docker run --name bottlenecks-node-exporter \
-#   -d -p 9100:9100 \
-#   -v "/proc:/host/proc:ro" \
-#   -v "/sys:/host/sys:ro" \
-#   -v "/:/rootfs:ro" \
-#   --net="host" \
-#   quay.io/prometheus/node-exporter:v0.14.0 \
-#     -collector.procfs /host/proc \
-#     -collector.sysfs /host/sys \
-#     -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
+sudo docker run --name bottlenecks-node-exporter \
+  -d -p 9100:9100 \
+  -v "/proc:/host/proc:ro" \
+  -v "/sys:/host/sys:ro" \
+  -v "/:/rootfs:ro" \
+  --net="host" \
+  quay.io/prometheus/node-exporter:v0.14.0 \
+    -collector.procfs /host/proc \
+    -collector.sysfs /host/sys \
+    -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
 
 # # Collectd
 # # Configure IP Address in collectd server configuration
@@ -58,6 +58,7 @@ sudo  docker run --name bottlenecks-grafana \
 # Automate Prometheus Datasource and Grafana Dashboard creation
 
 set -e
+sleep 5
 python dashboard/automated_dashboard_datasource.py
 
 set +e
@@ -76,7 +77,7 @@ sudo docker run \
 set -e
 # Barometer
 # Configure IP Address in barometer server configuration
-sleep 10
+sleep 5
 python ${DISPATCH}/server_ip_configure.py ${MONITOR_CONFIG}/barometer_server.conf
 
 set +e
