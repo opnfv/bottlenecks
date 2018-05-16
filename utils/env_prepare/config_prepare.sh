@@ -18,7 +18,7 @@ where:
     -h|--help         show the help text
     -i|--installer    input the name of the installer
       <installer>         one of the following:
-                              (compass, fuel, joid, apex)
+                              (apex, compass, fuel, joid)
     --debug
                       debug option switch
 examples:
@@ -45,6 +45,10 @@ while [[ $# > 0 ]]
             redirect="/dev/stdout"
             shift
         ;;
+        *)
+            echo "unkown option $1 $2"
+            exit 1
+        ;;
     esac
     shift
 done
@@ -59,21 +63,26 @@ error () {
     exit 1
 }
 
-# Define Variables
-echo "BOTTLENECKS INFO: Downloading Releng"
+# Repo and configs
 RELENG_REPO="/home/releng"
+BOTTLENECKS_CONFIG=/tmp
+OPENRC=${BOTTLENECKS_CONFIG}/admin_rc.sh
+OS_CACERT=${BOTTLENECKS_CONFIG}/os_cacert
+
+
+##############################################################################
+# Preparing scripts for openstack and pod configs for OPNFV Installers
+##############################################################################
+# Define Variables
+info "Downloading Releng fetch_os_creds script for openstack/pod configs of OPNFV installers"
+
 [ -d ${RELENG_REPO} ] && rm -rf ${RELENG_REPO}
 git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO} >${redirect}
 
-echo "BOTTLENECKS INFO: Downloading Yardstick"
+info "Downloading Yardstick for pod configs of OPNFV installers"
 YARDSTICK_REPO="/home/yardstick"
 [ -d ${YARDSTICK_REPO} ] && rm -rf ${YARDSTICK_REPO}
 git clone https://gerrit.opnfv.org/gerrit/yardstick ${YARDSTICK_REPO} >${redirect}
-
-BOTTLENECKS_CONFIG=/tmp
-
-OPENRC=${BOTTLENECKS_CONFIG}/admin_rc.sh
-OS_CACERT=${BOTTLENECKS_CONFIG}/os_cacert
 
 # Preparing configuration files for testing
 if [[ ${INSTALLER_TYPE} != "" ]]; then
@@ -84,73 +93,68 @@ if [[ ${INSTALLER_TYPE} != "" ]]; then
         INSTALLER_IP=192.168.200.2
         if [[ ${BRANCH} == 'master' ]]; then
             ${RELENG_REPO}/utils/fetch_os_creds.sh -d ${OPENRC} -i ${INSTALLER_TYPE} -a ${INSTALLER_IP} -o ${OS_CACERT} >${redirect}
-            if [[ -f ${OS_CACERT} ]]; then
-                echo "BOTTLENECKS INFO: successfully fetching os_cacert for openstack: ${OS_CACERT}"
-            else
-                echo "BOTTLENECKS ERROR: couldn't find os_cacert file: ${OS_CACERT}, please check if the it's been properly provided."
-                exit 1
-            fi
         else
             ${RELENG_REPO}/utils/fetch_os_creds.sh -d ${OPENRC} -i ${INSTALLER_TYPE} -a ${INSTALLER_IP}  >${redirect}
         fi
+    elif [[ $INSTALLER_TYPE == 'apex' ]]; then
+        INSTALLER_IP=$(sudo virsh domifaddr undercloud | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+        ${RELENG_REPO}/utils/fetch_os_creds.sh -d ${OPENRC} -i ${INSTALLER_TYPE} -a ${INSTALLER_IP} -o ${OS_CACERT} >${redirect}
+        echo ${cmd}
+        ${cmd}
     else
-        error "The isntaller is not specified"
-        exit 1
-    fi
-
-    if [[ -f ${OPENRC} ]]; then
-        echo "BOTTLENECKS INFO: openstack credentials path is ${OPENRC}"
-        if [[ $INSTALLER_TYPE == 'compass' && ${BRANCH} == 'master' ]]; then
-            echo "BOTTLENECKS INFO: writing ${OS_CACERT} to ${OPENRC}"
-            echo "export OS_CACERT=${OS_CACERT}" >> ${OPENRC}
-        fi
-        cat ${OPENRC}
-    else
-        echo "BOTTLENECKS ERROR: couldn't find openstack rc file: ${OPENRC}, please check if the it's been properly provided."
+        error "The installer is not specified"
         exit 1
     fi
 
     # Finding and crearting POD description files from different deployments
-    ssh_options="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-
-    if [ "$INSTALLER_TYPE" == "fuel" ]; then
-        echo "Fetching id_rsa file from jump_server $INSTALLER_IP..."
-        sshpass -p r00tme sudo scp $ssh_options root@${INSTALLER_IP}:~/.ssh/id_rsa ${BOTTLENECKS_CONFIG}/id_rsa
-    fi
-
-    if [ "$INSTALLER_TYPE" == "apex" ]; then
-        echo "Fetching id_rsa file from jump_server $INSTALLER_IP..."
-        sudo scp $ssh_options stack@${INSTALLER_IP}:~/.ssh/id_rsa ${BOTTLENECKS_CONFIG}/id_rsa
-    fi
-
-    if [[ ${INSTALLER_TYPE} == compass ]]; then
-        options="-u root -p root"
-    elif [[ ${INSTALLER_TYPE} == fuel ]]; then
-        options="-u root -p r00tme"
-    elif [[ ${INSTALLER_TYPE} == apex ]]; then
-        options="-u stack -k /root/.ssh/id_rsa"
-    else
-        echo "Don't support to generate pod.yaml on ${INSTALLER_TYPE} currently."
-    fi
-
-    if [[ ${INSTALLER_TYPE} != compass ]]; then
-        cmd="sudo python ${RELENG_REPO}/utils/create_pod_file.py -t ${INSTALLER_TYPE} \
-         -i ${INSTALLER_IP} ${options} -f ${BOTTLENECKS_CONFIG}/pod.yaml \
-         -s ${BOTTLENECKS_CONFIG}/id_rsa"
-        echo ${cmd}
-        ${cmd}
-    else
+    if [[ ${INSTALLER_TYPE} == 'compass' ]]; then
         cmd="sudo cp ${YARDSTICK_REPO}/etc/yardstick/nodes/compass_sclab_virtual/pod.yaml \
         ${BOTTLENECKS_CONFIG}"
-        echo ${cmd}
+        info ${cmd}
         ${cmd}
+    elif [[ ${INSTALLER_TYPE} == 'apex' ]]; then
+        sudo pip install virtualenv
+
+        cd ${RELENG_REPO}/modules
+        sudo virtualenv venv
+        source venv/bin/activate
+        sudo pip install -e ./ >/dev/null
+        sudo pip install netaddr
+
+        options="-u stack -k /root/.ssh/id_rsa"
+        cmd="sudo python ${RELENG_REPO}/utils/create_pod_file.py -t ${INSTALLER_TYPE} \
+         -i ${INSTALLER_IP} ${options} -f ${BOTTLENECKS_CONFIG}/pod.yaml"
+        info ${cmd}
+        ${cmd}
+
+        deactivate
     fi
 
+
+    ##############################################################################
+    # Check the existence of the output configs for OPNFV Installers
+    ##############################################################################
+    # Checking the pod decription file
     if [ -f ${BOTTLENECKS_CONFIG}/pod.yaml ]; then
-        echo "FILE: ${BOTTLENECKS_CONFIG}/pod.yaml:"
+        info "FILE - ${BOTTLENECKS_CONFIG}/pod.yaml:"
         cat ${BOTTLENECKS_CONFIG}/pod.yaml
     else
-        echo "ERROR: cannot find file ${BOTTLENECKS_CONFIG}/pod.yaml. Please check if it is existing."
+        error "Cannot find file ${BOTTLENECKS_CONFIG}/pod.yaml. Please check if it is existing."
         sudo ls -al ${BOTTLENECKS_CONFIG}
+    fi
+
+    # Checking the openstack rc and os_cacert file
+    if [[ -f ${OPENRC} ]]; then
+        info "Opentack credentials path is ${OPENRC}"
+        if [[ -f ${OS_CACERT} ]]; then
+            info "Writing ${OS_CACERT} to ${OPENRC}"
+            echo "export OS_CACERT=${OS_CACERT}" >> ${OPENRC}
+            cat ${OPENRC}
+        else
+           error "Couldn't find openstack cacert file: ${OS_CACERT}, please check if the it's been properly provided."
+       fi
+    else
+        error "Couldn't find openstack rc file: ${OPENRC}, please check if the it's been properly provided."
+        exit 1
     fi
 fi
