@@ -59,8 +59,12 @@ error () {
     exit 1
 }
 
+##############################################################################
+# Preparing scripts for openstack and pod configs for OPNFV Installers
+##############################################################################
+
 # Define Variables
-echo "BOTTLENECKS INFO: Downloading Releng"
+info "Downloading Releng fetch_os_creds script for openstack admin_rc and cacert for OPNFV instalers"
 RELENG_REPO="/home/releng"
 [ -d ${RELENG_REPO} ] && rm -rf ${RELENG_REPO}
 git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO} >${redirect}
@@ -98,17 +102,6 @@ if [[ ${INSTALLER_TYPE} != "" ]]; then
         exit 1
     fi
 
-    if [[ -f ${OPENRC} ]]; then
-        echo "BOTTLENECKS INFO: openstack credentials path is ${OPENRC}"
-        if [[ $INSTALLER_TYPE == 'compass' && ${BRANCH} == 'master' ]]; then
-            echo "BOTTLENECKS INFO: writing ${OS_CACERT} to ${OPENRC}"
-            echo "export OS_CACERT=${OS_CACERT}" >> ${OPENRC}
-        fi
-        cat ${OPENRC}
-    else
-        echo "BOTTLENECKS ERROR: couldn't find openstack rc file: ${OPENRC}, please check if the it's been properly provided."
-        exit 1
-    fi
 
     # Finding and crearting POD description files from different deployments
     ssh_options="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
@@ -146,11 +139,27 @@ if [[ ${INSTALLER_TYPE} != "" ]]; then
         ${cmd}
     fi
 
+##############################################################################
+# Check the existence of the output configs for OPNFV Installers
+##############################################################################
+
     if [ -f ${BOTTLENECKS_CONFIG}/pod.yaml ]; then
-        echo "FILE: ${BOTTLENECKS_CONFIG}/pod.yaml:"
+        info "FILE: ${BOTTLENECKS_CONFIG}/pod.yaml:"
         cat ${BOTTLENECKS_CONFIG}/pod.yaml
     else
-        echo "ERROR: cannot find file ${BOTTLENECKS_CONFIG}/pod.yaml. Please check if it is existing."
+        error "Cannot find file ${BOTTLENECKS_CONFIG}/pod.yaml. Please check if it is existing."
         sudo ls -al ${BOTTLENECKS_CONFIG}
     fi
+
+    if [[ -f ${OPENRC} ]]; then
+        info "Opentack credentials path is ${OPENRC}"
+        if [[ $INSTALLER_TYPE == 'compass' && ${BRANCH} == 'master' ]]; then
+            echo "BOTTLENECKS INFO: writing ${OS_CACERT} to ${OPENRC}"
+            echo "export OS_CACERT=${OS_CACERT}" >> ${OPENRC}
+        fi
+        cat ${OPENRC}
+    else
+        error "Couldn't find openstack rc file: ${OPENRC}, please check if the it's been properly provided."
+        exit 1
+    fi    
 fi
