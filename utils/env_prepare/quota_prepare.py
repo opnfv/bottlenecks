@@ -66,14 +66,14 @@ def quota_env_prepare():
                          "credential used, it should be set as True."
                          .format(insecure))
 
-    tenant_name = os.getenv("OS_TENANT_NAME")
+    project_name = os.getenv("OS_PROJECT_NAME")
     cmd = ("openstack {} project list | grep ".format(insecure_option) +
-           tenant_name +
+           project_name +
            " | awk '{print $2}'")
 
     result = commands.getstatusoutput(cmd)
     if result[0] == 0 and 'exception' not in result[1]:
-        LOG.info("Get %s project id is %s" % (tenant_name, result[1]))
+        LOG.info("Get %s project id is %s" % (project_name, result[1]))
     else:
         LOG.error("can't get openstack project id")
         return 1
@@ -85,7 +85,7 @@ def quota_env_prepare():
 
     nova_q = nova_client.quotas.get(openstack_id).to_dict()
     neutron_q = neutron_client.show_quota(openstack_id)
-    LOG.info(tenant_name + "tenant nova and neutron quota(previous) :")
+    LOG.info(project_name + "project nova and neutron quota(previous) :")
     LOG.info(nova_q)
     LOG.info(neutron_q)
 
@@ -96,7 +96,7 @@ def quota_env_prepare():
 
     nova_q = nova_client.quotas.get(openstack_id).to_dict()
     neutron_q = neutron_client.show_quota(openstack_id)
-    LOG.info(tenant_name + "tenant nova and neutron quota(now) :")
+    LOG.info(project_name + "project nova and neutron quota(now) :")
     LOG.info(nova_q)
     LOG.info(neutron_q)
     return 0
