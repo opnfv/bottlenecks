@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a494da4_a43b63ea",
+        "filename": "utils/env_prepare/quota_prepare.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5469
+      },
+      "writtenOn": "2018-05-18T08:41:07Z",
+      "side": 1,
+      "message": "Will it be better to try to read \"OS_TENANT_NAME\" when there is no \"OS_PROJECT_NAME\" there?",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 47
+      },
+      "revId": "a5b89bc086ef8bc8839e3d003dbfbbbeda0e50aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a494da4_d0958a89",
         "filename": "utils/env_prepare/quota_prepare.py",
         "patchSetId": 2
