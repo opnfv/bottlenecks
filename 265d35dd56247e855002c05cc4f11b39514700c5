@@ -1,0 +1,10 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Tim Rozet <trozet@redhat.com>
+Code-Review+1: Dan Xu <xudan16@huawei.com>
+Code-Review+1: Georg Kunz <georg.kunz@ericsson.com>
+Code-Review+2: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-by: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-at: Mon, 21 May 2018 11:05:57 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/57511
+Project: bottlenecks
+Branch: refs/heads/master
