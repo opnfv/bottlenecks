@@ -68,3 +68,4 @@ _create_data_source(ip_address, 3000)
 _create_dashboard(ip_address, 3000, MONITOR_DASHBOARD + 'stats_overview.json')
 _create_dashboard(ip_address, 3000,
                   MONITOR_DASHBOARD + 'jump_server_status.json')
+_create_dashboard(ip_address, 3000, MONITOR_DASHBOARD + 'openstack_stats.json')
