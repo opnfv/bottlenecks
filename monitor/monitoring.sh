@@ -7,8 +7,54 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+usage="Script to run the tests in Bottlenecks.
+
+usage:
+    bash $(basename "$0") [-h|--help] [-i|--installer <installer typer>]
+
+where:
+    -h|--help         show the help text
+    -i|--installer    specify the installer for the system to be monitored
+      <installer type>
+                      one of the following:
+                              (apex, compass)
+
+examples:
+    $(basename "$0") -i compass"
+
+# Process input variables
+while [[ $# -ge 0 ]]
+    do
+    key="$1"
+    case $key in
+        -h|--help)
+            echo "$usage"
+            exit 0
+            shift
+        ;;
+        -i|--installer)
+            INSTALLER_TYPE="$2"
+            shift
+        ;;
+        *)
+            echo "unkown input options $1 $2"
+            exit 1
+        ;;
+     esac
+     shift
+done
+
+
 MONITOR_CONFIG="/home/opnfv/bottlenecks/monitor/config"
 DISPATCH="/home/opnfv/bottlenecks/monitor/dispatch"
+
+barometer_client_install_sh="/home/opnfv/bottlenecks/monitor/dispatch/install_barometer_client.sh"
+barometer_client_install_conf="/home/opnfv/bottlenecks/monitor/config/barometer_client.conf"
+
+cadvisor_client_install_sh="/home/opnfv/bottlenecks/monitor/dispatch/install_cadvisor_client.sh"
+
+collectd_client_install_sh="/home/opnfv/bottlenecks/monitor/dispatch/install_collectd_client.sh"
+collectd_client_install_conf="/home/opnfv/bottlenecks/monitor/config/collectd_client.conf"
 
 # INSTALL GRAFANA + PROMETHEUS + CADVISOR + BAROMETER on the JUMPERSERVER
 # # Node-Exporter
@@ -99,9 +145,10 @@ set -e
 # Configure IP Address in barometer client configuration
 python ${DISPATCH}/client_ip_configure.py ${MONITOR_CONFIG}/barometer_client.conf
 
-
 # Automate Barometer client installation
-python ${DISPATCH}/automate_barometer_client.py
+python ${DISPATCH}/install_clients.py \
+  -i ${INSTALLER_TYPE} -s barometer_client_install_sh \
+  -c barometer_client_install_conf
 
 # # Configure IP Address in collectd client configuration
 # python ${DISPATCH}/client_ip_configure.py ${MONITOR_CONFIG}/collectd_client.conf
@@ -109,6 +156,7 @@ python ${DISPATCH}/automate_barometer_client.py
 # python ${DISPATCH}/automate_collectd_client.py
 
 # Automate Cadvisor Client
-python ${DISPATCH}/automate_cadvisor_client.py
+python ${DISPATCH}/install_clients.py \
+  -i ${INSTALLER_TYPE} -s cadvisor_client_install_sh
 
 echo == installation of monitoring module is finished ==
