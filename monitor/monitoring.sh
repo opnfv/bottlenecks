@@ -9,6 +9,69 @@
 ##############################################################################
 MONITOR_CONFIG="/home/opnfv/bottlenecks/monitor/config"
 DISPATCH="/home/opnfv/bottlenecks/monitor/dispatch"
+OPENSTACK_ENV=${MONITOR_CONFIG}/openstack_exporter.conf
+
+usage="Script to run the tests in Bottlenecks.
+
+usage:
+    bash $(basename "$0") [-h|--help] [-i|--installer <installer typer>] [-o|--openstack-env <openstack env>]
+
+where:
+    -h|--help         show the help text
+    -i|--installer    specify the installer for the system to be monitored
+      <installer type>
+                      one of the following:
+                              (apex, compass)
+    -o|--opentack-env specify the openstack env file for openstack monitoring
+                      defalt value is \"${MONITOR_CONFIG}/openstack_exporter.conf\"
+
+examples:
+    $(basename "$0") -i compass"
+
+
+info () {
+    logger -s -t "BOTTLENECKS INFO" "$*"
+}
+
+error () {
+    logger -s -t "BOTTLENECKS ERROR" "$*"
+    exit 1
+}
+
+# Process input variables
+while [[ $# > 0 ]]
+    do
+    key="$1"
+    case $key in
+        -h|--help)
+            echo "$usage"
+            exit 0
+            shift
+        ;;
+        -i|--installer)
+            INSTALLER_TYPE="$2"
+            shift
+        ;;
+        -i|--openstack-env)
+            OPENSTACK_ENV="$2"
+            shift
+        ;;
+        *)
+            error "unkown input options $1 $2"
+            exit 1
+        ;;
+     esac
+     shift
+done
+
+
+barometer_client_install_sh="/home/opnfv/bottlenecks/monitor/dispatch/install_barometer_client.sh"
+barometer_client_install_conf="/home/opnfv/bottlenecks/monitor/config/barometer_client.conf"
+
+cadvisor_client_install_sh="/home/opnfv/bottlenecks/monitor/dispatch/install_cadvisor_client.sh"
+
+collectd_client_install_sh="/home/opnfv/bottlenecks/monitor/dispatch/install_collectd_client.sh"
+collectd_client_install_conf="/home/opnfv/bottlenecks/monitor/config/collectd_client.conf"
 
 # INSTALL GRAFANA + PROMETHEUS + CADVISOR + BAROMETER on the JUMPERSERVER
 # # Node-Exporter
@@ -50,7 +113,7 @@ sudo docker run --name bottlenecks-node-exporter \
 # Openstack-Exporter
 sudo docker run --name bottlenecks-openstack-exporter \
   -v /tmp:/tmp \
-  -p 9104:9104 --env-file ${MONITOR_CONFIG}/openstack_exporter.conf \
+  -p 9104:9104 --env-file ${OPENSTACK_ENV} \
   -d gabrielyuyang/att-prometheus-openstack-exporter:latest
 
 # Grafana
@@ -99,9 +162,10 @@ set -e
 # Configure IP Address in barometer client configuration
 python ${DISPATCH}/client_ip_configure.py ${MONITOR_CONFIG}/barometer_client.conf
 
-
 # Automate Barometer client installation
-python ${DISPATCH}/automate_barometer_client.py
+python ${DISPATCH}/install_clients.py \
+  -i ${INSTALLER_TYPE} -s ${barometer_client_install_sh} \
+  -c ${barometer_client_install_conf}
 
 # # Configure IP Address in collectd client configuration
 # python ${DISPATCH}/client_ip_configure.py ${MONITOR_CONFIG}/collectd_client.conf
@@ -109,6 +173,7 @@ python ${DISPATCH}/automate_barometer_client.py
 # python ${DISPATCH}/automate_collectd_client.py
 
 # Automate Cadvisor Client
-python ${DISPATCH}/automate_cadvisor_client.py
+python ${DISPATCH}/install_clients.py \
+  -i ${INSTALLER_TYPE} -s ${cadvisor_client_install_sh}
 
 echo == installation of monitoring module is finished ==
