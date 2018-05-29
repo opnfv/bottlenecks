@@ -1948,7 +1948,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "20,40",
@@ -1962,7 +1962,7 @@
               "value": "null"
             }
           ],
-          "valueName": "avg"
+          "valueName": "current"
         },
         {
           "cacheTimeout": null,
@@ -2024,7 +2024,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "20,40",
@@ -2038,7 +2038,7 @@
               "value": "null"
             }
           ],
-          "valueName": "avg"
+          "valueName": "current"
         },
         {
           "aliasColors": {},
@@ -2079,7 +2079,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -2157,7 +2157,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -2256,7 +2256,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "20,40",
@@ -2270,16 +2270,16 @@
               "value": "null"
             }
           ],
-          "valueName": "avg"
+          "valueName": "current"
         },
         {
           "cacheTimeout": null,
           "colorBackground": true,
           "colorValue": false,
           "colors": [
-            "rgba(245, 54, 54, 0.9)",
+            "rgba(50, 172, 45, 0.97)",
             "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+            "rgba(245, 54, 54, 0.9)"
           ],
           "datasource": "automated-ds",
           "format": "none",
@@ -2332,7 +2332,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "20,40",
@@ -2387,7 +2387,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -2465,7 +2465,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -2509,9 +2509,9 @@
           "colorBackground": true,
           "colorValue": false,
           "colors": [
-            "rgba(245, 54, 54, 0.9)",
+            "rgba(50, 172, 45, 0.97)",
             "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+            "rgba(245, 54, 54, 0.9)"
           ],
           "datasource": "automated-ds",
           "format": "decmbytes",
@@ -2564,7 +2564,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "20000,40000",
@@ -2640,7 +2640,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "20000,40000",
@@ -2695,7 +2695,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -2773,7 +2773,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -2872,7 +2872,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "100,500",
@@ -2948,7 +2948,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "100,500",
@@ -3003,7 +3003,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -3081,7 +3081,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -3192,7 +3192,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "50,80",
@@ -3268,7 +3268,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "50,80",
@@ -3323,7 +3323,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -3401,7 +3401,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -3500,7 +3500,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "50,80",
@@ -3576,7 +3576,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "50,80",
@@ -3631,7 +3631,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -3709,7 +3709,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -3808,7 +3808,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "50,80",
@@ -4602,7 +4602,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "50,80",
@@ -4678,7 +4678,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
           "thresholds": "50,80",
@@ -4733,7 +4733,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -4811,7 +4811,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{region}} : {{host}}: {{state}} ",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "thresholds": [],
