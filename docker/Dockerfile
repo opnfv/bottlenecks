@@ -7,8 +7,8 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-FROM ubuntu:14.04
-MAINTAINER MatthewLi <matthew.lijun@huawei.com>
+FROM ubuntu:16.04
+MAINTAINER Yang (Gabriel) Yu <gabriel.yuyang@huawei.com>
 
 LABEL image=opnfv/bottlenecks
 
@@ -21,27 +21,21 @@ ARG BRANCH=master
 # Bottlenecks repo
 ENV BOTTLENECKS_REPO_DIR ${REPOS_DIR}/bottlenecks
 ENV RELENG_REPO_DIR ${REPOS_DIR}/releng
-ENV creds ${BOTTLENECKS_REPO_DIR}/config/openstack.creds
 
 #new test suite required packages can be added here
 RUN apt-get update && apt-get install -y \
-    libffi-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxslt1-dev \
     curl \
     wget \
     git \
-    sshpass \
     python \
-    python-dev \
     python-pip \
     vim \
+    iputils-ping \
     python-setuptools && \
-    easy_install -U setuptools==30.0.0
+    apt-get -y autoremove && \
+    apt-get clean  
 
-RUN apt-get -y autoremove && \
-    apt-get clean
+RUN easy_install -U setuptools==30.0.0
 
 RUN mkdir -p ${REPOS_DIR}
 
@@ -49,6 +43,5 @@ RUN git config --global http.sslVerify false
 RUN git clone -b $BRANCH https://gerrit.opnfv.org/gerrit/bottlenecks ${BOTTLENECKS_REPO_DIR}
 RUN git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO_DIR}
 
-RUN easy_install pytz
-RUN pip install -r ${REPOS_DIR}/bottlenecks/requirements/requirements.txt
-RUN pip install -U /home/opnfv/bottlenecks
+RUN pip install -r ${BOTTLENECKS_REPO_DIR}/requirements/requirements.txt
+RUN pip install -U ${BOTTLENECKS_REPO_DIR}
