@@ -36,6 +36,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     iputils-ping \
     sshpass \
+    sudo \
     python-setuptools && \
     apt-get -y autoremove && \
     apt-get clean
