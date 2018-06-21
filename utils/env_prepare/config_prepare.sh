@@ -97,6 +97,7 @@ if [[ ${INSTALLER_TYPE} != "" ]]; then
             ${RELENG_REPO}/utils/fetch_os_creds.sh -d ${OPENRC} -i ${INSTALLER_TYPE} -a ${INSTALLER_IP}  >${redirect}
         fi
     elif [[ $INSTALLER_TYPE == 'apex' ]]; then
+        export BRANCH="stable/fraser"
         INSTALLER_IP=$(sudo virsh domifaddr undercloud | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
         ${RELENG_REPO}/utils/fetch_os_creds.sh -d ${OPENRC} -i ${INSTALLER_TYPE} -a ${INSTALLER_IP} -o ${OS_CACERT} >${redirect}
         echo ${cmd}
