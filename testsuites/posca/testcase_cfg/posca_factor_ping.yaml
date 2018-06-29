@@ -16,8 +16,8 @@ load_manager:
     tool: ping
     test_times: 100
     package_size:
-    num_stack: 20, 20
-    threshhold: 20
+    num_stack: 5, 5
+    threshhold: 5
     package_loss: 0%
 
   runners:
