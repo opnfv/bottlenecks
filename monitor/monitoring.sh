@@ -114,7 +114,7 @@ sudo docker run --name bottlenecks-node-exporter \
 sudo docker run --name bottlenecks-openstack-exporter \
   -v /tmp:/tmp \
   -p 9104:9104 --env-file ${OPENSTACK_ENV} \
-  -d gabrielyuyang/att-prometheus-openstack-exporter:latest
+  -d gabrielyuyang/openstack-exporter:1.0
 
 # Grafana
 sudo  docker run --name bottlenecks-grafana \
