@@ -1,0 +1,55 @@
+---
+project: 'Bottlenecks'
+project_creation_date: ''
+project_category: 'Integration & Testing'
+lifecycle_state: 'Proposal approved'
+project_lead: &opnfv_bottlenecks_ptl
+    name: 'Yu Yang (Gabriel)'
+    email: 'Gabriel.yuyang@huawei.com'
+    id: 'yuyang'
+    company: 'huawei.com'
+    timezone: 'Unknown'
+primary_contact: *opnfv_bottlenecks_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.opnfv.org/projects/BOTTLENECK'
+    key: 'BOTTLENECK'
+mailing_list:
+    type: 'mailman2'
+    url: 'opnfv-tech-discuss@lists.opnfv.org'
+    tag: '[bottlenecks]'
+realtime_discussion:
+    type: irc
+    server: 'freenode.net'
+    channel: '#opnfv-bottlenecks'
+meetings:
+    - type: 'zoom+irc'
+      agenda:  'https://wiki.opnfv.org/display/meetings/Bottlenecks'
+      url:  'https://zoom.us/j/5014627785'
+      server: 'freenode.net'
+      channel: '#opnfv-bottlenecks'
+      repeats: 'weekly'
+      time:  '3:00 UTC'
+repositories:
+    - 'bottlenecks'
+committers:
+    - <<: *opnfv_bottlenecks_ptl
+    - name: 'Manuel Rebellon'
+      email: 'mrebellon@sandvine.com'
+      company: 'sandvine.com'
+      id: 'Majereta'
+    - name: 'yaoguang wang'
+      email: 'sunshine.wang@huawei.com'
+      company: 'huawei.com'
+      id: 'wangyaoguang'
+    - name: 'Ace Lee'
+      email: 'liyin11@huawei.com'
+      company: 'huawei.com'
+      id: 'liyin'
+tsc:
+    # yamllint disable rule:line-length
+    approval: 'http//meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-07-28-13.59.html'
+    # yamllint enable rule:line-length
+    changes:
+        - type: 'promotion'
+          link: 'http://meetbot.opnfv.org/meetings/opnfv-meeting/2016/opnfv-meeting.2016-04-14-01.19.html'
