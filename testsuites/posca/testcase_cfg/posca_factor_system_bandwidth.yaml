@@ -23,6 +23,6 @@ load_manager:
     yardstick_testcase: "netperf_bottlenecks"
 
 contexts:
-  dashboard: "Bottlenecks-ELK"
+ # dashboard: "Bottlenecks-ELK"
   yardstick: "Bottlenecks-Yardstick"
   yardstick_envpre: Flase
