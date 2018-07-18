@@ -39,8 +39,8 @@ Configuration
         tool: ping
         test_times: 100
         package_size:
-        num_stack: 5, 10, 20
-        package_loss: 10%
+        num_stack: 5, 5
+        package_loss: 0
 
       contexts:
         stack_create: yardstick
