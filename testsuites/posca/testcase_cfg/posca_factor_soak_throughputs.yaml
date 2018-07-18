@@ -30,6 +30,6 @@ load_manager:
     yardstick_testcase: "netperf_soak"
 
 contexts:
-  dashboard: "Bottlenecks-ELK"
+#  dashboard: "Bottlenecks-ELK"
   yardstick: "Bottlenecks-Yardstick"
   yardstick_envpre: True

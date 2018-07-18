@@ -30,7 +30,7 @@ load_manager:
 
 contexts:
   # info that dashboard if have data, we will create the data dashboard.
-  dashboard: "Bottlenecks-ELK"
+#  dashboard: "Bottlenecks-ELK"
   yardstick: "Bottlenecks-yardstick"
   moon_monitoring: True
   moon_environment:
