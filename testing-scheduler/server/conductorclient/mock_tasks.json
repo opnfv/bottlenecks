@@ -1,0 +1,13 @@
+{
+	"task_group_1":[
+		{
+			"name": "http_yardstick_test",
+			"retryCount": 3,
+			"timeOutSeconds": 1200,
+			"timeOutPolicy": "TIME_OUT_WF",
+			"retryLogic": "FIXED",
+			"retryDelaySeconds": 600,
+			"responseTimeOutSeconds": 3600
+		}
+	]
+}
