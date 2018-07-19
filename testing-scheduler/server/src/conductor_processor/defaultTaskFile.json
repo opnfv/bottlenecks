@@ -1,0 +1,9 @@
+{
+	"name": "",
+	"retryCount": 6,
+	"timeOutSeconds": 1200,
+	"timeOutPolicy": "TIME_OUT_WF",
+	"retryLogic": "FIXED",
+	"retryDelaySeconds": 3,
+	"responseTimeOutSeconds": 3600
+}

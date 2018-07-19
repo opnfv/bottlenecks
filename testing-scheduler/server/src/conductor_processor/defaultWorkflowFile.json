@@ -1,0 +1,24 @@
+{
+	"name": "workflow_demo_05",
+	"description": "run a workflow of yardstick test service",
+	"version": 1,
+	"tasks": [
+		{
+			"name": "http_yardstick_test",
+			"taskReferenceName": "ping_test",
+			"inputParameters": {
+				"http_request": {
+					"uri": "http://192.168.199.105:8080/greet",
+					"method": "GET"
+				}
+			},
+			"type": "HTTP"
+		}
+	],
+	"outputParameters": {
+		"header": "${ping_test.output.response.headers}",
+		"response": "${ping_test.output.response.body}",
+		"status": "${ping_test.output.response.statusCode}"
+	},
+	"schemaVersion": 2
+}
