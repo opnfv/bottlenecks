@@ -1,0 +1,58 @@
+---
+greet:
+  ip: t-scheduler-server
+  port: 5312
+  apis:
+    -
+      name: greet 
+      method: GET
+      baseuri: greet
+      params:
+        - name: name
+          description: user name
+      template:
+        uri: ((baseuri))?name=((name))
+      response:
+        result: int
+        next:
+          aa: str
+          bb: int
+    -
+      name: answer 
+      method: POST
+      baseuri: answer
+      params:
+        - name: ping
+          description: param ping
+      template:
+        uri: ((baseuri))
+        body:
+          ping: ((ping))
+
+    -
+      name: ten 
+      method: GET
+      baseuri: ten
+      template:
+        uri: ((baseuri))
+
+
+    -
+      name: switch
+      method: GET
+      baseuri: switch
+      template:
+        uri: ((baseuri))
+      return:
+        -
+          result
+
+    -
+      name: switch_2
+      method: GET
+      baseuri: switch_2
+      template:
+        uri: ((baseuri))
+      return:
+        -
+          result

@@ -1,0 +1,26 @@
+################################################
+# date: 2018/7/20
+# author: x-lab.Leo
+
+# description: a basic testcase.
+# this testcase is used for running a testsuite.
+################################################
+
+---
+schema:
+  steps:
+    -
+      id: 1
+      name: suitetest_00
+      service:
+        name: greet
+        interface: ten
+      args:
+        name: leo
+  flows:
+    -
+      name: main
+      orders:
+        -
+          type: normal
+          step: 1

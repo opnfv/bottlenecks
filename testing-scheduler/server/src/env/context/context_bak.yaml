@@ -1,0 +1,80 @@
+---
+
+hosts:
+    node24:
+        name: node24
+        ip: 192.168.1.24
+        port: 22
+        user: root
+        password: 123456
+
+    node25:
+        name: node25
+        ip: 192.168.1.25
+        port: 22
+        user: root
+        password: 123456
+
+    node26:
+        name: node26
+        ip: 192.168.1.26
+        port: 22
+        user: root
+        password: 123456
+
+    node27:
+        name: node27
+        ip: 192.168.1.27
+        port: 22
+        user: root
+        password: 123456
+
+    node28:
+        name: node28
+        ip: 192.168.1.28
+        port: 22
+        user: root
+        password: 123456
+
+    node29:
+        name: node29
+        ip: 192.168.1.29
+        port: 22
+        user: root
+        password: 123456
+
+    node30:
+        name: node30
+        ip: 192.168.1.30
+        port: 22
+        user: root
+        password: 123456
+
+    node31:
+        name: node31
+        ip: 192.168.1.31
+        port: 22
+        user: root
+        password: 123456
+
+    node32:
+        name: node32
+        ip: 192.168.1.32
+        port: 22
+        user: root
+        password: 123456
+
+
+cassandra:
+    name: node24
+    ip: 192.168.1.24
+    port: 22
+    user: root
+    password: 123456
+
+sprout:
+    name: node32
+    ip: 192.168.1.32
+    port: 22
+    user: root
+    password: 123456
