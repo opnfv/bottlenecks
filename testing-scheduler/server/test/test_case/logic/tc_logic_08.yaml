@@ -1,0 +1,110 @@
+################################################
+# date: 2018/4/20
+# spec: test conductor basic logic of parallel.
+# parallel nested in parallel
+# + sub workflow
+# author: x-lab.Leo
+################################################
+
+---
+schema:
+  steps:
+    -
+      id: 1
+      name: make_a_greet
+      type: test
+      service:
+        name: greet
+        interface: greet
+      action: start
+      args:
+        name: leo_@
+    -
+      id: 2
+      name: choose_greet_type
+      type: test
+      service:
+        name: greet
+        interface: switch
+      action: start
+
+    -
+      id: 3
+      name: response_the_greet
+      type: test
+      service:
+        name: greet
+        interface: answer
+      action: start
+      args:
+        ping: ping_from_leo
+
+    -
+      id: 4
+      name: make_a_greet
+      type: test
+      service:
+        name: greet
+        interface: greet
+      action: start
+      args:
+        name: leo_@
+
+    -
+      id: 5
+      name: make_a_greet_2
+      type: test
+      service:
+        name: greet
+        interface: greet
+      action: start
+      args:
+        name: leo_@
+
+    -
+      id: 6
+      name: make_a_greet_3
+      type: test
+      service:
+        name: greet
+        interface: greet
+      action: start
+      args:
+        name: leo_@
+
+
+  flows:
+    -
+      name: main
+      orders:
+        -
+          type: normal
+          step: 1
+        -
+          type: parallel
+          parallel:
+            p1: flow-p1
+            p2:
+              -
+                type: normal
+                step: 6
+    -
+      name: flow-p1
+      orders:
+        -
+          type: normal
+          step: 2
+        -
+          type: parallel
+          parallel:
+            p1:
+              -
+                type: normal
+                step: 3
+            p2:
+              -
+                type: normal
+                step: 4
+              -
+                type: normal
+                step: 5

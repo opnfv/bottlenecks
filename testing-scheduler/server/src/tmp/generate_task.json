@@ -1,0 +1,13 @@
+{
+ "task_group": [
+  {
+   "name": "make_a_greet", 
+   "timeOutSeconds": 1200, 
+   "retryLogic": "FIXED", 
+   "responseTimeOutSeconds": 3600, 
+   "retryDelaySeconds": 3, 
+   "retryCount": 6, 
+   "timeOutPolicy": "TIME_OUT_WF"
+  }
+ ]
+}

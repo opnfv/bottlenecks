@@ -1,0 +1,26 @@
+################################################
+# date: 2018/4/20
+# spec: test conductor basic logic
+# author: x-lab.Leo
+################################################
+
+---
+schema:
+  steps:
+    -
+      id: 1
+      name: make_a_greet
+      service:
+        name: ansible_template
+        interface: run_testcase
+      args:
+        action: run_testcase111
+        testcase: tc_050_yaml
+
+  flows:
+    -
+      name: main
+      orders:
+        -
+          type: normal
+          step: 1

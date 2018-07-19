@@ -1,0 +1,28 @@
+{
+ "name": "workflow_tc_template_01(0813135135)", 
+ "description": "", 
+ "version": 1, 
+ "schemaVersion": 2, 
+ "tasks": [
+  {
+   "taskReferenceName": "task_2904283616", 
+   "type": "HTTP", 
+   "name": "make_a_greet", 
+   "inputParameters": {
+    "http_request": {
+     "body": {
+      "action": "run_testcase111", 
+      "args": {
+       "testcase": "tc_050_yaml"
+      }
+     }, 
+     "uri": "http://10.60.38.173:5000/yardstick/testcases/release/action?action=run_testcase111&testcase=tc_050_yaml", 
+     "method": "POST"
+    }
+   }
+  }
+ ], 
+ "outputParameters": {
+  "make_a_greet(task_2904283616)": "${task_2904283616.output.response.body}"
+ }
+}

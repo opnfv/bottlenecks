@@ -1,0 +1,26 @@
+################################################
+# date: 2018/4/20
+# spec: test conductor basic logic
+# author: x-lab.Leo
+################################################
+
+---
+schema:
+  steps:
+    -
+      id: 1
+      name: make_a_greet
+      service:
+        name: system-stress
+        interface: cpu-stress
+      args:
+        time: 5min
+        rate: 80%
+
+  flows:
+    -
+      name: main
+      orders:
+        -
+          type: normal
+          step: 1

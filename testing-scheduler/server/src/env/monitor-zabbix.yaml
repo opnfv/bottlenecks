@@ -1,0 +1,17 @@
+---
+monitor-zabbix:
+  ip: 100.64.227.222
+  port: 9006
+  apis:
+    setup: 
+      method: GET
+      uri: zabbix
+      params:
+        name:
+          help: host name
+    start: 
+      method: GET
+      uri: /
+      params:
+        name:
+          help: start monitor

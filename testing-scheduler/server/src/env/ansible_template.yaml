@@ -1,0 +1,18 @@
+ansible_template:
+  apis:
+  - method: POST
+    name: run_testcase
+    params:
+    - description: action type
+      name: action
+    - description: testcase file name
+      name: testcase
+    template:
+      body:
+        action: (action)
+        args:
+          testcase: (testcase)
+      uri: (uri)?action=(action)&testcase=(testcase)
+    uri: yardstick/testcases/release/action
+  ip: 10.60.38.173
+  port: 5000

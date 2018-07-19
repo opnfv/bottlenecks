@@ -1,0 +1,18 @@
+---
+yardstick:
+  ip: 10.60.38.173
+  port: 5000
+  apis:
+    run_testcase:
+      method: GET
+      uri: yardstick/testcases/release/action
+      params:
+        name:
+          help: host name 
+      
+    run_testsuite:
+      method: GET
+      uri: yardstick/testsuites/release/action
+      params:
+        name:
+          help: host name 

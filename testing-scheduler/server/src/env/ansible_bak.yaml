@@ -1,0 +1,34 @@
+ansible:
+  apis:
+    faultload:
+      method: GET
+      params:
+        call_user:
+          help: call user count
+        duration:
+          help: workload time
+        fault_duration:
+          help: faultload time
+        initial_reg_rate:
+          help: register speed
+        multiplier:
+          help: multiplier
+        reg_user:
+          help: register user count
+      uri: faultload
+    workload:
+      method: GET
+      params:
+        call_user:
+          help: call user count
+        duration:
+          help: workload time
+        initial_reg_rate:
+          help: register speed
+        multiplier:
+          help: multiplier
+        reg_user:
+          help: register user count
+      uri: workload
+  ip: 100.64.227.222
+  port: 9006
