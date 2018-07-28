@@ -66,14 +66,16 @@ def get_session_auth():
 
 def get_session():
     auth = get_session_auth()
-    try:
-        cacert = os.environ['OS_CACERT']
-    except KeyError:
-        return session.Session(auth=auth)
-    else:
-        insecure = os.getenv('OS_INSECURE', '').lower() == 'true'
-        cacert = False if insecure else cacert
+    if os.getenv('OS_INSECURE', '').lower() == 'true':
+        cacert = False
         return session.Session(auth=auth, verify=cacert)
+    else:
+        try:
+            cacert = os.environ['OS_CACERT']
+        except KeyError:
+            return session.Session(auth=auth)
+        else:
+            return session.Session(auth=auth, verify=cacert)
 
 
 def get_endpoint(service_type, endpoint_type='publicURL'):
