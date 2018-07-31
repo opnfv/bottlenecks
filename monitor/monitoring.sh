@@ -104,7 +104,6 @@ sudo docker run --name bottlenecks-node-exporter \
   -v "/proc:/host/proc:ro" \
   -v "/sys:/host/sys:ro" \
   -v "/:/rootfs:ro" \
-  --net="host" \
   quay.io/prometheus/node-exporter:v0.14.0 \
     -collector.procfs /host/proc \
     -collector.sysfs /host/sys \
