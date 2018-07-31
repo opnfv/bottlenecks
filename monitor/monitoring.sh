@@ -52,7 +52,7 @@ while [[ $# > 0 ]]
             INSTALLER_TYPE="$2"
             shift
         ;;
-        -i|--openstack-env)
+        -o|--openstack-env)
             OPENSTACK_ENV="$2"
             shift
         ;;
