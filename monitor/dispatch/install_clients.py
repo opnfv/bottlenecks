@@ -65,12 +65,16 @@ def main():
         dataMap = yaml.safe_load(f)
         for x in dataMap:
             for y in dataMap[x]:
+                print("Installing {} in: {}".format(INSTALlATION_SCRIPT, y))
+                pwd = idkey = ''
                 if (y['role'].lower() == 'controller') or (
                         y['role'].lower() == 'compute'):
                     ip = str(y['ip'])
                     user = str(y['user'])
-                    pwd = str(y['password'])
-                    idkey = str(y['key_filename'])
+                    if 'password' in y.keys():
+                        pwd = str(y['password'])
+                    if 'key_filename' in y.keys():
+                        idkey = str(y['key_filename'])
 
                     if pwd:
                         ssh_d = ssh.SSH(user, host=ip, password=pwd)
@@ -78,18 +82,23 @@ def main():
                         idkey = "/tmp/id_rsa"
                         ssh_d = ssh.SSH(user, host=ip, key_filename=idkey)
                     status, stdout, stderr = ssh_d.execute(
-                        "cd /etc && mkdir " + CONFIG_DIR
+                        "cd /etc && if [ ! -d " + CONFIG_DIR +
+                        " ]; then sudo mkdir " + CONFIG_DIR + "; fi"
                     )
                     if status:
                         print Exception(
-                            "Command: \"mkdir {}\".format(CONFIG_DIR) failed.")
+                            "Command: \"mkdir {}\"".format(CONFIG_DIR) +
+                            " failed."
+                        )
                         logger.info(stdout.splitlines())
                     if args.CLIENT_CONFIG:
                         with open(args.CLIENT_CONFIG) as stdin_file:
-                            ssh_d.run("cat > " + CONFIG_FILE,
+                            ssh_d.run("sudo sh -c \"cat > " + CONFIG_FILE +
+                                      "\"",
                                       stdin=stdin_file)
                     with open(args.INSTALlATION_SCRIPT) as stdin_file:
-                        ssh_d.run("cat > " + INSTALlATION_SCRIPT,
+                        ssh_d.run("sudo sh -c \"cat > " + INSTALlATION_SCRIPT +
+                                  "\"",
                                   stdin=stdin_file)
 
                     for u in os.uname():

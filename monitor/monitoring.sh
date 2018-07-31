@@ -156,7 +156,6 @@ sudo docker run  --name bottlenecks-barometer -d --net=host \
   -v /tmp:/tmp \
   --privileged opnfv/barometer /run_collectd.sh
 
-set -e
 # INSTALL BAROMETER + CADVISOR (+ COLLECTD) CLIENTS on COMPUTE/CONTROL NODES
 # Configure IP Address in barometer client configuration
 python ${DISPATCH}/client_ip_configure.py ${MONITOR_CONFIG}/barometer_client.conf
