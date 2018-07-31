@@ -155,7 +155,7 @@ if [[ ${INSTALLER_TYPE} != "" ]]; then
             echo "export OS_CACERT=${OS_CACERT}" >> ${OPENRC}
             cat ${OPENRC}
         else
-           error "Couldn't find openstack cacert file: ${OS_CACERT}, please check if the it's been properly provided."
+           info "Couldn't find openstack cacert file: ${OS_CACERT}, please check if the it's been properly provided."
        fi
     else
         error "Couldn't find openstack rc file: ${OPENRC}, please check if the it's been properly provided."
@@ -166,6 +166,6 @@ if [[ ${INSTALLER_TYPE} != "" ]]; then
     if [[ -f "/tmp/id_rsa" ]]; then
         info "Path of ssh key file for openstack nodes is /tmp/id_rsa"
     else
-        error "Couldn't find the ssh key file for openstack nodes. If you are using user/pwd in pod.yaml, please ignore."
+        info "Couldn't find the ssh key file for openstack nodes. If you are using user/pwd in pod.yaml, please ignore."
     fi
 fi
