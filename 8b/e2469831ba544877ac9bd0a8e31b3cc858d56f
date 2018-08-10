@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-by: Yu Yang (Gabriel) <Gabriel.yuyang@huawei.com>
+Submitted-at: Fri, 10 Aug 2018 07:22:51 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/60821
+Project: bottlenecks
+Branch: refs/heads/stable/fraser
