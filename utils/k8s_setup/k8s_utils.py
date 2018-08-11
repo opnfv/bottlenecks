@@ -10,6 +10,7 @@
 
 import os
 import utils.logger as log
+from kubernetes import client
 
 LOG = log.Logger(__name__).getLogger()
 INSTALLER_TYPE = os.getenv("INSTALLER_TYPE")
@@ -26,3 +27,11 @@ def get_config_path(INSTALLER_TYPE=None, CONFIG_PATH="/tmp/k8s_config"):
             raise Exception("Must at least specify the path \
 of k8s config!")
     return CONFIG_PATH
+
+
+def get_core_api(version='v1'):
+    if version.lower() = 'v1':
+        API = client.CoreV1Api()
+    else:
+        raise Exception("Must input a validate verison!")
+    return API
