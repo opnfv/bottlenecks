@@ -15,19 +15,21 @@ from kubernetes import client, watch
 
 LOG = log.Logger(__name__).getLogger()
 INSTALLER_TYPE = os.getenv("INSTALLER_TYPE")
+K8S_UTILS = "/home/opnfv/bottlenecks/utils/k8s_setup"
 
 
-def get_config_path(INSTALLER_TYPE=None, CONFIG_PATH="/tmp/k8s_config"):
+def get_config_path(INSTALLER_TYPE=None, K8S_CONFIG_PATH="/tmp/k8s_config"):
     if INSTALLER_TYPE:
-        CMD = "bash k8s_config_pre.sh -i " + INSTALLER_TYPE + \
-              " -c " + CONFIG_PATH
+        CMD = "bash " + K8S_UTILS + "/k8s_config_pre.sh -i " \
+              + INSTALLER_TYPE + \
+              " -c " + K8S_CONFIG_PATH
         LOG.info("Executing command: " + CMD)
-        CONFIG_PATH = os.popen(CMD)
+        os.popen(CMD)
     else:
-        if not os.path.exists(CONFIG_PATH):
+        if not os.path.exists(K8S_CONFIG_PATH):
             raise Exception("Must at least specify the path \
 of k8s config!")
-    return CONFIG_PATH
+    return K8S_CONFIG_PATH
 
 
 def get_core_api(version='v1'):
@@ -35,7 +37,16 @@ def get_core_api(version='v1'):
         API = client.CoreV1Api()
         LOG.info(API)
     else:
-        raise Exception("Must input a validate verison!")
+        raise Exception("Must input a valid verison!")
+    return API
+
+
+def get_apps_api(version='v1'):
+    if version.lower() == 'v1':
+        API = client.AppsV1Api()
+        LOG.info(API)
+    else:
+        raise Exception("Must input a valid verison!")
     return API
 
 
