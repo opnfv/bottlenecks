@@ -7,7 +7,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-K8S_CONFIG="/tmp/k8s_conig"
+K8S_CONFIG="/tmp/k8s_config"
 
 usage="Script to prepare kubenetes test configurations.
 
