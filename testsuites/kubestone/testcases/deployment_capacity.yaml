@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+namespace: bottlenecks-kubestone
+test_type: Horizontal-Scaling
+scaling_steps: 10, 50, 100, 200
+template: None
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
