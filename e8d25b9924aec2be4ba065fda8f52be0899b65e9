@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_4b823750",
+        "filename": "testing-scheduler/ui/src/components/editor/step.vue",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:49:45Z",
+      "side": 1,
+      "message": "white spaces",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "e8d25b9924aec2be4ba065fda8f52be0899b65e9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
