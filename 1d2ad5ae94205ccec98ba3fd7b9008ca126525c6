@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_0b883f70",
+        "filename": "testing-scheduler/server/src/rest/router.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:49:11Z",
+      "side": 1,
+      "message": "license headers and white spaces",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 7
+      },
+      "revId": "1d2ad5ae94205ccec98ba3fd7b9008ca126525c6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
