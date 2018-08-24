@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_8b3e0fb7",
+        "filename": "testing-scheduler/server/src/conductor_processor/__init__.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:40:19Z",
+      "side": 1,
+      "message": "add license header",
+      "revId": "b698410ffe1a000deac6bd5d0843b905c0a138bc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_eb4b4b57",
+        "filename": "testing-scheduler/server/src/conductor_processor/defaultTaskFile.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:40:19Z",
+      "side": 1,
+      "message": "tabs here ..",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 1
+      },
+      "revId": "b698410ffe1a000deac6bd5d0843b905c0a138bc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_cb48075e",
+        "filename": "testing-scheduler/server/src/conductor_processor/defaultWorkflowFile.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:40:19Z",
+      "side": 1,
+      "message": "tabs...",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "b698410ffe1a000deac6bd5d0843b905c0a138bc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_2b754398",
+        "filename": "testing-scheduler/server/src/conductor_processor/task.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:40:19Z",
+      "side": 1,
+      "message": "I kinda get the feeling that maybe most of the files have the tabs/white spaces issues.\nIf you use Sublime, there is a configurable item in its config file to translate tab into spaces which will be helpful to you.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 1
+      },
+      "revId": "b698410ffe1a000deac6bd5d0843b905c0a138bc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_0b7aff87",
+        "filename": "testing-scheduler/server/src/conductor_processor/workflow.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:40:19Z",
+      "side": 1,
+      "message": "tabs and white spaces",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 1
+      },
+      "revId": "b698410ffe1a000deac6bd5d0843b905c0a138bc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
