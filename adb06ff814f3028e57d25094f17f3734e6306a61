@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_cb5f670d",
+        "filename": "testing-scheduler/server/src/env/context/context.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:44:41Z",
+      "side": 1,
+      "message": "all these IPs hardcoded?",
+      "range": {
+        "startLine": 5,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "adb06ff814f3028e57d25094f17f3734e6306a61",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_4b74f798",
+        "filename": "testing-scheduler/server/src/env/service/ansible.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:44:41Z",
+      "side": 1,
+      "message": "white spaces",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 6
+      },
+      "revId": "adb06ff814f3028e57d25094f17f3734e6306a61",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_ab6833bb",
+        "filename": "testing-scheduler/server/src/env/service/ansible.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:44:41Z",
+      "side": 1,
+      "message": "is this hardcoded?",
+      "range": {
+        "startLine": 53,
+        "startChar": 5,
+        "endLine": 53,
+        "endChar": 20
+      },
+      "revId": "adb06ff814f3028e57d25094f17f3734e6306a61",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_8b656fe3",
+        "filename": "testing-scheduler/server/src/step/general_test_step.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:44:41Z",
+      "side": 1,
+      "message": "tabs..",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "adb06ff814f3028e57d25094f17f3734e6306a61",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_eb622bd7",
+        "filename": "testing-scheduler/server/src/step/monitor.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:44:41Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 2
+      },
+      "revId": "adb06ff814f3028e57d25094f17f3734e6306a61",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_2b9c23c0",
+        "filename": "testing-scheduler/server/src/tmp/readme.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:44:41Z",
+      "side": 1,
+      "message": "license header should be added",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 3
+      },
+      "revId": "adb06ff814f3028e57d25094f17f3734e6306a61",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_0ba15ff8",
+        "filename": "testing-scheduler/server/test/test_case/suite_test/tc_suitetest_01.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:44:41Z",
+      "side": 1,
+      "message": "license header should be added to all yaml file.\nAn example: https://gerrit.opnfv.org/gerrit/gitweb?p\u003dbottlenecks.git;a\u003dblob;f\u003dtestsuites/posca/testcase_cfg/posca_factor_multistack_storage_parallel.yaml;h\u003db55b826c6137ea64bdca1aaf654f404d169e219a;hb\u003dHEAD",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "adb06ff814f3028e57d25094f17f3734e6306a61",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
