@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_e89351f8",
+        "filename": "testing-scheduler/docker/plugin/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T08:45:07Z",
+      "side": 1,
+      "message": "This line is too long. \nPlease refer to https://github.com/opnfv/bottlenecks/blob/480c3c51a0a2bcc67ac5ca1d96cb63153bf9fff8/docker/Dockerfile#L26\nto find out how to divide it into multi-lines.",
+      "range": {
+        "startLine": 8,
+        "startChar": 10,
+        "endLine": 8,
+        "endChar": 137
+      },
+      "revId": "e5d6f79639f25a6b822203b2293aa1c008764b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_28bd4969",
+        "filename": "testing-scheduler/docker/plugin/run.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T08:45:07Z",
+      "side": 1,
+      "message": "Delete these white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 32,
+        "endLine": 1,
+        "endChar": 37
+      },
+      "revId": "e5d6f79639f25a6b822203b2293aa1c008764b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_08c205e9",
+        "filename": "testing-scheduler/docker/server/build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T08:45:07Z",
+      "side": 1,
+      "message": "delete these white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 32,
+        "endLine": 3,
+        "endChar": 46
+      },
+      "revId": "e5d6f79639f25a6b822203b2293aa1c008764b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_68b74187",
+        "filename": "testing-scheduler/docker/server/run.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T08:45:07Z",
+      "side": 1,
+      "message": "delete these white spaces/tabs",
+      "range": {
+        "startLine": 2,
+        "startChar": 43,
+        "endLine": 3,
+        "endChar": 41
+      },
+      "revId": "e5d6f79639f25a6b822203b2293aa1c008764b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_48bcfd69",
+        "filename": "testing-scheduler/docker/ui/build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T08:45:07Z",
+      "side": 1,
+      "message": "delete these white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 32,
+        "endLine": 3,
+        "endChar": 40
+      },
+      "revId": "e5d6f79639f25a6b822203b2293aa1c008764b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_c8900def",
+        "filename": "testing-scheduler/docker/ui/pre-builder/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T08:45:07Z",
+      "side": 1,
+      "message": "Do we need do \u0027mkdir /home/testing-scheduler\u0027  and \u0027mkdir /home/testing-scheduler\u0027 before specifying the WORKDIR?",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 34
+      },
+      "revId": "e5d6f79639f25a6b822203b2293aa1c008764b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_a8b0398c",
+        "filename": "testing-scheduler/docker/ui/run.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T08:45:07Z",
+      "side": 1,
+      "message": "delete these white spaces/tabs",
+      "range": {
+        "startLine": 2,
+        "startChar": 34,
+        "endLine": 4,
+        "endChar": 83
+      },
+      "revId": "e5d6f79639f25a6b822203b2293aa1c008764b9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
