@@ -1,0 +1,349 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_28642921",
+        "filename": "testing-scheduler/docker/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white space at the end of this line",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_086965f9",
+        "filename": "testing-scheduler/docker/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white space at the end of this line",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_686e2103",
+        "filename": "testing-scheduler/docker/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 32,
+        "endLine": 1,
+        "endChar": 37
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_882295b7",
+        "filename": "testing-scheduler/docker/plugin/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "This line is too long.\nPlease refer to https://github.com/opnfv/bottlenecks/blob/480c3c51a0a2bcc67ac5ca1d96cb63153bf9fff8/docker/Dockerfile#L26\n to find out how to divide it into multi-lines.",
+      "range": {
+        "startLine": 8,
+        "startChar": 11,
+        "endLine": 8,
+        "endChar": 26
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_284b8988",
+        "filename": "testing-scheduler/docker/plugin/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 32,
+        "endLine": 1,
+        "endChar": 37
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_08504531",
+        "filename": "testing-scheduler/docker/plugin/run.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 32,
+        "endLine": 1,
+        "endChar": 37
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_6845816f",
+        "filename": "testing-scheduler/docker/run.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 32,
+        "endLine": 1,
+        "endChar": 37
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_484a3d81",
+        "filename": "testing-scheduler/docker/server/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 23,
+        "endLine": 4,
+        "endChar": 49
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_a85e7943",
+        "filename": "testing-scheduler/docker/server/clean.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 2,
+        "startChar": 32,
+        "endLine": 3,
+        "endChar": 43
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_885bb553",
+        "filename": "testing-scheduler/docker/server/run.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 3,
+        "startChar": 31,
+        "endLine": 4,
+        "endChar": 41
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_e8587158",
+        "filename": "testing-scheduler/docker/ui/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 1,
+        "startChar": 27,
+        "endLine": 4,
+        "endChar": 42
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_c855ad1e",
+        "filename": "testing-scheduler/docker/ui/clean.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 2,
+        "startChar": 26,
+        "endLine": 6,
+        "endChar": 38
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_6813c166",
+        "filename": "testing-scheduler/docker/ui/pre-builder/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "Do we need do \u0027mkdir /home/testing-scheduler\u0027  and \u0027mkdir\n/home/testing-scheduler\u0027 before specifying the WORKDIR?",
+      "range": {
+        "startLine": 3,
+        "startChar": 11,
+        "endLine": 3,
+        "endChar": 24
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_28326910",
+        "filename": "testing-scheduler/docker/ui/run.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white spaces/tabs",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 4,
+        "endChar": 54
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_0837a500",
+        "filename": "testing-scheduler/docker/ui/run.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:03:18Z",
+      "side": 1,
+      "message": "delete the white space at the end of this line",
+      "range": {
+        "startLine": 6,
+        "startChar": 19,
+        "endLine": 6,
+        "endChar": 36
+      },
+      "revId": "073c74b33f4176fe4e0b2dcb50f5a03a25f1cbec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
