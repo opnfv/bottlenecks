@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_eb906b97",
+        "filename": "testing-scheduler/ui/src/components/env_component/service_modal.vue",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-24T09:50:35Z",
+      "side": 1,
+      "message": "tabs and white spaces in this patch should be dealt with",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "cd038f80fb3bf618c29d1c05507af9beae777cfd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
