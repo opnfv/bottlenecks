@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_62cbd572",
+        "filename": "docs/testing/user/userguide/testing_scheduler_user_guide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:38:46Z",
+      "side": 1,
+      "message": "there are several white spaces in this file",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "cc219b4d3d4909b498bb95d591fbb283946f15d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_c2c8e176",
+        "filename": "testing-scheduler/docker/plugin/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:38:46Z",
+      "side": 1,
+      "message": "white spaces",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "cc219b4d3d4909b498bb95d591fbb283946f15d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_a2c5ed5c",
+        "filename": "testing-scheduler/docker/ui/run.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:38:46Z",
+      "side": 1,
+      "message": "white space",
+      "range": {
+        "startLine": 8,
+        "startChar": 44,
+        "endLine": 8,
+        "endChar": 48
+      },
+      "revId": "cc219b4d3d4909b498bb95d591fbb283946f15d6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
