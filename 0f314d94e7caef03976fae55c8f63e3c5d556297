@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_42b5f1ec",
+        "filename": "testing-scheduler/ui/.eslintrc.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:29:50Z",
+      "side": 1,
+      "message": "white space",
+      "range": {
+        "startLine": 14,
+        "startChar": 14,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "0f314d94e7caef03976fae55c8f63e3c5d556297",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_22ba7dde",
+        "filename": "testing-scheduler/ui/src/assets/css/wf-graph.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:29:50Z",
+      "side": 1,
+      "message": "white spaces and tabs",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "0f314d94e7caef03976fae55c8f63e3c5d556297",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
