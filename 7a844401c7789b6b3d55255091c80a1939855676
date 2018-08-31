@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_a217adec",
+        "filename": "testing-scheduler/server/python_modules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "It\u0027d better to designate versions to these packages",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_02d4991e",
+        "filename": "testing-scheduler/server/src/env/service/ansible.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "white spaces in the next line",
+      "range": {
+        "startLine": 62,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 12
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_e2d88555",
+        "filename": "testing-scheduler/server/src/env/service/greet.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "white spaces in lines 17,31 and 43",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_42de9140",
+        "filename": "testing-scheduler/server/test/test_case/logic/tc_logic_01.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "white space in line 51",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_22e39d08",
+        "filename": "testing-scheduler/server/test/test_case/logic/tc_logic_02.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "white space at the end of this line",
+      "range": {
+        "startLine": 13,
+        "startChar": 35,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_82e70912",
+        "filename": "testing-scheduler/server/test/test_case/logic/tc_logic_02.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "white spaces",
+      "range": {
+        "startLine": 62,
+        "startChar": 14,
+        "endLine": 63,
+        "endChar": 16
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_62e4750d",
+        "filename": "testing-scheduler/server/test/test_case/logic/tc_logic_03.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "white spaces in lines 60, 74, 77",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_c2f101cf",
+        "filename": "testing-scheduler/server/test/test_case/logic/tc_logic_04.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "white space",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 63,
+        "endChar": 14
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_a2ee8dea",
+        "filename": "testing-scheduler/server/test/test_case/logic/tc_logic_05.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "several white spaces in this file",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_02bbf9e5",
+        "filename": "testing-scheduler/server/test/test_case/logic_in_out/tc_cxt_01.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:26:01Z",
+      "side": 1,
+      "message": "2 white spaces in lines 12 and 14",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
