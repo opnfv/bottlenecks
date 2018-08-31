@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "9a561d44_e2a6c5c0",
+        "filename": "testing-scheduler/server/setup.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-08-31T04:51:45Z",
+      "side": 1,
+      "message": "Do we have some sort of specified extension for output files in /tmp. This line will install all the file in /tmp which is not normally expected.\n\nJust a question here, only be curious...",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "7a844401c7789b6b3d55255091c80a1939855676",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a561d44_02d4991e",
         "filename": "testing-scheduler/server/src/env/service/ansible.yaml",
         "patchSetId": 3
