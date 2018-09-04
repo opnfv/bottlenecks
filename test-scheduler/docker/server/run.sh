@@ -7,16 +7,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-# get the absolute path of this shell file.
-basepath=$(cd `dirname $0`; pwd)
-# get the root directory of this project
-projectpath=$basepath/../..
+conductor_network='conductor_default'
 group="x-lab"
-# ui image name
-ui_image="$group/testing-scheduler:ui"
+# server image name
+server_image="$group/test-scheduler:server"
+# server container name
+server_container="t-scheduler-server"
 
-# build the ui-project and generate the dist package.
-sh $basepath/pre-builder/build.sh
-sh $basepath/pre-builder/run.sh
-
-docker build -t $ui_image -f $basepath/Dockerfile $projectpath
+docker run -d --rm -p 5310:5310 -p 5312:5312 --net=$conductor_network --name $server_container $server_image

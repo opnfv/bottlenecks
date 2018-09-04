@@ -7,12 +7,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-FROM node:alpine
-MAINTAINER x-lab/Leo
-WORKDIR /home/testing-scheduler/ui
-COPY ./ui .
+group="x-lab"
+# ui image name
+ui_image="$group/test-scheduler:ui-builder"
+# ui container name
+ui_container='t-scheduler-ui-builder'
+# get the absolute path of this shell file.
+basepath=$(cd `dirname $0`; pwd)
+docker run -d --name $ui_container $ui_image
 
-RUN npm install
-RUN npm run build
-
-CMD tail -f /dev/null
+docker cp $ui_container:/home/test-scheduler/ui/dist $basepath/../
+docker rm -f $ui_container
+docker rmi $ui_image

@@ -9,12 +9,12 @@
 
 FROM python:2.7
 MAINTAINER x-lab/Leo
-WORKDIR /home/testing-scheduler/server
+WORKDIR /home/test-scheduler/server
 COPY ./server .
 
 RUN pip install -r ./python_modules.txt
 
-ENV CONDUCTOR_DIR /home/testing-scheduler/conductor
+ENV CONDUCTOR_DIR /home/test-scheduler/conductor
 RUN mkdir ${CONDUCTOR_DIR} && cd ${CONDUCTOR_DIR} && \
     git clone http://github.com/Netflix/conductor.git && \
     cd conductor && git checkout v1.10.4

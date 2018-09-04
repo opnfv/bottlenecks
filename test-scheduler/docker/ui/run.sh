@@ -7,11 +7,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-# get the absolute path of this shell file.
-basepath=$(cd `dirname $0`; pwd)
-# get the root directory of this project
-projectpath=$basepath/../../..
+conductor_network='conductor_default'
 group="x-lab"
 # ui image name
-ui_image="$group/testing-scheduler:ui-builder"
-docker build -t $ui_image -f $basepath/Dockerfile $projectpath
+ui_image="$group/test-scheduler:ui"
+# ui container name
+ui_container="t-scheduler-ui"
+
+docker run -d --rm -p 5311:5311 --net=$conductor_network --name $ui_container $ui_image

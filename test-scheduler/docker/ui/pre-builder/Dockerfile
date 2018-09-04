@@ -7,11 +7,12 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-conductor_network='conductor_default'
-group="x-lab"
-# server image name
-server_image="$group/testing-scheduler:server"
-# server container name
-server_container="t-scheduler-server"
+FROM node:alpine
+MAINTAINER x-lab/Leo
+WORKDIR /home/test-scheduler/ui
+COPY ./ui .
 
-docker run -d --rm -p 5310:5310 -p 5312:5312 --net=$conductor_network --name $server_container $server_image
+RUN npm install
+RUN npm run build
+
+CMD tail -f /dev/null

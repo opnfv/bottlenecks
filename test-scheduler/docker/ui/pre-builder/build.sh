@@ -7,13 +7,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-group="x-lab"
-# ui image name
-ui_image="$group/testing-scheduler:ui"
-# ui container name
-ui_container="t-scheduler-ui"
-docker rm -f $ui_container
-docker rmi $ui_image
 # get the absolute path of this shell file.
 basepath=$(cd `dirname $0`; pwd)
-rm -rf $basepath/dist
+# get the root directory of this project
+projectpath=$basepath/../../..
+group="x-lab"
+# ui image name
+ui_image="$group/test-scheduler:ui-builder"
+docker build -t $ui_image -f $basepath/Dockerfile $projectpath

@@ -8,10 +8,12 @@
 ##############################################################################
 
 group="x-lab"
-# server image name
-server_image="$group/testing-scheduler:server"
-# server container name
-server_container="t-scheduler-server"
-
-docker rm -f $server_container
-docker rmi $server_image
+# ui image name
+ui_image="$group/test-scheduler:ui"
+# ui container name
+ui_container="t-scheduler-ui"
+docker rm -f $ui_container
+docker rmi $ui_image
+# get the absolute path of this shell file.
+basepath=$(cd `dirname $0`; pwd)
+rm -rf $basepath/dist

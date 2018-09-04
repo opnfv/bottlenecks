@@ -3,14 +3,14 @@
 .. (c) Huawei Technologies Co.,Ltd and others.
 
 ****************************
-Testing-scheduler User Guide
+Test-scheduler User Guide
 ****************************
 
 
-Testing-scheduler Introduction
+Test-scheduler Introduction
 ==============================
 
-Testing scheduler aims to schedule the testing process on NFV(Network
+Test scheduler aims to schedule the testing process on NFV(Network
 Function Virtualizaion) platform or MSA(Microservice Architecture)
 application.By creating a testcase, you can implements a testing
 process integrates and schedules the other testing frameworks and tools.
@@ -35,7 +35,7 @@ Preinstall Packages
     chmod +x /usr/local/bin/docker-compose
 
 
-Run Testing-scheduler
+Run Test-scheduler
 =====================
 
 There are a few steps to do.
@@ -48,7 +48,7 @@ Download Bottlenecks Software
 
     mkdir -p /some/dir
     git clone https://gerrit.opnfv.org/gerrit/bottlenecks
-    cd bottlenecks/testing-scheduler
+    cd bottlenecks/test-scheduler
 
 
 Build And Run Docker Containers
@@ -124,12 +124,12 @@ Cleaning Up Environment
 ------------------------------
 
 The directory(**docker**) contains the shell scripts which are used
-to build this project(**testing-scheduler**) as a dockerized application.
+to build this project(**test-scheduler**) as a dockerized application.
 Built by these scripts, the dockerized application will contain
 6 containers(1 + 1 + 4). They can be divided as three components:
 
-* 1 server container: server component of **testing-scheduler**.
-* 1 webUI container: ui component of **testing-scheduler**.
+* 1 server container: server component of **test-scheduler**.
+* 1 webUI container: ui component of **test-scheduler**.
 * a group of 4 containers of Conductor.
 
 Correspondingly, there are three subdirectories in the current

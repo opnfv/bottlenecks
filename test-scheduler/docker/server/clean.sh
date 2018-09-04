@@ -7,11 +7,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-conductor_network='conductor_default'
 group="x-lab"
-# ui image name
-ui_image="$group/testing-scheduler:ui"
-# ui container name
-ui_container="t-scheduler-ui"
+# server image name
+server_image="$group/test-scheduler:server"
+# server container name
+server_container="t-scheduler-server"
 
-docker run -d --rm -p 5311:5311 --net=$conductor_network --name $ui_container $ui_image
+docker rm -f $server_container
+docker rmi $server_image

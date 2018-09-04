@@ -7,14 +7,14 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-'''This file realize the function of how to setup server of testing-scheduler
+'''This file realize the function of how to setup server of test-scheduler
 to your environment. This use setuptools tool to setup'''
 
 from setuptools import setup, find_packages
 
 
 setup(
-    name="testing-scheduler-server",
+    name="test-scheduler-server",
     version="0.1",
     packages=find_packages(),
     include_package_data=True,

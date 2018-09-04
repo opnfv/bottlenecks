@@ -16,8 +16,8 @@ sudo docker rm -f t-scheduler-server \
 
 sudo docker network rm conductor_default
 
-sudo docker rmi x-lab/testing-scheduler:server \
-                x-lab/testing-scheduler:ui \
+sudo docker rmi x-lab/test-scheduler:server \
+                x-lab/test-scheduler:ui \
                 x-lab/conductor:builder \
                 conductor:ui \
                 conductor:server \
