@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_658c7a36",
+        "filename": "testing-scheduler/ui/static/.gitkeep",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-09-04T04:57:03Z",
+      "side": 1,
+      "message": "Should this file be deleted? I don\u0027t know if the logo image counts for a file.",
+      "revId": "cc82e9d00750843c340805a9643ea8b017252548",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
