@@ -1,0 +1,70 @@
+<<<<<<< HEAD:testing-scheduler/.gitignore
+#################################
+##  files in server directory
+#################################
+
+# PYTHON PYC FILE
+/server/**/*.pyc
+
+#############################################################
+
+
+#################################
+##  files in ui directory
+#################################
+/ui/.DS_Store
+/ui/node_modules/
+/ui/dist/
+/ui/npm-debug.log*
+/ui/yarn-debug.log*
+/ui/yarn-error.log*
+
+# Editor directories and files
+/ui/.idea
+/ui/.vscode
+/ui/*.suo
+/ui/*.ntvs*
+/ui/*.njsproj
+/ui/*.sln
+
+!/ui/build
+#################################
+##  files in docker directory
+#################################
+/docker/plugin/tmp_files/
+/docker/ui/dist/
+=======
+#################################
+##  files in server directory
+#################################
+
+# PYTHON PYC FILE
+/server/**/*.pyc
+
+#############################################################
+
+
+#################################
+##  files in ui directory
+#################################
+/ui/.DS_Store
+/ui/node_modules/
+/ui/dist/
+/ui/npm-debug.log*
+/ui/yarn-debug.log*
+/ui/yarn-error.log*
+
+# Editor directories and files
+/ui/.idea
+/ui/.vscode
+/ui/*.suo
+/ui/*.ntvs*
+/ui/*.njsproj
+/ui/*.sln
+
+#################################
+##  files in docker directory
+#################################
+/docker/plugin/tmp_files/
+/docker/ui/dist/
+>>>>>>> Change naming and veriy test-scheduler function:test-scheduler/.gitignore
