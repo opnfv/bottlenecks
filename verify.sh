@@ -12,7 +12,7 @@
 # Run flake8, unit, coverage test
 
 getopts ":f" FILE_OPTION
-STYLE_CHECK_DIRS="testsuites/posca/ utils/ monitor/"
+STYLE_CHECK_DIRS="testsuites/posca/ utils/ monitor/ testing-scheduler/"
 
 run_flake8() {
     echo "========================================="
