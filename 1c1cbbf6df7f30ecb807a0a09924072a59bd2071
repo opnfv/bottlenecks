@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_c5e8e6b6",
+        "filename": "testing-scheduler/server/src/step/monitor.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2018-09-04T06:20:00Z",
+      "side": 1,
+      "message": "Hi, I have one question: do we need to specify the address of testing services manually? Can the monitor/scheduler discover and register the testing services automatically?",
+      "revId": "1c1cbbf6df7f30ecb807a0a09924072a59bd2071",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
