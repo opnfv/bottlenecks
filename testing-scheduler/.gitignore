@@ -26,6 +26,7 @@
 /ui/*.njsproj
 /ui/*.sln
 
+!/ui/build
 #################################
 ##  files in docker directory
 #################################
