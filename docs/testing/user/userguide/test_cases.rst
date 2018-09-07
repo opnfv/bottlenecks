@@ -18,3 +18,4 @@ Bottlenecks - Test Cases
   ./posca/posca_feature_moon_resources.rst
   ./posca/posca_feature_moon_tenants.rst
   ./posca/posca_feature_vnf_scale_out.rst
+  ./kubestone/deployment_capacity.rst

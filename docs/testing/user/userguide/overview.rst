@@ -57,30 +57,34 @@ Integration Description
 +-------------+----------------------+----------------------+
 | Fraser      |    Any               | POSCA                |
 +-------------+----------------------+----------------------+
+| Gambia      |    Any               | POSCA, kubestone     |
++-------------+----------------------+----------------------+
 
 Test suite & Test case Description
 ==================================
-+--------+----+-------------------------------------------+
-|POSCA   | 1  | posca_factor_ping                         |
-|        +----+-------------------------------------------+
-|        | 2  | posca_factor_system_bandwidth             |
-|        +----+-------------------------------------------+
-|        | 3  | posca_facotor_soak_througputs             |
-|        +----+-------------------------------------------+
-|        | 4  | posca_feature_vnf_scale_up                |
-|        +----+-------------------------------------------+
-|        | 5  | posca_feature_vnf_scale_out               |
-|        +----+-------------------------------------------+
-|        | 6  | posca_factor_storperf                     |
-|        +----+-------------------------------------------+
-|        | 7  | posca_factor_multistack_storage_parallel  |
-|        +----+-------------------------------------------+
-|        | 8  | posca_factor_multistack_storage           |
-|        +----+-------------------------------------------+
-|        | 9  | posca_feature_moon_resources              |
-|        +----+-------------------------------------------+
-|        | 10 | posca_feature_moon_tenants                |
-+--------+----+-------------------------------------------+
++----------+----+-------------------------------------------+
+|POSCA     | 1  | posca_factor_ping                         |
+|          +----+-------------------------------------------+
+|          | 2  | posca_factor_system_bandwidth             |
+|          +----+-------------------------------------------+
+|          | 3  | posca_facotor_soak_througputs             |
+|          +----+-------------------------------------------+
+|          | 4  | posca_feature_vnf_scale_up                |
+|          +----+-------------------------------------------+
+|          | 5  | posca_feature_vnf_scale_out               |
+|          +----+-------------------------------------------+
+|          | 6  | posca_factor_storperf                     |
+|          +----+-------------------------------------------+
+|          | 7  | posca_factor_multistack_storage_parallel  |
+|          +----+-------------------------------------------+
+|          | 8  | posca_factor_multistack_storage           |
+|          +----+-------------------------------------------+
+|          | 9  | posca_feature_moon_resources              |
+|          +----+-------------------------------------------+
+|          | 10 | posca_feature_moon_tenants                |
++----------+----+-------------------------------------------+
+|Kubestone | 1  | deployment_capacity                       |
++----------+----+-------------------------------------------+
 
 As for the abandoned test suite in the previous Bottlenecks releases, please
 refer to http://docs.opnfv.org/en/stable-danube/submodules/bottlenecks/docs/testing/user/userguide/deprecated.html.
