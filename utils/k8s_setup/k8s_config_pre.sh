@@ -64,3 +64,17 @@ if [[ ${INSTALLER_TYPE} == 'compass' ]]; then
 else
     echo "BOTTLENECKS EROOR: unrecognized installer"
 fi
+
+if [[ -f ${K8S_CONFIG} ]]; then
+    if [[ -d ~/.kube ]]; then
+        cp ${K8S_CONFIG} ~/.kube/config
+        echo "BOTTLENECKS INFO: copying k8s config to ~./kube"
+    else
+        mkdir ~/.kube
+        cp ${K8S_CONFIG} ~/.kube/config
+        echo "BOTTLENECKS INFO: copying k8s config to ~./kube"
+    fi
+else
+    echo "BOTTLENECKS ERROR: k8s config file does no exit (${K8S_CONFIG})"
+    exit 1
+fi
