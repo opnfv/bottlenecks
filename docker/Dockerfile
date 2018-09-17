@@ -49,5 +49,7 @@ RUN git config --global http.sslVerify false
 RUN git clone -b $BRANCH https://gerrit.opnfv.org/gerrit/bottlenecks ${BOTTLENECKS_REPO_DIR}
 RUN git clone https://gerrit.opnfv.org/gerrit/releng ${RELENG_REPO_DIR}
 
+RUN bash ${BOTTLENECKS_REPO_DIR}/utils/k8s_setup/kubectl_install.sh
+
 RUN pip install -r ${BOTTLENECKS_REPO_DIR}/requirements/requirements.txt
 RUN pip install -U ${BOTTLENECKS_REPO_DIR}
