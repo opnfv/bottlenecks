@@ -9,7 +9,7 @@
 ##############################################################################
 
 OS_TYPE=$(uname -a)
-OS_UBUNTU=$(echo $OS_TYPE | grep ubuntu)
+OS_UBUNTU=$(echo $OS_TYPE | grep Ubuntu)
 
 if [[ $OS_UBUNTU ]]; then
     apt-get update && apt-get install -y apt-transport-https
