@@ -20,6 +20,7 @@ setup(
     include_package_data=True,
     package_data={
         'src': [
+            'env/config/license',
             'env/context/*.yaml',
             'env/service/*.yaml',
             'conductor_processor/*.json'

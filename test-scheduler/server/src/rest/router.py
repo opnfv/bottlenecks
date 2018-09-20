@@ -20,12 +20,12 @@ import traceback
 
 import src.test_parser as test_parser
 
-
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR = unicode(os.path.abspath(os.path.dirname(__file__)), 'utf-8')
 TESTSUITE_DIR = os.path.join(BASE_DIR, "..", "..", "test", "test_case")
 SERVICE_DIR = os.path.join(BASE_DIR, "..", "env", "service")
 CONTEXT_FILE_DIR = os.path.join(BASE_DIR, "..", "env", "context",
                                 "context.yaml")
+CONFIG_DIR = os.path.join(BASE_DIR, "..", "env", "config")
 app = Flask(__name__)
 CORS(app)
 
@@ -198,8 +198,8 @@ def createTestcase():
                                     "error": "testcase already exists!"})
             casePath = os.path.join(exSuitePath, caseName)
             with open(casePath, "w") as f:
-                # the next line is a placeholder.
-                print f
+                license_header = getLicense()
+                f.write(license_header)
         else:
             return jsonify({"code": 300, "error": "no such test suite!"})
     except BaseException, e:
@@ -243,6 +243,8 @@ def saveTCContent():
         casePath = os.path.join(TESTSUITE_DIR, casePath)
         if os.path.exists(casePath):
             with open(casePath, "w") as f:
+                license_header = getLicense()
+                f.write(license_header)
                 pyaml.dump(parseData, f, safe=True)
         else:
             return jsonify({"code": 300, "error": "no such file!"})
@@ -389,6 +391,8 @@ def createService():
         serviceFile = name + '.yaml'
         servicePath = os.path.join(SERVICE_DIR, serviceFile)
         with open(servicePath, 'w') as f:
+            license_header = getLicense()
+            f.write(license_header)
             pyaml.dump(service, f, safe=True)
     except BaseException, e:
         return returnServerError(e)
@@ -424,6 +428,8 @@ def editService():
         serviceFile = name + '.yaml'
         servicePath = os.path.join(SERVICE_DIR, serviceFile)
         with open(servicePath, 'w') as f:
+            license_header = getLicense()
+            f.write(license_header)
             pyaml.dump(service, f, safe=True)
     except BaseException, e:
         return returnServerError(e)
@@ -472,6 +478,16 @@ def editContext():
         return returnServerError(e)
 
     return jsonify({"code": 200, "result": "edit context success!"})
+
+
+def getLicense():
+    licenseDir = os.path.join(CONFIG_DIR, "license")
+    with open(licenseDir, 'r') as f:
+        content = f.read()
+    if content is None:
+        return ''
+    return content + '\n---\n\n'
+
 ###########################################################################
 
 
