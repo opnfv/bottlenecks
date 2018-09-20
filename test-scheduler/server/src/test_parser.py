@@ -44,7 +44,12 @@ def parse(filepath):
     return workflowId
 
 
-def parseTestcase(schema, tcName='testcase0'):
+def parseTestcase(schema, tcName='testcase0.yaml'):
+    try:
+        tcName.decode('ascii')
+    except Exception, e:
+        print e
+        tcName = 'testcase0.yaml'
     if schema is None:
         return parseLog(False, reason='schema not found.')
     steps = schema['steps']

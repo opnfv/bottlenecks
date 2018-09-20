@@ -32,6 +32,9 @@ header{
 #intr_table li a:active{
     background-color: #1c84c6;
 }
+#intr_table li.router-link-active a {
+    font-weight: bold;
+}
 .title-section {
     margin-bottom: 10px;
 }

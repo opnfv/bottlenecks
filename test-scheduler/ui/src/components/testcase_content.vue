@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row" style="margin-bottom: 20px;">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <ol class="breadcrumb" style="padding-left: 20px; font-size: 17px;">
           <li>
             <router-link to="/" >root</router-link>
@@ -57,7 +57,7 @@
       </div>
     </div>
     <hr />
-    <div class="row">
+    <div class="row" v-show="runYet">
       <div class="col-lg-12">
           <div class="ibox">
               <div class="ibox-title">
@@ -98,7 +98,9 @@ export default {
           workflowId: '',
           wfloading: false,
           wfJson: '',
-          saveSignal: false
+          wfComplete: false,
+          saveSignal: false,
+          runYet: false,
       }
     },
     created: function() {
@@ -121,6 +123,9 @@ export default {
       runTestcase: function(){
         var self = this;
         var msgTitle = "RUN -- TESTCASE";
+        if(!self.runYet) {
+          self.runYet = true;
+        }
         $.ajax({
             url: this.global.SERVER_ADDR + "execute/testcase",
             method: "POST",
