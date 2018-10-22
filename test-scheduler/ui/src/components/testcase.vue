@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row" style="margin-bottom: 20px;">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <ol class="breadcrumb" style="padding-left: 20px; font-size: 17px;">
           <li>
             <router-link to="/" >root</router-link>
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div id="page-content" style="" class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-title">
                     <h5 style="font-size:26px;margin-top: -3px;">Test Case</h5>
@@ -55,7 +55,7 @@
         </div>
     </div>
     <hr />
-    <div class="row">
+    <div class="row" v-show="runYet">
       <div class="col-lg-12">
           <div class="ibox">
               <div class="ibox-title">
@@ -126,7 +126,8 @@ export default {
       selected: [],
       curRunningId: 0,
       runTestcases: [],
-      wfComplete: false
+      wfComplete: false,
+      runYet: false
     }
   },
   created: function() {
@@ -243,6 +244,9 @@ export default {
     runMultiTestcase: function() {
       var self = this;
       var msgTitle = "RUN -- TESTCASES";
+      if(!self.runYet) {
+        self.runYet = true;
+      }
       self.runTestcases = [];
       if(self.selected.length == 0) {
         showMessage("warning", msgTitle, "please select one!");

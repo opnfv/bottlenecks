@@ -3,11 +3,10 @@ import Router from 'vue-router'
 import testsuite from '@/components/testsuite'
 import testcase from '@/components/testcase'
 import testcase_content from '@/components/testcase_content'
+import test_result from '@/components/test_result'
 import environment from '@/components/environment'
 Vue.use(Router)
-const Result = {
-  template: "<div>please visit <a target='blank' href='http://lab205.jios.org:30002/dashboard/db/cluster?orgId=1'>grafana page.</a></div>"
-}
+
 const Report = {
   template: "<div></div>"
 }
@@ -30,14 +29,17 @@ export default new Router({
     },
     {
       path: '/result',
-      component: Result
+      name: 'result',
+      component: test_result
     },
     {
       path: '/report',
+      name: 'report',
       component: Report
     },
     {
       path: '/environment',
+      name: 'environment',
       component: environment
     }
   ]
