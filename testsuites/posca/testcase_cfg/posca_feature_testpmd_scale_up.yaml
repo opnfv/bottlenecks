@@ -34,6 +34,6 @@ load_manager:
 
 contexts:
   # info that dashboard if have data, we will create the data dashboard.
-  dashboard: "Bottlenecks-ELK"
+#  dashboard: "Bottlenecks-ELK"
   yardstick: "yardstick_pmd"
   yardstick_envpre: Flase

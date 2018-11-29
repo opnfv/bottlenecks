@@ -20,6 +20,6 @@ load_manager:
     yardstick_testcase: "tc_heat_rfc2544_ipv4_1rule_1flow_64B_trex_correlated_traffic_scale_out"
 
 contexts:
-  dashboard: "Bottlenecks-ELK"
+#  dashboard: "Bottlenecks-ELK"
   yardstick: "Bottlenecks_yardstick"
   yardstick_envpre: False

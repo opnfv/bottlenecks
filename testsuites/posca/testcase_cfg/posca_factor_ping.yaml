@@ -27,6 +27,6 @@ load_manager:
     yardstick_testcase: "ping_bottlenecks"
 
 contexts:
-  dashboard: "Bottlenecks-ELK"
+ # dashboard: "Bottlenecks-ELK"
   yardstick: "Bottlenecks-Yardstick"
   yardstick_envpre: True

@@ -21,7 +21,7 @@ test_config:
 #    - [8, 8192]
 #    - [10, 10240]
 runner_config:
-  dashboard: "y"
+ # dashboard: "y"
   dashboard_ip:
   stack_create: yardstick
   yardstick_test_ip:
