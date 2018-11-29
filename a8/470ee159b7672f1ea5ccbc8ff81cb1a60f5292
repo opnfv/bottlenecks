@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Yang (Gabriel) Yu <Gabriel.yuyang@huawei.com>
+Submitted-by: Yang (Gabriel) Yu <Gabriel.yuyang@huawei.com>
+Submitted-at: Thu, 29 Nov 2018 08:31:42 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/58867
+Project: bottlenecks
+Branch: refs/heads/master
