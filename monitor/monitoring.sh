@@ -149,14 +149,13 @@ python ${DISPATCH}/server_ip_configure.py ${MONITOR_CONFIG}/barometer_server.con
 set +e
 # Install on jumpserver
 docker pull opnfv/barometer
-sudo docker run  --name bottlenecks-barometer -d --net=host \
+sudo docker run  --name bottlenecks-barometer -d \
   -v ${MONITOR_CONFIG}/barometer_server.conf:/src/barometer/src/collectd/collectd/src/collectd.conf \
   -v ${MONITOR_CONFIG}/barometer_server.conf:/opt/collectd/etc/collectd.conf \
   -v /var/run:/var/run \
   -v /tmp:/tmp \
   --privileged opnfv/barometer /run_collectd.sh
 
-set -e
 # INSTALL BAROMETER + CADVISOR (+ COLLECTD) CLIENTS on COMPUTE/CONTROL NODES
 # Configure IP Address in barometer client configuration
 python ${DISPATCH}/client_ip_configure.py ${MONITOR_CONFIG}/barometer_client.conf
