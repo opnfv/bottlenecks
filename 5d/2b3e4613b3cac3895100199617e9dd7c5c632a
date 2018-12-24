@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Yang (Gabriel) Yu <Gabriel.yuyang@huawei.com>
+Submitted-by: Yang (Gabriel) Yu <Gabriel.yuyang@huawei.com>
+Submitted-at: Mon, 24 Dec 2018 08:03:47 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/66043
+Project: bottlenecks
+Branch: refs/heads/stable/gambia
