@@ -12,6 +12,7 @@ MAINTAINER x-lab/Leo
 WORKDIR /home/test-scheduler/ui
 COPY ./ui .
 
+RUN npm install npm@6.7.0 -g
 RUN npm install
 RUN npm run build
 
