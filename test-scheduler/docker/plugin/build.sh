@@ -25,4 +25,5 @@ docker rm -f $plugin_container
 
 #build the images of conductor.
 cd $tmppath/conductor/docker
+sed -i '/&& npm install/a\  && npm i natives@1.1.6 -S \\' ui/Dockerfile
 docker-compose build
