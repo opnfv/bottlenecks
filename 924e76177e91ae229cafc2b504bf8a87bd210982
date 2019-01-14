@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_c5b63ddc",
+        "filename": "AI-Internship/Detection-svm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "Lots of white spaces in this file. Please delete them.",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_65aac971",
+        "filename": "AI-Internship/Prediction-Deep+Learning3.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "There are lots of white spaces in this file. Please delete them!",
+      "range": {
+        "startLine": 169,
+        "startChar": 47,
+        "endLine": 169,
+        "endChar": 50
+      },
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_a5bb41c3",
+        "filename": "AI-Internship/correlation.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "White spaces everywhere.",
+      "range": {
+        "startLine": 63,
+        "startChar": 55,
+        "endLine": 63,
+        "endChar": 59
+      },
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_05b155e1",
+        "filename": "AI-Internship/detection-randomforest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "Also white spaces.",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_25c73147",
+        "filename": "AI-Internship/getdata.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_85c44541",
+        "filename": "AI-Internship/getdata.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_e5b539ce",
+        "filename": "AI-Internship/getdata.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "\"tabs\" instead of spaces are used. please use spaces.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 1
+      },
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_45ca2d50",
+        "filename": "AI-Internship/getdata.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 1
+      },
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_65c1292e",
+        "filename": "AI-Internship/getdata.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-14T08:15:05Z",
+      "side": 1,
+      "message": "white spaces",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "924e76177e91ae229cafc2b504bf8a87bd210982",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
