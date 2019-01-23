@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_9e0c8b44",
+        "filename": "test-scheduler/docker/ui/pre-builder/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-23T01:35:36Z",
+      "side": 1,
+      "message": "Does it need to specify a version of npm?",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 29
+      },
+      "revId": "96ecb6a3de0c8b4585adb9f1e44665373d820e23",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
