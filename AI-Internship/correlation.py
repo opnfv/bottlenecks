@@ -1,31 +1,13 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas
 import matplotlib.pyplot as plt
-
 # 1st column of csv file is "date" which we don't need. And 3 footer lines can also be skipped.
 dataset = pandas.read_csv('posca_factor_ping-final.csv', usecols=[2,3,4,5,6], engine='python', skipfooter=3)
-
-#plt.plot(dataset)
-#plt.show()
-
-# plot correlated values
 plt.rcParams['figure.figsize'] = [16, 6]
-
 fig, ax = plt.subplots(nrows=1, ncols=3)
-
-#print(index(dataset['result']))
-
 ax=ax.flatten()
-
 cols = ['duration_time', 'success_time', 'no_of_stacks']
 colors=['#415952', '#f35134', '#243AB5', '#243AB5']
 j=0
-
 for i in ax:
     if j==0:
         i.set_ylabel('result')
@@ -34,51 +16,22 @@ for i in ax:
     i.set_xlabel(cols[j])
     i.set_title('Pearson: %s'%dataset.corr().loc[cols[j]]['result'].round(2)+' Spearman: %s'%dataset.corr(method='spearman').loc[cols[j]]['result'].round(2))
     j+=1
-
-#plt.show()
-
-
-# In[14]:
-
-
 import pandas as pd
 import seaborn as sns
-
-
 mpg_data = pd.read_csv('posca_factor_ping-final.csv')           
-
 mpg_data.head()
 mpg_data.drop(['stop_date','start_date'], axis=1).corr(method='pearson')
-
 sns.heatmap(mpg_data.corr(),annot=True,fmt=".3f")
 plt.show()
-
-
-# In[3]:
-
-
 import pandas as pd
 import seaborn as sns
-
 mpg_data = pd.read_csv('posca_factor_ping-final.csv')           
-
 mpg_data.head()
 mpg_data.drop(['stop_date','start_date'], axis=1).corr(method='spearman')
-
 sns.heatmap(mpg_data.corr(),annot=True,fmt=".3f")
 plt.show()
-
-
-# In[11]:
-
-
 sns.jointplot(data=mpg_data,x='duration_time',y='success_rate',kind='reg',color='g')
 plt.show()
-
-
-# In[12]:
-
-
 sns.jointplot(data=mpg_data,x='no_of_stacks',y='success_rate',kind='reg',color='g')
 plt.show()
 
