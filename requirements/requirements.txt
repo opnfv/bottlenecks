@@ -9,7 +9,7 @@
 
 appdirs==1.4.0
 pyopenssl==17.5.0
-python-openstackclient==3.11.0
+python-openstackclient==3.17.0
 python-heatclient==1.11.0
 python-neutronclient==6.1.1
 flake8==2.5.4
