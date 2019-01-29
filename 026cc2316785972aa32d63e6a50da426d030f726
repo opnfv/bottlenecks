@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_a18de77d",
+        "filename": "AI-Internship/Detection-svm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 833
+      },
+      "writtenOn": "2019-01-29T01:36:38Z",
+      "side": 1,
+      "message": "There are still many white spaces in all files...\nSee the red blocks everywhere..",
+      "revId": "026cc2316785972aa32d63e6a50da426d030f726",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
