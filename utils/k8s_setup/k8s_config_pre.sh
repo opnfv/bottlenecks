@@ -60,7 +60,7 @@ while [[ $# > 0 ]]
 done
 
 if [[ ${INSTALLER_TYPE} == 'compass' ]]; then
-    sshpass -p root scp -o StrictHostKeyChecking=no root@192.16.1.222:~/.kube/config ${K8S_CONFIG}
+    sshpass -p root scp -o StrictHostKeyChecking=no root@10.1.0.50:~/.kube/config ${K8S_CONFIG}
 else
     echo "BOTTLENECKS EROOR: unrecognized installer"
 fi
