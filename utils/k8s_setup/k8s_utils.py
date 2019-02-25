@@ -67,7 +67,7 @@ def get_deployment_status(name, namespace):
 
 def get_available_pods(name, namespace):
     CMD = ("kubectl get deployment --namespace={} | grep {}".format(
-        namespace, name) + " | awk '{print $5}'")
+        namespace, name) + " | awk '{print $4}'")
     available_pods = commands.getstatusoutput(CMD)
     return int(available_pods[1])
 
