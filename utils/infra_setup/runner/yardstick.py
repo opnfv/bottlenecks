@@ -46,9 +46,12 @@ def yardstick_command_parser(debug, cidr, outfile, parameter):
     image_name = config.bottlenecks_config["yardstick_image_name"]
     parameter["image_name"] = image_name
     DEPLOY_SCENARIO = os.getenv("DEPLOY_SCENARIO")
+    RAM_NUM = os.getenv("RAM_NUM")
     if DEPLOY_SCENARIO:
         if "ovs" in DEPLOY_SCENARIO:
             parameter["dpdk_enabled"] = True
+            if RAM_NUM:
+                parameter["ram_num"] = RAM_NUM
     LOG.info(parameter)
     if parameter is not None:
         cmd += " --task-args " + '"' + str(parameter) + '"'
