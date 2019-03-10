@@ -34,14 +34,6 @@ repositories:
     - 'bottlenecks'
 committers:
     - <<: *opnfv_bottlenecks_ptl
-    - name: 'Manuel Rebellon'
-      email: 'mrebellon@sandvine.com'
-      company: 'sandvine.com'
-      id: 'Majereta'
-    - name: 'yaoguang wang'
-      email: 'sunshine.wang@huawei.com'
-      company: 'huawei.com'
-      id: 'wangyaoguang'
     - name: 'Ace Lee'
       email: 'liyin11@huawei.com'
       company: 'huawei.com'
