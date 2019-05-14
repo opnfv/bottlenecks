@@ -38,6 +38,16 @@ Euphrates:
 * Extend Life-cycle test to data-plane to validate the system capability to handle concurrent networks usage.
 * Testing framework is revised to support installer-agnostic testing.
 
+Gambia:
+
+* Introduction of kubetenetes stress test for scaling capability of PoD management
+* Introduction of test scheduler supporting testing services ochestration while providing monitoring services
+
+Hunter:
+
+* Introduction of AI based algorithms to do anomaly detection and correlation analysis of Bottlenecks testing results
+# Enhancing test scheduler to supporting testing results graphing
+
 These enhancements and test cases help the end users to gain more comprehensive understanding of the SUT.
 Graphic reports of the system behavior additional to test cases are provided to indicate the confidence level of SUT.
 Installer-agnostic testing framework allow end user to do stress testing adaptively over either Open Source or commercial deployments.
@@ -58,6 +68,8 @@ Integration Description
 | Fraser      |    Any               | POSCA                |
 +-------------+----------------------+----------------------+
 | Gambia      |    Any               | POSCA, kubestone     |
++-------------+----------------------+----------------------+
+| Hunter      |    Any               | POSCA, kubestone     |
 +-------------+----------------------+----------------------+
 
 Test suite & Test case Description
