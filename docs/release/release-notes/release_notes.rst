@@ -67,6 +67,12 @@ Version History
 | Jul 2nd, 2018  |  1.7.2             | Bottlenecks Fraser release 6.2    |
 |                |                    |                                   |
 +----------------+--------------------+-----------------------------------+
+| Dec 10th, 2018 |  1.8.0             | Bottlenecks Gambia release 7.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
+| May 10th, 2019 |  1.9.0             | Bottlenecks Hunter release 8.0    |
+|                |                    |                                   |
++----------------+--------------------+-----------------------------------+
 
 Summary
 =======
@@ -88,6 +94,33 @@ Bottlenecks_ team.
 
 Release Data
 ============
+
+Hunter Release Data
+-----------------------
+
++--------------------------------------+--------------------------------+
+| **Project**                          | Bottlenecks                    |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Repo/tag**                         | * Bottlenecks/8.0.0            |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Bottlenecks Docker image tag**     | * 8.0.0                        |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release designation**              | * 8.0.0                        |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Release date**                     | * May 10th 2019                |
+|                                      |                                |
+|                                      |                                |
++--------------------------------------+--------------------------------+
+| **Purpose of the delivery**          | Hunter stable release          |
+|                                      |                                |
++--------------------------------------+--------------------------------+
 
 Fraser Release Data
 -----------------------
@@ -302,6 +335,12 @@ Software Deliverables
 
 Documentatiion Deliverables
 ---------------------------
+
+**Bottlenecks documentation <hunter>**
+
+* Release Notes: http://docs.opnfv.org/en/stable-hunter/submodules/bottlenecks/docs/release/release-notes/release_notes.html
+* User Guide: http://docs.opnfv.org/en/stable-hunter/submodules/bottlenecks/docs/testing/user/userguide/index.html
+* Developer Guide: http://docs.opnfv.org/en/stable-hunter/submodules/bottlenecks/docs/testing/developer/devguide/index.html
 
 **Bottlenecks documentation <fraser>**
 
