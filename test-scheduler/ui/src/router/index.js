@@ -5,6 +5,7 @@ import testcase from '@/components/testcase'
 import testcase_content from '@/components/testcase_content'
 import test_result from '@/components/test_result'
 import environment from '@/components/environment'
+import conductorUI from '@/components/conductor_ui'
 Vue.use(Router)
 
 const Report = {
@@ -35,7 +36,7 @@ export default new Router({
     {
       path: '/report',
       name: 'report',
-      component: Report
+      component: conductorUI
     },
     {
       path: '/environment',
