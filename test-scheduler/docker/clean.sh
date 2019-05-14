@@ -7,6 +7,8 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+basepath=$(cd `dirname $0`; pwd)
+
 sudo docker rm -f t-scheduler-server \
                   t-scheduler-ui \
                   conductor_conductor-server_1 \
@@ -28,5 +30,7 @@ sudo docker rmi x-lab/test-scheduler:server \
                 node:alpine \
                 nginx:latest \
                 java:latest \
+
+sudo rm -rf ${basepath}/plugin/tmp_files/
 
 echo "--- Clean Finished ---"
