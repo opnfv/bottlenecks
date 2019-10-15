@@ -19,3 +19,4 @@ pyroute2==0.4.10
 elasticsearch==5.0.1
 docker==2.0.2
 kubernetes==6.0.0
+urllib3==1.24
