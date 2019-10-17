@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Panagiotis Karalis <panos.pkaralis@gmail.com>
+Code-Review+2: Yang (Gabriel) Yu <Gabriel.yuyang@huawei.com>
+Submitted-by: Yang (Gabriel) Yu <Gabriel.yuyang@huawei.com>
+Submitted-at: Thu, 17 Oct 2019 10:14:25 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/c/bottlenecks/+/68639
+Project: bottlenecks
+Branch: refs/heads/master
